@@ -1,0 +1,35 @@
+name: Update README with Repository Cards
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # every day at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Fetch Repos & Update README
+        run: |
+          USERNAME="kmadsdev"
+
+          repos=$(curl -s "https://api.github.com/users/$USERNAME/repos?per_page=100" | jq -r '.[].name')
+
+          cards=""
+          for repo in $repos; do
+            cards+="<p align=\"center\"><a href=\"https://github.com/$USERNAME/$repo/\"><img src=\"https://github-readme-stats.vercel.app/api/pin/?username=$USERNAME&theme=dark&repo=$repo\" style=\"width:90%\" /></a></p>\n"
+          done
+
+          sed -i "/<!-- REPO_CARDS_START -->/,/<!-- REPO_CARDS_END -->/c<!-- REPO_CARDS_START -->\n$cards<!-- REPO_CARDS_END -->" README.md
+
+      - name: Commit & Push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Daily repo card update"
