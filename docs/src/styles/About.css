@@ -1,0 +1,56 @@
+.about {
+  padding: 6rem 2rem;
+  background: var(--bg-color);
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-text p {
+  color: var(--text-gray);
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.about-skills {
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.about-skills li {
+  color: var(--text-gray);
+  padding: 0.75rem 0;
+  padding-left: 2rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.about-skills li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--special-color);
+  font-size: 1.2rem;
+}
+
+.about-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 968px) {
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+}
