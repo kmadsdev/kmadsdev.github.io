@@ -1,128 +1,172 @@
 .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 2rem 4rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 2rem 4rem;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 5%, transparent 15%) repeat;
+  background-size: 30px 30px; 
+  background-color: var(--bg-color);
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-greeting {
+  color: var(--text-gray);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.hero-greeting .highlight {
+  color: var(--special-color);
+  font-weight: 700;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, var(--special-color), #ff6b9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: var(--text-gray);
+  margin-bottom: 1.5rem;
+}
+
+.hero-description {
+  color: var(--text-gray);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.download-btn {
+  background: var(--special-color);
+  color: var(--white);
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255, 1, 79, 0.3);
+}
+
+.buttons-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: var(--special-color);
+  transform: translateY(-5px);
+}
+
+.social-icon-img{
+  width:  60%;
+  height: 60%;
+}
+
+.hero-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-badge {
+  position: relative;
+  width: 20vw;
+  aspect-ratio: 1 / 1;
+}
+
+.badge-outer,
+.badge-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.badge-inner {
+  top:  3.5vw;
+  left: 3.5vw;
+  width:  calc(100% - 7vw);  /* gap on each side */
+  height: calc(100% - 7vw);
+}
+
+.badge-outer {
+  animation-name: spin-ccw;
+}
+
+.badge-inner {
+  animation-name: spin-cw;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
   }
-  
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 968px) {
   .hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-  
-  .hero-greeting {
-    color: var(--text-gray);
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-  }
-  
-  .hero-greeting .highlight {
-    color: var(--special-color);
-    font-weight: 700;
+    grid-template-columns: 1fr;
+    text-align: center;
   }
   
   .hero-title {
-    font-size: 4rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(to right, var(--special-color), #ff6b9d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 3rem;
   }
   
-  .hero-subtitle {
-    font-size: 1.5rem;
-    color: var(--text-gray);
-    margin-bottom: 1.5rem;
-  }
-  
-  .hero-description {
-    color: var(--text-gray);
-    line-height: 1.8;
-    margin-bottom: 2rem;
-    font-size: 1rem;
-  }
-  
-  .download-btn {
-    background: var(--special-color);
-    color: var(--white);
-    padding: 1rem 2.5rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    transition: all 0.3s ease;
-    display: inline-block;
-  }
-  
-  .download-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(255, 1, 79, 0.3);
-  }
-  
-  .social-icons {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .social-icon {
-    width: 50px;
-    height: 50px;
-    background: var(--secondary-color);
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
+  .buttons-container {
     justify-content: center;
-    font-size: 1.5rem;
-    color: var(--white);
-    transition: all 0.3s ease;
   }
-  
-  .social-icon:hover {
-    background: var(--special-color);
-    transform: translateY(-5px);
-  }
-  
-  .hero-image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .circular-badge {
-    max-width: 100%;
-    height: auto;
-    animation: rotate 75s linear infinite;
-  }
-  
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @media (max-width: 968px) {
-    .hero-container {
-      grid-template-columns: 1fr;
-      text-align: center;
-    }
-    
-    .hero-title {
-      font-size: 3rem;
-    }
-    
-    .social-icons {
-      justify-content: center;
-    }
-  }
-  
+}
+
+@keyframes spin-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}

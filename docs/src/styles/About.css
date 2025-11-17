@@ -1,11 +1,35 @@
 .about {
   padding: 6rem 2rem;
   background: var(--bg-color);
+  position: relative;
+  z-index: 1;
 }
 
-.about-container {
-  max-width: 1200px;
-  margin: 0 auto;
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  background: var(--bg-color);
+  position: relative;
+  z-index: 1;
+  overflow: hidden; /* keeps cracks inside the section */
+}
+
+.about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  filter: url(#cracks);
+  opacity: 0.05; /* 5% white cracks */
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-container{
+  display: flex;
+  flex-direction: column;
+  max-width: 80vw;
 }
 
 .about-content {
@@ -47,6 +71,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 1;
 }
 
 @media (max-width: 968px) {

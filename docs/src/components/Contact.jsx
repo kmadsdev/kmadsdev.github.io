@@ -103,7 +103,7 @@ const Contact = () => {
           </div>
           
           <button type="submit" className="submit-btn">
-            Send Message 💌
+            Send Message 📩
           </button>
           
           <div className="contact-social-icons">

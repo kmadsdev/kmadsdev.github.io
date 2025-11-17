@@ -30,6 +30,8 @@ export const TECH_STACK = [
   { name: 'C++', icon: 'cpp.svg' },
 ];
 
+
+
 export const EXPERIENCES = [
   {
     company: 'PicPay',
@@ -68,6 +70,8 @@ export const EXPERIENCES = [
   }
 ];
 
+
+
 export const EDUCATION = [
   {
     institution: 'J&F Institute',
@@ -76,6 +80,8 @@ export const EDUCATION = [
     description: 'At J&F Tech, I gained both theoretical and applied skills across programming, data analysis, and cloud infrastructure'
   }
 ];
+
+
 
 export const COURSEWORK = [
   {
@@ -110,5 +116,28 @@ export const COURSEWORK = [
       'Introduction to Python for Data Science and Data Engineering (Databricks)',
       'RPA & SAP Automation on Python (BotCity)'
     ]
+  }
+];
+
+
+
+export const PROJECTS = [
+  {
+    title: 'OffMode',
+    description: 'Coming soon...',
+    image: '/assets/projects/offmode.png',
+    link: 'https://github.com/kmadsdev/offmode'
+  },
+  {
+    title: 'Diabetes Indicator',
+    description: 'A survey that can indicate the probability of you having diabetes or not.',
+    image: '/assets/projects/diabetesIndicator.png',
+    link: 'https://kmads.dev/diabetesIndicator'
+  },
+  {
+    title: 'TrocaTine\'s Landing Page',
+    description: 'The landing page for TrocaTine, a platform for exchanging children\'s items.',
+    image: '/assets/projects/trocatinelanding.png',
+    link: 'https://kmads.dev/TrocaTineLanding/'
   }
 ];
