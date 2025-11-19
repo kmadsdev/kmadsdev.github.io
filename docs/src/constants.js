@@ -11,23 +11,25 @@ export const CONTACT = {
   email: 'contact@kmads.dev',
 };
 
-export const TECH_STACK = [
+export const TECH_SKILLS = [
   { name: 'Python', icon: 'python.svg' },
-  { name: 'Java', icon: 'java.svg' },
-  { name: 'JavaScript', icon: 'javascript.svg' },
-  { name: 'TypeScript', icon: 'typescript.svg' },
-  { name: 'Node.js', icon: 'nodejs.svg' },
-  { name: 'C', icon: 'c.svg' },
+  { name: 'Pandas', icon: 'pandas.svg' },
+  { name: 'FastAPI', icon: 'fastapi.svg' },
+  { name: 'Scikit', icon: 'scikit.svg' },
+  { name: 'Tkinter', icon: 'tkinter.svg' },
+  { name: 'Uvicorn', icon: 'uvicorn.svg' },
+
   { name: 'PostgreSQL', icon: 'postgresql.svg' },
   { name: 'MySQL', icon: 'mysql.svg' },
-  { name: 'MongoDB', icon: 'mongodb.svg' },
   { name: 'SQLite', icon: 'sqlite.svg' },
-  { name: 'Redis', icon: 'redis.svg' },
-  { name: 'Neo4j', icon: 'neo4j.svg' },
-  { name: 'PHP', icon: 'php.svg' },
-  { name: 'Go', icon: 'go.svg' },
-  { name: 'C#', icon: 'csharp.svg' },
-  { name: 'C++', icon: 'cpp.svg' },
+  { name: 'JavaScript', icon: 'javascript.svg' },
+  { name: 'Node.js', icon: 'nodejs.svg' },
+  { name: 'Java', icon: 'java.svg' },
+  
+  { name: 'Github', icon: 'github.svg' },
+  { name: 'AWS', icon: 'aws.svg' },
+  { name: 'Docker', icon: 'docker.svg' },
+  { name: 'Jupyter', icon: 'jupyter.svg' },
 ];
 
 
