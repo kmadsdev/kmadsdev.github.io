@@ -128,13 +128,13 @@ export const PROJECTS = [
     title: 'OffMode',
     description: 'Coming soon...',
     image: '/assets/projects/offmode.png',
-    link: 'https://github.com/kmadsdev/offmode'
+    // link: 'https://github.com/kmadsdev/offmode'
   },
   {
     title: 'Diabetes Indicator',
     description: 'A survey that can indicate the probability of you having diabetes or not.',
     image: '/assets/projects/diabetesIndicator.png',
-    link: 'https://kmads.dev/diabetesIndicator'
+    link: 'https://kmads.dev/diabetes-indicator'
   },
   {
     title: 'TrocaTine\'s Landing Page',
