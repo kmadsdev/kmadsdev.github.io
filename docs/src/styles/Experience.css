@@ -1,167 +1,176 @@
 .experience {
-    padding: 6rem 2rem;
-    background: var(--bg-color);
-  }
-  
-  .experience-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
+  padding: 6rem 2rem;
+  background: var(--bg-color);
+}
+
+.experience-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.experience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.subsection-title {
+  font-size: 1.5rem;
+  color: var(--special-color);
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 1, 79, 0.3);
+}
+
+.education-item {
+  background: var(--secondary-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+.education-item:hover {
+  border-color: var(--special-color);
+  transform: translateY(-5px);
+}
+
+.education-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.institution {
+  font-size: 1.1rem;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.period {
+  font-size: 0.875rem;
+  color: var(--text-gray);
+  white-space: nowrap;
+}
+
+.degree {
+  color: var(--text-gray);
+  font-size: 0.95rem;
+}
+
+.description {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.coursework-item {
+  background: var(--secondary-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+.coursework-item:hover {
+  border-color: var(--special-color);
+  transform: translateY(-5px);
+}
+
+.course-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.course-list li {
+  color: var(--text-gray);
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.course-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--special-color);
+  font-size: 1.5rem;
+}
+
+.work-item {
+  background: var(--secondary-color);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+.work-item:hover {
+  border-color: var(--special-color);
+  transform: translateY(-5px);
+}
+
+.work-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.company {
+  font-size: 1.3rem;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.role {
+  color: var(--special-color);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.period-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.current-badge {
+  background: var(--special-color);
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.description-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.description-list li {
+  color: var(--text-gray);
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.description-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--special-color);
+}
+
+@media (max-width: 968px) {
   .experience-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    grid-template-columns: 1fr;
   }
-  
-  .subsection-title {
-    font-size: 1.5rem;
-    color: var(--special-color);
-    margin-bottom: 2rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid rgba(255, 1, 79, 0.3);
-  }
-  
-  .education-item {
-    background: var(--secondary-color);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    border-left: 3px solid var(--special-color);
-  }
-  
-  .education-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.5rem;
-  }
-  
-  .institution {
-    font-size: 1.1rem;
-    color: var(--white);
-    font-weight: 600;
-  }
-  
-  .period {
-    font-size: 0.875rem;
-    color: var(--text-gray);
-    white-space: nowrap;
-  }
-  
-  .degree {
-    color: var(--text-gray);
-    font-size: 0.95rem;
-  }
-  
-  .description {
-    color: var(--text-gray);
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    line-height: 1.6;
-  }
-  
-  .coursework-item {
-    background: var(--secondary-color);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-  }
-  
-  .course-list {
-    list-style: none;
-    margin-top: 1rem;
-  }
-  
-  .course-list li {
-    color: var(--text-gray);
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    font-size: 0.9rem;
-  }
-  
-  .course-list li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--special-color);
-    font-size: 1.5rem;
-  }
-  
-  .work-item {
-    background: var(--secondary-color);
-    padding: 2rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-  }
-  
-  .work-item:hover {
-    border-color: var(--special-color);
-    transform: translateY(-5px);
-  }
-  
-  .work-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-  
-  .company {
-    font-size: 1.3rem;
-    color: var(--white);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  
-  .role {
-    color: var(--special-color);
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  
-  .period-badge {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.5rem;
-  }
-  
-  .current-badge {
-    background: var(--special-color);
-    color: var(--white);
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  
-  .description-list {
-    list-style: none;
-    margin-top: 1rem;
-  }
-  
-  .description-list li {
-    color: var(--text-gray);
-    padding: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    line-height: 1.6;
-  }
-  
-  .description-list li::before {
-    content: '▸';
-    position: absolute;
-    left: 0;
-    color: var(--special-color);
-  }
-  
-  @media (max-width: 968px) {
-    .experience-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+}

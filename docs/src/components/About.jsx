@@ -9,7 +9,7 @@ const About = () => {
         
         <div className="about-content">
           <div className="about-text">
-            <p>My name is Kaique Souza, from Brazil, São Paulo, I’m a 17 year who loves to code, design, architect & lead.</p>
+            <p>My name is Kaique Souza, from Brazil, São Paulo, I just love to code, design & architect.</p>
             <p>My specialities are in Data, Backend, DevOps & Cloud, but i can also handle areas like Frontend, InfoSec/CSec or SRE.</p>
             <p>
               I’ve been on the IT field for over 7 years + learned a lot about full stack programming, 

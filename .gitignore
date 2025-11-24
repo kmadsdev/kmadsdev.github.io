@@ -4,7 +4,9 @@ dist/
 dist-ssr/
 docs/dist/
 docs/dist-ssr/
+package-lock
 package-lock.json
+docs/package-lock.json
 *.log
 npm-debug.log*
 yarn-debug.log*

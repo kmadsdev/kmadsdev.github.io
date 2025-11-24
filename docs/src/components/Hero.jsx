@@ -4,26 +4,8 @@ import { CONTACT } from '../constants';
 import '../styles/Hero.css';
 
 const Hero = () => {
-  const spinDuration = 15;
-
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const y = window.scrollY;
-          const min = 8;    // fastest
-          const max = 75;   // slowest
-          const mapped = max - (max - min) * Math.min(y / 1200, 1);
-          setSpinDuration(mapped);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const outer_spin_duration = 20;
+  const inner_spin_duration = outer_spin_duration * 0;
 
   return (
     <section id="home" className="hero">
@@ -42,8 +24,8 @@ const Hero = () => {
           </p>
           
           <p className="hero-description">
-            I’m a 17 year old Engineer who loves coding since 2018<br></br>
-            Fullstack developer (90% backend/data, 10% frontend)<br></br>
+            I’m a Software Engineer who loves coding since 2018<br></br>
+            Backend Developer + Data Engineer (SQL, Big Data, ML)<br></br>
             Software/DevOps Engineer (CI/CD, Microservices, SDLC)<br></br>
             Cloud Architect (AWS, Google Cloud, Oracle) 
           </p>
@@ -54,21 +36,21 @@ const Hero = () => {
             </button>
 
             <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" className="social-icon">
-              <img class="social-icon-img" src="assets/github.svg"></img>
+              <img className="social-icon-img" src="assets/github.svg"></img>
             </a>
             <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon">
-              <img class="social-icon-img" src="assets/linkedin.svg"></img>
+              <img className="social-icon-img" src="assets/linkedin.svg"></img>
             </a>
             <a href={`mailto:${CONTACT.email}`} className="social-icon">
-              <img class="social-icon-img" src="assets/email.svg"></img>
+              <img className="social-icon-img" src="assets/email.svg"></img>
             </a>
           </div>
         </div>
         
         <div className="hero-image-container">
           <div className="hero-badge">
-            <img src="/assets/globe-text.svg" className="badge-outer" style={{ animationDuration: `${spinDuration}s` }} />
-            <img src="/assets/globe.svg" className="badge-inner" style={{ animationDuration: `${spinDuration * 0}s` }} />
+            <img src="/assets/globe-text.svg" className="badge-outer" style={{ animationDuration: `${outer_spin_duration}s` }} />
+            <img src="/assets/globe.svg" className="badge-inner" style={{ animationDuration: `${inner_spin_duration}s` }} />
           </div>
         </div>
       </div>
