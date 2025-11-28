@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './styles/global.css'
 import Lenis from 'lenis';
+import './styles/global.css'
+import './styles/mobile.css'
 
 const lenis = new Lenis({
   lerp: 0.055,
