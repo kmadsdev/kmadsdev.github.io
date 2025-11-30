@@ -67,9 +67,8 @@
 }
 
 .project-link {
-    width: 60px;
-    height: 60px;
-    background: var(--special-color);
+    width:  80px;
+    height: 80px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -77,11 +76,17 @@
     color: var(--white);
     font-size: 1.5rem;
     transition: all 0.3s ease;
-}
 
+    border: 2px solid var(--special-color);
+    background: transparent;
+
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
 .project-link:hover {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     transform: scale(1.1);
-    box-shadow: 0 0 20px var(--special-color);
 }
 
 #img-45deg-white-arrow {
@@ -130,16 +135,4 @@
     background: transparent;
     color: var(--special-color);
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(255, 1, 79, 0.3);
-}
-
-@media (max-width: 768px) {
-.projects-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-}
-
-.project-image-wrapper {
-    height: 200px;
-}
 }

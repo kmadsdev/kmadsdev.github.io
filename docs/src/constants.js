@@ -128,7 +128,7 @@ export const PROJECTS = [
     title: 'OffMode',
     description: 'Coming soon...',
     image: '/assets/projects/offmode.png',
-    // link: 'https://github.com/kmadsdev/offmode'
+    // link: 'https://kmads.dev/projects/offmode'
   },
   {
     title: 'Diabetes Indicator',
@@ -140,6 +140,6 @@ export const PROJECTS = [
     title: 'TrocaTine\'s Landing Page',
     description: 'The landing page for TrocaTine, a platform for exchanging children\'s items.',
     image: '/assets/projects/trocatinelanding.png',
-    link: 'https://kmads.dev/TrocaTineLanding/'
+    link: 'https://kmads.dev/trocatine/'
   }
 ];

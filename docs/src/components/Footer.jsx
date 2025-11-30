@@ -3,14 +3,12 @@ import { CONTACT } from '../constants';
 import '../styles/Footer.css';
 
 const Footer = () => {
-    const [translate, setTranslate] = useState(120); // Start offscreen
     const rafRef = useRef();
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
         <footer
             className="footer-banner-live"
-            style={{ transform: `translateY(${translate}px)` }}
         >
             <div className="footer-banner-bg">
                 <div className="footer-row">

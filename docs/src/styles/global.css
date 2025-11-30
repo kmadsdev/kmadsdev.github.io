@@ -1,63 +1,73 @@
 * {
-  scroll-behavior: smooth;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow-y: hidden;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
-  --white: #ffffff;
-  --bg-color: #131313;
-  --secondary-color: #1e1e1e;
-  --special-color: #ff014f;
-  --text-gray: #c4cfde;
+    --white: #ffffff;
+    --bg-color: #131313;
+    --secondary-color: #1e1e1e;
+    --special-color: #ff014f;
+    --text-gray: #c4cfde;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb {
+    background: var(--special-color);
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+::-webkit-scrollbar-thumb:hover { 
+    background: rgba(255, 1, 77, 0.87); 
+    background-clip: padding-box;
+    border: 1px solid transparent;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--white);
-  line-height: 1.6;
-  overflow-x: hidden;
+    font-family: "Rubik", sans-serif;
+    background-color: var(--bg-color);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-
-
 .App {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .section-title {
-  font-size: 3rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
 }
 
 .section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 3px;
-  background: var(--special-color);
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--special-color);
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 button {
-  cursor: pointer;
-  font-family: inherit;
+    cursor: pointer;
+    font-family: inherit;
 }

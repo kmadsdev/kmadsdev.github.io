@@ -95,6 +95,7 @@
 .course-list li::before {
   content: '•';
   position: absolute;
+  align-self: center;
   left: 0;
   color: var(--special-color);
   font-size: 1.5rem;

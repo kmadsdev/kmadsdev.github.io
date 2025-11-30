@@ -1,149 +1,150 @@
 .hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 8rem 2rem 4rem;
-  background: radial-gradient(circle, rgba(255,255,255,0.15) 5%, transparent 15%) repeat;
-  background-size: 30px 30px; 
-  background-color: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 2rem 4rem;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 5%, transparent 15%) repeat;
+    background-size: 30px 30px; 
+    background-color: var(--bg-color);
 }
 
 .hero-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
 }
 
 .hero-greeting {
-  color: var(--text-gray);
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
-  letter-spacing: 1px;
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
 }
 
 .hero-greeting .highlight {
-  color: var(--special-color);
-  font-weight: 700;
+    color: var(--special-color);
+    font-weight: 700;
 }
 
 .hero-title {
-  font-size: 4rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(to right, var(--special-color), #ff6b9d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: var(--special-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
-  color: var(--text-gray);
-  margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #ececec;
+    margin-bottom: 1.5rem;
+    font-weight: 10;
 }
 
 .hero-description {
-  color: var(--text-gray);
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  font-size: 1rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-size: 1rem;
 }
 
 .download-btn {
-  background: var(--special-color);
-  color: var(--white);
-  padding: 1rem 2.5rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  transition: all 0.3s ease;
-  display: inline-block;
+    background: var(--special-color);
+    color: var(--white);
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 2px solid var(--special-color);
+    text-align: center;
 }
-
 .download-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(255, 1, 79, 0.3);
+    color: var(--special-color);
+    background: #00000000;
+    transform: translateY(-5px);
 }
 
 .buttons-container {
-  display: flex;
-  gap: 1rem;
+    display: flex;
+    gap: 1rem;
 }
 
 .social-icon {
-  width: 50px;
-  height: 50px;
-  background: var(--secondary-color);
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: var(--white);
-  transition: all 0.3s ease;
+    width:  55px;
+    height: 55px;
+    background: var(--secondary-color);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--white);
+    transition: all 0.3s ease;
+    border: 2px solid var(--secondary-color);
 }
-
 .social-icon:hover {
-  background: var(--special-color);
-  transform: translateY(-5px);
+    border-color: var(--special-color);
+    transform: translateY(-5px);
 }
-
 .social-icon-img{
-  width:  60%;
-  height: 60%;
+    width:  60%;
+    height: 60%;
 }
 
+/* Spinning badge */
 .hero-image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
 .hero-badge {
-  width: 500px;
-  aspect-ratio: 1 / 1;
-  position: relative;
+    overflow: hidden;
+    width: 500px;
+    aspect-ratio: 1 / 1;
+    position: relative;
 }
-
 .badge-outer,
 .badge-inner {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  object-fit: contain;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    object-fit: contain;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
 }
-
-
-
 .badge-inner {
-  width: 65%;
-  animation-name: spin-cw;
+    width: 65%;
+    animation-name: spin-cw;
 }
 .badge-outer {
-  width: 100%;
-  animation-name: spin-ccw;
+    width: 100%;
+    animation-name: spin-ccw;
+}
+.badge-inner, .badge-outer {
+    transform-origin: center;
 }
 
-
+/*
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
-
+*/
 @keyframes spin-cw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
-
 @keyframes spin-ccw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
 }
