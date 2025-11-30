@@ -9,43 +9,47 @@
     background: rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
-  }
-  
-  .header.scrolled {
+}
+
+header{
+    max-width: 100vw;
+}
+
+.header.scrolled {
     padding: 1rem 0;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  }
-  
-  .header-container {
+}
+
+.header-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .logo-text {
+}
+
+.logo-text {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--special-color);
-  }
-  
-  .nav-menu {
+}
+
+.nav-menu {
     display: flex;
     gap: 2rem;
-  }
-  
-  .nav-link {
+}
+
+.nav-link {
     color: var(--white);
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
     transition: color 0.3s ease;
     position: relative;
-  }
-  
-  .nav-link::after {
+}
+
+.nav-link::after {
     content: '';
     position: absolute;
     bottom: -5px;
@@ -54,17 +58,17 @@
     height: 2px;
     background: var(--special-color);
     transition: width 0.3s ease;
-  }
-  
-  .nav-link:hover {
+}
+
+.nav-link:hover {
     color: var(--special-color);
-  }
-  
-  .nav-link:hover::after {
+}
+
+.nav-link:hover::after {
     width: 100%;
-  }
-  
-  .hire-btn {
+}
+
+.hire-btn {
     background: var(--special-color);
     color: var(--white);
     padding: 0.75rem 2rem;
@@ -72,21 +76,20 @@
     font-weight: 600;
     transition: all 0.3s ease;
     border: 2px solid var(--special-color);
-  }
-  
-  .hire-btn:hover {
+}
+
+.hire-btn:hover {
     background: transparent;
     color: var(--special-color);
     transform: translateY(-2px);
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .nav-menu {
-      display: none;
+    display: none;
     }
     
     .header-container {
-      padding: 0 1rem;
+    padding: 0 1rem;
     }
-  }
-  
+}

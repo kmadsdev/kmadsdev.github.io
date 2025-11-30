@@ -54,11 +54,6 @@
 }
 
 
-@media (min-width: 1200px) { .footer-banner-bg { height: 46vh;  min-height: 440px; width: 100vw;} }
-@media (min-width: 1800px) { .footer-banner-bg { height: 36vh;  min-height: 850px; width: 100vw;} }
-@media (max-width: 900px) { .footer-banner-bg {  height: 32vh;  min-height: 180px; width: 100vw;} }
-@media (max-width: 600px) { .footer-banner-bg {  height: 200px; min-height: 120px; width: 100vw;} }
-
 .footer-row {
     width: 100%;
     max-width: 1400px;

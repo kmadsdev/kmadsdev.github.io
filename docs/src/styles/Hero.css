@@ -105,11 +105,7 @@
 }
 
 .hero-badge {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 400px;
+  width: 500px;
   aspect-ratio: 1 / 1;
   position: relative;
 }
@@ -120,12 +116,15 @@
   inset: 0;
   margin: auto;
   object-fit: contain;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
 }
 
 
 
 .badge-inner {
-  width: 70%;
+  width: 65%;
   animation-name: spin-cw;
 }
 .badge-outer {
