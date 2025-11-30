@@ -94,6 +94,7 @@
 .social-icon:hover {
     border-color: var(--special-color);
     transform: translateY(-5px);
+    background-color: transparent;
 }
 .social-icon-img{
     width:  60%;

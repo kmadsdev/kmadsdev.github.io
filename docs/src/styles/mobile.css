@@ -120,3 +120,6 @@
 @media (max-width: 900px)  { .footer-banner-bg { height: 32vh;  min-height: 180px; width: 100vw;} }
 @media (max-width: 768px)  { .footer-banner-bg { height: 200px; min-height: 120px; width: 100vw;} }
 
+@media (max-width: 968px) {
+    .about-content { grid-template-columns: 1fr; }
+}
