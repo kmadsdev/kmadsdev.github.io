@@ -19,17 +19,19 @@ export const TECH_SKILLS = [
     { name: 'FastAPI', icon: 'fastapi.svg' },
     { name: 'Scikit', icon: 'scikit.svg' },
     { name: 'Tkinter', icon: 'tkinter.svg' },
-    { name: 'Uvicorn', icon: 'uvicorn.svg' },
+    { name: 'Java', icon: 'java.svg' },
 
     { name: 'PostgreSQL', icon: 'postgresql.svg' },
     { name: 'MySQL', icon: 'mysql.svg' },
     { name: 'SQLite', icon: 'sqlite.svg' },
+    { name: 'Redis', icon: 'redis.svg' },
     { name: 'JavaScript', icon: 'javascript.svg' },
     { name: 'Node.js', icon: 'nodejs.svg' },
-    { name: 'Java', icon: 'java.svg' },
     
-    { name: 'Github', icon: 'github.svg' },
     { name: 'AWS', icon: 'aws.svg' },
+    { name: 'GCP', icon: 'gcp.svg' },
+    { name: 'Vercel', icon: 'vercel.svg' },
+    { name: 'GithubActions', icon: 'githubactions.svg' },
     { name: 'Docker', icon: 'docker.svg' },
     { name: 'Jupyter', icon: 'jupyter.svg' },
 ];
