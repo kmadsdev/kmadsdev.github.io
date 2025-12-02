@@ -35,7 +35,6 @@ export const TECH_SKILLS = [
     { name: 'Vercel', icon: 'vercel.svg' },
     { name: 'GithubActions', icon: 'githubactions.svg' },
     { name: 'Docker', icon: 'docker.svg' },
-    { name: 'Jupyter', icon: 'jupyter.svg' },
 ];
 
 
