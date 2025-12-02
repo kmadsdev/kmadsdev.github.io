@@ -1,7 +1,7 @@
 import React from 'react';
-import { FaExternalLinkAlt } from 'react-icons/fa';
 import { PROJECTS } from '../constants';
 import '../styles/Projects.css';
+
 
 const Projects = () => {
   return (
@@ -30,7 +30,7 @@ const Projects = () => {
         </div>
         
         <div className="view-more-wrapper">
-          <a href="https://github.com/kmadsdev?tab=repositories" target="_blank" rel="noopener noreferrer"className="view-more-btn" >
+          <a href="/projects" rel="noopener noreferrer" className="view-more-btn">
             View More Projects →
           </a>
         </div>

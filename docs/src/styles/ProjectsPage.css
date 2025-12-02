@@ -1,0 +1,54 @@
+.projects-page-main {
+    padding-top: 6rem; /* header offset */
+    background: var(--bg-color);
+    min-height: 100vh;
+}
+
+.projects-section {
+    padding: 4rem 2rem;
+}
+
+.projects-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* table wrapper for horizontal scroll on small screens */
+.projects-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.projects-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    min-width: 700px; /* avoid columns getting too cramped */
+}
+
+.projects-table th,
+.projects-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.projects-table thead th {
+    font-weight: 600;
+    color: var(--white);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.projects-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.projects-table a {
+    color: var(--special-color);
+    text-decoration: none;
+}
+
+.projects-table a:hover {
+    text-decoration: underline;
+}

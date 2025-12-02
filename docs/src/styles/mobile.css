@@ -123,3 +123,25 @@
 @media (max-width: 968px) {
     .about-content { grid-template-columns: 1fr; }
 }
+
+@media (max-width: 768px) {
+    .projects-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .projects-table {
+        min-width: 600px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+        .projects-section {
+            padding: 2rem 1rem;
+    }
+
+    .projects-table {
+        min-width: 550px;
+        font-size: 0.8rem;
+    }
+}
