@@ -1,9 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProjectsPage from './ProjectsPage';
+
 import Lenis from 'lenis';
 import './styles/global.css'
 import './styles/mobile.css'
+
 
 const lenis = new Lenis({
   lerp: 0.055,
@@ -21,7 +25,10 @@ requestAnimationFrame(raf)
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter basename="/">
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/projects" element={<ProjectsPage />} />
+    </Routes>
+  </BrowserRouter>
 )
