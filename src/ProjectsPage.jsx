@@ -5,6 +5,7 @@ import './styles/global.css';
 import './styles/mobile.css';
 import './styles/ProjectsPage.css';
 
+
 const ProjectsPage = () => {
   const [projects, setProjects] = useState({
     allProjects: [],
