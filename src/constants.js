@@ -1,3 +1,5 @@
+import { FaLessThanEqual } from "react-icons/fa";
+
 export const COLORS = {
     white: '#ffffff',
     bg: '#131313',
@@ -42,9 +44,18 @@ export const TECH_SKILLS = [
 export const EXPERIENCES = [
     {
         company: 'PicPay',
-        role: 'Data Engineer Intern',
-        period: 'Mar 2025 - Present',
+        role: 'Software Engineer • Part-time',
+        period: 'Dec 2025 - Present',
         current: true,
+        description: [
+            'Currently working as a Software Engineer at PicPay, focusing on developing scalable backend services',
+            'and enhancing system performance using PHP, Hyperf and Laravel.',
+        ]
+    }, {
+        company: 'PicPay',
+        role: 'Data Engineer • Part-time',
+        period: 'Mar 2025 - Nov 2025',
+        current: false,
         description: [
           'As a Data Engineer at the Oracle HCM Squad (side by side with the  Corporate HR and the Corporate IT) i’ve:',
           'Created efficient decision-making relatories using data from the Oracle Cloud using SQL',
@@ -52,8 +63,8 @@ export const EXPERIENCES = [
         ]
     }, {
         company: 'HiveMind',
-        role: 'Co-Founder & ML Engineer',
-        period: 'Jan 2025 - Nov 2025',
+        role: 'Co-Founder & ML Engineer - Full-time',
+        period: 'Jan 2025 • Dec 2025',
         current: false,
         description: [
           'As a Machine Learning Engineer at the TimeLean app, i’ve:',
@@ -63,7 +74,7 @@ export const EXPERIENCES = [
         ]
     }, {
         company: 'TrocaTine',
-        role: 'Co-Founder & Software Engineer',
+        role: 'Co-Founder & Software Engineer • Full-time',
         period: 'Jan 2024 - Dec 2024',
         current: false,
         description: [
@@ -71,6 +82,21 @@ export const EXPERIENCES = [
           'Led market research and financial planning, estimating 30% lower costs for users compared to buying new items',
           'Managed the main web page server using java, jdbc, apache tomcat',
           'Managed SQL based databases on Aiven and Docker'
+        ]
+    }, {
+        company: 'Discord',
+        role: 'Application Developer • Self-employed',
+        period: '2018 - 2023',
+        current: false,
+        description: [
+            'Over the course of 5 years i\'ve built and maintained lots of Discord Applications, like:',
+            'Entertainment and Games like RPG and Life Simulator.',
+            'Moderation, Server Administration, Ticket and Survey Orchestration System.',
+            'Music Bots, Webhooks, Rich Presence, Observability for APIs, Cloud Monitoring.',
+            'Discord x Minecraft Chat Integration Plugin (Minescord).',
+            'I built bots and served comminites with over 200-2k+ members',
+            'For those Apps i mainly used: JavaScript, Node.JS (Discord.JS Framework), SQLite and Java.',
+            'They were hosted on Github Pages, Glitch.com (legacy) or on Discloud.'
         ]
     },
 ];
