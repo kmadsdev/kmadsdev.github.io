@@ -1,18 +1,68 @@
-import { FaLessThanEqual } from "react-icons/fa";
-
 export const COLORS = {
     white: '#ffffff',
     bg: '#131313',
     secondary: '#1e1e1e',
     special: '#ff014f',
+    textGray: '#c4cfde',
 };
 
-
+export const SITE_CONFIG = {
+    name: 'kmadsdev',
+    title: 'Kaique Souza - Software Engineer',
+    description: 'Software Engineer • Data Engineer',
+    copyright: '© 2025 Kmads. All rights reserved.',
+    resumeUrl: 'https://kmads.dev/resume',
+};
 
 export const CONTACT = {
     linkedin: 'https://kmads.dev/linkedin',
     github: 'https://kmads.dev/github',
     email: 'contact@kmads.dev',
+};
+
+export const NAV_LINKS = [
+    { label: 'Home', id: 'home' },
+    { label: 'About', id: 'about' },
+    { label: 'Experience', id: 'experience' },
+    { label: 'Skills', id: 'skills' },
+    { label: 'Projects', id: 'projects' },
+];
+
+export const FOOTER_CONFIG = {
+    columns: [
+        {
+            title: 'Navigation',
+            links: [
+                { label: 'Home', href: '#home', isSection: true },
+                { label: 'About', href: '#about', isSection: true },
+                { label: 'Experience', href: '#experience', isSection: true },
+                { label: 'Skills', href: '#skills', isSection: true },
+                { label: 'Projects', href: '#projects', isSection: true },
+            ],
+        },
+        {
+            title: 'Connect',
+            links: [
+                { label: 'GitHub', href: 'https://kmads.dev/github', external: true },
+                { label: 'LinkedIn', href: 'https://kmads.dev/linkedin', external: true },
+                { label: 'Email', href: 'mailto:contact@kmads.dev', external: false },
+            ],
+        },
+        {
+            title: 'Resources',
+            links: [
+                { label: 'Resume', href: 'https://kmads.dev/resume', external: true },
+                { label: 'All Projects', href: '/projects', external: false },
+            ],
+        },
+    ],
+    showBackToTop: true,
+    showSponsor: true,
+    sponsorLink: 'https://github.com/sponsors/kmadsdev',
+    socialLinks: [
+        { name: 'GitHub', icon: 'github.svg', href: 'https://kmads.dev/github' },
+        { name: 'LinkedIn', icon: 'linkedin.svg', href: 'https://kmads.dev/linkedin' },
+    ],
 };
 
 
@@ -154,16 +204,36 @@ export const PROJECTS = [
         title: 'OffMode',
         description: 'Offmode is an Pomodoro desktop application that helps you stay focused and productive by managing your work and break intervals.',
         image: '/assets/projects/offmode.png',
+        video: null,
+        tags: ['Python', 'Desktop', 'Productivity'],
         // link: 'https://kmads.dev/project/offmode'
     }, {
         title: 'Diabetes Indicator',
         description: 'A survey that can indicate the probability of you having diabetes or not.',
         image: '/assets/projects/diabetesIndicator.png',
+        video: null,
+        tags: ['Python', 'ML', 'Healthcare'],
         link: 'https://kmads.dev/diabetes-indicator'
     }, {
         title: 'TrocaTine',
         description: 'TrocaTine was a platform for exchanging children\'s items (like clothes & toys).',
         image: '/assets/projects/trocatinelanding.png',
+        video: null,
+        tags: ['Java', 'Web', 'E-commerce'],
         link: 'https://kmads.dev/trocatine/'
     },
 ];
+
+export const SCROLL_CONFIG = {
+    lerp: 0.075,
+    smooth: true,
+    wheelMultiplier: 0.8,
+    touchMultiplier: 0.5,
+    horizontalScrollSpeed: 1.2,
+};
+
+export const ANIMATION_CONFIG = {
+    fadeInDuration: 0.8,
+    staggerDelay: 0.1,
+    horizontalScrollDuration: 1,
+};
