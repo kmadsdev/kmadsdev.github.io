@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { CONTACT, SITE_CONFIG } from '../constants';
+import { CONTACT, SITE_CONFIG, HERO_CONTENT } from '../constants';
 import '../styles/Hero.css';
 
 
@@ -18,16 +18,15 @@ const Hero = () => {
             <div className={`hero-container ${isLoaded ? 'hero-loaded' : ''}`}>
                 <div className="hero-content">
                     <p className="hero-greeting fade-in fade-in-delay-1">
-                        👋 HELLO, MY NAME IS KAIQUE, ALSO KNOWN AS <span className="highlight">KMADS</span>
+                        {HERO_CONTENT.greeting} <span className="highlight">{HERO_CONTENT.highlightName}</span>
                     </p>
                     
-                    <h1 className="hero-title fade-in fade-in-delay-2">Kaique Souza</h1>
+                    <h1 className="hero-title fade-in fade-in-delay-2">{SITE_CONFIG.title}</h1>
                     <p className="hero-subtitle fade-in fade-in-delay-3">{SITE_CONFIG.description}</p>
                     <p className="hero-description fade-in fade-in-delay-4">
-                        I'm just a Software Engineer who codes since 2018<br></br>
-                        I'm skilled in Backend Development (APIs, Microservices)<br></br>
-                        I'm familiar with DevOps methodologies (CI/CD, SDLC)<br></br>
-                        And i have solid experience on AWS, GCP and on Vercel
+                        {HERO_CONTENT.description.map((line, i) => (
+                            <span key={i}>{line}{i < HERO_CONTENT.description.length - 1 && <br />}</span>
+                        ))}
                     </p>
                     
                     <div className="buttons-container fade-in fade-in-delay-5">

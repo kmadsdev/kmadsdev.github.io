@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
+import { ABOUT_CONTENT } from '../constants';
 import '../styles/About.css';
 
 
@@ -30,25 +31,15 @@ const About = () => {
                 <h2 className={`section-title ${isVisible ? 'fade-in' : ''}`}>About Me</h2>
                 <div className={`about-content ${isVisible ? 'about-visible' : ''}`}>
                     <div className="about-text">
-                        <p>
-                            My name is Kaique Souza, from Brazil, São Paulo, 
-                            my main habilities are in Software Engineering,
-                            Data Engineering, DevOps and Cloud Architecture.
-                        </p>
-                        <p>
-                            Being on the IT field for almost 8 years, I've learned a lot 
-                            about full stack Programming, Algorithms & Data Structures, Data, 
-                            AI, Computer Science, Cybersecurity, Software and even Hardware.
-                        </p>
+                        {ABOUT_CONTENT.paragraphs.map((paragraph, i) => (
+                            <p key={i}>{paragraph}</p>
+                        ))}
 
-                        <p>My main technical skills include:</p>
+                        <p>{ABOUT_CONTENT.skillsIntro}</p>
                         <ul className="about-skills">
-                            <li>Web Application Development (and some Desktop too)</li>
-                            <li>Software Architecture & Design (Monolithic, Microservices, MVC, BFF)</li>
-                            <li>DevOps (CI/CD Pipelines / Workflows, Containerization, Life Cycle Management)</li>
-                            <li>Cloud Architecture (AWS, Google Cloud Platform, Vercel, Oracle Cloud)</li>
-                            <li>Data Engineering (Modelling, Analysis, Big Data, Machine Learning)</li>
-                            <li>Scrum & Agile (Project Management, Kanban, Jira, Monday, Workspace)</li>
+                            {ABOUT_CONTENT.skills.map((skill, i) => (
+                                <li key={i}>{skill}</li>
+                            ))}
                         </ul>
                     </div>
                     

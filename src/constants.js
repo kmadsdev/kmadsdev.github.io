@@ -8,10 +8,40 @@ export const COLORS = {
 
 export const SITE_CONFIG = {
     name: 'kmadsdev',
-    title: 'Kaique Souza - Software Engineer',
-    description: 'Software Engineer • Data Engineer',
-    copyright: '© 2025 Kmads. All rights reserved.',
+    title: 'Kaique Souza',
+    description: 'Software Engineer • Open-Source Developer',
+    copyright: '© 2025 kmads.dev All rights reserved.',
     // resumeUrl: 'https://kmads.dev/cv',
+};
+
+export const HERO_CONTENT = {
+    greeting: '👋 HELLO, MY NAME IS KAIQUE, ALSO KNOWN AS',
+    highlightName: 'KMADS',
+    description: [
+        "Full-time Engineer part-time student and full-time curious.",
+        "I like to contribute to the Open-Source community and build useful projects.",
+        "I'm skilled mainly in API Development, Microservices and Infrastructure",
+        "I'm familiar with DevOps methodologies (CI/CD, SDLC)",
+        "And i have solid experience/usage of cloud services like AWS, Google Cloud and Vercel",
+    ],
+};
+
+export const ABOUT_CONTENT = {
+    paragraphs: [
+        'My name is Kaique Souza, i\'m an engineer, open-source developer and enthusiast.',
+        'I\'m from Brazil, São Paulo and main abilities are in Backend, Data and Cloud.',
+        'I\'ve been on the IT field for 8 years now (since 2018)',
+        'I\'ve learned a lot about Hardware, Full-stack Programming, Algorithms & Data Structures, Computer Science, Data, Networking & CSec, Cloud and Infrastructure along the way.',
+    ],
+    skillsIntro: 'My main technical skills include:',
+    skills: [
+        'Web Application Development (also Desktop too)',
+        'Software Architecture & Design (Monolithic, Microservices, MVC, BFF, ...)',
+        'DevOps (CI/CD Workflows, Containerization, Life Cycle Management)',
+        'Cloud Architecture (Amazon Web Services, Google Cloud Platform, Vercel, Oracle Cloud)',
+        'Data Engineering (Modelling, DA/EDA, Big Data, Machine Learning)',
+        'Scrum (Agile Project Management, Kanban, Jira, Monday, Google Workspace)',
+    ],
 };
 
 export const CONTACT = {
@@ -39,16 +69,14 @@ export const FOOTER_CONFIG = {
                 { label: 'Skills', href: '#skills', isSection: true },
                 { label: 'Projects', href: '#projects', isSection: true },
             ],
-        },
-        {
+        }, {
             title: 'Connect',
             links: [
                 { label: 'GitHub', href: 'https://kmads.dev/github', external: true },
                 { label: 'LinkedIn', href: 'https://kmads.dev/linkedin', external: true },
                 { label: 'Email', href: 'mailto:contact@kmads.dev', external: true },
             ],
-        },
-        {
+        }, {
             title: 'Resources',
             links: [
                 { label: 'My Projects', href: '/projects', external: false },
@@ -69,25 +97,37 @@ export const FOOTER_CONFIG = {
 
 
 export const TECH_SKILLS = [
-    { name: 'Python', icon: 'python.svg' },
-    { name: 'Pandas', icon: 'pandas.svg' },
-    { name: 'FastAPI', icon: 'fastapi.svg' },
-    { name: 'Scikit Learn', icon: 'scikit.svg' },
-    { name: 'Tkinter', icon: 'tkinter.svg' },
-    { name: 'Java', icon: 'java.svg' },
-
-    { name: 'PostgreSQL', icon: 'postgresql.svg' },
-    { name: 'MySQL', icon: 'mysql.svg' },
-    { name: 'SQLite', icon: 'sqlite.svg' },
-    { name: 'Redis', icon: 'redis.svg' },
-    { name: 'JavaScript', icon: 'javascript.svg' },
-    { name: 'Node.js', icon: 'nodejs.svg' },
-    
-    { name: 'AWS', icon: 'aws.svg' },
-    { name: 'GCP', icon: 'gcp.svg' },
-    { name: 'Vercel', icon: 'vercel.svg' },
-    { name: 'GithubActions', icon: 'githubactions.svg' },
-    { name: 'Docker', icon: 'docker.svg' },
+    // languages
+        { name: 'Python', icon: 'python.svg' },
+        { name: 'JavaScript', icon: 'javascript.svg' },
+        { name: 'Java', icon: 'java.svg' },
+        { name: 'C', icon: 'c.svg' },
+        { name: 'Go', icon: 'go.svg' },
+    // database
+        { name: 'PostgreSQL', icon: 'postgresql.svg' },
+        { name: 'MySQL', icon: 'mysql.svg' },
+        { name: 'SQLite', icon: 'sqlite.svg' },
+        { name: 'Redis', icon: 'redis.svg' },
+    // cloud & devops
+        { name: 'Amazon Web Services', icon: 'aws.svg' },
+        { name: 'Google Cloud Platform', icon: 'gcp.svg' },
+        { name: 'Vercel', icon: 'vercel.svg' },
+        { name: 'GitHub Actions', icon: 'githubactions.svg' },
+        { name: 'Docker', icon: 'docker.svg' },
+    // frameworks & libraries
+        { name: 'Node.JS', icon: 'nodejs.svg' },
+        // { name: 'React', icon: 'react.svg' },
+        // { name: 'Hyperf', icon: 'hyperf.svg' },
+        // { name: 'Laravel', icon: 'laravel.svg' },
+        { name: 'Tkinter', icon: 'tkinter.svg' },
+        // { name: 'Flask', icon: 'flask.svg' },
+        // { name: 'Django', icon: 'django.svg' },
+    // data science & ml
+        { name: 'Pandas', icon: 'pandas.svg' },
+        { name: 'FastAPI', icon: 'fastapi.svg' },
+        { name: 'Scikit Learn', icon: 'scikit.svg' },
+        // { name: 'NumPy', icon: 'numpy.svg' },
+        // { name: 'TensorFlow', icon: 'tensorflow.svg' },
 ];
 
 
