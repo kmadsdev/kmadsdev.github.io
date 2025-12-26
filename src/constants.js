@@ -72,7 +72,7 @@ export const TECH_SKILLS = [
     { name: 'Python', icon: 'python.svg' },
     { name: 'Pandas', icon: 'pandas.svg' },
     { name: 'FastAPI', icon: 'fastapi.svg' },
-    { name: 'Scikit', icon: 'scikit.svg' },
+    { name: 'Scikit Learn', icon: 'scikit.svg' },
     { name: 'Tkinter', icon: 'tkinter.svg' },
     { name: 'Java', icon: 'java.svg' },
 
