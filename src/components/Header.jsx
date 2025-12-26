@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Header.css';
-import { CONTACT } from '../constants';
+import { CONTACT, NAV_LINKS } from '../constants';
+import { useLenis } from '../hooks/useLenis.jsx';
 
 
 const Header = () => {
     const [scrolled, setScrolled] = useState(false);
+    const { scrollTo } = useLenis();
 
     useEffect(() => {
         const handleScroll = () => { setScrolled(window.scrollY > 50); };
@@ -14,7 +16,9 @@ const Header = () => {
 
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
-        if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
+        if (element) { 
+            scrollTo(element, { offset: -80, duration: 1.2 });
+        }
     };
 
     return (
@@ -23,13 +27,16 @@ const Header = () => {
                 <div className="logo"><span className="logo-text">kmadsdev</span></div>
                 
                 <nav className="nav-menu">
-                    <a onClick={() => scrollToSection('home')} className="nav-link">Home</a>
-                    <a onClick={() => scrollToSection('about')} className="nav-link">About</a>
-                    <a onClick={() => scrollToSection('experience')} className="nav-link">Experience</a>
-                    <a onClick={() => scrollToSection('skills')} className="nav-link">Skills</a>
-                    <a onClick={() => scrollToSection('projects')} className="nav-link">Projects</a>
+                    {NAV_LINKS.map((link) => (
+                        <a 
+                            key={link.id}
+                            onClick={() => scrollToSection(link.id)} 
+                            className="nav-link"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
                     <a href={`mailto:${CONTACT.email}`} className="nav-link">Contact</a>
-                    {/* <a onClick={() => scrollToSection('contact')} className="nav-link">Contact</a> */}
                 </nav>
 
                 <a href="https://kmads.dev/linkedin" className="hire-btn">Hire me</a>
