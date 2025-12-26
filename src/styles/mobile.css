@@ -1,147 +1,651 @@
-/* 481 - 768px */
-@media (max-width: 768px) {
-    /* global */
-    section { padding: 3rem 1.5rem !important; }
-    .section-title { font-size: 2rem; }
+/* ==========================================
+   RESPONSIVE STYLES
+   Breakpoints: 4K, QHD, 3K, 2.5K, 2K, FHD, 
+   Tablets, Mobile (down to 280px)
+   ========================================== */
 
-
-    /* other */
-    .hero-container, .about-content, .experience-grid, .projects-grid {
-        grid-template-columns: 1fr;
+/* 4K displays (3840px+) */
+@media (min-width: 3840px) {
+    :root {
+        font-size: 20px;
     }
+    
+    .section-title {
+        font-size: 4rem;
+    }
+    
+    .hero-title {
+        font-size: 6rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 2rem;
+    }
+    
+    .hero-badge {
+        width: 700px;
+    }
+}
 
+/* 3K displays (2880px - 3839px) */
+@media (min-width: 2880px) and (max-width: 3839px) {
+    :root {
+        font-size: 18px;
+    }
+    
+    .section-title {
+        font-size: 3.5rem;
+    }
+    
+    .hero-title {
+        font-size: 5rem;
+    }
+    
+    .hero-badge {
+        width: 600px;
+    }
+}
 
-    /* hero */
-    .hero { margin: 65px 0 0 0; }
-    .hero-title { font-size: 2rem; }
-    .hero-badge { width: 90%; }
+/* QHD / 2.5K displays (2560px - 2879px) */
+@media (min-width: 2560px) and (max-width: 2879px) {
+    :root {
+        font-size: 17px;
+    }
+    
+    .hero-badge {
+        width: 550px;
+    }
+}
 
+/* 2K displays (2048px - 2559px) */
+@media (min-width: 2048px) and (max-width: 2559px) {
+    :root {
+        font-size: 16px;
+    }
+}
 
-    /* Projects */
-    .projects-grid {
+/* Large desktop (1440px - 2047px) */
+@media (min-width: 1440px) and (max-width: 2047px) {
+    .hero-badge {
+        width: 500px;
+    }
+}
+
+/* Standard desktop (1200px - 1439px) */
+@media (min-width: 1200px) and (max-width: 1439px) {
+    .hero-badge {
+        width: 450px;
+    }
+    
+    .experience-header,
+    .stack-header,
+    .projects-header {
+        padding: 5rem 3rem 2rem;
+    }
+    
+    .experience-viewport,
+    .stack-viewport,
+    .projects-viewport {
+        padding: 0 3rem;
+    }
+}
+
+/* Small desktop / large tablet (969px - 1199px) */
+@media (min-width: 969px) and (max-width: 1199px) {
+    .section-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-container {
+        gap: 2rem;
+    }
+    
+    .hero-badge {
+        width: 400px;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .about-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    .project-image-wrapper { height: 200px; }
-
-
-    /* footer */
-    .footer-right, .footer-center { display: none; }
-    .footer-copyright { font-size: 1.2rem; }
-    .footer-row{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .footer-left {
-        justify-self: center;
-        align-self: center;
-    }
-
-
-    /* about section */
-    .about-logo img{ width: 100%; }
-}
-
-
-/* 361 - 480px */
-@media (max-width: 480px) {
-    /* global */
-    ::-webkit-scrollbar { display: none; }
-    section { padding: 2rem 1rem !important; }
-    .section-title { font-size: 1.5rem; }
-
-
-    /* hero */
-    .hero { margin: 5rem 0 0 0; }
-    .hero-title { font-size: 2rem; }
-    .hero-badge { width: 90%; }
-    .social-icon {
-        width:  3rem;
-        height: 3rem;
-    }
-    .download-btn {
-        padding: 0.9rem 1rem;
-        font-size: 0.75rem;
-    }
-
-    /* footer */
-    .form-row { grid-template-columns: 1fr; }
-    .tech-grid { grid-template-columns: repeat(3, 1fr); }
-    .footer-right, .footer-center { display: none; }
-    .footer-copyright { font-size: 1.2rem; }
-    .footer-row{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .footer-left {
-        justify-self: center;
-        align-self: center;
-    }
-
-
-    /* about section */
+    
     .about-logo {
+        order: -1;
+    }
+}
+
+/* Tablet landscape (769px - 968px) */
+@media (min-width: 769px) and (max-width: 968px) {
+    section {
+        padding: 4rem 2rem !important;
+    }
+    
+    .section-title {
+        font-size: 2.25rem;
+    }
+    
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .hero-content {
+        order: 2;
+    }
+    
+    .hero-image-container {
+        order: 1;
+    }
+    
+    .hero-badge {
+        width: 350px;
+        margin: 0 auto;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .buttons-container {
+        justify-content: center;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-logo {
+        order: -1;
         display: flex;
         justify-content: center;
-        align-items: center;
     }
-    .about-logo img { width: 100%; }
+    
+    .about-logo img {
+        max-width: 300px;
+    }
 }
 
-
-/* 1 - 360px */
-@media (max-width: 360px) {
-    /* global */
-    ::-webkit-scrollbar { display: none; }
-
-
-    /* hero */
-    .hero { margin: 5rem 0 0 0; }
-    .hero-badge { width: 90%; }
-    .social-icon {
-        width:  3rem;
-        height: 3rem;
+/* Tablet portrait (481px - 768px) */
+@media (max-width: 768px) {
+    /* Global */
+    section {
+        padding: 3rem 1.5rem !important;
     }
-    .download-btn {
-        padding: 0.6rem 1rem;
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    /* Header */
+    .nav-menu {
+        display: none;
+    }
+    
+    .header-container {
+        padding: 0 1rem;
+    }
+    
+    /* Hero */
+    .hero {
+        margin: 65px 0 0 0;
+        padding: 4rem 1.5rem !important;
+    }
+    
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .hero-content {
+        order: 2;
+    }
+    
+    .hero-image-container {
+        order: 1;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-badge {
+        width: 280px;
+        margin: 0 auto;
+    }
+    
+    .hero-greeting {
         font-size: 0.75rem;
     }
-
-
-    /* footer */
-    .footer-copyright { font-size: 1rem; }
-}
-
-
-@media (min-width: 1200px) { .footer-banner-bg { height: 46vh;  min-height: 440px; width: 100vw;} }
-@media (min-width: 1800px) { .footer-banner-bg { height: 36vh;  min-height: 850px; width: 100vw;} }
-@media (max-width: 900px)  { .footer-banner-bg { height: 32vh;  min-height: 180px; width: 100vw;} }
-@media (max-width: 768px)  { .footer-banner-bg { height: 200px; min-height: 120px; width: 100vw;} }
-
-@media (max-width: 968px) {
-    .about-content { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 768px) {
-    .projects-section {
-        padding: 3rem 1.5rem;
+    
+    .buttons-container {
+        justify-content: center;
+        flex-wrap: wrap;
     }
+    
+    /* About */
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-logo {
+        order: -1;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .about-logo img {
+        width: 80%;
+        max-width: 300px;
+    }
+    
+    /* Horizontal Scroll Sections - Mobile becomes native scroll */
+    .experience-horizontal,
+    .stack-horizontal,
+    .projects-horizontal {
+        height: auto !important;
+    }
+    
+    .experience-sticky,
+    .stack-sticky,
+    .projects-sticky {
+        position: relative;
+        height: auto;
+    }
+    
+    .experience-header,
+    .stack-header,
+    .projects-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 3rem 1.5rem 1.5rem;
+        gap: 1rem;
+    }
+    
+    .experience-scroll-indicator,
+    .stack-scroll-indicator,
+    .projects-scroll-indicator {
+        display: none;
+    }
+    
+    .experience-viewport,
+    .stack-viewport,
+    .projects-viewport {
+        padding: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .experience-viewport::-webkit-scrollbar,
+    .stack-viewport::-webkit-scrollbar,
+    .projects-viewport::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .experience-track,
+    .stack-track,
+    .projects-track {
+        padding: 1.5rem;
+        gap: 1.5rem;
+        transform: none !important;
+    }
+    
+    /* Footer */
+    .footer-main {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .footer-brand {
+        grid-column: span 2;
+    }
+    
+    .footer-content {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .footer-banner-image {
+        min-height: 150px;
+        max-height: 250px;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+}
 
-    .projects-table {
-        min-width: 600px;
+/* Large mobile (361px - 480px) */
+@media (max-width: 480px) {
+    /* Global */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    
+    section {
+        padding: 2rem 1rem !important;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    /* Hero */
+    .hero {
+        margin: 5rem 0 0 0;
+        padding: 3rem 1rem !important;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .hero-badge {
+        width: 220px;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+    }
+    
+    .social-icon {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .download-btn {
+        padding: 0.9rem 1.5rem;
         font-size: 0.85rem;
     }
+    
+    /* About */
+    .about-text p {
+        font-size: 0.9rem;
+    }
+    
+    .about-skills li {
+        font-size: 0.85rem;
+        padding-left: 1.5rem;
+    }
+    
+    /* Horizontal Sections Headers */
+    .experience-header,
+    .stack-header,
+    .projects-header {
+        padding: 2rem 1rem 1rem;
+    }
+    
+    .experience-main-title,
+    .stack-main-title,
+    .projects-main-title {
+        font-size: 1.5rem;
+    }
+    
+    .experience-track,
+    .stack-track,
+    .projects-track {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    /* Cards */
+    .experience-card,
+    .education-card,
+    .coursework-card {
+        min-width: 280px;
+        max-width: 300px;
+        padding: 1.5rem;
+    }
+    
+    .skill-card {
+        min-width: 80px;
+        width: 80px;
+        height: 80px;
+    }
+    
+    .skill-card-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .project-card-horizontal {
+        min-width: 280px;
+        max-width: 320px;
+    }
+    
+    .project-media-wrapper {
+        height: 180px;
+    }
+    
+    .section-divider {
+        min-width: 160px;
+        height: 250px;
+    }
+    
+    .section-divider-title {
+        font-size: 1.5rem;
+    }
+    
+    .view-more-card {
+        min-width: 200px;
+        height: 250px;
+    }
+    
+    /* Footer */
+    .footer-main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .footer-brand {
+        grid-column: span 1;
+    }
+    
+    .footer-column {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 1.5rem;
+    }
+    
+    .footer-content {
+        padding: 1.5rem 1rem 1rem;
+    }
+    
+    .footer-banner-image {
+        min-height: 120px;
+        max-height: 180px;
+    }
+    
+    .footer-logo {
+        font-size: 1.5rem;
+    }
 }
 
-@media (max-width: 480px) {
-        .projects-section {
-            padding: 2rem 1rem;
+/* Small mobile (281px - 360px) */
+@media (max-width: 360px) {
+    /* Global */
+    ::-webkit-scrollbar {
+        display: none;
     }
-
-    .projects-table {
-        min-width: 550px;
+    
+    section {
+        padding: 1.5rem 0.75rem !important;
+    }
+    
+    .section-title {
+        font-size: 1.35rem;
+    }
+    
+    /* Hero */
+    .hero {
+        margin: 4rem 0 0 0;
+        padding: 2rem 0.75rem !important;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-badge {
+        width: 180px;
+    }
+    
+    .hero-greeting {
+        font-size: 0.65rem;
+    }
+    
+    .hero-description {
+        font-size: 0.85rem;
+    }
+    
+    .social-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .download-btn {
+        padding: 0.75rem 1.25rem;
         font-size: 0.8rem;
+    }
+    
+    /* Header */
+    .logo-text {
+        font-size: 1.25rem;
+    }
+    
+    .hire-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    /* Cards */
+    .experience-card,
+    .education-card,
+    .coursework-card {
+        min-width: 250px;
+        padding: 1.25rem;
+    }
+    
+    .experience-company,
+    .education-institution {
+        font-size: 1.1rem;
+    }
+    
+    .skill-card {
+        min-width: 70px;
+        width: 70px;
+        height: 70px;
+    }
+    
+    .skill-card-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .project-card-horizontal {
+        min-width: 260px;
+    }
+    
+    .project-media-wrapper {
+        height: 160px;
+    }
+    
+    .section-divider {
+        min-width: 140px;
+        height: 220px;
+    }
+    
+    .section-divider-title {
+        font-size: 1.35rem;
+    }
+    
+    /* Footer */
+    .footer-copyright {
+        font-size: 0.8rem;
+    }
+}
+
+/* Extra small mobile (up to 280px) */
+@media (max-width: 280px) {
+    section {
+        padding: 1rem 0.5rem !important;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .hero-badge {
+        width: 150px;
+    }
+    
+    .hero-greeting {
+        font-size: 0.6rem;
+    }
+    
+    .buttons-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .social-icon {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .experience-card,
+    .education-card,
+    .coursework-card {
+        min-width: 220px;
+        padding: 1rem;
+    }
+    
+    .skill-card {
+        min-width: 60px;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .skill-card-icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .project-card-horizontal {
+        min-width: 230px;
+    }
+    
+    .section-divider {
+        min-width: 120px;
+        height: 180px;
+    }
+    
+    .section-divider-title {
+        font-size: 1.2rem;
     }
 }
