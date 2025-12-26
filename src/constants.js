@@ -28,10 +28,8 @@ export const HERO_CONTENT = {
 
 export const ABOUT_CONTENT = {
     paragraphs: [
-        'My name is Kaique Souza, i\'m an engineer, open-source developer and enthusiast.',
-        'I\'m from Brazil, São Paulo and main abilities are in Backend, Data and Cloud.',
-        'I\'ve been on the IT field for 8 years now (since 2018)',
-        'I\'ve learned a lot about Hardware, Full-stack Programming, Algorithms & Data Structures, Computer Science, Data, Networking & CSec, Cloud and Infrastructure along the way.',
+        'My name is Kaique Souza, i\'m an engineer, open-source developer and enthusiast from from Brazil, São Paulo. My main abilities are in Backend, Data and Cloud.',
+        'I\'ve been on the IT field for 8 years now (since 2018), and i\'ve learned a lot about Hardware, Full-stack Programming, Algorithms & Data Structures, Computer Science, Data, Networking & CSec, Cloud and Infrastructure along the way.',
     ],
     skillsIntro: 'My main technical skills include:',
     skills: [
