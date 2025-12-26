@@ -1,177 +1,530 @@
-.experience {
-  padding: 6rem 2rem;
-  background: var(--bg-color);
+/* Horizontal Experience Section */
+.experience-horizontal {
+    position: relative;
+    background: var(--bg-color);
+    overflow: hidden;
 }
 
-.experience-container {
-  max-width: 1200px;
-  margin: 0 auto;
+.experience-sticky {
+    position: sticky;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-.experience-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+/* Progress Bar at Top */
+.experience-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 100;
 }
 
-.subsection-title {
-  font-size: 1.5rem;
-  color: var(--special-color);
-  margin-bottom: 2rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(255, 1, 79, 0.3);
+.experience-progress-fill {
+    height: 100%;
+    background: var(--special-color);
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px var(--special-color);
 }
 
-.education-item {
-  background: var(--secondary-color);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-.education-item:hover {
-  border-color: var(--special-color);
-  transform: translateY(-5px);
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 4rem 4rem 1.5rem;
+    flex-shrink: 0;
 }
 
-.education-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
+.experience-title-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.institution {
-  font-size: 1.1rem;
-  color: var(--white);
-  font-weight: 600;
+.experience-main-title {
+    text-align: left;
+    margin-bottom: 0;
 }
 
-.period {
-  font-size: 0.875rem;
-  color: var(--text-gray);
-  white-space: nowrap;
+.experience-main-title::after {
+    left: 0;
+    transform: none;
 }
 
-.degree {
-  color: var(--text-gray);
-  font-size: 0.95rem;
+.experience-subtitle {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    max-width: 500px;
 }
 
-.description {
-  color: var(--text-gray);
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  line-height: 1.6;
+.experience-scroll-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.coursework-item {
-  background: var(--secondary-color);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-.coursework-item:hover {
-  border-color: var(--special-color);
-  transform: translateY(-5px);
-}
-
-.course-list {
-  list-style: none;
-  margin-top: 1rem;
+.scroll-hint {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 140px;
+    text-align: center;
 }
 
-.course-list li {
-  color: var(--text-gray);
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  font-size: 0.9rem;
+.experience-viewport {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    padding: 0 4rem;
 }
 
-.course-list li::before {
-  content: '•';
-  position: absolute;
-  align-self: center;
-  left: 0;
-  color: var(--special-color);
-  font-size: 1.5rem;
+.experience-track {
+    display: flex;
+    gap: 1.5rem;
+    will-change: transform;
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding-right: 4vw;
+    align-items: stretch;
 }
 
-.work-item {
-  background: var(--secondary-color);
-  padding: 2rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-.work-item:hover {
-  border-color: var(--special-color);
-  transform: translateY(-5px);
-}
-
-.work-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+/* Section Dividers - Lenis Style */
+.section-divider {
+    min-width: 300px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--special-color) 0%, rgba(255, 1, 79, 0.7) 100%);
+    border-radius: 20px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
 }
 
-.company {
-  font-size: 1.3rem;
-  color: var(--white);
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+.section-divider::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    pointer-events: none;
 }
 
-.role {
-  color: var(--special-color);
-  font-size: 1rem;
-  font-weight: 600;
+.section-divider-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
-.period-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
+.section-divider-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.1;
 }
 
-.current-badge {
-  background: var(--special-color);
-  color: var(--white);
-  padding: 0.25rem 0.75rem;
-  border-radius: 15px;
-  font-size: 0.75rem;
-  font-weight: 600;
+.section-divider-count {
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    bottom: 0.5rem;
+    right: 1rem;
 }
 
-.description-list {
-  list-style: none;
-  margin-top: 1rem;
+/* Lenis-Style Cards */
+.lenis-card {
+    background: var(--secondary-color);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.description-list li {
-  color: var(--text-gray);
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  line-height: 1.6;
+.lenis-card:hover {
+    border-color: rgba(255, 1, 79, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 1, 79, 0.1);
 }
 
-.description-list li::before {
-  content: '▸';
-  position: absolute;
-  left: 0;
-  color: var(--special-color);
+/* Experience Card - Lenis Style */
+.experience-card {
+    min-width: 420px;
+    max-width: 480px;
+    min-height: 320px;
 }
 
-@media (max-width: 968px) {
-  .experience-grid {
-    grid-template-columns: 1fr;
-  }
+.experience-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--special-color) 0%, rgba(255, 1, 79, 0.3) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.experience-card:hover .experience-card-accent {
+    opacity: 1;
+}
+
+.experience-card-inner {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.experience-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.experience-card-title-group {
+    flex: 1;
+}
+
+.experience-company {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+}
+
+.experience-role {
+    font-size: 0.95rem;
+    color: var(--special-color);
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.experience-card-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.experience-period {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.experience-badge {
+    display: inline-block;
+    background: var(--special-color);
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.experience-card-body {
+    flex: 1;
+}
+
+.experience-description {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.experience-description li {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.experience-description li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    width: 6px;
+    height: 6px;
+    background: var(--special-color);
+    border-radius: 50%;
+}
+
+/* Education Card - Lenis Style */
+.education-card {
+    min-width: 380px;
+    max-width: 420px;
+    min-height: 280px;
+}
+
+.education-card-inner {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.education-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.education-institution {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.education-period {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.education-degree {
+    font-size: 1rem;
+    color: var(--special-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.education-description {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Coursework Card - Lenis Style */
+.coursework-card {
+    min-width: 340px;
+    max-width: 400px;
+    min-height: 300px;
+}
+
+.coursework-card-inner {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.coursework-institution {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.coursework-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.coursework-list li {
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.coursework-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--special-color);
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.coursework-card:hover .coursework-list li {
+    color: var(--white);
+}
+
+.coursework-card:hover .coursework-list li::before {
+    transform: translateX(3px);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .experience-card {
+        min-width: 380px;
+        max-width: 420px;
+    }
+    
+    .education-card {
+        min-width: 340px;
+        max-width: 380px;
+    }
+    
+    .coursework-card {
+        min-width: 300px;
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .experience-header {
+        padding: 5rem 3rem 2rem;
+    }
+    .experience-viewport {
+        padding: 0 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .experience-horizontal,
+    .experience-mobile {
+        height: auto !important;
+    }
+    
+    .experience-sticky {
+        position: relative;
+        height: auto;
+    }
+    
+    .experience-progress-bar {
+        display: none;
+    }
+    
+    .experience-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 3rem 1.5rem 1rem;
+        gap: 0.5rem;
+    }
+    
+    .experience-main-title {
+        font-size: 2rem;
+    }
+    
+    .experience-scroll-indicator {
+        display: none;
+    }
+    
+    .experience-viewport {
+        padding: 0 1.5rem;
+        overflow: visible;
+    }
+    
+    /* Mobile: Vertical scroll layout */
+    .experience-track {
+        flex-direction: column;
+        padding: 1rem 0 2rem;
+        gap: 1rem;
+        transform: none !important;
+    }
+    
+    .section-divider {
+        min-width: 100%;
+        width: 100%;
+        padding: 1.5rem;
+        min-height: auto;
+    }
+    
+    .section-divider-title {
+        font-size: 1.5rem;
+    }
+    
+    .section-divider-count {
+        font-size: 2rem;
+    }
+    
+    .experience-card,
+    .education-card,
+    .coursework-card {
+        min-width: 100%;
+        max-width: 100%;
+        width: 100%;
+        min-height: auto;
+    }
+    
+    .experience-card-inner,
+    .education-card-inner,
+    .coursework-card-inner {
+        padding: 1.5rem;
+    }
+    
+    .experience-company {
+        font-size: 1.25rem;
+    }
+    
+    .lenis-card:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .experience-header {
+        padding: 2rem 1rem 0.75rem;
+    }
+    
+    .experience-main-title {
+        font-size: 1.5rem;
+    }
+    
+    .experience-viewport {
+        padding: 0 1rem;
+    }
+    
+    .experience-track {
+        padding: 0.75rem 0 1.5rem;
+    }
+    
+    .section-divider {
+        padding: 1rem;
+    }
+    
+    .section-divider-title {
+        font-size: 1.3rem;
+    }
 }
