@@ -1,1 +1,0 @@
-import{L as o,c as i,j as e,R as n,d as s}from"./lenis-B6-H-ZlR.js";const a=new o({lerp:.055,smooth:!0,wheelMultiplier:.8,touchMultiplier:.5});function t(r){a.raf(r),requestAnimationFrame(t)}requestAnimationFrame(t);i.createRoot(document.getElementById("root")).render(e.jsx(n.StrictMode,{children:e.jsx(s,{})}));
