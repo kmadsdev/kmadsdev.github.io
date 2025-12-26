@@ -27,6 +27,15 @@
     grid-template-columns: 2fr 1fr;
     gap: 4rem;
     align-items: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1)), 
+                transform 0.8s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1));
+}
+
+.about-content.about-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .about-text p {
@@ -62,5 +71,15 @@
     justify-content: center;
     align-items: center;
     opacity: 1;
+}
+
+.about-logo img {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.about-logo img:hover {
+    transform: scale(1.02);
 }
 
