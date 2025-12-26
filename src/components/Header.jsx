@@ -36,7 +36,6 @@ const Header = () => {
                             {link.label}
                         </a>
                     ))}
-                    <a href={`mailto:${CONTACT.email}`} className="nav-link">Contact</a>
                 </nav>
 
                 <a href="https://kmads.dev/linkedin" className="hire-btn">Hire me</a>
