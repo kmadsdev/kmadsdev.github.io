@@ -35,13 +35,13 @@ const Hero = () => {
                         </button>
 
                         <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" className="social-icon">
-                            <img className="social-icon-img" src="assets/social/github.svg" alt="GitHub"></img>
+                            <img className="social-icon-img" src="assets/social/github-icon-red.svg" alt="GitHub"></img>
                         </a>
                         <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon">
-                            <img className="social-icon-img" src="assets/linkedin.svg" alt="LinkedIn"></img>
+                            <img className="social-icon-img" src="assets/social/linkedin-icon-red.svg" alt="LinkedIn"></img>
                         </a>
                         <a href={`mailto:${CONTACT.email}`} className="social-icon">
-                            <img className="social-icon-img" src="assets/email.svg" alt="Email"></img>
+                            <img className="social-icon-img" src="assets/social/email-icon-red.svg" alt="Email"></img>
                         </a>
                     </div>
                 </div>
