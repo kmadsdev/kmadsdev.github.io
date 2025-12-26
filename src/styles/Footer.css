@@ -10,9 +10,11 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
-.footer-banner-overlay {
+/*.footer-banner-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -21,13 +23,13 @@
     background: linear-gradient(to bottom, var(--bg-color) 0%, transparent 30%, transparent 70%, var(--bg-color) 100%);
     z-index: 1;
     pointer-events: none;
-}
+}*/
 
 .footer-banner-image {
     width: 100%;
     height: auto;
-    min-height: 200px;
-    max-height: 400px;
+    min-height: 1200px;
+    max-height: 2000px;
     object-fit: cover;
     object-position: center;
     display: block;
@@ -66,7 +68,7 @@
     grid-template-columns: 2fr repeat(3, 1fr);
     gap: 3rem;
     padding-bottom: 3rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Brand Column */
@@ -104,13 +106,18 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
 }
 
-.footer-social-link:hover {
+/* .footer-social-link:hover {
     border-color: var(--special-color);
     transform: translateY(-3px);
+} */
+.footer-social-link:hover {
+    background-color: var(--special-color);
+    transform: translateY(-3px);
 }
+
 
 .footer-social-link img {
     width: 20px;
@@ -184,7 +191,7 @@
     align-items: center;
     gap: 0.5rem;
     background: transparent;
-    border: 1px solid rgba(255, 1, 79, 0.5);
+    border: 2px solid rgba(255, 1, 79, 0.5);
     color: var(--special-color);
     padding: 0.75rem 1.25rem;
     border-radius: 8px;
@@ -192,6 +199,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    height: 50px;
 }
 
 .footer-sponsor-btn:hover {
@@ -214,13 +222,14 @@
     align-items: center;
     gap: 0.5rem;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
     color: var(--white);
     padding: 0.75rem 1.25rem;
     border-radius: 8px;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    height: 50px;
 }
 
 .footer-back-to-top:hover {
@@ -228,11 +237,9 @@
     border-color: var(--special-color);
     transform: translateY(-2px);
 }
-
 .footer-back-to-top svg {
     transition: transform 0.3s ease;
 }
-
 .footer-back-to-top:hover svg {
     transform: translateY(-2px);
 }
@@ -313,7 +320,7 @@
     }
     
     .footer-column {
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        border-top: 2px solid rgba(255, 255, 255, 0.05);
         padding-top: 1.5rem;
     }
     
