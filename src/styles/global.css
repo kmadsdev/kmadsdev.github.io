@@ -1,5 +1,4 @@
 * {
-    scroll-behavior: smooth;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -11,9 +10,39 @@
     --secondary-color: #1e1e1e;
     --special-color: #ff014f;
     --text-gray: #c4cfde;
+    
+    /* Animation timing */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-::-webkit-scrollbar { width: 10px; }
+html {
+    scroll-behavior: auto; /* Let Lenis handle smooth scrolling */
+}
+
+html.lenis, html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
 ::-webkit-scrollbar-thumb {
     background: var(--special-color);
     border-radius: 10px;
@@ -58,10 +87,6 @@ body {
     background: var(--special-color);
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 a {
     text-decoration: none;
     color: inherit;
@@ -70,4 +95,64 @@ a {
 button {
     cursor: pointer;
     font-family: inherit;
+}
+
+/* Global Animation Classes */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s var(--ease-out-expo) forwards;
+}
+
+.fade-in-delay-1 { animation-delay: 0.1s; }
+.fade-in-delay-2 { animation-delay: 0.2s; }
+.fade-in-delay-3 { animation-delay: 0.3s; }
+.fade-in-delay-4 { animation-delay: 0.4s; }
+.fade-in-delay-5 { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* Smooth reveal animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s var(--ease-out-expo), 
+                transform 0.8s var(--ease-out-expo);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Horizontal scroll progress indicator shared styles */
+.scroll-progress-track {
+    width: 150px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.scroll-progress-thumb {
+    height: 100%;
+    background: var(--special-color);
+    border-radius: 3px;
+    transition: width 0.1s ease-out;
+}
+
+.scroll-hint {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
