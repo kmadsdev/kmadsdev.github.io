@@ -1,6 +1,5 @@
 import React from 'react';
 import { EXPERIENCES, EDUCATION, COURSEWORK } from '../constants';
-import { useHorizontalScroll } from '../hooks/useHorizontalScroll';
 import '../styles/Experience.css';
 
 const SectionDivider = ({ label, title, count }) => (
@@ -12,8 +11,7 @@ const SectionDivider = ({ label, title, count }) => (
 );
 
 const ExperienceCard = ({ exp, index }) => (
-    <div className="experience-card lenis-card" style={{ '--card-index': index }}>
-        <div className="experience-card-accent" />
+    <div className="experience-card" style={{ '--card-index': index }}>
         <div className="experience-card-inner">
             <div className="experience-card-header">
                 <div className="experience-card-title-group">
@@ -37,7 +35,7 @@ const ExperienceCard = ({ exp, index }) => (
 );
 
 const EducationCard = ({ edu, index }) => (
-    <div className="education-card lenis-card" style={{ '--card-index': index }}>
+    <div className="education-card" style={{ '--card-index': index }}>
         <div className="education-card-inner">
             <div className="education-card-header">
                 <h4 className="education-institution">{edu.institution}</h4>
@@ -50,7 +48,7 @@ const EducationCard = ({ edu, index }) => (
 );
 
 const CourseworkCard = ({ course, index }) => (
-    <div className="coursework-card lenis-card" style={{ '--card-index': index }}>
+    <div className="coursework-card" style={{ '--card-index': index }}>
         <div className="coursework-card-inner">
             <h4 className="coursework-institution">{course.institution}</h4>
             <ul className="coursework-list">
@@ -63,33 +61,9 @@ const CourseworkCard = ({ course, index }) => (
 );
 
 const Experience = () => {
-    const {
-        containerRef,
-        trackRef,
-        scrollProgress,
-        translateX,
-        isMobile,
-    } = useHorizontalScroll({ speed: 2.5 });
-
-    // Fixed 100vh for desktop, auto for mobile
-    const sectionHeight = isMobile ? 'auto' : '100vh';
-
     return (
-        <section 
-            id="experience" 
-            className={`experience-horizontal ${isMobile ? 'experience-mobile' : ''}`}
-            ref={containerRef}
-            style={{ height: sectionHeight }}
-        >
-            <div className="experience-sticky">
-                {/* Progress bar at top */}
-                <div className="experience-progress-bar">
-                    <div 
-                        className="experience-progress-fill"
-                        style={{ width: `${scrollProgress * 100}%` }}
-                    />
-                </div>
-
+        <section id="experience" className="experience-section">
+            <div className="experience-container">
                 <div className="experience-header">
                     <div className="experience-title-wrapper">
                         <h2 className="section-title experience-main-title">Experience & Education</h2>
@@ -97,53 +71,46 @@ const Experience = () => {
                             My professional journey and academic background
                         </p>
                     </div>
-                    <div className="experience-scroll-indicator">
-                        <span className="scroll-hint">
-                            {scrollProgress < 0.1 ? 'Scroll to explore →' : 
-                             scrollProgress > 0.9 ? 'Continue scrolling ↓' : 
-                             `${Math.round(scrollProgress * 100)}%`}
-                        </span>
+                </div>
+
+                {/* Row 1: Experience */}
+                <div className="experience-row">
+                    <div className="experience-scroll-wrapper">
+                        <div className="experience-track">
+                            <SectionDivider 
+                                label="Work"
+                                title="Experience"
+                                count={EXPERIENCES.length.toString().padStart(2, '0')}
+                            />
+                            {EXPERIENCES.map((exp, index) => (
+                                <ExperienceCard key={`exp-${index}`} exp={exp} index={index} />
+                            ))}
+                        </div>
                     </div>
                 </div>
 
-                <div className="experience-viewport">
-                    <div 
-                        className="experience-track"
-                        ref={trackRef}
-                        style={{ transform: `translateX(${translateX}px)` }}
-                    >
-                        {/* Experience Section */}
-                        <SectionDivider 
-                            label="Work"
-                            title="Experience"
-                            count={EXPERIENCES.length.toString().padStart(2, '0')}
-                        />
-                        
-                        {EXPERIENCES.map((exp, index) => (
-                            <ExperienceCard key={`exp-${index}`} exp={exp} index={index} />
-                        ))}
-
-                        {/* Education Section */}
-                        <SectionDivider 
-                            label="Academic"
-                            title="Education"
-                            count={EDUCATION.length.toString().padStart(2, '0')}
-                        />
-                        
-                        {EDUCATION.map((edu, index) => (
-                            <EducationCard key={`edu-${index}`} edu={edu} index={index} />
-                        ))}
-
-                        {/* Coursework Section */}
-                        <SectionDivider 
-                            label="Learning"
-                            title="Coursework"
-                            count={COURSEWORK.length.toString().padStart(2, '0')}
-                        />
-                        
-                        {COURSEWORK.map((course, index) => (
-                            <CourseworkCard key={`course-${index}`} course={course} index={index} />
-                        ))}
+                {/* Row 2: Education + Coursework */}
+                <div className="experience-row">
+                    <div className="experience-scroll-wrapper">
+                        <div className="experience-track">
+                            <SectionDivider 
+                                label="Academic"
+                                title="Education"
+                                count={EDUCATION.length.toString().padStart(2, '0')}
+                            />
+                            {EDUCATION.map((edu, index) => (
+                                <EducationCard key={`edu-${index}`} edu={edu} index={index} />
+                            ))}
+                            
+                            <SectionDivider 
+                                label="Learning"
+                                title="Coursework"
+                                count={COURSEWORK.length.toString().padStart(2, '0')}
+                            />
+                            {COURSEWORK.map((course, index) => (
+                                <CourseworkCard key={`course-${index}`} course={course} index={index} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
