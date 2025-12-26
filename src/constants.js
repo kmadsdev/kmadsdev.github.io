@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
     title: 'Kaique Souza - Software Engineer',
     description: 'Software Engineer • Data Engineer',
     copyright: '© 2025 Kmads. All rights reserved.',
-    resumeUrl: 'https://kmads.dev/resume',
+    // resumeUrl: 'https://kmads.dev/cv',
 };
 
 export const CONTACT = {
@@ -45,14 +45,15 @@ export const FOOTER_CONFIG = {
             links: [
                 { label: 'GitHub', href: 'https://kmads.dev/github', external: true },
                 { label: 'LinkedIn', href: 'https://kmads.dev/linkedin', external: true },
-                { label: 'Email', href: 'mailto:contact@kmads.dev', external: false },
+                { label: 'Email', href: 'mailto:contact@kmads.dev', external: true },
             ],
         },
         {
             title: 'Resources',
             links: [
-                { label: 'Resume', href: 'https://kmads.dev/resume', external: true },
-                { label: 'All Projects', href: '/projects', external: false },
+                { label: 'My Projects', href: '/projects', external: false },
+                { label: 'Resume', href: 'https://kmads.dev/cv', external: true },
+                { label: 'My Repositories', href: 'https://github.com/kmadsdev/?tab=repositories', external: true },
             ],
         },
     ],
@@ -107,9 +108,9 @@ export const EXPERIENCES = [
         period: 'Mar 2025 - Nov 2025',
         current: false,
         description: [
-          'As a Data Engineer at the Oracle HCM Squad (side by side with the  Corporate HR and the Corporate IT) i’ve:',
-          'Created efficient decision-making relatories using data from the Oracle Cloud using SQL',
-          'Had the opportunity to work face-to-face with CTOs, Tech Managers and Senior Engineer'
+            'As a Data Engineer at the Oracle HCM Squad (side by side with the  Corporate HR and the Corporate IT) i’ve:',
+            'Created efficient decision-making relatories using data from the Oracle Cloud using SQL',
+            'Had the opportunity to work face-to-face with CTOs, Tech Managers and Senior Engineer'
         ]
     }, {
         company: 'HiveMind',
@@ -117,10 +118,10 @@ export const EXPERIENCES = [
         period: 'Jan 2025 • Dec 2025',
         current: false,
         description: [
-          'As a Machine Learning Engineer at the TimeLean app, i’ve:',
-          'Developed, trained, and managed Machine Learning models mainly using Python',
-          'Managed SQL & NoSQL based databases on AWS, Firebase, Aiven and Docker',
-          'Modeled PostgreSQL, MongoDB and Redis databases'
+            'As a Machine Learning Engineer at the TimeLean app, i\'ve:',
+            'Developed, trained, and managed Machine Learning models mainly using Python',
+            'Managed SQL & NoSQL based databases on AWS, Firebase, Aiven and Docker',
+            'Modeled PostgreSQL, MongoDB and Redis databases'
         ]
     }, {
         company: 'TrocaTine',
@@ -128,10 +129,10 @@ export const EXPERIENCES = [
         period: 'Jan 2024 - Dec 2024',
         current: false,
         description: [
-          'Led the Landing Page Project',
-          'Led market research and financial planning, estimating 30% lower costs for users compared to buying new items',
-          'Managed the main web page server using java, jdbc, apache tomcat',
-          'Managed SQL based databases on Aiven and Docker'
+            'Led the Landing Page Project',
+            'Led market research and financial planning, estimating 30% lower costs for users compared to buying new items',
+            'Managed the main web page server using java, jdbc, apache tomcat',
+            'Managed SQL based databases on Aiven and Docker'
         ]
     }, {
         company: 'Discord',
@@ -168,31 +169,31 @@ export const COURSEWORK = [
     {
         institution: 'Harvard University, SEAS & Extension School (YouTube/EdX)',
         courses: [
-          'Computer Science (CS50x)',
-          'Mobile Software Engineering (CS164)',
-          'Advanced Algorithms (CS224)',
-          'Algoritms for Big Data (CS229r)'
+            'Computer Science (CS50x)',
+            'Mobile Software Engineering (CS164)',
+            'Advanced Algorithms (CS224)',
+            'Algoritms for Big Data (CS229r)'
         ]
     }, {
         institution: 'J&F Tech',
         courses: [
-          'Software Development, DevOps and CI/CD',
-          'FullStack Development and OOP',
-          'Advanced Data Modeling & Databases',
-          'Data Science & Machine Learning',
-          'Computer Architecture, OS and Hardware',
-          'Git/Github Branching and Release Management'
+            'Software Development, DevOps and CI/CD',
+            'FullStack Development and OOP',
+            'Advanced Data Modeling & Databases',
+            'Data Science & Machine Learning',
+            'Computer Architecture, OS and Hardware',
+            'Git/Github Branching and Release Management'
         ]
     }, {
         institution: 'AWS, PMI, Databricks & Botcity',
         courses: [
-          'AWS Cloud Practitioner Essentials',
-          'Agile Software Development & Project Management (PMI)',
-          'Advanced Scrum (PMI)',
-          'Databricks Fundamentals',
-          'Get Started with SQL Analytics and BI (Databricks)',
-          'Introduction to Python for Data Science and Data Engineering (Databricks)',
-          'RPA & SAP Automation on Python (BotCity)'
+            'AWS Cloud Practitioner Essentials',
+            'Agile Software Development & Project Management (PMI)',
+            'Advanced Scrum (PMI)',
+            'Databricks Fundamentals',
+            'Get Started with SQL Analytics and BI (Databricks)',
+            'Introduction to Python for Data Science and Data Engineering (Databricks)',
+            'RPA & SAP Automation on Python (BotCity)'
         ]
     },
 ];
@@ -206,18 +207,18 @@ export const PROJECTS = [
         image: '/assets/projects/offmode.png',
         video: null,
         tags: ['Python', 'Desktop', 'Productivity'],
-        // link: 'https://kmads.dev/project/offmode'
+        // link: 'https://kmads.dev/offmode'
     }, {
         title: 'Diabetes Indicator',
         description: 'A survey that can indicate the probability of you having diabetes or not.',
-        image: '/assets/projects/diabetesIndicator.png',
-        video: null,
+        image: '/assets/projects/diabetes-indicator.png',
+        video: '/assets/projects/diabetes-indicator-demo.mp4',
         tags: ['Python', 'ML', 'Healthcare'],
         link: 'https://kmads.dev/diabetes-indicator'
     }, {
         title: 'TrocaTine',
         description: 'TrocaTine was a platform for exchanging children\'s items (like clothes & toys).',
-        image: '/assets/projects/trocatinelanding.png',
+        image: '/assets/projects/trocatine.png',
         video: null,
         tags: ['Java', 'Web', 'E-commerce'],
         link: 'https://kmads.dev/trocatine/'
