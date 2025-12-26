@@ -1,34 +1,69 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { PROJECTS } from '../constants';
 import '../styles/Projects.css';
 
 const ProjectCard = ({ project, index }) => {
     const hasMedia = project.image || project.video;
     const hasLink = project.link;
+    const videoRef = useRef(null);
+    const [isHovered, setIsHovered] = useState(false);
+    const [videoLoaded, setVideoLoaded] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+        if (videoRef.current && project.video) {
+            // Play video when hovering
+            videoRef.current.play().catch(() => {
+                // Autoplay might be blocked, ignore error
+            });
+        }
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+        if (videoRef.current && project.video) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+        }
+    };
+
+    const handleVideoLoaded = () => {
+        setVideoLoaded(true);
+    };
     
     return (
-        <div className="project-card" style={{ '--card-index': index }}>
+        <div 
+            className="project-card" 
+            style={{ '--card-index': index }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             {hasMedia && (
                 <div className="project-media-wrapper">
-                    {project.video ? (
-                        <video 
-                            src={project.video}
-                            muted
-                            loop
-                            playsInline
-                            onMouseEnter={(e) => e.target.play()}
-                            onMouseLeave={(e) => {
-                                e.target.pause();
-                                e.target.currentTime = 0;
-                            }}
-                        />
-                    ) : (
+                    {/* Always show image as base layer */}
+                    {project.image && (
                         <img 
                             src={project.image} 
                             alt={project.title}
                             loading="lazy"
+                            className="project-image"
                         />
                     )}
+                    
+                    {/* Video overlay - preloaded, shown on hover */}
+                    {project.video && (
+                        <video 
+                            ref={videoRef}
+                            src={project.video}
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                            onLoadedData={handleVideoLoaded}
+                            className={`project-video ${isHovered && videoLoaded ? 'visible' : ''}`}
+                        />
+                    )}
+                    
                     {hasLink && (
                         <div className="project-media-overlay">
                             <a 
