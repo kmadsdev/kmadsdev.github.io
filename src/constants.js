@@ -87,8 +87,8 @@ export const FOOTER_CONFIG = {
     showSponsor: true,
     sponsorLink: 'https://github.com/sponsors/kmadsdev',
     socialLinks: [
-        { name: 'GitHub', icon: 'github.svg', href: 'https://kmads.dev/github' },
-        { name: 'LinkedIn', icon: 'linkedin.svg', href: 'https://kmads.dev/linkedin' },
+        { name: 'GitHub', icon: 'github-icon-red.svg', href: 'https://kmads.dev/github' },
+        { name: 'LinkedIn', icon: 'linkedin-icon-red.svg', href: 'https://kmads.dev/linkedin' },
     ],
 };
 

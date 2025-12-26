@@ -98,8 +98,8 @@
 }
 
 .footer-social-link {
-    width: 40px;
-    height: 40px;
+    width:  45px;
+    height: 45px;
     background: var(--secondary-color);
     border-radius: 8px;
     display: flex;
@@ -109,19 +109,15 @@
     border: 2px solid transparent;
 }
 
-/* .footer-social-link:hover {
-    border-color: var(--special-color);
-    transform: translateY(-3px);
-} */
+
 .footer-social-link:hover {
-    background-color: var(--special-color);
+    border-color: var(--special-color);
     transform: translateY(-3px);
 }
 
-
 .footer-social-link img {
-    width: 20px;
-    height: 20px;
+    width:  25px;
+    height: 25px;
 }
 
 /* Footer Columns */
