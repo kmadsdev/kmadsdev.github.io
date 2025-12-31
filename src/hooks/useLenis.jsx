@@ -9,16 +9,18 @@ export const LenisProvider = ({ children }) => {
     const rafRef = useRef();
 
     useEffect(() => {
+        // Detect mobile device or small screen
+        const isMobile = window.innerWidth <= 800;
         const lenisInstance = new Lenis({
-            lerp: SCROLL_CONFIG.lerp,
-            smooth: SCROLL_CONFIG.smooth,
-            wheelMultiplier: SCROLL_CONFIG.wheelMultiplier,
-            touchMultiplier: SCROLL_CONFIG.touchMultiplier,
+            lerp: isMobile ? 0.2 : SCROLL_CONFIG.lerp, // much faster scroll for mobile
+            smooth: !isMobile && SCROLL_CONFIG.smooth, // disable smooth scroll for mobile
+            wheelMultiplier: isMobile ? 1.2 : SCROLL_CONFIG.wheelMultiplier,
+            touchMultiplier: isMobile ? 1.2 : SCROLL_CONFIG.touchMultiplier,
             infinite: false,
             gestureOrientation: 'vertical',
-            smoothWheel: true,
+            smoothWheel: !isMobile,
             syncTouch: true,
-            syncTouchLerp: 0.075,
+            syncTouchLerp: isMobile ? 0.2 : 0.075,
         });
 
         setLenis(lenisInstance);

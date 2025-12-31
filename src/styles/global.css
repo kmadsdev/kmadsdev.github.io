@@ -55,12 +55,26 @@ html.lenis, html.lenis body {
     border: 1px solid transparent;
 }
 
-body {
     font-family: "Rubik", sans-serif;
     background-color: var(--bg-color);
     color: var(--white);
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+/* Responsive images and videos globally */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Responsive containers for desktop */
+.container, .hero-container, .about-content, .experience-viewport, .stack-viewport, .projects-viewport {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .App {

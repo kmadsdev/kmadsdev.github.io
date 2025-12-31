@@ -169,7 +169,6 @@
     }
 }
 
-/* Tablet portrait (481px - 768px) */
 @media (max-width: 768px) {
     /* Global */
     section {
@@ -321,6 +320,34 @@
         flex-direction: column;
         gap: 1.5rem;
         text-align: center;
+    }
+
+    /* Ensure all images are responsive */
+    img, video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Responsive containers */
+    .container, .hero-container, .about-content, .experience-viewport, .stack-viewport, .projects-viewport {
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+        overflow-x: auto;
+    }
+
+    /* Responsive cards */
+    .project-card-horizontal, .experience-card, .education-card, .coursework-card {
+        min-width: 220px;
+        max-width: 95vw;
+        box-sizing: border-box;
+    }
+
+    /* Responsive icons */
+    .skill-card-icon, .social-icon {
+        max-width: 100%;
+        height: auto;
     }
 }
 
