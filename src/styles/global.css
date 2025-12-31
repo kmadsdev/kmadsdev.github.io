@@ -54,7 +54,7 @@ html.lenis, html.lenis body {
     background-clip: padding-box;
     border: 1px solid transparent;
 }
-
+body{
     font-family: "Rubik", sans-serif;
     background-color: var(--bg-color);
     color: var(--white);
