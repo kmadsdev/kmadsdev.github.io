@@ -18,27 +18,27 @@ export const HERO_CONTENT = {
     greeting: '👋 HELLO, MY NAME IS KAIQUE, ALSO KNOWN AS',
     highlightName: 'KMADS',
     description: [
-        "Full-time Engineer part-time student and full-time curious.",
-        "I like to contribute to the Open-Source community and build useful projects.",
-        "I'm skilled mainly in API Development, Microservices and Infrastructure",
-        "I'm familiar with DevOps methodologies (CI/CD, SDLC)",
-        "And i have solid experience/usage of cloud services like AWS, Google Cloud and Vercel",
+        "Full-time Engineer + Full-time student",
+        "I love contributing to the community and building useful projects.",
+        "I'm familiar with SDLC, System Designs & patterns, DevOps and Cloud..",
+        "I'm also an Hardware Engineer experienced with PC/Server hardware, IoT and networks."
     ],
 };
 
 export const ABOUT_CONTENT = {
     paragraphs: [
-        'My name is Kaique Souza, i\'m an engineer, open-source developer and enthusiast from from Brazil, São Paulo. My main abilities are in Backend, Data and Cloud.',
-        'I\'ve been on the IT field for 8 years now (since 2018), and i\'ve learned a lot about Hardware, Full-stack Programming, Algorithms & Data Structures, Computer Science, Data, Networking & CSec, Cloud and Infrastructure along the way.',
+        'Hi! My name is Kaique Souza, i\'m an systems engineer (Software/Hardware/Mechanics) from from Brazil.',
+        'My journey started in 2018, building Discord bots and applications, which sparked my passion for software development.',
+        'Since then, I\'ve been honing my skills and expanding my knowledge across various domains in technology.',
     ],
-    skillsIntro: 'My main technical skills include:',
+    skillsIntro: 'My Tech Stack/Skills include:',
     skills: [
-        'Web Application Development (also Desktop too)',
-        'Software Architecture & Design (Monolithic, Microservices, MVC, BFF, ...)',
+        'Full Stack Web Application Development',
+        'Software Architecture & Systems Design (Scalability, Performance, Security, Maintainability)',
         'DevOps (CI/CD Workflows, Containerization, Life Cycle Management)',
-        'Cloud Architecture (Amazon Web Services, Google Cloud Platform, Vercel, Oracle Cloud)',
-        'Data Engineering (Modelling, DA/EDA, Big Data, Machine Learning)',
+        'Cloud Architecture (Amazon Web Services, Google Cloud Platform, Vercel)',
         'Scrum (Agile Project Management, Kanban, Jira, Monday, Google Workspace)',
+        'Hardware & IoT (PC Hardware Build/Maintenace, Server Hardware, Networks)',
     ],
 };
 
@@ -98,9 +98,7 @@ export const TECH_SKILLS = [
     // languages
         { name: 'Python', icon: 'python.svg' },
         { name: 'JavaScript', icon: 'javascript.svg' },
-        { name: 'Java', icon: 'java.svg' },
         { name: 'C', icon: 'c.svg' },
-        { name: 'Go', icon: 'go.svg' },
     // database
         { name: 'PostgreSQL', icon: 'postgresql.svg' },
         { name: 'MySQL', icon: 'mysql.svg' },
@@ -114,18 +112,13 @@ export const TECH_SKILLS = [
         { name: 'Docker', icon: 'docker.svg' },
     // frameworks & libraries
         { name: 'Node.JS', icon: 'nodejs.svg' },
-        // { name: 'React', icon: 'react.svg' },
-        // { name: 'Hyperf', icon: 'hyperf.svg' },
-        // { name: 'Laravel', icon: 'laravel.svg' },
-        { name: 'Tkinter', icon: 'tkinter.svg' },
-        // { name: 'Flask', icon: 'flask.svg' },
-        // { name: 'Django', icon: 'django.svg' },
+        { name: 'React', icon: 'react.svg' },
+        { name: 'Hyperf', icon: 'hyperf.svg' },
+        { name: 'Laravel', icon: 'laravel.svg' },
     // data science & ml
         { name: 'Pandas', icon: 'pandas.svg' },
         { name: 'FastAPI', icon: 'fastapi.svg' },
         { name: 'Scikit Learn', icon: 'scikit.svg' },
-        // { name: 'NumPy', icon: 'numpy.svg' },
-        // { name: 'TensorFlow', icon: 'tensorflow.svg' },
 ];
 
 
@@ -133,22 +126,24 @@ export const TECH_SKILLS = [
 export const EXPERIENCES = [
     {
         company: 'PicPay',
-        role: 'Software Engineer • Part-time',
+        role: 'Software Engineer • Internship',
         period: 'Dec 2025 - Present',
         current: true,
         description: [
-            'Currently working as a Software Engineer at PicPay, focusing on developing scalable backend services',
-            'and enhancing system performance using PHP, Hyperf and Laravel.',
+            'Allocated on the Engineering Squad (IT Corp / HR Division) at PicPay',
+            'Working on the Project Survey, an internal platform designed to replace multiple third-party employee satisfaction survey tools.',
+            'The initiative centralizes and modernizes survey management, increasing customization, resilience, and scalability while significantly reducing operational costs. ',
+            'The project have the potential to save the company millions annually while improving the overall employee experience.'
         ]
     }, {
         company: 'PicPay',
-        role: 'Data Engineer • Part-time',
+        role: 'Data Engineer • Internship',
         period: 'Mar 2025 - Nov 2025',
         current: false,
         description: [
-            'As a Data Engineer at the Oracle HCM Squad (side by side with the  Corporate HR and the Corporate IT) i’ve:',
-            'Created efficient decision-making relatories using data from the Oracle Cloud using SQL',
-            'Had the opportunity to work face-to-face with CTOs, Tech Managers and Senior Engineer'
+            'Allocated on the Oracle HCM Squad (IT Corp / HR division) at PicPay',
+            'Supporting Corporate HR initiatives through data analysis and reporting.',
+            'Acted as a bridge between technical and business teams, delivering insights that supported strategic HR and operational decisions.'    
         ]
     }, {
         company: 'HiveMind',
@@ -156,9 +151,9 @@ export const EXPERIENCES = [
         period: 'Jan 2025 • Dec 2025',
         current: false,
         description: [
-            'As a Machine Learning Engineer at the TimeLean app, i\'ve:',
+            'Led the Data Engineering Team and the Machine Learning Project - HiveMind Client Potential',
             'Developed, trained, and managed Machine Learning models mainly using Python',
-            'Managed SQL & NoSQL based databases on AWS, Firebase, Aiven and Docker',
+            'Managed SQL & NoSQL datasets on AWS',
             'Modeled PostgreSQL, MongoDB and Redis databases'
         ]
     }, {
@@ -173,19 +168,29 @@ export const EXPERIENCES = [
             'Managed SQL based databases on Aiven and Docker'
         ]
     }, {
+        company: 'Reddit Communities',
+        role: 'Hardware & IT Advisor • Self-employed',
+        period: '2022 - 2024',
+        current: false,
+        description: [
+            'Assisted 250+ individuals across multiple technical communities (including r/buildapc, r/pcmasterrace, r/computers, and others) in designing and building custom PCs',
+            'Provided hardware architecture recommendations, part selection optimization, and cross-platform troubleshooting (Windows, macOS, Linux).',
+            'Supported users across Brazil, the United States, and other regions',
+            'Contributed to the successful build of hundreds of systems',
+            'Helped individuals optimize budgets and avoid costly hardware mismatches'
+        ]
+    }, {
         company: 'Discord',
         role: 'Application Developer • Self-employed',
         period: '2018 - 2023',
         current: false,
         description: [
-            'Over the course of 5 years i\'ve built and maintained lots of Discord Applications, like:',
-            'Entertainment and Games like RPG and Life Simulator.',
-            'Moderation, Server Administration, Ticket and Survey Orchestration System.',
+            'Over 6 years i\'ve served tens to hundreds of discord communities with up to 10k+ members in various countries.',
+            'I built and maintained lots of Discord Applications within: ',
+            'Gaming Bots for entertainment like RPG and Life Simulator.',
+            'Moderation, Server Administration, Ticket and Survey Orchestration Systems.',
             'Music Bots, Webhooks, Rich Presence, Observability for APIs, Cloud Monitoring.',
             'Discord x Minecraft Chat Integration Plugin (Minescord).',
-            'I built bots and served comminites with over 200-2k+ members',
-            'For those Apps i mainly used: JavaScript, Node.JS (Discord.JS Framework), SQLite and Java.',
-            'They were hosted on Github Pages, Glitch.com (legacy) or on Discloud.'
         ]
     },
 ];
@@ -245,7 +250,7 @@ export const PROJECTS = [
         image: '/assets/projects/offmode.png',
         video: null,
         tags: ['Python', 'Desktop', 'Productivity'],
-        // link: 'https://kmads.dev/offmode'
+        link: 'https://kmads.dev/offmode'
     }, {
         title: 'Diabetes Indicator',
         description: 'A survey that can indicate the probability of you having diabetes or not.',
