@@ -1,0 +1,164 @@
+{
+    
+  "allProjects": [
+    {
+        "project": "Off Mode (2026)",
+        "website": "https://kmads.dev/offmode",
+        "source": null,
+        "stack": "Web: React, HTML/CSS, JS, Node.JS, Express.JS | Desktop: Python, Tkinter | Backend: FastAPI, PgSQL",
+        "cloud": "Github Pages [front] + Vercel [back, db]"
+    },{
+        "project": "Diabetes Indicator (2025)",
+        "website": "https://kmads.dev/diabetes-indicator",
+        "source": [
+            {"href": "https://source.kmads.dev/diabetes-indicator", "label": "Frontend"},
+            {"href": "https://source.kmads.dev/diabetes-indicator-api", "label": "Backend"}
+        ],
+        "stack": "HTML/CSS, JS, Python, FastAPI, Scikit, Pandas",
+        "cloud": "Github Pages [front] + Vercel [back]"
+    },{
+        "project": "HiveMind Client Potential (2025)",
+        "website": "https://kmads.dev/hivemind-client-potential",
+        "source": [
+            {"href": "https://source.kmads.dev/hivemind-client-potential", "label": "Frontend"},
+            {"href": "https://source.kmads.dev/hivemind-ml-api", "label": "Backend"},
+            {"href": "https://source.kmads.dev/hivemind-ml", "label": "Machine Learning"}
+        ],
+        "stack": "HTML/CSS, JS, Python, FastAPI, Scikit, Pandas",
+        "cloud": "Github Pages [front] + Vercel [back]"
+    },{
+        "project": "HiveMind (2025)",
+        "website": null,
+        "source": [ {"href": "https://github.com/HiveMind-Instituto-J-F", "label": "Source"} ],
+        "stack": "Python, Pandas, Scikit-learn, Java, Tomcat, JavaScript, HTML/CSS, PgSQL, MongoDB",
+        "cloud": null
+    },{
+        "project": "TrocaTine (2024)",
+        "website": "https://kmads.dev/trocatine",
+        "source": [ {"href": "https://github.com/TrocaTine", "label": "Source"} ],
+        "stack": "Java, Tomcat, Maven, HTML/CSS, JavaScript, PgSQL, MongoDB",
+        "cloud": null
+    },{
+        "project": "Expense Tracking App (2024)",
+        "website": null,
+        "source": [ {"href": "https://source.kmads.dev/expense-tracking-app", "label": "Source"} ],
+        "stack": "Python, Streamlit, Pandas, Plotly",
+        "cloud": null
+    },{
+        "project": "DK Shipping (2024)",
+        "website": "https://kmads.dev/dk-shipping/home",
+        "source": [ {"href": "https://source.kmads.dev/dk-shipping", "label": "Source"} ],
+        "stack": "HTML/CSS, JavaScript",
+        "cloud": "Github Pages [front]"
+    },{
+        "project": "Python Compiler (2024)",
+        "website": "https://kmads.dev/python-compiler",
+        "source": [ {"href": "https://source.kmads.dev/python-compiler", "label": "Source"} ],
+        "stack": "HTML/CSS, JavaScript",
+        "cloud": "Github Pages [full]"
+    },{
+        "project": "Custom Square (2024)",
+        "website": "https://kmads.dev/custom-square",
+        "source": [ {"href": "https://source.kmads.dev/custom-square", "label": "Source"} ],
+        "stack": "HTML/CSS, JavaScript",
+        "cloud": "Github Pages [full]"
+    },{
+        "project": "Calculator (2023)",
+        "website": "https://kmads.dev/calculator",
+        "source": [ {"href": "https://source.kmads.dev/calculator", "label": "Source"} ],
+        "stack": "HTML/CSS, JavaScript",
+        "cloud": "Github Pages [full]"
+    },{
+        "project": "Cards Design (2023)",
+        "website": "https://kmads.dev/cards-design",
+        "source": [ {"href": "https://source.kmads.dev/cards-design", "label": "Source"} ],
+        "stack": "HTML/CSS",
+        "cloud": "Github Pages [full]"
+    }
+  
+  ],
+
+  
+  
+  "otherProjects": [
+  
+    {
+        "project": "Portifolio website",
+        "website": "https://kmads.dev/",
+        "source": [ {"href": "https://source.kmads.dev/kmadsdev.github.io", "label": "source.kmads.dev/kmadsdev.github.io"} ],
+        "stack": "React, HTML/CSS, JavaScript",
+        "cloud": "Github Pages [full]"
+    }, {
+        "project": "DevOps Challenge",
+        "website": null,
+        "source": [ {"href": "https://source.kmads.dev/devops-challenge", "label": "source.kmads.dev/devops-challenge"} ],
+        "stack": "Python, JavaScript, GO, Node.JS, Docker",
+        "cloud": null
+    },{
+        "project": "Leetcode Algorithms",
+        "website": null,
+        "source": [ {"href": "https://source.kmads.dev/leetcode-algorithms", "label": "source.kmads.dev/leetcode-algorithms"} ],
+        "stack": "Python, SQL, JavaScript",
+        "cloud": null
+    },{
+        "project": "CS50x 2025 Class Material",
+        "website": null,
+        "source": [ {"href": "https://source.kmads.dev/cs50x", "label": "source.kmads.dev/cs50x"} ],
+        "stack": "C, Python, SQLite",
+        "cloud": null
+    },{
+        "project": "Finance Assistant Chatbot",
+        "website": null,
+        "source": null,
+        "stack": "Python, Langchain, PgSQL",
+        "cloud": null
+    }
+
+  ],
+
+
+  
+  "legacyProjects": [
+    {
+        "project": "Minescord Plugin (2020–2022)",
+        "description": "Plugin/Webhook, Minecraft + Discord Chat integration",
+        "stack": "JavaScript, Java",
+        "cloud": "Glitch.com, Discloud"
+    },{
+        "project": "Tickety (2021–2023)",
+        "description": "Ticket/support Discord bot (JavaScript)",
+        "stack": "JavaScript, SQLite",
+        "cloud": "Glitch.com, Discloud"
+    },{
+        "project": "Emoteload Bot (2021–2022)",
+        "description": "Custom emoji manager Discord bot",
+        "stack": "JavaScript",
+        "cloud": "Glitch.com, Discloud"
+    },{
+        "project": "Fireboyshop Bot (2019–2022)",
+        "description": "Checkout System Application for Discord (400+ members)",
+        "stack": "JavaScript, SQLite",
+        "cloud": "Glitch.com, Discloud"
+    },{
+        "project": "Fireboyserver MC (2019–2021)",
+        "description": "Minecraft Server",
+        "stack": "Java",
+        "cloud": "Glitch.com, Docker"
+    },{
+        "project": "Fireboybot/Firebot (2018–2021)",
+        "description": "All-in-one Discord bot (Games, RPG, Tickets, Server Moderation, Software Monitoring)",
+        "stack": "JavaScript, SQLite",
+        "cloud": "Glitch.com, Discloud"
+    },{
+        "project": "Check out all of them (and more)",
+        "description": "Links to legacy and restored projects",
+        "stack": null,
+        "cloud": null,
+        "extraLinks": [
+            {"href": "https://source.kmads.dev/glitch-legacy-projects", "label": "Legacy Projects"},
+            {"href": "https://source.kmads.dev/glitch-legacy-projects-restored2025", "label": "Restored Projects (2025)"}
+        ]
+    }
+
+  ]
+}

@@ -14,7 +14,7 @@ const ProjectsPage = () => {
   });
 
   useEffect(() => {
-    fetch('https://kmads.dev/kmadsdev/projects.json')
+    fetch('./projects.json')
       .then(response => response.json())
       .then(data => setProjects(data))
       .catch(error => console.error('Error loading projects:', error));
