@@ -9,6 +9,7 @@ import './styles/ProjectsPage.css';
 const ProjectsPage = () => {
   const [projects, setProjects] = useState({
     allProjects: [],
+    challenges: [],
     otherProjects: [],
     legacyProjects: [],
   });
@@ -28,7 +29,7 @@ const ProjectsPage = () => {
         {/* All Projects */}
         <section className="projects-section">
           <div className="projects-page-container">
-            <h2 className="section-title">🗂️ All Projects</h2>
+            <h2 className="section-title">All Projects</h2>
             <div className="projects-table-wrapper">
               <table className="projects-table">
                 <thead>
@@ -77,10 +78,66 @@ const ProjectsPage = () => {
           </div>
         </section>
 
+        {/* Challenges */}
+        <section className="projects-section">
+          <div className="projects-page-container">
+            <h2 className="section-title">Challenges</h2>
+            <div className="projects-table-wrapper">
+              <table className="projects-table">
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Description</th>
+                    <th>Source</th>
+                    <th>Stack</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projects.challenges.map((row, idx) => (
+                    <tr key={idx}>
+                      <td>{row.project}</td>
+                      <td>
+                        {row.extraLinks ? (
+                          <>
+                            <a href={row.extraLinks[0].href} target="_blank" rel="noopener noreferrer">
+                              {row.extraLinks[0].label}
+                            </a>{' '}
+                            |{' '}
+                            <a href={row.extraLinks[1].href} target="_blank" rel="noopener noreferrer">
+                              {row.extraLinks[1].label}
+                            </a>
+                          </>
+                        ) : (
+                          row.description
+                        )}
+                      </td>
+                      <td>
+                        {Array.isArray(row.source) && row.source.length > 0 ? (
+                          row.source.map((src, i) => (
+                            <span key={src.href}>
+                              <a href={src.href} target="_blank" rel="noopener noreferrer">
+                                {src.label}
+                              </a>
+                              {i < row.source.length - 1 && ' | '}
+                            </span>
+                          ))
+                        ) : (
+                          '—'
+                        )}
+                      </td>
+                      <td>{row.stack}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
         {/* Other Projects */}
         <section className="projects-section">
           <div className="projects-page-container">
-            <h2 className="section-title">📂 Other Projects</h2>
+            <h2 className="section-title">Other Projects</h2>
             <div className="projects-table-wrapper">
               <table className="projects-table">
                 <thead>
@@ -132,7 +189,7 @@ const ProjectsPage = () => {
         {/* Legacy Projects */}
         <section className="projects-section">
           <div className="projects-page-container">
-            <h2 className="section-title">📀 Legacy Projects</h2>
+            <h2 className="section-title">Legacy Projects</h2>
             <div className="projects-table-wrapper">
               <table className="projects-table">
                 <thead>

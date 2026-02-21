@@ -7,11 +7,11 @@ export const COLORS = {
 };
 
 export const SITE_CONFIG = {
-    name: 'kmadsdev',
+    name: 'Kmadsdev',
     title: 'Kaique Souza',
     description: 'Software Engineer • Open-Source Developer',
-    copyright: '© 2025 kmads.dev All rights reserved.',
-    // resumeUrl: 'https://kmads.dev/cv',
+    copyright: '© 2026 kmads.dev All rights reserved.',
+    resumeUrl: 'https://kmads.dev/cv',
 };
 
 export const HERO_CONTENT = {
@@ -49,11 +49,11 @@ export const CONTACT = {
 };
 
 export const NAV_LINKS = [
-    { label: 'Home', id: 'home' },
-    { label: 'About', id: 'about' },
+    { label: 'Home',       id: 'home' },
+    { label: 'About',      id: 'about' },
     { label: 'Experience', id: 'experience' },
-    { label: 'Skills', id: 'skills' },
-    { label: 'Projects', id: 'projects' },
+    { label: 'Skills',     id: 'skills' },
+    { label: 'Projects',   id: 'projects' },
 ];
 
 export const FOOTER_CONFIG = {
@@ -61,24 +61,24 @@ export const FOOTER_CONFIG = {
         {
             title: 'Navigation',
             links: [
-                { label: 'Home', href: '#home', isSection: true },
-                { label: 'About', href: '#about', isSection: true },
+                { label: 'Home',       href: '#home', isSection: true },
+                { label: 'About',      href: '#about', isSection: true },
                 { label: 'Experience', href: '#experience', isSection: true },
-                { label: 'Skills', href: '#skills', isSection: true },
-                { label: 'Projects', href: '#projects', isSection: true },
+                { label: 'Skills',     href: '#skills', isSection: true },
+                { label: 'Projects',   href: '#projects', isSection: true },
             ],
         }, {
             title: 'Connect',
             links: [
-                { label: 'GitHub', href: 'https://kmads.dev/github', external: true },
-                { label: 'LinkedIn', href: 'https://kmads.dev/linkedin', external: true },
-                { label: 'Email', href: 'mailto:contact@kmads.dev', external: true },
+                { label: 'GitHub',   href: CONTACT.github, external: true },
+                { label: 'LinkedIn', href: CONTACT.linkedin, external: true },
+                { label: 'Email',    href: CONTACT.email, external: true },
             ],
         }, {
             title: 'Resources',
             links: [
-                { label: 'My Projects', href: '/projects', external: false },
-                { label: 'Resume', href: 'https://kmads.dev/cv', external: true },
+                { label: 'My Projects',     href: '/projects', external: false },
+                { label: 'Resume',          href: SITE_CONFIG.resumeUrl, external: true },
                 { label: 'My Repositories', href: 'https://github.com/kmadsdev/?tab=repositories', external: true },
             ],
         },
@@ -98,27 +98,32 @@ export const TECH_SKILLS = [
     // languages
         { name: 'Python', icon: 'python.svg' },
         { name: 'JavaScript', icon: 'javascript.svg' },
+        { name: 'TypeScript', icon: 'typescript.svg' },
+        { name: 'Php', icon: 'php.svg' },
+        // { name: 'Java', icon: 'java.svg' },
         { name: 'C', icon: 'c.svg' },
+    // backend
+        { name: 'FastAPI', icon: 'fastapi.svg' },
+        { name: 'NodeJS', icon: 'nodejs.svg' },
+        { name: 'Hyperf', icon: 'hyperf.svg' },
+        { name: 'Laravel', icon: 'laravel.svg' },
+    // frontend
+        { name: 'React', icon: 'react.svg' },
+        { name: 'Vite', icon: 'vite.svg' },
     // database
         { name: 'PostgreSQL', icon: 'postgresql.svg' },
         { name: 'MySQL', icon: 'mysql.svg' },
-        { name: 'SQLite', icon: 'sqlite.svg' },
+        // { name: 'SQLite', icon: 'sqlite.svg' },
         { name: 'Redis', icon: 'redis.svg' },
     // cloud & devops
-        { name: 'Amazon Web Services', icon: 'aws.svg' },
-        { name: 'Google Cloud Platform', icon: 'gcp.svg' },
+        { name: 'AWS', icon: 'aws.svg' },
+        { name: 'GCP', icon: 'gcp.svg' },
         { name: 'Vercel', icon: 'vercel.svg' },
         { name: 'GitHub Actions', icon: 'githubactions.svg' },
         { name: 'Docker', icon: 'docker.svg' },
-    // frameworks & libraries
-        { name: 'Node.JS', icon: 'nodejs.svg' },
-        { name: 'React', icon: 'react.svg' },
-        { name: 'Hyperf', icon: 'hyperf.svg' },
-        { name: 'Laravel', icon: 'laravel.svg' },
     // data science & ml
-        { name: 'Pandas', icon: 'pandas.svg' },
-        { name: 'FastAPI', icon: 'fastapi.svg' },
-        { name: 'Scikit Learn', icon: 'scikit.svg' },
+        // { name: 'Pandas', icon: 'pandas.svg' },
+        // { name: 'Scikit Learn', icon: 'scikit.svg' },
 ];
 
 
@@ -126,7 +131,7 @@ export const TECH_SKILLS = [
 export const EXPERIENCES = [
     {
         company: 'PicPay',
-        role: 'Software Engineer • Internship',
+        role: 'Software Engineer • Full-time',
         period: 'Dec 2025 - Present',
         current: true,
         description: [
@@ -137,7 +142,7 @@ export const EXPERIENCES = [
         ]
     }, {
         company: 'PicPay',
-        role: 'Data Engineer • Internship',
+        role: 'Data Engineer • Part-time',
         period: 'Mar 2025 - Nov 2025',
         current: false,
         description: [
@@ -246,7 +251,7 @@ export const COURSEWORK = [
 export const PROJECTS = [
     {
         title: 'OffMode',
-        description: 'Offmode is an Pomodoro desktop application that helps you stay focused and productive by managing your work and break intervals.',
+        description: 'Offmode is a Pomodoro Timer App that helps you stay focused and productive by managing your work sessions and break intervals.',
         image: '/assets/projects/offmode.png',
         video: null,
         tags: ['Python', 'Desktop', 'Productivity'],

@@ -38,7 +38,7 @@ const Header = () => {
                     ))}
                 </nav>
 
-                <a href="https://kmads.dev/linkedin" className="hire-btn">Hire me</a>
+                <a href="https://kmads.dev/linkedin" className="hire-btn">Contact me</a>
             </div>
         </header>
     );

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { EXPERIENCES, EDUCATION, COURSEWORK } from '../constants';
+import { useDecoupledScroll } from '../hooks/useDecoupledScroll';
 import '../styles/Experience.css';
 
 const SectionDivider = ({ label, title, count }) => (
@@ -61,6 +62,11 @@ const CourseworkCard = ({ course, index }) => (
 );
 
 const Experience = () => {
+    const scrollRef1 = useRef(null);
+    const scrollRef2 = useRef(null);
+    useDecoupledScroll(scrollRef1);
+    useDecoupledScroll(scrollRef2);
+
     return (
         <section id="experience" className="experience-section">
             <div className="experience-container">
@@ -75,7 +81,7 @@ const Experience = () => {
 
                 {/* Row 1: Experience */}
                 <div className="experience-row">
-                    <div className="experience-scroll-wrapper">
+                    <div ref={scrollRef1} className="experience-scroll-wrapper">
                         <div className="experience-track">
                             <SectionDivider 
                                 label="Work"
@@ -91,7 +97,7 @@ const Experience = () => {
 
                 {/* Row 2: Education + Coursework */}
                 <div className="experience-row">
-                    <div className="experience-scroll-wrapper">
+                    <div ref={scrollRef2} className="experience-scroll-wrapper">
                         <div className="experience-track">
                             <SectionDivider 
                                 label="Academic"

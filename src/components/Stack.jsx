@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { TECH_SKILLS } from '../constants';
+import { useDecoupledScroll } from '../hooks/useDecoupledScroll';
 import '../styles/Stack.css';
 
 const SkillCard = ({ skill, index }) => (
@@ -15,6 +16,9 @@ const SkillCard = ({ skill, index }) => (
 );
 
 const Stack = () => {
+    const scrollRef = useRef(null);
+    useDecoupledScroll(scrollRef);
+
     return (
         <section id="skills" className="stack-section">
             <div className="stack-container">
@@ -27,7 +31,7 @@ const Stack = () => {
                     </div>
                 </div>
 
-                <div className="stack-scroll-wrapper">
+                <div ref={scrollRef} className="stack-scroll-wrapper">
                     <div className="stack-track">
                         {/* Skills Section Divider */}
                         <div className="section-divider skills-divider">

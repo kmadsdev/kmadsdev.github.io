@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { PROJECTS } from '../constants';
+import { useDecoupledScroll } from '../hooks/useDecoupledScroll';
 import '../styles/Projects.css';
 
 const ProjectCard = ({ project, index }) => {
@@ -98,6 +99,9 @@ const ProjectCard = ({ project, index }) => {
 };
 
 const Projects = () => {
+    const scrollRef = useRef(null);
+    useDecoupledScroll(scrollRef);
+
     return (
         <section id="projects" className="projects-section">
             <div className="projects-container">
@@ -105,12 +109,12 @@ const Projects = () => {
                     <div className="projects-title-wrapper">
                         <h2 className="section-title projects-main-title">Projects</h2>
                         <p className="projects-subtitle">
-                            A selection of my recent work and side projects
+                            My featured Projects & Applications
                         </p>
                     </div>
                 </div>
 
-                <div className="projects-scroll-wrapper">
+                <div ref={scrollRef} className="projects-scroll-wrapper">
                     <div className="projects-track">
                         {/* Projects Section Divider */}
                         <div className="section-divider projects-divider">
