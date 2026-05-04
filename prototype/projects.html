@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Every project Kaique Souza shipped since 2018." />
+<meta name="theme-color" content="#0e0e10" />
+<title>kmadsdev · projects</title>
+<link rel="icon" type="image/png" href="./assets/kmads_logo_zoomedout.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="./styles/prototype.css" />
+</head>
+<body>
+
+<a href="#top" class="skip-link">Skip to content</a>
+
+<!-- ========================= NAVBAR ========================= -->
+<header class="navbar" id="navbar">
+    <div class="navbar__inner">
+        <a href="./index.html" class="navbar__brand">
+            <span class="accent">{ </span>kmads<span class="accent">.</span>dev<span class="accent"> }</span>
+        </a>
+        <nav class="navbar__nav" aria-label="Primary">
+            <a href="./index.html#who" class="navbar__link">01 / Who</a>
+            <a href="./index.html#work" class="navbar__link">02 / Work</a>
+            <a href="./index.html#stack" class="navbar__link">03 / Stack</a>
+            <a href="./index.html#shipped" class="navbar__link">04 / Shipped</a>
+            <a href="./index.html#contact" class="navbar__link">05 / Contact</a>
+        </nav>
+        <a href="./index.html" class="navbar__cta">← Back home</a>
+    </div>
+</header>
+
+<!-- ========================= HEADER ========================= -->
+<section class="hero" id="top" style="padding-bottom: clamp(20px, 3vh, 40px);">
+    <div class="container">
+        <div class="hero__module">
+            <div class="hero__label">
+                <span class="accent">/proj</span>/ THE FULL INVENTORY
+            </div>
+            <div class="hero__grid" style="grid-template-columns: 1fr; min-height: clamp(200px, 30vh, 320px);">
+                <div class="hero__copy" style="border-right: 0; padding-block: clamp(40px, 6vw, 72px);">
+                    <span class="hero__eyebrow eyebrow">/projects</span>
+                    <h1 class="hero__title" style="font-size: clamp(40px, 6vw, 84px);">
+                        Every project<span class="accent">.</span><br />
+                        Since 2018<span class="accent">.</span>
+                    </h1>
+                    <p class="hero__subtitle" style="margin-bottom: 0;">
+                        Featured ones up top with media. Then the table — everything that has a link, a repo, or both.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= FEATURED CARDS ========================= -->
+<section class="section section--tight" id="featured">
+    <div class="container">
+        <div class="module">
+            <div class="module__label">
+                <span class="accent">A</span>/ FEATURED · WITH MEDIA
+            </div>
+
+            <h2 class="visually-hidden">Featured projects</h2>
+
+            <div class="shipped__grid" id="featured-grid">
+                <!-- populated by JS -->
+            </div>
+
+            <div class="module__footer"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= ALL PROJECTS TABLE ========================= -->
+<section class="section section--tight" id="all">
+    <div class="container">
+        <div class="module">
+            <div class="module__label">
+                <span class="accent">B</span>/ ALL PROJECTS
+            </div>
+            <div class="module__header">
+                <h2>The shipping list. <span class="accent">From 2018 to today.</span></h2>
+                <p>Click any link. Some go to live demos, some to source. Some to both.</p>
+            </div>
+            <div class="projects-page-table-wrap">
+                <table class="projects-page-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Live</th>
+                            <th>Source</th>
+                            <th>Stack</th>
+                            <th>Cloud / Host</th>
+                        </tr>
+                    </thead>
+                    <tbody id="all-projects-body">
+                        <!-- populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="module__footer"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= CHALLENGES ========================= -->
+<section class="section section--tight" id="challenges">
+    <div class="container">
+        <div class="module">
+            <div class="module__label">
+                <span class="accent">C</span>/ CHALLENGES
+            </div>
+            <div class="module__header">
+                <h2>Hiring challenges. <span class="accent">Take-home assignments.</span></h2>
+                <p>Tests I wrote when companies asked. Scope was bounded — quality wasn't.</p>
+            </div>
+            <div class="projects-page-table-wrap">
+                <table class="projects-page-table">
+                    <thead>
+                        <tr>
+                            <th>Challenge</th>
+                            <th>Description</th>
+                            <th>Source</th>
+                            <th>Stack</th>
+                        </tr>
+                    </thead>
+                    <tbody id="challenges-body">
+                        <!-- populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="module__footer"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= OTHER ========================= -->
+<section class="section section--tight" id="other">
+    <div class="container">
+        <div class="module">
+            <div class="module__label">
+                <span class="accent">D</span>/ OTHER
+            </div>
+            <div class="module__header">
+                <h2>Side projects. <span class="accent">Notebooks. Experiments.</span></h2>
+                <p>Things I made because I wanted to know how they worked.</p>
+            </div>
+            <div class="projects-page-table-wrap">
+                <table class="projects-page-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Live</th>
+                            <th>Source</th>
+                            <th>Stack</th>
+                            <th>Cloud / Host</th>
+                        </tr>
+                    </thead>
+                    <tbody id="other-body">
+                        <!-- populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="module__footer"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= LEGACY ========================= -->
+<section class="section section--tight" id="legacy">
+    <div class="container">
+        <div class="module">
+            <div class="module__label">
+                <span class="accent">E</span>/ LEGACY
+            </div>
+            <div class="module__header">
+                <h2>Where it started. <span class="accent">2018 — 2023.</span></h2>
+                <p>Discord bots, Minecraft plugins, the firstborns. Some still run; most are restored archives.</p>
+            </div>
+            <div class="projects-page-table-wrap">
+                <table class="projects-page-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Description</th>
+                            <th>Stack</th>
+                            <th>Cloud / Host</th>
+                        </tr>
+                    </thead>
+                    <tbody id="legacy-body">
+                        <!-- populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="module__footer"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= -1 / THE END (footer) ========================= -->
+<footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__label">
+            <span class="accent">-1</span>/ THE END
+        </div>
+        <div class="footer__grid">
+            <div class="footer__brand-col">
+                <div class="footer__brand-name"><span class="accent">{ </span>kmads<span class="accent">.</span>dev<span class="accent"> }</span></div>
+                <p class="footer__brand-tag">
+                    Software engineer. Open-source by default. 50+ projects since 2018, still no idea what I'm doing.
+                </p>
+                <div class="footer__socials">
+                    <a href="https://kmads.dev/github" target="_blank" rel="noopener" class="footer__social" aria-label="GitHub"><img src="./assets/social/github-icon-red.svg" alt="" /></a>
+                    <a href="https://kmads.dev/linkedin" target="_blank" rel="noopener" class="footer__social" aria-label="LinkedIn"><img src="./assets/social/linkedin-icon-red.svg" alt="" /></a>
+                    <a href="mailto:contact@kmads.dev" class="footer__social" aria-label="Email"><img src="./assets/social/email-icon-red.svg" alt="" /></a>
+                </div>
+            </div>
+            <div class="footer__col">
+                <h3 class="footer__col-title">Sections</h3>
+                <ul class="footer__list">
+                    <li><a href="#top" class="footer__link">Top</a></li>
+                    <li><a href="#featured" class="footer__link">A / Featured</a></li>
+                    <li><a href="#all" class="footer__link">B / All projects</a></li>
+                    <li><a href="#challenges" class="footer__link">C / Challenges</a></li>
+                    <li><a href="#other" class="footer__link">D / Other</a></li>
+                    <li><a href="#legacy" class="footer__link">E / Legacy</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h3 class="footer__col-title">Connect</h3>
+                <ul class="footer__list">
+                    <li><a href="https://kmads.dev/github" target="_blank" rel="noopener" class="footer__link">GitHub <span class="footer__link-ext">↗</span></a></li>
+                    <li><a href="https://kmads.dev/linkedin" target="_blank" rel="noopener" class="footer__link">LinkedIn <span class="footer__link-ext">↗</span></a></li>
+                    <li><a href="mailto:contact@kmads.dev" class="footer__link">Email</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h3 class="footer__col-title">More</h3>
+                <ul class="footer__list">
+                    <li><a href="./index.html" class="footer__link">← Home</a></li>
+                    <li><a href="https://kmads.dev/cv" target="_blank" rel="noopener" class="footer__link">Resume <span class="footer__link-ext">↗</span></a></li>
+                    <li><a href="https://github.com/kmadsdev?tab=repositories" target="_blank" rel="noopener" class="footer__link">Repositories <span class="footer__link-ext">↗</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <span>© 2026 · kmads.dev · all rights reserved</span>
+            <button class="footer__top" type="button" id="back-to-top">
+                <span>Back to top</span>
+                <span aria-hidden="true">↑</span>
+            </button>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Navbar scroll state
+    const nav = document.getElementById('navbar');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Back to top
+    document.getElementById('back-to-top').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ============== Data loading ==============
+    // Featured = projects flagged with `featured: true` in projects.json.
+    // Single source of truth shared with index.html.
+
+    function extractYear(title) {
+        const m = title.match(/\((\d{4})\)/);
+        return m ? m[1] : '';
+    }
+    function stripYear(title) {
+        return title.replace(/\s*\(\d{4}\)\s*$/, '').trim();
+    }
+
+    function renderFeatured(featured) {
+        const grid = document.getElementById('featured-grid');
+        if (!featured.length) {
+            grid.innerHTML = `<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--color-text-muted);font-family:var(--font-mono);font-size:13px;">No projects flagged <code>featured: true</code> in projects.json.</div>`;
+            return;
+        }
+        grid.innerHTML = featured.map(p => {
+            const title = stripYear(p.project);
+            const year = extractYear(p.project);
+            const tags = p.tags || [];
+            return `
+                <article class="project-card">
+                    <div class="project-card__media">
+                        ${p.image ? `<img src="${p.image}" alt="" class="project-card__img" loading="lazy" />` : ''}
+                        ${p.video ? `<video src="${p.video}" muted loop playsinline preload="metadata" class="project-card__video has-source"></video>` : ''}
+                        ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener" class="project-card__overlay" aria-label="Open ${title}"><img src="./assets/ui/arrow-external.svg" alt="" /></a>` : ''}
+                    </div>
+                    <div class="project-card__body">
+                        <div class="project-card__tags">
+                            ${year ? `<span class="tag tag--accent">${year}</span>` : ''}
+                            ${tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                        </div>
+                        <h3 class="project-card__title">${title}</h3>
+                        <p class="project-card__desc">${p.featuredDesc || ''}</p>
+                    </div>
+                </article>
+            `;
+        }).join('');
+
+        // hook hover-play for any video
+        grid.querySelectorAll('.project-card').forEach(card => {
+            const video = card.querySelector('video');
+            if (!video) return;
+            card.addEventListener('mouseenter', () => video.play().catch(() => {}));
+            card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+        });
+    }
+
+    // Render the table rows, fed from projects.json
+    function renderSourceLinks(source) {
+        if (!Array.isArray(source) || source.length === 0) return '—';
+        return source.map(s =>
+            `<a href="${s.href}" target="_blank" rel="noopener">${s.label}</a>`
+        ).join(' · ');
+    }
+    function renderExtraLinks(extraLinks) {
+        if (!Array.isArray(extraLinks) || extraLinks.length === 0) return '';
+        return extraLinks.map(l =>
+            `<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`
+        ).join(' · ');
+    }
+
+    function renderAll(rows) {
+        const tbody = document.getElementById('all-projects-body');
+        tbody.innerHTML = rows.map(r => `
+            <tr>
+                <td>${r.project}</td>
+                <td>${r.website ? `<a href="${r.website}" target="_blank" rel="noopener">${r.website.replace(/^https?:\/\//, '')}</a>` : '—'}</td>
+                <td>${renderSourceLinks(r.source)}</td>
+                <td>${r.stack || '—'}</td>
+                <td>${r.cloud ?? '—'}</td>
+            </tr>
+        `).join('');
+    }
+
+    function renderChallenges(rows) {
+        const tbody = document.getElementById('challenges-body');
+        tbody.innerHTML = rows.map(r => `
+            <tr>
+                <td>${r.project}</td>
+                <td>${r.extraLinks ? renderExtraLinks(r.extraLinks) : (r.description || '—')}</td>
+                <td>${renderSourceLinks(r.source)}</td>
+                <td>${r.stack || '—'}</td>
+            </tr>
+        `).join('');
+    }
+
+    function renderOther(rows) {
+        const tbody = document.getElementById('other-body');
+        tbody.innerHTML = rows.map(r => `
+            <tr>
+                <td>${r.project}</td>
+                <td>${r.website ? `<a href="${r.website}" target="_blank" rel="noopener">${r.website.replace(/^https?:\/\//, '')}</a>` : '—'}</td>
+                <td>${renderSourceLinks(r.source)}</td>
+                <td>${r.stack || '—'}</td>
+                <td>${r.cloud ?? '—'}</td>
+            </tr>
+        `).join('');
+    }
+
+    function renderLegacy(rows) {
+        const tbody = document.getElementById('legacy-body');
+        tbody.innerHTML = rows.map(r => `
+            <tr>
+                <td>${r.project}</td>
+                <td>${r.extraLinks ? renderExtraLinks(r.extraLinks) : (r.description || '—')}</td>
+                <td>${r.stack || '—'}</td>
+                <td>${r.cloud ?? '—'}</td>
+            </tr>
+        `).join('');
+    }
+
+    // Boot
+    fetch('./projects.json')
+        .then(r => r.json())
+        .then(data => {
+            const all = data.allProjects || [];
+            const featured = all.filter(p => p.featured);
+            renderFeatured(featured);
+            renderAll(all);
+            renderChallenges(data.challenges || []);
+            renderOther(data.otherProjects || []);
+            renderLegacy(data.legacyProjects || []);
+        })
+        .catch(err => {
+            console.error('projects.json failed to load:', err);
+            const msg = '<tr><td colspan="5" style="text-align:center;color:var(--color-text-muted);padding:24px;">Could not load projects.json — open this page from a static server (python3 -m http.server 5500), the file:// scheme blocks fetch().</td></tr>';
+            document.getElementById('all-projects-body').innerHTML = msg;
+            document.getElementById('challenges-body').innerHTML = msg.replace('colspan="5"', 'colspan="4"');
+            document.getElementById('other-body').innerHTML = msg;
+            document.getElementById('legacy-body').innerHTML = msg.replace('colspan="5"', 'colspan="4"');
+            document.getElementById('featured-grid').innerHTML = `<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--color-text-muted);font-family:var(--font-mono);font-size:13px;">Could not load projects.json. Open this page from a static server.</div>`;
+        });
+</script>
+
+</body>
+</html>
