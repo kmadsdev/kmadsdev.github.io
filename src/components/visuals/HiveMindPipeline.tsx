@@ -48,7 +48,7 @@ export default function HiveMindPipeline() {
       <text x="208" y="132" style={sub}>PULL ON BOOT</text>
 
       <rect x="284" y="160" width="148" height="30" rx="15" fill="none" stroke="var(--c-energy-lo)" strokeWidth="1" />
-      <text x="358" y="179" textAnchor="middle" style={energy}>~99.999% COST ↓</text>
+      <text x="358" y="179" textAnchor="middle" style={energy}>~99.99% COST ↓</text>
 
       <text x="220" y="236" textAnchor="middle" style={sub}>SCIKIT-LEARN · LOGISTIC REGRESSION / RANDOM FOREST</text>
     </svg>

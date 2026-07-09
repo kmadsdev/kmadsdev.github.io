@@ -1,22 +1,25 @@
 import type { SceneProps } from '@/types';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { TIMELINE_STEPS } from '@/constants/timeline';
+import { useLang } from '@/context/LanguageContext';
+import { TIMELINE_STEPS, TIMELINE_HEAD } from '@/constants/timeline';
 import Eyebrow from '@/components/primitives/Eyebrow';
 import Pill from '@/components/primitives/Pill';
 
 /* easol progress rail — 8 chapters, ONE per gesture (builds = 8); the rail
    fills as each chapter lands. Amber tag = PicPay SWE row only. */
 export default function Timeline({ buildIndex }: SceneProps) {
+  const { lang } = useLang();
+  const head = TIMELINE_HEAD[lang];
   const reveal = useScrollReveal<HTMLDivElement>({ targets: '.timeline__step', stagger: 90 });
 
   return (
     <div className="scene timeline-scene" ref={reveal} data-reveal>
       <header className="scene__head" data-deck-layer="slow">
-        <Eyebrow>TIMELINE — 2018 → NOW</Eyebrow>
-        <h2 className="t-h1">Eight years, eight chapters.</h2>
+        <Eyebrow>{head.eyebrow}</Eyebrow>
+        <h2 className="t-h1">{head.title}</h2>
       </header>
       <div className="timeline" data-deck-layer="fast">
-        {TIMELINE_STEPS.map((step, i) => {
+        {TIMELINE_STEPS[lang].map((step, i) => {
           const revealed = buildIndex >= i;
           return (
             <div

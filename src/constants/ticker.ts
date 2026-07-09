@@ -13,8 +13,9 @@ export interface TickerEntry {
   muted?: boolean;
 }
 
-/** Row 1 — Recruiter lead (fact phrases) */
-export const ROW1_RECRUITER: TickerEntry[] = [
+/** Row 1 — fact phrases. Ticker stays ENGLISH in both languages (user
+    ruling, 2026-07-09: display-type marquee is brand texture). */
+export const ROW1: TickerEntry[] = [
   { kind: 'phrase', text: '97.9% ML ACCURACY' },
   { kind: 'media', mini: 'hivemind', alt: 'HiveMind survey-to-model pipeline' },
   { kind: 'phrase', text: '3-TIER PRODUCTION ARCHITECTURE' },
@@ -22,19 +23,11 @@ export const ROW1_RECRUITER: TickerEntry[] = [
   { kind: 'phrase', text: 'CO-FOUNDED 2 STARTUPS' },
   { kind: 'phrase', text: '8 YEARS SHIPPING SOFTWARE' },
   { kind: 'media', src: '/mockups/ticker-notes.jpg', alt: 'Notes Monaco editor, live' },
-  { kind: 'phrase', text: '~99.999% AWS S3 COST REDUCTION' },
-];
-
-/** Row 1 — Builder swaps the lead phrases */
-export const ROW1_BUILDER: TickerEntry[] = [
+  { kind: 'phrase', text: '~99.99% AWS S3 COST REDUCTION' },
+  /* craft phrases folded in — one row, no recruiter/builder split */
   { kind: 'phrase', text: 'DOOM IN A URL' },
   { kind: 'media', src: '/mockups/ticker-doom.jpg', alt: 'DOOM decompressing in the browser' },
-  { kind: 'phrase', text: 'HAND-ROLLED RFC 1951/1952 INFLATE' },
-  { kind: 'media', mini: 'doom', alt: 'DOOM compression pipeline' },
-  { kind: 'phrase', text: 'MONACO BROWSER EDITOR' },
-  { kind: 'media', src: '/mockups/ticker-notes.jpg', alt: 'Notes Monaco editor, live' },
   { kind: 'phrase', text: 'AUTO-REVERT CI/CD GUARD' },
-  { kind: 'phrase', text: '97.9% ML ACCURACY' },
 ];
 
 /** Row 2 — ranked stack strip (CV order), muted register, screen crops between groups */

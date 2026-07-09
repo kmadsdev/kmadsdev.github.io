@@ -1,4 +1,5 @@
 import type { SceneProps } from '@/types';
+import { useLang } from '@/context/LanguageContext';
 import { FLAGSHIPS } from '@/constants/flagships';
 import FlagshipSection from '@/components/FlagshipSection';
 import HiveMindPipeline from '@/components/visuals/HiveMindPipeline';
@@ -6,9 +7,10 @@ import HiveMindSurvey from '@/components/visuals/HiveMindSurvey';
 import IPad from '@/components/mockups/IPad';
 
 export default function HiveMind({ buildIndex, active }: SceneProps) {
+  const { lang } = useLang();
   return (
     <FlagshipSection
-      content={FLAGSHIPS.hivemind}
+      content={FLAGSHIPS[lang].hivemind}
       buildIndex={buildIndex}
       variant="flagship--hivemind"
       visual={

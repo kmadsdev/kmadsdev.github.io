@@ -1,4 +1,5 @@
 import type { SceneProps } from '@/types';
+import { useLang } from '@/context/LanguageContext';
 import { FLAGSHIPS } from '@/constants/flagships';
 import FlagshipSection from '@/components/FlagshipSection';
 import AgenticPipeline from '@/components/visuals/AgenticPipeline';
@@ -7,9 +8,10 @@ import BrowserChrome from '@/components/mockups/BrowserChrome';
 /* THE flagship — rendered in the project's own dark-green identity
    (scene bg #070908 set in App.tsx; greens live in AgenticPipeline + CSS). */
 export default function Agentic({ buildIndex }: SceneProps) {
+  const { lang } = useLang();
   return (
     <FlagshipSection
-      content={FLAGSHIPS.agentic}
+      content={FLAGSHIPS[lang].agentic}
       buildIndex={buildIndex}
       variant="flagship--agentic"
       visual={

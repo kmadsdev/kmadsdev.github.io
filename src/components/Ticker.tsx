@@ -1,8 +1,7 @@
 import { useRef } from 'react';
 import type { SceneProps } from '@/types';
-import { useMode } from '@/context/ModeContext';
 import { useTickerDrive } from '@/hooks/useTickerDrive';
-import { ROW1_RECRUITER, ROW1_BUILDER, ROW2_STACK } from '@/constants/ticker';
+import { ROW1, ROW2_STACK } from '@/constants/ticker';
 import type { TickerEntry } from '@/constants/ticker';
 
 /* Wrap digit-bearing tokens in .ticker__num (energy numerals — easol rule) */
@@ -86,12 +85,9 @@ function Entry({ entry }: { entry: TickerEntry }) {
 const SET_COPIES = 4; // ultrawide coverage (plan §2.5.4); wrap math uses one-set width
 
 export default function Ticker(_props: SceneProps) {
-  const { mode } = useMode();
   const row1 = useRef<HTMLDivElement>(null);
   const row2 = useRef<HTMLDivElement>(null);
   useTickerDrive(row1, row2);
-
-  const row1Entries = mode === 'builder' ? ROW1_BUILDER : ROW1_RECRUITER;
 
   const renderTrack = (entries: TickerEntry[], ref: React.RefObject<HTMLDivElement>) => (
     <div className="ticker__track motion-ticker" ref={ref}>
@@ -108,7 +104,7 @@ export default function Ticker(_props: SceneProps) {
   return (
     <div className="scene scene--ticker">
       <div className="ticker ticker--display" id="ticker-band">
-        <div className="ticker__row">{renderTrack(row1Entries, row1)}</div>
+        <div className="ticker__row">{renderTrack(ROW1, row1)}</div>
         <div className="ticker__row ticker__row--reverse">{renderTrack(ROW2_STACK, row2)}</div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import type { SceneProps } from '@/types';
+import { useLang } from '@/context/LanguageContext';
 import { FLAGSHIPS } from '@/constants/flagships';
 import FlagshipSection from '@/components/FlagshipSection';
 import ThreeTierDiagram from '@/components/visuals/ThreeTierDiagram';
@@ -6,9 +7,10 @@ import IPhone from '@/components/mockups/IPhone';
 import MacBook from '@/components/mockups/MacBook';
 
 export default function OffMode({ buildIndex, active }: SceneProps) {
+  const { lang } = useLang();
   return (
     <FlagshipSection
-      content={FLAGSHIPS.offmode}
+      content={FLAGSHIPS[lang].offmode}
       buildIndex={buildIndex}
       variant="flagship--offmode"
       visual={

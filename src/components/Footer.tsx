@@ -1,21 +1,14 @@
 import type { MouseEvent } from 'react';
 import { useDeck } from '@/deck/DeckContext';
-import { IDENTITY } from '@/constants/identity';
-import { CONTACT_LINKS } from '@/constants/contact';
+import { useLang } from '@/context/LanguageContext';
+import { IDENTITY, NAV_LINKS } from '@/constants/identity';
+import { CONTACT_LINKS, FOOTER_STRINGS } from '@/constants/contact';
 import Eyebrow from '@/components/primitives/Eyebrow';
 import Button from '@/components/primitives/Button';
 import Globe from '@/components/primitives/Globe';
 
 /* easol-structure footer (brand · globe+tagline · link columns · legal row)
    + the contact CTA. Lives OUTSIDE the deck — native scroll, never hijacked. */
-
-const SITE_LINKS = [
-  { label: 'ABOUT', target: 'about' },
-  { label: 'TIMELINE', target: 'timeline' },
-  { label: 'PROJECTS', target: 'flagship-agentic' },
-  { label: 'GALLERY', target: 'projects-gallery' },
-  { label: 'SKILLS', target: 'skills' },
-];
 
 const PROJECT_LINKS = [
   { label: 'AGENTIC', href: 'https://kmads.dev/agentic' },
@@ -34,6 +27,9 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   const { renderMode, goToScene } = useDeck();
+  const { lang } = useLang();
+  const strings = FOOTER_STRINGS[lang];
+  const siteLinks = NAV_LINKS[lang].filter((l) => l.target !== 'contact');
 
   const onSiteLink = (e: MouseEvent, target: string) => {
     if (renderMode === 'deck') {
@@ -45,10 +41,10 @@ export default function Footer() {
   return (
     <footer className="footer" id="contact">
       <div className="footer__cta">
-        <Eyebrow>CONTACT</Eyebrow>
-        <h2 className="t-h1">Building something? Talk to me.</h2>
+        <Eyebrow>{strings.ctaEyebrow}</Eyebrow>
+        <h2 className="t-h1">{strings.ctaTitle}</h2>
         <div className="footer__cta-row">
-          {CONTACT_LINKS.filter((l) => l.variant !== 'link').map((link) => (
+          {CONTACT_LINKS.map((link) => (
             <Button
               key={link.label}
               variant={link.variant}
@@ -78,10 +74,10 @@ export default function Footer() {
         </div>
         <div className="footer__cols">
           <ul className="footer__col">
-            {SITE_LINKS.map((link) => (
-              <li key={link.label}>
+            {siteLinks.map((link) => (
+              <li key={link.target}>
                 <a href={`#${link.target}`} onClick={(e) => onSiteLink(e, link.target)}>
-                  {link.label}
+                  {link.label.toUpperCase()}
                 </a>
               </li>
             ))}
@@ -109,7 +105,7 @@ export default function Footer() {
 
       <div className="footer__legal">
         <span>KMADS.DEV © 2026</span>
-        <span>SOFTWARE ENGINEER · BRAZIL · REMOTE</span>
+        <span>{strings.legalRole}</span>
         <span>REACT + VITE · GITHUB PAGES</span>
       </div>
     </footer>

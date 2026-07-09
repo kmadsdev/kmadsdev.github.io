@@ -1,21 +1,24 @@
 import type { SceneProps } from '@/types';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { SKILL_GROUPS } from '@/constants/skills';
+import { useLang } from '@/context/LanguageContext';
+import { SKILL_GROUPS, SKILLS_HEAD } from '@/constants/skills';
 import Eyebrow from '@/components/primitives/Eyebrow';
 
 /* Builds: 0 = grid enters · 1 = bars fill (ordinal scale — no numerals shown) */
 export default function Skills({ buildIndex }: SceneProps) {
+  const { lang } = useLang();
+  const head = SKILLS_HEAD[lang];
   const reveal = useScrollReveal<HTMLDivElement>({ targets: '.skills-group', stagger: 80 });
   const filled = buildIndex >= 1;
 
   return (
     <div className="scene skills-scene" ref={reveal} data-reveal>
       <header className="scene__head" data-deck-layer="slow">
-        <Eyebrow>STACK</Eyebrow>
-        <h2 className="t-h1">Tools I use to ship</h2>
+        <Eyebrow>{head.eyebrow}</Eyebrow>
+        <h2 className="t-h1">{head.title}</h2>
       </header>
       <div className="skills-groups" data-deck-layer="fast">
-        {SKILL_GROUPS.map((group) => (
+        {SKILL_GROUPS[lang].map((group) => (
           <section key={group.group} className="skills-group">
             <Eyebrow>{group.group}</Eyebrow>
             <div className="skills grid-hoverable">

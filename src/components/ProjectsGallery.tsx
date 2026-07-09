@@ -1,6 +1,7 @@
 import type { SceneProps, GalleryCard } from '@/types';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { GALLERY_SECONDARY, GALLERY_ARCHIVE } from '@/constants/gallery';
+import { useLang } from '@/context/LanguageContext';
+import { GALLERY_SECONDARY, GALLERY_ARCHIVE, GALLERY_HEAD } from '@/constants/gallery';
 import Eyebrow from '@/components/primitives/Eyebrow';
 import Pill from '@/components/primitives/Pill';
 import GridRails from '@/components/primitives/GridRails';
@@ -49,17 +50,19 @@ function ArchiveCard({ card }: { card: GalleryCard }) {
 
 /* Builds: 0 = secondary (live/blue) · 1 = archive strip */
 export default function ProjectsGallery({ buildIndex }: SceneProps) {
+  const { lang } = useLang();
+  const head = GALLERY_HEAD[lang];
   const reveal = useScrollReveal<HTMLDivElement>({ targets: '.gallery-secondary, .gallery-archive', stagger: 60 });
 
   return (
     <div className="scene gallery-scene" ref={reveal} data-reveal>
       <GridRails columns={3} />
       <header className="scene__head" data-deck-layer="slow">
-        <Eyebrow>EVERYTHING ELSE — STILL REAL</Eyebrow>
-        <h2 className="t-h1">More shipped work.</h2>
+        <Eyebrow>{head.eyebrow}</Eyebrow>
+        <h2 className="t-h1">{head.title}</h2>
       </header>
       <div className={`gallery-grid grid-hoverable build ${buildIndex >= 0 ? 'is-on' : ''}`} data-deck-layer="fast">
-        {GALLERY_SECONDARY.map((card) => (
+        {GALLERY_SECONDARY[lang].map((card) => (
           <SecondaryCard key={card.title} card={card} />
         ))}
       </div>
@@ -67,7 +70,7 @@ export default function ProjectsGallery({ buildIndex }: SceneProps) {
         className={`gallery-grid gallery-grid--archive grid-hoverable build ${buildIndex >= 1 ? 'is-on' : ''}`}
         data-deck-layer="fast"
       >
-        {GALLERY_ARCHIVE.map((card) => (
+        {GALLERY_ARCHIVE[lang].map((card) => (
           <ArchiveCard key={card.title} card={card} />
         ))}
       </div>

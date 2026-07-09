@@ -1,8 +1,9 @@
-import type { FlagshipId, Mode, Stat } from '@/types';
+import type { FlagshipId, Lang, Localized, Stat } from '@/types';
 
 /* User-revised flagship content (2026-07-09). Shipped/live voice throughout.
-   Agentic placeholder numbers are user-sanctioned ("invent numbers, I'll fill
-   with the real ones later") — marked PLACEHOLDER below. */
+   Flagship EYEBROWS stay English in both languages (user ruling); prose,
+   stat labels and sources localize. Agentic placeholder numbers are
+   user-sanctioned — marked PLACEHOLDER below. */
 
 export interface FlagshipContent {
   id: FlagshipId;
@@ -17,7 +18,7 @@ export interface FlagshipContent {
   layout: 'left' | 'right' | 'flood';
 }
 
-export const FLAGSHIPS: Record<FlagshipId, FlagshipContent> = {
+const EN: Record<FlagshipId, FlagshipContent> = {
   agentic: {
     id: 'agentic',
     anchor: 'flagship-agentic',
@@ -147,9 +148,99 @@ export const FLAGSHIPS: Record<FlagshipId, FlagshipContent> = {
   },
 };
 
-/* Display order is fixed (user, 2026-07-09); the Recruiter/Builder toggle now
-   only swaps ticker lead + hero tagline. Nothing hidden in either mode. */
-export const FLAGSHIP_ORDER: Record<Mode, FlagshipId[]> = {
-  recruiter: ['agentic', 'offmode', 'hivemind', 'diabetes', 'doom', 'notes'],
-  builder: ['agentic', 'offmode', 'hivemind', 'diabetes', 'doom', 'notes'],
+/* PT-BR: prose, stat labels/sources and link CTAs translate; eyebrows, tech
+   tags, project names and values stay. */
+const PT: Record<FlagshipId, FlagshipContent> = {
+  agentic: {
+    ...EN.agentic,
+    paragraphs: ['O pipeline é o produto. Um template agêntico all-in-one:'],
+    bullets: [
+      '16+ MCPs · 50+ skills selecionadas',
+      'Constraints e instruções customizadas para prevenir alucinação e garantir recuperação de memória/contexto',
+      'Regras de FinOps para devs com orçamento apertado',
+      'Orquestração multiagente',
+      'Gates de typecheck + testes; workflow guardião com auto-revert em smoke test falho',
+      'Issues de incidente abertas automaticamente e secret scanning',
+      'Funciona com Claude Code, Codex, OpenCode, Copilot, OpenClaw, Hermes — ou qualquer agente markdown, incluindo Qwen / Llama / DeepSeek locais',
+    ],
+    stats: [
+      { value: '16+', label: 'SERVIDORES MCP INTEGRADOS', source: 'registro do template — agentic-template' },
+      { value: '50+', label: 'SKILLS CURADAS', source: 'biblioteca de skills — agentic-template' },
+      { value: '31%', label: 'DE CONTEXTO ECONOMIZADO', source: 'dry-run preview — benchmark da landing', win: true },
+    ],
+    links: [
+      { label: 'KMADS.DEV/AGENTIC', href: 'https://kmads.dev/agentic', external: true },
+      { label: 'USE ESTE TEMPLATE', href: 'https://github.com/kmadsdev/agentic-template', external: true },
+    ],
+  },
+  offmode: {
+    ...EN.offmode,
+    paragraphs: [
+      'App de produtividade Pomodoro em uma arquitetura de produção 3-tier completa: frontend React conversa com um gateway Express na frente de um backend FastAPI + PostgreSQL (Supabase).',
+      'Email/senha + Google OAuth, backup na nuvem a cada 15 minutos, streaks e acompanhamento de sessões de foco — deploy em Vercel serverless com sessões JWT.',
+    ],
+    stats: [
+      { value: '3', label: 'CAMADAS EM PRODUÇÃO', source: 'React → gateway Express → FastAPI/PostgreSQL' },
+      { value: '15 MIN', label: 'CICLO DE BACKUP NA NUVEM', source: 'intervalo de autosave — backend do offmode' },
+    ],
+  },
+  hivemind: {
+    ...EN.hivemind,
+    paragraphs: [
+      'Um questionário de 10 perguntas que prevê se uma empresa vira lead qualificado para a nossa startup — modelos de Regressão Logística / Random Forest treinados, avaliados e em produção com 97.9% de acurácia.',
+      'Na última otimização, o modelo preditivo não só caiu de 756MB (RFC) para impressionantes 1.2 kilobytes (LR) — a acurácia ainda subiu 0.22%.',
+    ],
+    stats: [
+      { value: '97.9%', label: 'ACURÁCIA DO MODELO', source: 'benchmark do modelo — HiveMind (CV/LinkedIn)', win: true },
+      { value: '~99.99%', label: 'REDUÇÃO DE CUSTO AWS S3', source: 'otimização do footprint do modelo', win: true },
+    ],
+  },
+  diabetes: {
+    ...EN.diabetes,
+    paragraphs: [
+      'Um questionário de saúde com 17 perguntas avaliado por um modelo scikit-learn (dataset público do Kaggle) — retorna um veredito de risco de ter ou não diabetes (com % de confiança), além de cálculo de IMC, em uma UI dark e mobile-first.',
+      'Apresentado no CS50x 2025 (Projeto Final).',
+    ],
+    stats: [
+      { value: '17', label: 'PERGUNTAS NO QUESTIONÁRIO', source: 'frontend — diabetes-indicator' },
+      { value: 'V1.1.0', label: 'RELEASE PUBLICADA', source: 'changelog — diabetes-indicator-backend', animate: false },
+    ],
+  },
+  doom: {
+    ...EN.doom,
+    paragraphs: [
+      'DOOM (1993) compilado para WASM — linuxdoom-1.10 via Clang → wasm32 — depois empacotado com gzip + base64 em um HTML data:URI autoextraível. Zero hospedagem, zero arquivos, zero cookies.',
+      'O inflate é RFC 1951/1952 escrito à mão em JavaScript. Um raycaster MicroDOOM feito do zero pesa ~44KB (menor que um favicon).',
+    ],
+    stats: [
+      {
+        value: '-51%',
+        label: 'TAMANHO WASM COMPRIMIDO',
+        source: '7MB → 4.4MB — descompressão em tempo real com gzip',
+        win: true,
+      },
+      { value: '44KB', label: 'TAMANHO DO MICRODOOM', source: 'escrito à mão — menor que um favicon' },
+    ],
+  },
+  notes: {
+    ...EN.notes,
+    paragraphs: [
+      'Um editor web inspirado no VSCode que vive em um único arquivo HTML — usa o engine Monaco e a File System Access API para salvar direto no disco.',
+      'Se você gosta do visual de codeblock do VSCode e não quer abrir uma IDE inteira só pra anotar algo rápido, esta aplicação é perfeita pra você.',
+      'Também faz preview de arquivos Markdown, YAML, JSON, Swagger e PlantUML.',
+    ],
+    stats: [
+      { value: '1', label: 'ARQUIVO, MENOS DE 60KB', source: 'Zero instalação, funciona offline' },
+      { value: '5', label: 'FORMATOS DE PREVIEW NATIVOS', source: 'Markdown · JSON · YAML · Swagger · PlantUML' },
+    ],
+  },
 };
+
+export const FLAGSHIPS: Localized<Record<FlagshipId, FlagshipContent>> = { en: EN, pt: PT };
+
+/* Single display order (Recruiter/Builder split removed, user 2026-07-09). */
+export const FLAGSHIP_ORDER: FlagshipId[] = ['agentic', 'offmode', 'hivemind', 'diabetes', 'doom', 'notes'];
+
+export function flagshipAnchor(id: FlagshipId): string {
+  return EN[id].anchor;
+}

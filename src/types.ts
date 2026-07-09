@@ -1,6 +1,9 @@
 import type { ComponentType } from 'react';
 
-export type Mode = 'recruiter' | 'builder';
+export type Lang = 'en' | 'pt';
+
+/** per-language variants of a translatable structure */
+export type Localized<T> = Record<Lang, T>;
 
 export type IconName =
   | 'arrow-up-right'

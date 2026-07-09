@@ -1,3 +1,5 @@
+import type { Localized } from '@/types';
+
 /* Verified: opus-HANDOFF §6 Identity + linkedin-profile.md */
 export const IDENTITY = {
   name: 'Kaique Souza',
@@ -10,29 +12,50 @@ export const IDENTITY = {
   site: 'https://kmads.dev',
 } as const;
 
-export const HERO = {
-  /* staggered-indent display lines (niklas pattern) */
-  nameLines: ['KAIQUE', '"KMADS"', 'SOUZA'],
-  recruiter: {
+interface HeroContent {
+  eyebrow: string;
+  tagline: string;
+  scrollCue: string;
+}
+
+export const HERO_NAME_LINES = ['KAIQUE', '"KMADS"', 'SOUZA'];
+
+/* Job title stays English in both languages (user ruling, 2026-07-09). */
+export const HERO: Localized<HeroContent> = {
+  en: {
     eyebrow: 'SOFTWARE ENGINEER · BRAZIL · REMOTE',
-    /* build 2 assembles word-by-word */
     tagline:
       'Software Engineer — distributed systems, SaaS and backend/cloud/AI. 8 years shipping software, from Discord bots to production ML.',
+    scrollCue: 'SCROLL',
   },
-  builder: {
-    eyebrow: 'AI ENGINEERING · AGENTIC WORKFLOWS',
+  pt: {
+    eyebrow: 'SOFTWARE ENGINEER · BRASIL · REMOTO',
     tagline:
-      'Ships SaaS, ML and agentic systems — and once fit DOOM into a URL.',
+      'Software Engineer — sistemas distribuídos, SaaS e backend/cloud/IA. 8 anos entregando software, de bots de Discord a ML em produção.',
+    scrollCue: 'SCROLL',
   },
-  scrollCue: 'SCROLL',
-} as const;
+};
 
-export const NAV_LINKS = [
-  { label: 'About', target: 'about' },
-  { label: 'Timeline', target: 'timeline' },
-  /* 'projects' resolves to the first flagship of the active mode (Nav.tsx) */
-  { label: 'Projects', target: 'projects' },
-  { label: 'Gallery', target: 'projects-gallery' },
-  { label: 'Skills', target: 'skills' },
-  { label: 'Contact', target: 'contact' },
-] as const;
+interface NavLink {
+  label: string;
+  target: string;
+}
+
+export const NAV_LINKS: Localized<NavLink[]> = {
+  en: [
+    { label: 'About', target: 'about' },
+    { label: 'Timeline', target: 'timeline' },
+    { label: 'Projects', target: 'flagship-agentic' },
+    { label: 'Gallery', target: 'projects-gallery' },
+    { label: 'Skills', target: 'skills' },
+    { label: 'Contact', target: 'contact' },
+  ],
+  pt: [
+    { label: 'Sobre', target: 'about' },
+    { label: 'Trajetória', target: 'timeline' },
+    { label: 'Projetos', target: 'flagship-agentic' },
+    { label: 'Galeria', target: 'projects-gallery' },
+    { label: 'Habilidades', target: 'skills' },
+    { label: 'Contato', target: 'contact' },
+  ],
+};

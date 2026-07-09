@@ -1,24 +1,16 @@
 import type { MouseEvent } from 'react';
 import { useDeck } from '@/deck/DeckContext';
-import { useMode } from '@/context/ModeContext';
+import { useLang } from '@/context/LanguageContext';
 import { useLenisInstance } from '@/hooks/useLenis';
 import { IDENTITY, NAV_LINKS } from '@/constants/identity';
-import { FLAGSHIPS, FLAGSHIP_ORDER } from '@/constants/flagships';
-import ModeToggle from '@/components/ModeToggle';
+import LanguageToggle from '@/components/LanguageToggle';
 
 export default function Nav() {
   const { renderMode, goToScene, release } = useDeck();
-  const { mode } = useMode();
+  const { lang } = useLang();
   const lenis = useLenisInstance();
 
-  const resolve = (target: string) => {
-    if (target !== 'projects') return target;
-    const first = FLAGSHIP_ORDER[mode][0];
-    return first ? FLAGSHIPS[first].anchor : 'projects-gallery';
-  };
-
-  const onLink = (e: MouseEvent, rawTarget: string) => {
-    const target = resolve(rawTarget);
+  const onLink = (e: MouseEvent, target: string) => {
     if (renderMode === 'deck') {
       e.preventDefault();
       if (target === 'contact') {
@@ -40,18 +32,18 @@ export default function Nav() {
     <nav className="nav nav--fixed">
       <span className="nav__brand">{IDENTITY.alias}.dev</span>
       <div className="nav__links">
-        {NAV_LINKS.map((link) => (
+        {NAV_LINKS[lang].map((link) => (
           <a
             key={link.target}
             className="nav__link"
-            href={`#${resolve(link.target)}`}
+            href={`#${link.target}`}
             onClick={(e) => onLink(e, link.target)}
           >
             {link.label}
           </a>
         ))}
       </div>
-      <ModeToggle />
+      <LanguageToggle />
     </nav>
   );
 }

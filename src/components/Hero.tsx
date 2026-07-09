@@ -1,15 +1,15 @@
 import type { SceneProps } from '@/types';
-import { useMode } from '@/context/ModeContext';
+import { useLang } from '@/context/LanguageContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { HERO } from '@/constants/identity';
+import { HERO, HERO_NAME_LINES } from '@/constants/identity';
 import Eyebrow from '@/components/primitives/Eyebrow';
 import BgGrid from '@/components/primitives/BgGrid';
 import Globe from '@/components/primitives/Globe';
 
 /* Builds: 0 = name lines · 1 = tagline assembles word-by-word */
 export default function Hero({ buildIndex, active }: SceneProps) {
-  const { mode } = useMode();
-  const content = HERO[mode];
+  const { lang } = useLang();
+  const content = HERO[lang];
   const reveal = useScrollReveal<HTMLDivElement>({ targets: '.hero__line', stagger: 90 });
   const words = content.tagline.split(' ');
 
@@ -19,7 +19,7 @@ export default function Hero({ buildIndex, active }: SceneProps) {
         <div className="hero__inner">
           <Eyebrow>{content.eyebrow}</Eyebrow>
           <h1 className="t-display hero__name" data-deck-layer="slow">
-            {HERO.nameLines.map((line, i) => (
+            {HERO_NAME_LINES.map((line, i) => (
               <span
                 key={line}
                 className={`hero__line build ${active ? 'is-on' : ''}`}
@@ -43,7 +43,7 @@ export default function Hero({ buildIndex, active }: SceneProps) {
             ))}
           </p>
           <p className="hero__cue eyebrow" aria-hidden="true">
-            {HERO.scrollCue}
+            {content.scrollCue}
             <span className="hero__cue-line" />
           </p>
         </div>

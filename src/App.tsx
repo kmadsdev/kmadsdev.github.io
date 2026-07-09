@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import type { ComponentType } from 'react';
 import type { FlagshipId, SceneDef, SceneProps } from '@/types';
-import { ModeProvider, useMode } from '@/context/ModeContext';
-import { FLAGSHIPS, FLAGSHIP_ORDER } from '@/constants/flagships';
+import { LanguageProvider } from '@/context/LanguageContext';
+import { FLAGSHIP_ORDER, flagshipAnchor } from '@/constants/flagships';
 import Deck from '@/deck/Deck';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
@@ -41,11 +41,11 @@ const FLAGSHIP_META: Record<FlagshipId, { builds: number; bg: string }> = {
 };
 
 function Site() {
-  const { mode } = useMode();
-
+  /* Scene order is fixed; language switching swaps copy in place, so the
+     scene list never re-orders and the deck keeps its position. */
   const scenes = useMemo<SceneDef[]>(() => {
-    const flagshipScenes: SceneDef[] = FLAGSHIP_ORDER[mode].map((id) => ({
-      id: FLAGSHIPS[id].anchor,
+    const flagshipScenes: SceneDef[] = FLAGSHIP_ORDER.map((id) => ({
+      id: flagshipAnchor(id),
       builds: FLAGSHIP_META[id].builds,
       bg: FLAGSHIP_META[id].bg,
       Component: FLAGSHIP_COMPONENTS[id],
@@ -59,7 +59,7 @@ function Site() {
       { id: 'projects-gallery', builds: 2, Component: ProjectsGallery, bg: 'var(--c-bg)' },
       { id: 'skills', builds: 2, Component: Skills, bg: 'var(--c-bg-2)' },
     ];
-  }, [mode]);
+  }, []);
 
   return (
     <Deck scenes={scenes} footer={<Footer />}>
@@ -70,8 +70,8 @@ function Site() {
 
 export default function App() {
   return (
-    <ModeProvider>
+    <LanguageProvider>
       <Site />
-    </ModeProvider>
+    </LanguageProvider>
   );
 }

@@ -1,6 +1,7 @@
 import type { SceneProps } from '@/types';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { WHOAMI_GROUPS, HONORS, INTERESTS, LANGUAGES } from '@/constants/about';
+import { useLang } from '@/context/LanguageContext';
+import { WHOAMI_GROUPS, ABOUT_LABELS, HONORS, INTERESTS, LANGUAGES } from '@/constants/about';
 import Eyebrow from '@/components/primitives/Eyebrow';
 import Pill from '@/components/primitives/Pill';
 import PretextReveal from '@/components/primitives/PretextReveal';
@@ -12,34 +13,36 @@ const WHOAMI_LINE_HEIGHT = 30; // 1.25rem * 1.5
 /* niklas services truth: sticky left panel + right copy. Each build reveals
    one WHOAMI group; pretext lays the lines out and they rise one by one. */
 export default function About({ buildIndex }: SceneProps) {
+  const { lang } = useLang();
+  const labels = ABOUT_LABELS[lang];
   const reveal = useScrollReveal<HTMLDivElement>({ targets: '.about__group', stagger: 120 });
 
   return (
     <div className="scene about" ref={reveal} data-reveal>
       <div className="about__grid">
         <aside className="about__panel" data-deck-layer="slow">
-          <Eyebrow>HONORS</Eyebrow>
+          <Eyebrow>{labels.honors}</Eyebrow>
           <div className="about__pills">
-            {HONORS.map((h) => (
+            {HONORS[lang].map((h) => (
               <Pill key={h} variant="chip">{h}</Pill>
             ))}
           </div>
-          <Eyebrow>INTERESTS</Eyebrow>
+          <Eyebrow>{labels.interests}</Eyebrow>
           <div className="about__pills">
-            {INTERESTS.map((i) => (
+            {INTERESTS[lang].map((i) => (
               <Pill key={i} variant="chip">{i}</Pill>
             ))}
           </div>
-          <Eyebrow>LANGUAGES</Eyebrow>
+          <Eyebrow>{labels.languages}</Eyebrow>
           <div className="about__pills">
-            {LANGUAGES.map((l) => (
+            {LANGUAGES[lang].map((l) => (
               <Pill key={l}>{l}</Pill>
             ))}
           </div>
         </aside>
         <div className="about__copy" data-deck-layer="fast">
-          <Eyebrow>WHOAMI</Eyebrow>
-          {WHOAMI_GROUPS.map((group, g) => (
+          <Eyebrow>{labels.whoami}</Eyebrow>
+          {WHOAMI_GROUPS[lang].map((group, g) => (
             <div key={g} className="about__group t-body-lg">
               <PretextReveal
                 text={group.join(' ')}
