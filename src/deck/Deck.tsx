@@ -53,8 +53,7 @@ function DeckStage({
 
   /* ONE LONG PAGE slide, driven by WAAPI: exiting scene rides up/out while
      the entering one rides in from the opposite edge on the same clock —
-     glued edge to edge. WAAPI (not CSS transitions) because gestures fired
-     mid-slide raise playbackRate (engine 'deck:speed' events, capped 3x). */
+     glued edge to edge, like the browser scrolled exactly one page. */
   const prevSceneRef = useRef(engine.sceneIndex);
   const animsRef = useRef<Animation[]>([]);
   const exitElRef = useRef<HTMLElement | null>(null);
@@ -101,17 +100,6 @@ function DeckStage({
     }
   }, [engine.sceneIndex, engine.reducedMotion, scenes]);
 
-  // mid-slide gestures accelerate the running slide (max 3x, engine-capped)
-  useEffect(() => {
-    const onSpeed = (e: Event) => {
-      const factor = (e as CustomEvent<number>).detail;
-      animsRef.current.forEach((a) => {
-        a.playbackRate = factor;
-      });
-    };
-    window.addEventListener('deck:speed', onSpeed);
-    return () => window.removeEventListener('deck:speed', onSpeed);
-  }, []);
 
   const deckClass = [
     'deck',

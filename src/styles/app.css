@@ -54,11 +54,8 @@ html.is-deck body {
 /* ONE LONG PAGE model: the exiting scene rides up out of the viewport while
    the next rides up from below on the SAME clock — glued edge to edge, like
    the browser scrolled exactly one page. Scenes stay transparent; the deck
-   container blends the background color underneath.
-   --scene-speed: gesture-accelerated playback (1x → 3x, engine-driven). */
-/* Static end states only — the slide itself runs on the Web Animations API
-   (Deck.tsx) so mid-flight gestures can raise playbackRate up to 3x, which
-   CSS transitions cannot do. */
+   container blends the background color underneath. Static end states only —
+   the slide itself runs on the Web Animations API (Deck.tsx). */
 .deck__scene {
   position: absolute;
   inset: 0;
