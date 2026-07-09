@@ -1,0 +1,1145 @@
+/* ==============================================================
+   kmads.dev app layer — structural DS extension (see ds-README
+   "Adding a component"). Composition uses var(--…) tokens ONLY;
+   the sole raw values are 1px hairlines and structural math.
+   tokens.css (= ds-components.css) is never edited.
+   ============================================================== */
+
+/* ---------- fonts: --font-mono resolution (plan §2.5.3) ----------
+   The DS mono token is `ui-monospace, "SF Mono", …`. macOS resolves
+   ui-monospace to the real SF Mono; elsewhere this alias makes
+   "SF Mono" resolve to self-hosted JetBrains Mono. */
+@font-face {
+  font-family: "SF Mono";
+  src: url("../../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Mono";
+  src: url("../../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  background: var(--c-bg);
+}
+
+/* ---------- deck (desktop scroll-hijack stage) ---------- */
+html.is-deck,
+html.is-deck body {
+  overflow: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+.deck {
+  position: fixed;
+  inset: 0;
+  height: 100dvh; /* not 100vh — mobile URL bar (safety; deck is desktop-only) */
+  overflow: hidden;
+  background: var(--c-bg);
+  /* cash.app bg flood: the container carries the color and blends it */
+  transition: background var(--dur-scene) var(--ease-in-out);
+}
+/* past the last step the hijack releases: deck joins the document flow and
+   the footer scrolls in natively underneath (cash.app footer behavior) */
+.deck--released {
+  position: relative;
+}
+
+/* FLAT page model (cash.app): scenes never slide as slabs. The container
+   blends background color; only inner content layers travel up/down. */
+.deck__scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: transparent;
+  visibility: hidden;
+  transition: visibility 0s var(--dur-scene);
+}
+.deck__scene.is-active {
+  visibility: visible;
+  transition: visibility 0s 0s;
+}
+.deck__scene:focus,
+.deck__scene:focus-visible {
+  outline: none;
+}
+
+/* content choreography: layers rise in from below / exit upward while the
+   page itself stays flat. "slow" and "fast" travel different distances. */
+.deck__scene [data-deck-layer] {
+  transition:
+    transform var(--dur-scene) var(--ease-in-out),
+    opacity var(--dur-scene) var(--ease-in-out);
+}
+.deck__scene.is-below [data-deck-layer="slow"] { transform: translateY(7vh); opacity: 0; }
+.deck__scene.is-below [data-deck-layer="fast"] { transform: translateY(13vh); opacity: 0; }
+.deck__scene.is-above [data-deck-layer="slow"] { transform: translateY(-5vh); opacity: 0; }
+.deck__scene.is-above [data-deck-layer="fast"] { transform: translateY(-9vh); opacity: 0; }
+.deck__scene.is-active [data-deck-layer] { transform: translateY(0); opacity: 1; }
+
+/* in the flat model scene-band chrome would read as full-width seams */
+.deck .projects-flagship {
+  background: transparent;
+  border-top: none;
+  border-bottom: none;
+}
+
+/* reduced motion: no movement at all — opacity micro-fade only */
+.deck--reduced .deck__scene {
+  transform: none;
+  opacity: 0;
+  transition:
+    opacity var(--dur-fast) linear,
+    visibility 0s var(--dur-fast);
+}
+.deck--reduced .deck__scene.is-active {
+  opacity: 1;
+  transition:
+    opacity var(--dur-fast) linear,
+    visibility 0s 0s;
+}
+.deck--reduced .deck__scene [data-deck-layer] {
+  transition: none;
+  transform: none;
+}
+
+/* ---------- scene inner scaffold ---------- */
+.scene {
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  align-content: center;
+  gap: var(--s-6);
+  padding: var(--s-9) var(--s-6) var(--s-8);
+  overflow: hidden;
+}
+.flow .scene {
+  min-height: 100dvh;
+  padding: var(--s-8) var(--s-5);
+}
+
+/* ---------- flow mode (mobile document) reveals ---------- */
+.flow [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+}
+.flow [data-reveal] {
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow [data-reveal] {
+    opacity: 1 !important;
+    transition: none;
+  }
+}
+
+/* ---------- build choreography utilities (deck builds) ---------- */
+.build {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+.build.is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .build {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ---------- ticker--display: easol-exact marquee rows ----------
+   Stretched, squared display face (Anton), tight tracking; media are FULL
+   RECTANGLES — no borders, no radius — at exactly the type height; rows sit
+   tight together with no hairlines (easol ground truth). */
+.ticker--display {
+  border-top: none;
+  border-bottom: none;
+}
+.ticker--display .ticker__row {
+  padding: var(--s-2) 0;
+}
+.ticker--display .ticker__row + .ticker__row {
+  border-top: none;
+}
+.ticker--display .ticker__set {
+  gap: var(--s-5);
+  padding-right: var(--s-5);
+}
+.ticker__phrase {
+  font-family: 'Anton', var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--c-text);
+}
+.ticker__phrase--muted {
+  color: var(--c-text-muted);
+}
+.ticker__num {
+  color: var(--c-energy);
+}
+/* media height locks to the type height: same cap, easol style */
+.ticker__media {
+  margin: 0;
+  flex-shrink: 0;
+  block-size: clamp(3rem, 7vw, 6rem);
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--c-surface);
+}
+.ticker__media img,
+.ticker__media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---------- structural overrides ---------- */
+/* 8 timeline chapters → tokens' native 4-col grid wraps to two clean rows
+   of 4; row gap widened so the second rail reads as its own line. */
+@media (min-width: 768px) {
+  #timeline .timeline {
+    row-gap: var(--s-7);
+  }
+}
+
+/* screenshots inside device frames */
+.mockup__screen > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ---------- grid-rails: vercel column rails + crosshair marks ---------- */
+.grid-rails {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-grid);
+  pointer-events: none;
+}
+.grid-rails__rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--c-grid);
+}
+.grid-rails__cross {
+  position: absolute;
+  top: var(--s-6);
+  left: 0;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: var(--t-small-size);
+  line-height: 1;
+  color: var(--c-text-faint);
+}
+.grid-rails__cross--bottom {
+  top: auto;
+  bottom: var(--s-6);
+  transform: translate(-50%, 50%);
+}
+
+/* ==============================================================
+   Scene + component composition (Phase B) — var(--…) only
+   ============================================================== */
+
+/* nav above the deck */
+.nav--fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.flow {
+  padding-top: var(--s-8);
+}
+
+.scene__head {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 72rem;
+}
+
+/* ---------- hero ---------- */
+.hero__inner {
+  display: grid;
+  gap: var(--s-6);
+  max-width: 84rem;
+}
+.hero__name {
+  display: grid;
+  gap: var(--s-2);
+  text-transform: uppercase;
+}
+.hero__line {
+  display: block;
+}
+.hero__line:nth-child(2) {
+  margin-left: clamp(var(--s-7), 9vw, var(--s-11));
+}
+.hero__line:nth-child(3) {
+  margin-left: clamp(var(--s-9), 18vw, var(--s-13));
+}
+.hero__tagline {
+  max-width: 44rem;
+  margin-left: clamp(var(--s-7), 9vw, var(--s-11));
+}
+.hero__word {
+  display: inline-block;
+}
+.hero__cue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-7);
+}
+.hero__cue-line {
+  display: inline-block;
+  width: var(--s-8);
+  height: 1px;
+  background: var(--c-line-strong);
+}
+
+/* ---------- ticker scene ---------- */
+.scene--ticker {
+  padding-left: 0;
+  padding-right: 0;
+}
+.scene--ticker .ticker {
+  width: 100%;
+}
+
+/* ---------- about ---------- */
+.about__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--s-8);
+  align-items: start;
+  max-width: 84rem;
+}
+.about__panel {
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+  border: var(--border-hair);
+  border-radius: var(--r-lg);
+  background: var(--c-bg-2);
+  padding: var(--s-6);
+}
+.flow .about__panel {
+  position: sticky;
+  top: var(--s-9);
+}
+.about__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.about__copy {
+  display: grid;
+  gap: var(--s-5);
+}
+.about__kw {
+  font-style: normal;
+  color: var(--c-accent);
+}
+@media (max-width: 1023px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+  }
+}
+
+/* ---------- timeline scene ---------- */
+.timeline-scene {
+  gap: var(--s-8);
+}
+
+/* ---------- flagships ---------- */
+.scene--flagship {
+  padding: 0;
+  align-content: stretch;
+}
+.scene--flagship .projects-flagship {
+  min-height: 100%;
+  align-content: center;
+  padding-top: var(--s-9);
+}
+.flow .scene--flagship .projects-flagship {
+  min-height: 100dvh;
+}
+.projects-flagship__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-5);
+}
+/* per-project flood variance — flagships must NOT look equal (easol rule) */
+.flagship--hivemind {
+  background: var(--c-bg-2);
+}
+.flagship--doom {
+  background: var(--c-frame);
+}
+.flagship-visual {
+  display: grid;
+  gap: var(--s-6);
+  justify-items: center;
+  align-content: center;
+}
+.flagship-visual__devices {
+  display: flex;
+  align-items: end;
+  gap: var(--s-6);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.flagship-visual--diabetes {
+  grid-auto-flow: column;
+  align-items: end;
+}
+@media (max-width: 1023px) {
+  .flagship-visual--diabetes {
+    grid-auto-flow: row;
+  }
+}
+
+/* ---------- agentic callout (builder emphasis band) ---------- */
+.agentic-callout {
+  justify-items: center;
+}
+.agentic-callout__card {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 52rem;
+  background: var(--c-surface);
+  border: var(--border-hair);
+  border-radius: var(--r-lg);
+  padding: var(--s-7);
+  box-shadow: var(--glow-accent);
+}
+.agentic-callout__icon {
+  color: var(--c-accent);
+}
+
+/* ---------- gallery ---------- */
+.gallery-scene {
+  gap: var(--s-3);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-5);
+  position: relative;
+  z-index: var(--z-content);
+}
+.gallery-grid--archive {
+  gap: var(--s-4);
+}
+a.gallery-secondary,
+a.gallery-archive {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 1023px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- skills ---------- */
+.skills-scene {
+  gap: var(--s-7);
+}
+.skills-groups {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-6);
+}
+.skills-group {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}
+.skills__bar i {
+  transition: width var(--dur-slow) var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .skills__bar i {
+    transition: none;
+  }
+}
+@media (max-width: 1023px) {
+  .skills-groups {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+}
+
+/* ---------- contact ---------- */
+.contact__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+/* ---------- HiveMind survey (iPad screen filler) ---------- */
+.hm-survey {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-content: start;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  background: var(--c-bg);
+  color: var(--c-text);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--font-display);
+}
+.hm-survey__head {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  letter-spacing: var(--t-eyebrow-track);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+.hm-survey__question {
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  margin: 0;
+}
+.hm-survey__options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+.hm-survey__option {
+  border: var(--border-hair);
+  border-radius: var(--r-sm);
+  padding: var(--s-2) var(--s-3);
+  font-size: var(--t-eyebrow-size);
+  color: var(--c-text-muted);
+}
+.hm-survey__option.is-selected {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  background: var(--c-surface);
+}
+.hm-survey__progress {
+  height: var(--s-1);
+  background: var(--c-surface-2);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.hm-survey__progress i {
+  display: block;
+  height: 100%;
+  background: var(--c-accent);
+  border-radius: var(--r-pill);
+}
+.hm-survey__next {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  letter-spacing: var(--t-eyebrow-track);
+  color: var(--c-on-accent);
+  background: var(--c-accent);
+  border-radius: var(--r-pill);
+  padding: var(--s-1) var(--s-4);
+}
+
+/* ---------- palette strip (Notes tokens as CONTENT) ---------- */
+.palette-strip {
+  margin: 0;
+  display: grid;
+  gap: var(--s-3);
+  justify-items: center;
+  width: 100%;
+}
+.palette-strip__row {
+  display: flex;
+  gap: var(--s-3);
+  width: 100%;
+  justify-content: center;
+}
+.palette-strip__swatch {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: center;
+}
+.palette-strip__swatch i {
+  display: block;
+  width: clamp(40px, 5vw, 64px);
+  aspect-ratio: 1;
+  border-radius: var(--r-md);
+  /* hairline in on-accent so #2DAAE4 survives the flood background */
+  box-shadow: inset 0 0 0 1px var(--c-on-accent);
+}
+.palette-strip__swatch span {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+}
+.projects-flagship--layout-flood .palette-strip__swatch span,
+.projects-flagship--layout-flood .palette-strip figcaption {
+  color: var(--c-on-accent);
+  opacity: 0.72;
+}
+
+/* ---------- Cloudflare TUI (MacBook screen filler) ---------- */
+.cf-tui {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--c-bg);
+  color: var(--c-text);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+}
+.cf-tui__tabs {
+  display: flex;
+  gap: var(--s-1);
+  border-bottom: var(--border-hair);
+  padding: var(--s-1) var(--s-2);
+}
+.cf-tui__tab {
+  padding: 0 var(--s-2);
+  color: var(--c-text-faint);
+}
+.cf-tui__tab.is-active {
+  color: var(--c-on-accent);
+  background: var(--c-accent);
+  border-radius: var(--r-sm);
+}
+.cf-tui__body {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  min-height: 0;
+}
+.cf-tui__zones {
+  list-style: none;
+  margin: 0;
+  padding: var(--s-2);
+  border-right: var(--border-hair);
+  display: grid;
+  gap: var(--s-1);
+  align-content: start;
+  color: var(--c-text-muted);
+}
+.cf-tui__zones .is-active {
+  color: var(--c-accent);
+}
+.cf-tui__table {
+  border-collapse: collapse;
+  margin: var(--s-2);
+  width: calc(100% - var(--s-4));
+  align-self: start;
+}
+.cf-tui__table th {
+  text-align: left;
+  color: var(--c-text-faint);
+  font-weight: 500;
+  border-bottom: var(--border-hair);
+  padding: var(--s-1);
+}
+.cf-tui__table td {
+  color: var(--c-text-muted);
+  border-bottom: var(--border-hair);
+  padding: var(--s-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: var(--s-11);
+}
+.cf-tui__keys {
+  border-top: var(--border-hair);
+  padding: var(--s-1) var(--s-2);
+  color: var(--c-text-faint);
+}
+
+/* ---------- Phase D fixes (deck-height fitting) ---------- */
+/* BgGrid wrappers must fill the fixed-height scene */
+.deck__scene > .bg-grid {
+  height: 100%;
+}
+.deck__scene > .bg-grid > .scene {
+  min-height: 100%;
+}
+
+/* OffMode visual: diagram + devices must fit one viewport */
+.flagship-visual--offmode > svg {
+  max-width: 300px;
+}
+.flagship-visual--offmode .mockup-iphone {
+  width: 150px;
+}
+.flagship-visual--offmode .mockup-macbook {
+  width: 300px;
+}
+
+/* HiveMind: larger iPad so the survey rendition fits its screen */
+.flagship-visual--hivemind .mockup-ipad {
+  width: min(420px, 100%);
+}
+.flagship-visual--hivemind > svg {
+  max-width: 440px;
+}
+
+/* gallery scene: dense fit at 900px viewport height */
+.gallery-scene {
+  gap: var(--s-3);
+}
+.gallery-scene .gallery-secondary {
+  padding: var(--s-5);
+}
+.gallery-scene .gallery-archive {
+  padding: var(--s-4);
+}
+
+/* survey rendition must fit the iPad screen exactly */
+.hm-survey {
+  gap: var(--s-2);
+}
+.hm-survey__option {
+  padding: var(--s-1) var(--s-3);
+}
+
+/* gallery: final height squeeze at 900px viewports.
+   Top padding must clear the fixed nav (~s-9) — only the bottom shrinks. */
+.gallery-scene {
+  padding-bottom: var(--s-5);
+}
+
+/* ---------- mobile nav: brand + toggle row, links scroll beneath ---------- */
+@media (max-width: 767px) {
+  .nav {
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+  }
+  .nav__links {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    gap: var(--s-4);
+  }
+}
+
+/* ==============================================================
+   R2 components (user feedback round 2)
+   ============================================================== */
+
+/* ---------- hero: OG spinning globe on the right ---------- */
+.hero__inner {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: center;
+  max-width: none;
+}
+.hero__inner > *:not(.hero__globe) {
+  grid-column: 1;
+}
+.hero__globe {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  justify-self: center;
+}
+@media (max-width: 1023px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+  .hero__globe {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+.globe {
+  position: relative;
+  aspect-ratio: 1;
+}
+.globe__outer,
+.globe__inner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  object-fit: contain;
+  transform-origin: center;
+}
+.globe__outer {
+  width: 100%;
+  animation: globe-spin-ccw 20s linear infinite;
+}
+.globe__inner {
+  width: 65%;
+}
+@keyframes globe-spin-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .globe__outer { animation: none; }
+}
+
+/* ---------- pretext line choreography (WHOAMI) ---------- */
+.pretext {
+  position: relative;
+}
+.pretext__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.6em);
+  filter: blur(4px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+}
+.pretext__line.is-on {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pretext__line {
+    transition: none;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* ---------- timeline: 8 chapters, pills for facts ---------- */
+.timeline__tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+}
+.timeline__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+}
+.timeline__fact {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  line-height: var(--t-eyebrow-lh);
+  color: var(--c-text-muted);
+  background: var(--c-bg-2);
+  border: var(--border-hair);
+  border-radius: var(--r-sm);
+  padding: var(--s-1) var(--s-2);
+}
+
+/* ---------- flagship bullets (Agentic) ---------- */
+.projects-flagship__bullets {
+  margin: 0;
+  padding-left: var(--s-5);
+  display: grid;
+  gap: var(--s-2);
+  color: var(--c-text-muted);
+}
+
+/* ---------- Agentic flagship: project-palette accents (content colors) ---------- */
+.flagship--agentic .eyebrow {
+  color: #33b474;
+}
+.flagship--agentic .pill--stack {
+  border-color: #26764e;
+}
+.flagship--agentic .stat--win .stat__value {
+  color: #33b474;
+  text-shadow: 0 0 24px rgba(51, 180, 116, 0.3);
+}
+.flagship--agentic .btn--link {
+  color: #33b474;
+}
+.flagship--agentic .btn--link:hover {
+  color: #6fd9a4;
+}
+
+/* ---------- DOOM: doom.svg window, bigger; copy centered w/ left pad ---------- */
+.doom-window {
+  width: min(640px, 100%);
+  height: auto;
+  display: block;
+}
+.flagship--doom .projects-flagship__copy {
+  align-content: center;
+  padding-left: var(--s-7);
+}
+@media (max-width: 1023px) {
+  .flagship--doom .projects-flagship__copy {
+    padding-left: 0;
+  }
+}
+
+/* ---------- Notes: logo inside the monitor ---------- */
+.notes-logo {
+  width: 40% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* ---------- Diabetes: fixed phone, screens slide inside (cash.app) ---------- */
+.flagship-visual--diabetes .mockup-iphone {
+  width: 250px;
+}
+/* pin the strip to the screen box — grid/percentage sizing inside the
+   centered .mockup__screen resolves against the wrong basis */
+.flagship-visual--diabetes .mockup__screen {
+  position: relative;
+}
+.dia-phone-screens {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-auto-rows: 100%; /* every screen exactly one frame tall */
+  transition: transform var(--dur-scene) var(--ease-in-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dia-phone-screens { transition: none; }
+}
+.dia-screen {
+  width: 100%;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--s-3);
+  padding: var(--s-5) var(--s-4);
+  background: var(--c-bg);
+  color: var(--c-text);
+  text-align: center;
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--font-display);
+}
+.dia-title {
+  font-size: var(--t-h3-size);
+  font-weight: 700;
+  margin: 0;
+}
+.dia-sub {
+  font-size: var(--t-small-size);
+  line-height: var(--t-small-lh);
+  color: var(--c-text-muted);
+  margin: 0;
+}
+.dia-note {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  letter-spacing: var(--t-eyebrow-track);
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  margin: 0;
+}
+.dia-q {
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  margin: 0;
+}
+.dia-choice {
+  display: flex;
+  gap: var(--s-2);
+}
+.dia-btn {
+  display: inline-block;
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  padding: var(--s-2) var(--s-5);
+  border-radius: var(--r-sm);
+  border: var(--border-hair);
+  background: var(--c-surface);
+  color: var(--c-text);
+  text-decoration: none;
+}
+.dia-btn--primary {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-on-accent);
+}
+.dia-field {
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+  font-size: var(--t-small-size);
+  color: var(--c-text-muted);
+}
+.dia-input {
+  border: var(--border-hair);
+  border-radius: var(--r-sm);
+  background: var(--c-bg-2);
+  padding: var(--s-1) var(--s-3);
+  color: var(--c-text);
+}
+.dia-progress {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  color: var(--c-text-faint);
+  margin: 0;
+}
+.dia-result {
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  color: var(--c-accent);
+  margin: 0;
+}
+
+/* ---------- skills: years next to each bar ---------- */
+.skills__name {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+.skills__years {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  letter-spacing: var(--t-eyebrow-track);
+  color: var(--c-accent);
+}
+
+/* ---------- footer: easol structure, native scroll ---------- */
+.footer {
+  position: relative;
+  z-index: var(--z-content);
+  background: var(--c-bg);
+  border-top: var(--border-hair);
+  padding: var(--s-9) var(--s-6) var(--s-5);
+  display: grid;
+  gap: var(--s-7);
+}
+.footer__cta {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 72rem;
+}
+.footer__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+}
+.footer__band {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+.footer__brand {
+  display: grid;
+  gap: var(--s-5);
+  justify-items: start;
+}
+.footer__wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--t-h1-size);
+  line-height: var(--t-h1-lh);
+  text-transform: uppercase;
+}
+.footer__globe {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+.footer__tagline {
+  font-family: var(--font-mono);
+  font-size: var(--t-small-size);
+  letter-spacing: var(--t-eyebrow-track);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin: 0;
+}
+.footer__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-6);
+}
+.footer__col {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}
+.footer__col a {
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  font-weight: 500;
+  letter-spacing: var(--t-eyebrow-track);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+.footer__col a:hover {
+  color: var(--c-text);
+}
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-4);
+  border-top: var(--border-hair);
+  padding-top: var(--s-4);
+  font-family: var(--font-mono);
+  font-size: var(--t-eyebrow-size);
+  letter-spacing: var(--t-eyebrow-track);
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+@media (max-width: 1023px) {
+  .footer__band {
+    grid-template-columns: 1fr;
+  }
+  .footer__cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Hard-dark branded bands (Agentic #070908, DOOM chassis) keep their color in
+   BOTH themes — so their text tokens must stay dark-scheme locally, or light
+   mode paints near-black text on a near-black flood. */
+.flagship--agentic,
+.flagship--doom {
+  color: var(--c-text); /* body inherits theme color — re-anchor inside the band */
+  --c-text: #F4F4F4;
+  --c-text-muted: #A6A6A6;
+  --c-text-faint: #6A6A6A;
+  --c-surface: #242424;
+  --c-surface-2: #2E2E2E;
+  --c-bg-2: #171717;
+  --c-line: #383838;
+  --c-line-strong: #4A4A4A;
+}
+.flagship--agentic {
+  --c-surface: #0b0f0d;
+  --c-line: #26764e;
+  --c-text-muted: #A1AAA5;
+}
