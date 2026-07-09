@@ -4,7 +4,9 @@ import type { RenderMode } from '@/deck/DeckContext';
 import { buildStepMap, sceneIndexForStep } from '@/deck/useSceneBuilds';
 
 const WHEEL_THRESHOLD = 60; // px of accumulated deltaY = one gesture
-const COOLDOWN_MS = 900; // absorbs trackpad inertia + lets builds finish
+const SCENE_MS = 900; // must match --dur-scene in tokens.css
+const COOLDOWN_BUFFER = 60; // small tail after the slide settles
+const MAX_SPEED = 3; // gestures mid-animation accelerate playback up to 3x
 
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,14 +57,35 @@ export function useDeckEngine(scenes: SceneDef[]): DeckEngine {
   releasedRef.current = released;
   const wheelAcc = useRef(0);
   const coolingUntil = useRef(0);
+  const speedRef = useRef(1);
   const sceneIdRef = useRef(scenes[sceneIndexForStep(map, stepIndex)]?.id);
+
+  const setSpeed = useCallback((factor: number) => {
+    speedRef.current = factor;
+    // Deck.tsx listens and sets playbackRate on the running WAAPI slide
+    window.dispatchEvent(new CustomEvent<number>('deck:speed', { detail: factor }));
+  }, []);
 
   const goToStep = useCallback(
     (step: number) => {
       const clamped = Math.min(Math.max(step, 0), map.totalSteps - 1);
+      setSpeed(1); // each new slide starts at normal speed
       setStepIndex(clamped);
     },
-    [map],
+    [map, setSpeed],
+  );
+
+  /** a gesture landed while a slide is playing: play it faster (cap 3x) */
+  const accelerate = useCallback(
+    (now: number) => {
+      if (speedRef.current >= MAX_SPEED) return;
+      setSpeed(speedRef.current + 1);
+      coolingUntil.current = Math.min(
+        coolingUntil.current,
+        now + SCENE_MS / speedRef.current + COOLDOWN_BUFFER,
+      );
+    },
+    [setSpeed],
   );
 
   const release = useCallback(() => setReleased(true), []);
@@ -160,15 +183,28 @@ export function useDeckEngine(scenes: SceneDef[]): DeckEngine {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       const now = performance.now();
-      if (now < coolingUntil.current) return;
       wheelAcc.current += e.deltaY;
       if (Math.abs(wheelAcc.current) >= WHEEL_THRESHOLD) {
         const dir = wheelAcc.current > 0 ? 1 : -1;
         wheelAcc.current = 0;
-        coolingUntil.current = now + COOLDOWN_MS;
+        if (now < coolingUntil.current) {
+          accelerate(now); // slide in progress → speed it up, don't queue a step
+          return;
+        }
+        coolingUntil.current = now + SCENE_MS + COOLDOWN_BUFFER;
         if (dir > 0) next();
         else prev();
       }
+    };
+
+    const keyStep = (fn: () => void) => {
+      const now = performance.now();
+      if (now < coolingUntil.current) {
+        accelerate(now);
+        return;
+      }
+      coolingUntil.current = now + SCENE_MS + COOLDOWN_BUFFER;
+      fn();
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -177,17 +213,16 @@ export function useDeckEngine(scenes: SceneDef[]): DeckEngine {
         case 'ArrowDown':
         case 'PageDown':
           e.preventDefault();
-          next();
+          keyStep(next);
           break;
         case ' ':
           e.preventDefault();
-          if (e.shiftKey) prev();
-          else next();
+          keyStep(e.shiftKey ? prev : next);
           break;
         case 'ArrowUp':
         case 'PageUp':
           e.preventDefault();
-          prev();
+          keyStep(prev);
           break;
         case 'Home':
           e.preventDefault();
@@ -206,7 +241,7 @@ export function useDeckEngine(scenes: SceneDef[]): DeckEngine {
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKey);
     };
-  }, [renderMode, released, next, prev, goToStep, map]);
+  }, [renderMode, released, next, prev, goToStep, accelerate, map]);
 
   // released: watch for wheel-up at the top → re-capture the deck
   useEffect(() => {

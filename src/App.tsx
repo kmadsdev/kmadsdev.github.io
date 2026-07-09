@@ -52,7 +52,7 @@ function Site() {
     }));
     return [
       { id: 'hero', builds: 2, Component: Hero, bg: 'var(--c-bg)' },
-      { id: 'ticker', builds: 4, Component: Ticker, bg: 'var(--c-bg)' }, // dwell: 4 gestures of travel
+      { id: 'ticker', builds: 1, Component: Ticker, bg: 'var(--c-bg)' }, // glides past — no slide dwell
       { id: 'about', builds: 3, Component: About, bg: 'var(--c-bg-2)' },
       { id: 'timeline', builds: 8, Component: Timeline, bg: 'var(--c-bg)' }, // one chapter per gesture
       ...flagshipScenes,

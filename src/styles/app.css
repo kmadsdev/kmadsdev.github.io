@@ -42,7 +42,7 @@ html.is-deck body {
   height: 100dvh; /* not 100vh — mobile URL bar (safety; deck is desktop-only) */
   overflow: hidden;
   background: var(--c-bg);
-  /* cash.app bg flood: the container carries the color and blends it */
+  /* bg flood blends alongside the page slide */
   transition: background var(--dur-scene) var(--ease-in-out);
 }
 /* past the last step the hijack releases: deck joins the document flow and
@@ -51,37 +51,33 @@ html.is-deck body {
   position: relative;
 }
 
-/* FLAT page model (cash.app): scenes never slide as slabs. The container
-   blends background color; only inner content layers travel up/down. */
+/* ONE LONG PAGE model: the exiting scene rides up out of the viewport while
+   the next rides up from below on the SAME clock — glued edge to edge, like
+   the browser scrolled exactly one page. Scenes stay transparent; the deck
+   container blends the background color underneath.
+   --scene-speed: gesture-accelerated playback (1x → 3x, engine-driven). */
+/* Static end states only — the slide itself runs on the Web Animations API
+   (Deck.tsx) so mid-flight gestures can raise playbackRate up to 3x, which
+   CSS transitions cannot do. */
 .deck__scene {
   position: absolute;
   inset: 0;
   overflow: hidden;
   background: transparent;
   visibility: hidden;
-  transition: visibility 0s var(--dur-scene);
+  transform: translateY(100%);
 }
 .deck__scene.is-active {
   visibility: visible;
-  transition: visibility 0s 0s;
+  transform: translateY(0);
+}
+.deck__scene.is-above {
+  transform: translateY(-100%);
 }
 .deck__scene:focus,
 .deck__scene:focus-visible {
   outline: none;
 }
-
-/* content choreography: layers rise in from below / exit upward while the
-   page itself stays flat. "slow" and "fast" travel different distances. */
-.deck__scene [data-deck-layer] {
-  transition:
-    transform var(--dur-scene) var(--ease-in-out),
-    opacity var(--dur-scene) var(--ease-in-out);
-}
-.deck__scene.is-below [data-deck-layer="slow"] { transform: translateY(7vh); opacity: 0; }
-.deck__scene.is-below [data-deck-layer="fast"] { transform: translateY(13vh); opacity: 0; }
-.deck__scene.is-above [data-deck-layer="slow"] { transform: translateY(-5vh); opacity: 0; }
-.deck__scene.is-above [data-deck-layer="fast"] { transform: translateY(-9vh); opacity: 0; }
-.deck__scene.is-active [data-deck-layer] { transform: translateY(0); opacity: 1; }
 
 /* in the flat model scene-band chrome would read as full-width seams */
 .deck .projects-flagship {
@@ -91,7 +87,8 @@ html.is-deck body {
 }
 
 /* reduced motion: no movement at all — opacity micro-fade only */
-.deck--reduced .deck__scene {
+.deck--reduced .deck__scene,
+.deck--reduced .deck__scene.is-above {
   transform: none;
   opacity: 0;
   transition:
@@ -103,10 +100,6 @@ html.is-deck body {
   transition:
     opacity var(--dur-fast) linear,
     visibility 0s 0s;
-}
-.deck--reduced .deck__scene [data-deck-layer] {
-  transition: none;
-  transform: none;
 }
 
 /* ---------- scene inner scaffold ---------- */

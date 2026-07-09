@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { ReactNode } from 'react';
 import type { SceneDef, SceneProps } from '@/types';
 import { DeckContext } from '@/deck/DeckContext';
@@ -50,6 +50,68 @@ function DeckStage({
     document.documentElement.classList.toggle('is-deck', !engine.released);
     return () => document.documentElement.classList.remove('is-deck');
   }, [engine.released]);
+
+  /* ONE LONG PAGE slide, driven by WAAPI: exiting scene rides up/out while
+     the entering one rides in from the opposite edge on the same clock —
+     glued edge to edge. WAAPI (not CSS transitions) because gestures fired
+     mid-slide raise playbackRate (engine 'deck:speed' events, capped 3x). */
+  const prevSceneRef = useRef(engine.sceneIndex);
+  const animsRef = useRef<Animation[]>([]);
+  const exitElRef = useRef<HTMLElement | null>(null);
+
+  useLayoutEffect(() => {
+    const prev = prevSceneRef.current;
+    const curr = engine.sceneIndex;
+    if (prev === curr) return;
+    prevSceneRef.current = curr;
+    if (engine.reducedMotion) return; // CSS opacity micro-fade handles it
+
+    // interrupt any running slide cleanly
+    animsRef.current.forEach((a) => a.cancel());
+    animsRef.current = [];
+    if (exitElRef.current) exitElRef.current.style.visibility = '';
+
+    const dir = curr > prev ? 1 : -1;
+    const exitEl = document.getElementById(scenes[prev]?.id ?? '');
+    const enterEl = document.getElementById(scenes[curr]?.id ?? '');
+    const options: KeyframeAnimationOptions = {
+      duration: 900, // = --dur-scene
+      easing: 'cubic-bezier(0.65, 0, 0.35, 1)', // = --ease-in-out
+    };
+
+    if (exitEl) {
+      exitEl.style.visibility = 'visible'; // class hides it — keep it on screen while it exits
+      exitElRef.current = exitEl;
+      const anim = exitEl.animate(
+        [{ transform: 'translateY(0%)' }, { transform: `translateY(${dir > 0 ? -100 : 100}%)` }],
+        options,
+      );
+      anim.onfinish = () => {
+        exitEl.style.visibility = '';
+        exitElRef.current = null;
+      };
+      animsRef.current.push(anim);
+    }
+    if (enterEl) {
+      const anim = enterEl.animate(
+        [{ transform: `translateY(${dir > 0 ? 100 : -100}%)` }, { transform: 'translateY(0%)' }],
+        options,
+      );
+      animsRef.current.push(anim);
+    }
+  }, [engine.sceneIndex, engine.reducedMotion, scenes]);
+
+  // mid-slide gestures accelerate the running slide (max 3x, engine-capped)
+  useEffect(() => {
+    const onSpeed = (e: Event) => {
+      const factor = (e as CustomEvent<number>).detail;
+      animsRef.current.forEach((a) => {
+        a.playbackRate = factor;
+      });
+    };
+    window.addEventListener('deck:speed', onSpeed);
+    return () => window.removeEventListener('deck:speed', onSpeed);
+  }, []);
 
   const deckClass = [
     'deck',
