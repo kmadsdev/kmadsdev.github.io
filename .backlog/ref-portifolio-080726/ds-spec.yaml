@@ -1,0 +1,328 @@
+# ============================================================
+# kmads.dev design system — ds-spec.yaml
+# Machine-readable source of truth. Names match ds-components.css
+# custom properties / classes and ds-preview.html 1:1.
+# Dark-first; light theme overrides neutrals only (accents fixed).
+# ============================================================
+meta:
+  name: kmads.dev design system
+  version: 1.0.0
+  subject: "Kaique \"kmads\" Souza — Software Engineer (a person, never a product object)"
+  theme: dark-first
+  files: [ds-preview.html, ds-spec.yaml, ds-components.css, ds-README.md]
+  inspiration:
+    cash.app: motion & confidence — stat/counter treatment, fluid scene transitions
+    niklasbubori: editorial darkness — uppercase structural labels, text settle, gallery canvas
+    easol: personality — dual tickers, progress steps, sibling-dim hover, mode toggle
+    vercel: precision — grid math, density, restrained monochrome + accent
+
+tokens:
+
+  color:
+    neutrals:
+      c-bg:          { value: "#101010", role: page canvas }
+      c-bg-2:        { value: "#171717", role: alternate canvas / dense card bg }
+      c-surface:     { value: "#242424", role: elevated surface / card }
+      c-surface-2:   { value: "#2E2E2E", role: raised surface / bar track }
+      c-line:        { value: "#383838", role: hairline borders & grid rails }
+      c-line-strong: { value: "#4A4A4A", role: strong borders / ghost buttons }
+    text:
+      c-text:        { value: "#F4F4F4", role: primary text (AA on bg & surface) }
+      c-text-muted:  { value: "#A6A6A6", role: secondary / metadata }
+      c-text-faint:  { value: "#6A6A6A", role: labels / disabled }
+    accent:
+      c-accent-hi:   { value: "#57C4F2", role: blue hover/highlight }
+      c-accent:      { value: "#2DAAE4", role: PRIMARY accent — links, CTAs, live/shipped }
+      c-accent-lo:   { value: "#1B7CAE", role: blue pressed / borders }
+      c-energy-hi:   { value: "#FF3D75", role: energy hover }
+      c-energy:      { value: "#FF014F", role: SECONDARY accent — stat wins, ticker sparks }
+      c-energy-lo:   { value: "#C2003C", role: energy pressed / borders }
+      c-warm-hi:     { value: "#D68A70", role: warm hover }
+      c-warm:        { value: "#C16D51", role: TERTIARY accent — archive / closed chapters }
+      c-warm-lo:     { value: "#8F4E39", role: warm pressed / borders }
+    status: # drives timeline + status pills; see rules.register
+      c-status-shipped:  { alias: c-accent,  use: live & shipped work }
+      c-status-win:      { alias: c-energy,  use: "stat wins e.g. [97.9% ACCURACY]" }
+      c-status-progress: { value: "#E8B93B", use: "EMPLOYMENT ONLY — the single legitimate [IN PROGRESS]" }
+      c-status-closed:   { alias: c-warm,    use: closed chapters (dk-shipping) }
+    special:
+      c-on-accent:  { value: "#06121A", role: ink on flooded accent blocks }
+      c-grid:       { value: "rgba(244,244,244,0.04)", role: background grid lines }
+      c-frame:      { value: "#050505", role: device-mockup chassis }
+      c-frame-edge: { value: "#3A3A3A", role: device-mockup edge highlight }
+      c-screen:     { value: "#171717", role: device-mockup empty screen }
+    light-theme-overrides: # accents identical; neutrals remapped
+      c-bg: "#F7F7F5"
+      c-bg-2: "#EFEFED"
+      c-surface: "#FFFFFF"
+      c-surface-2: "#F1F1EF"
+      c-line: "#E3E3E0"
+      c-line-strong: "#C9C9C5"
+      c-text: "#101010"
+      c-text-muted: "#565656"
+      c-text-faint: "#8A8A86"
+      c-grid: "rgba(16,16,16,0.05)"
+      c-on-accent: "#06121A"
+      c-frame: "#1A1A1A"
+      c-frame-edge: "#4A4A4A"
+      c-screen: "#FFFFFF"
+
+  typography:
+    families:
+      font-display:
+        value: '"Rubik", -apple-system, "Segoe UI", system-ui, sans-serif'
+        note: Rubik is fixed and non-negotiable for ALL display/UI text
+        weights: [500, 600, 700, 800]
+      font-mono:
+        value: 'ui-monospace, "SF Mono", "Cascadia Code", monospace'
+        intended: JetBrains Mono / SF Mono
+        use: nav labels, eyebrows, status tags, ticker pills, stat numerals, captions
+    styles: # class names in ds-components.css: .t-<name>
+      t-display:  { size: "clamp(3.5rem, 8vw, 7rem)", lh: 0.95, weight: 800, face: display, use: hero name / flagship titles }
+      t-h1:       { size: "clamp(2.5rem, 5vw, 4rem)", lh: 1.02, weight: 700, face: display, use: section headers }
+      t-h2:       { size: "2rem",     lh: 1.1,  weight: 700, face: display, use: sub-sections / project names }
+      t-h3:       { size: "1.375rem", lh: 1.2,  weight: 600, face: display, use: card titles }
+      t-body-lg:  { size: "1.25rem",  lh: 1.5,  weight: 400, face: display, use: lead paragraphs }
+      t-body:     { size: "1rem",     lh: 1.6,  weight: 400, face: display, use: body copy }
+      t-small:    { size: "0.875rem", lh: 1.5,  weight: 400, face: display, use: captions / secondary meta }
+      t-eyebrow:  { size: "0.75rem",  lh: 1.4,  weight: 500, face: mono, tracking: "0.18em", transform: uppercase, use: eyebrows / nav / tags / ticker }
+      t-mono-stat: { size: "clamp(2rem, 4vw, 3.25rem)", lh: 1, weight: 500, face: mono, numerals: tabular-nums, use: animated stat numerals }
+    rules:
+      - UPPERCASE only for t-eyebrow-class structural labels — never body copy
+      - stat numerals always tabular-nums so counters do not jitter
+
+  space: # 4px base
+    s-1: 4px
+    s-2: 8px
+    s-3: 12px
+    s-4: 16px
+    s-5: 24px
+    s-6: 32px
+    s-7: 48px
+    s-8: 64px
+    s-9: 96px
+    s-10: 128px
+    s-11: 160px
+    s-12: 224px
+    s-13: 320px
+    rhythm:
+      section-vertical: [s-10, s-11]
+      flagship-full-bleed: [s-12, s-13]
+
+  radius:
+    r-0: 0
+    r-sm: 6px
+    r-md: 12px
+    r-lg: 20px      # default card radius
+    r-xl: 32px
+    r-pill: 999px   # ticker pills, nav toggle, tags
+    r-round: 50%
+    device: # mockup screens keep real corner proportions
+      r-iphone: 44px
+      r-iphone-screen: 36px
+      r-ipad: 24px
+      r-ipad-screen: 14px
+      r-macbook: 14px
+
+  border:
+    border-hair:   "1px solid var(--c-line)"
+    border-strong: "1px solid var(--c-line-strong)"
+
+  shadow:
+    shadow-1: "0 1px 2px rgba(0,0,0,0.4)"
+    shadow-2: "0 8px 30px rgba(0,0,0,0.5)"
+    glow-accent: "0 0 0 1px var(--c-accent-lo), 0 0 24px rgba(45,170,228,0.25)" # interactive hover/active
+    glow-energy: "0 0 24px rgba(255,1,79,0.30)"                                # stat-win emphasis
+
+  motion:
+    durations:
+      dur-fast: 160ms
+      dur-base: 320ms
+      dur-slow: 640ms
+      dur-scene: 900ms
+      dur-ticker: 36s      # marquee row 1 (extension token)
+      dur-ticker-rev: 48s  # marquee row 2, reverse (extension token)
+    easings:
+      ease-out:    cubic-bezier(0.22, 1, 0.36, 1)     # entrances
+      ease-in-out: cubic-bezier(0.65, 0, 0.35, 1)     # scene transitions
+      ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1)  # stat pops, playful accents
+    primitives:
+      motion-rise:         { keyframes: ds-rise,     use: translateY+fade entrance }
+      motion-count:        { keyframes: ds-count,    use: stat counter reveal (blur+rise) }
+      motion-collapse:     { keyframes: ds-collapse, use: text settle-together (niklasbubori) }
+      motion-ticker:       { keyframes: ds-ticker,   use: linear infinite marquee, -50% of duplicated track }
+      motion-dim-siblings: { selector: ".grid-hoverable:has(> :hover) > :not(:hover)", use: one hover dims the whole grid (opacity 0.45 + desaturate) }
+    reduced-motion:
+      contract: marquees/parallax disabled; entrances degrade to simple opacity; sibling-dim transition removed
+
+  breakpoints: # informational — CSS vars cannot drive @media
+    bp-sm: 480px
+    bp-md: 768px
+    bp-lg: 1024px
+    bp-xl: 1280px
+    bp-2xl: 1600px
+
+  z-index:
+    z-base: 0
+    z-grid: 1       # background grid overlay
+    z-content: 10
+    z-nav: 100
+    z-toggle: 110
+    z-overlay: 1000
+
+icons: # inline stroke SVG only — 24×24, 1.5px stroke, rounded joins/caps, currentColor
+  arrow-up-right: external link
+  terminal: TUI / CLI projects
+  layers: architecture / 3-tier
+  cpu: ML / model
+  git-branch: CI/CD
+  database: data / SQL
+  shield-check: guard / rollback
+  gauge: performance / stat
+  box: Docker / container
+  sparkles: agentic / AI
+
+components: # name → class, composed tokens, states. IDs match site anchors verbatim.
+
+  nav:
+    class: .nav
+    children: [.nav__brand, .nav__links, .nav__link, .mode-toggle]
+    tokens: [c-bg, c-line, s-4, s-5, z-nav, t-eyebrow, font-mono]
+    states: { link-hover: "c-text-muted → c-text" }
+
+  mode-toggle: # easol section-swap control; client-side state only
+    class: .mode-toggle
+    children: [.mode-toggle__pill]
+    default-active: RECRUITER
+    tokens: [c-bg-2, c-line, r-pill, s-1, s-4, c-accent, c-on-accent, z-toggle, dur-fast, ease-out]
+    states: { active: "filled c-accent + c-on-accent text", inactive: "ghost border-hair", hover: "text → c-text" }
+
+  ticker: # two rows, opposite directions, CSS marquee, no JS
+    class: .ticker
+    children: [.ticker__row, .ticker__row--reverse, .ticker__track, .ticker__set, .pill--stack, .fact-chip]
+    technique: track holds two identical .ticker__set copies; ds-ticker translates -50%
+    tokens: [c-line, s-3, s-4, dur-ticker, dur-ticker-rev, r-pill, c-surface, c-energy]
+    states: { hover: animation paused, reduced-motion: static }
+
+  fact-chip: # ticker row 2 phrase — leading icon, key numeral in energy
+    class: .fact-chip
+    children: [.icon, .fact-chip__num]
+    tokens: [font-mono, t-eyebrow, c-text-muted, c-text-faint, c-energy, s-2]
+
+  timeline: # easol progress pattern; horizontal ≥768px, vertical below
+    class: .timeline
+    children: [.timeline__step, .timeline__rail, .timeline__node, .timeline__label, .timeline__tag, .timeline__detail]
+    modifiers: { is-complete: rail+node filled c-accent }
+    status-tags:
+      "[SHIPPED]": pill--status-shipped   # c-status-shipped (blue)
+      "[97.9% ACCURACY]": pill--status-win # c-status-win (magenta)
+      "[IN PROGRESS]": pill--status-progress # amber — EMPLOYMENT ONLY
+      "[CLOSED — 4 MOS]": pill--status-closed # c-status-closed (terracotta)
+    tokens: [c-line, c-accent, s-5, t-h3, t-small, r-round]
+
+  stat: # cash.app counter block
+    class: .stat
+    children: [.stat__value, .stat__label, .stat__source]
+    modifiers: { stat--win: "value in c-energy + glow-energy text-shadow" }
+    motion: motion-count
+    tokens: [t-mono-stat, font-mono, c-text, c-energy, glow-energy, c-text-muted, c-text-faint, s-2]
+    rule: every stat carries its verified source tag (HiveMind / DOOM / PicPay)
+
+  projects-flagship: # full-bleed section shell — slots, NOT finished pages
+    class: .projects-flagship
+    slots: [eyebrow, title, lead, hero-visual (diagram OR device mockup), callout-stat row, tag row]
+    children: [.projects-flagship__copy, .projects-flagship__visual, .projects-flagship__stats, .projects-flagship__tags]
+    modifiers:
+      --layout-left: copy 1-6 / visual 7-12 (default)
+      --layout-right: mirrored columns
+      --layout-flood: background flooded c-accent, ink c-on-accent
+    rule: flagships must NOT all look equal — vary modifier + accent flood per project
+    tokens: [s-6, s-7, s-8, c-bg, c-line, c-accent, c-on-accent, z-content, bg-grid]
+
+  gallery-secondary: # larger card, live register
+    class: .gallery-secondary
+    children: [.gallery-secondary__title, .gallery-secondary__blurb, .gallery-secondary__callout, .gallery-secondary__tags]
+    tokens: [c-surface, c-line, r-lg, s-4, s-6, t-h3, c-accent, glow-accent]
+    states: { hover: glow-accent + participates in motion-dim-siblings }
+
+  gallery-archive: # denser card, muted closed-chapter register
+    class: .gallery-archive
+    children: [.gallery-archive__title, .gallery-archive__blurb, .gallery-archive__callout]
+    tokens: [c-bg-2, c-line, r-md, s-3, s-5, c-text-muted, c-warm, c-warm-lo]
+    states: { hover: border → c-warm-lo, NO glow }
+    register: warm accent instead of blue; no celebration
+
+  pill:
+    class: .pill
+    variants:
+      pill--stack: ticker stack pill (c-surface bg)
+      pill--status-shipped: c-status-shipped
+      pill--status-win: c-status-win
+      pill--status-progress: c-status-progress (employment only)
+      pill--status-closed: c-status-closed
+      pill--chip: filter/skill chip (hover → accent)
+    tokens: [font-mono, t-eyebrow, r-pill, c-line, s-1, s-2, s-4]
+
+  skills: # vercel density
+    class: .skills
+    children: [.skills__cell, .skills__name, .skills__bar]
+    groups: [Languages, Frontend, Backend, Data & ML, Cloud & DevOps, Agentic-AI]
+    bar-fill: "--fill custom property (default 50%)"
+    tokens: [c-line, c-bg-2, c-surface, c-surface-2, c-accent, s-1, s-3, s-4, s-5, r-pill]
+    states: { cell-hover: bg → c-surface + motion-dim-siblings on container }
+
+  btn:
+    class: .btn
+    variants:
+      btn--primary: { fill: c-accent, ink: c-on-accent, hover: "c-accent-hi + glow-accent", active: c-accent-lo }
+      btn--ghost:   { border: border-strong, ink: c-text, hover: border → c-text, active: bg c-surface }
+      btn--link:    { face: mono uppercase, ink: c-accent, hover: c-accent-hi, icon: arrow-up-right }
+    focus-visible: 2px c-accent-hi outline, 2px offset
+    tokens: [r-pill, s-1, s-2, s-3, s-5, t-small, dur-fast, ease-out]
+
+  mockup-iphone: { class: .mockup-iphone, device: iPhone 16 Pro, ratio: "71.5:146.6", radius: [r-iphone, r-iphone-screen], feature: Dynamic Island, tokens: [c-frame, c-frame-edge, c-screen, s-2, s-4, s-5, r-pill, shadow-2], slot: .mockup__screen }
+  mockup-ipad: { class: .mockup-ipad, device: iPad Pro / Air, ratio: "4:3 landscape", radius: [r-ipad, r-ipad-screen], tokens: [c-frame, c-frame-edge, c-screen, s-3, shadow-2], slot: .mockup__screen }
+  mockup-macbook: { class: .mockup-macbook, device: MacBook Pro 14", parts: [__lid (notch), __base (thumb scoop)], radius: [r-macbook, r-sm, r-md], tokens: [c-frame, c-frame-edge, c-screen, s-2, s-3], slot: .mockup__screen }
+  mockup-studio-display: { class: .mockup-studio-display, device: Studio Display XDR, parts: [__screen, __stand, __foot], ratio: "16:9", radius: [r-md, r-sm], tokens: [c-frame, c-frame-edge, c-screen, s-2, s-3, s-6, s-8, s-10, shadow-2], slot: .mockup__screen }
+  mockup-browser: { class: .mockup-browser, device: generic browser chrome (DOOM — URL bar as device), parts: [__bar, __dot ×3, __url, __body], radius: [r-md, r-pill, r-round], tokens: [c-line, c-surface, c-bg-2, c-screen, c-text-muted, s-1, s-2, s-3, t-eyebrow, shadow-1], slot: .mockup__screen }
+
+  bg-grid: # background grid overlay — easol/vercel continuity
+    class: .bg-grid
+    technique: "::before with two linear-gradients, cell s-8 × s-8, at z-grid, pointer-events none"
+    tokens: [c-grid, s-8, z-grid]
+    rule: must not reduce text contrast; content sits at z-content
+
+  eyebrow:
+    class: .eyebrow (alias .t-eyebrow)
+    tokens: [font-mono, t-eyebrow, c-text-faint]
+
+  divider:
+    class: .divider
+    tokens: [c-line]
+
+  icon:
+    class: .icon
+    size: s-5 (24px)
+    stroke: 1.5px, round joins/caps, currentColor
+
+rules:
+  register: # copy tone → color + motion mapping (LARP guardrail)
+    shipped-live:
+      applies-to: all flagships + Cloudflare Dashboard (styled as shipped)
+      treatment: c-accent status, motion-count reveals, glow-accent/glow-energy allowed, kinetic entrances
+      forbidden: '"coming soon" / "in progress" language or muted styling'
+    closed-chapter:
+      applies-to: dk-shipping (Jan–Apr 2024)
+      treatment: c-warm accent, c-text-muted body, motion-rise only
+      forbidden: glow, counter animation, blue accent
+    archive-strip:
+      applies-to: solved challenges / coursework / community
+      treatment: neutral, dense, c-text-muted, minimal motion
+    in-progress:
+      applies-to: PicPay employment row ONLY
+      treatment: c-status-progress amber
+      forbidden: amber on any project
+  contrast: body text ≥ 4.5:1 on c-bg / c-surface in both themes; accent-on-dark for large display only
+  mockups: Apple devices only, hand-built SVG/CSS, no stock photos, no GIF/MP4 where CSS/SVG works
+  uppercase: t-eyebrow-class labels only, never body copy
+  stats: only verified numbers with source tags — never invented

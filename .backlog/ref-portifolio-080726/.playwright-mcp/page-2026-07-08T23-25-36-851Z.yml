@@ -1,0 +1,528 @@
+- generic [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#maincontent"
+  - link "Skip to nav" [ref=e3] [cursor=pointer]:
+    - /url: "#navigation-holder"
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Easol - Go to homepage" [ref=e6] [cursor=pointer]:
+        - /url: https://easol.com/
+        - generic [ref=e7]: Easol - Home
+        - img [ref=e8]
+      - generic [ref=e10]:
+        - navigation [ref=e11]:
+          - list [ref=e12]:
+            - listitem [ref=e13]:
+              - link "Platform" [ref=e14] [cursor=pointer]:
+                - /url: https://easol.com/platform/
+                - generic [ref=e15]: Platform
+            - listitem [ref=e16]:
+              - link "AI" [ref=e17] [cursor=pointer]:
+                - /url: https://easol.com/ai/
+                - generic [ref=e18]: AI
+                - img [ref=e19]
+            - listitem [ref=e23]:
+              - link "Solutions" [ref=e24] [cursor=pointer]:
+                - /url: "#"
+                - generic [ref=e25]: Solutions
+            - listitem [ref=e26]:
+              - link "Resources" [ref=e27] [cursor=pointer]:
+                - /url: "#"
+                - generic [ref=e28]: Resources
+            - listitem [ref=e29]:
+              - link "Pricing" [ref=e30] [cursor=pointer]:
+                - /url: https://easol.com/pricing/
+                - generic [ref=e31]: Pricing
+        - navigation [ref=e32]:
+          - link "Login" [ref=e33] [cursor=pointer]:
+            - /url: https://myeasol.com/
+          - link "Book a demo" [ref=e34] [cursor=pointer]:
+            - /url: https://easol.com/book-a-demo/
+  - main [ref=e35]:
+    - generic [ref=e37]:
+      - heading "The future of selling experiences" [level=1] [ref=e40]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - figure [ref=e44]
+          - paragraph [ref=e45]: Website
+        - generic [ref=e46]:
+          - figure [ref=e47]
+          - paragraph [ref=e48]: Booking & Sales
+        - generic [ref=e49]:
+          - figure [ref=e50]
+          - paragraph [ref=e51]: Payments & POS
+        - generic [ref=e52]:
+          - figure [ref=e53]
+          - paragraph [ref=e54]: Marketing & CRM
+        - generic [ref=e55]:
+          - figure [ref=e56]
+          - paragraph [ref=e57]: Data & Operations
+      - generic [ref=e58]:
+        - paragraph [ref=e59]: Easol powers experience businesses to move beyond rigid systems and legacy platforms to their own all-in-one platform and AI digital workforce to sell more and scale faster.
+        - link "Book a demo" [ref=e61] [cursor=pointer]:
+          - /url: https://easol.com/book-a-demo/
+          - generic [ref=e62]: Book a demo
+    - generic [ref=e66]:
+      - img "Logo" [ref=e68]
+      - img "Logo" [ref=e70]
+      - img "Logo" [ref=e72]
+      - img "Logo" [ref=e74]
+      - img "Logo" [ref=e76]
+      - img "Logo" [ref=e78]
+      - img "Logo" [ref=e80]
+      - img "Logo" [ref=e82]
+      - img "Logo" [ref=e84]
+      - img "Logo" [ref=e86]
+      - img "Logo" [ref=e88]
+      - img "Logo" [ref=e90]
+      - img "Logo" [ref=e92]
+      - img "Logo" [ref=e94]
+      - img "Logo" [ref=e96]
+      - img "Logo" [ref=e98]
+      - img "Logo" [ref=e100]
+      - img "Logo" [ref=e102]
+      - img "Logo" [ref=e104]
+      - img "Logo" [ref=e106]
+      - img "Logo" [ref=e108]
+      - img "Logo" [ref=e110]
+      - img "Logo" [ref=e112]
+      - img "Logo" [ref=e114]
+      - img "Logo" [ref=e116]
+      - img "Logo" [ref=e118]
+      - img "Logo" [ref=e120]
+    - generic [ref=e121]:
+      - generic [ref=e122]:
+        - figure [ref=e123]
+        - generic [ref=e124]: Welcome to Experience Commerce
+        - figure [ref=e125]
+        - generic [ref=e126]: Welcome to Experience Commerce
+        - figure [ref=e127]
+        - generic [ref=e128]: Welcome to Experience Commerce
+        - figure [ref=e129]
+        - generic [ref=e130]: Welcome to Experience Commerce
+        - figure [ref=e131]
+        - generic [ref=e132]: Welcome to Experience Commerce
+        - figure [ref=e133]
+        - generic [ref=e134]: Welcome to Experience Commerce
+      - generic [ref=e135]:
+        - figure [ref=e136]
+        - generic [ref=e137]: AI POWERED AGENTS
+        - figure [ref=e138]
+        - generic [ref=e139]: AI POWERED AGENTS
+        - figure [ref=e140]
+        - generic [ref=e141]: AI POWERED AGENTS
+        - figure [ref=e142]
+        - generic [ref=e143]: AI POWERED AGENTS
+        - figure [ref=e144]
+        - generic [ref=e145]: AI POWERED AGENTS
+        - figure [ref=e146]
+        - generic [ref=e147]: AI POWERED AGENTS
+    - generic [ref=e149]:
+      - generic [ref=e150]:
+        - heading "Your All-in-One Platform" [level=2] [ref=e151]
+        - paragraph [ref=e152]: The best in class platform for your experience business end to end. Build and run everything you need in one place to scale faster and drive more revenue.
+      - generic [ref=e153]:
+        - article [ref=e155]:
+          - generic [ref=e156]:
+            - img [ref=e159]
+            - generic [ref=e451]:
+              - heading "Website" [level=3] [ref=e452]
+              - paragraph [ref=e454]: Build your dream site — with limitless design freedom, fully branded on your own domain, and connected with your bookings, payments, and operations so everything runs seamlessly in one place.
+              - generic [ref=e456]:
+                - figure [ref=e458]
+                - generic [ref=e459]: +30% site conversions
+              - link "Explore platform" [ref=e461] [cursor=pointer]:
+                - /url: /platform?tab=website
+                - generic [ref=e462]: Explore platform
+        - list:
+          - listitem:
+            - generic: Website
+          - listitem:
+            - generic: Booking & Sales
+          - listitem:
+            - generic: Payments & POS
+          - listitem:
+            - generic: Marketing & CRM
+          - listitem:
+            - generic: Data & Operations
+          - listitem:
+            - generic: Support
+          - listitem:
+            - generic: Capital
+    - generic [ref=e465]:
+      - generic [ref=e466]:
+        - img [ref=e467]
+        - heading "Scale faster and drive revenue with AGENTIC AI" [level=4] [ref=e471]
+      - heading "Meet your AI digital workforce" [level=2] [ref=e472]
+      - paragraph [ref=e474]: Your AI collaborator agents carry out workflows on your behalf. Supercharging your team to drive revenue and focus on higher value work.
+      - link "See agentic AI" [ref=e476] [cursor=pointer]:
+        - /url: https://easol.com/ai/
+        - generic [ref=e477]: See agentic AI
+    - img "EasolAgentic_NewRequest" [ref=e481]
+    - generic [ref=e484]:
+      - list [ref=e486]:
+        - button "Support Turn support into a revenue driver High support volumes overwhelm teams, causing slow responses and lost revenue. Train your AI Support Agent to resolve enquiries, updates bookings and surface hidden revenue automatically." [ref=e487]:
+          - text: Support
+          - generic [ref=e488]:
+            - generic [ref=e489]:
+              - heading "Turn support into a revenue driver" [level=3]
+            - generic [ref=e490]:
+              - generic [ref=e491]:
+                - img [ref=e492]
+                - paragraph
+                - generic [ref=e496]: High support volumes overwhelm teams, causing slow responses and lost revenue.
+              - generic [ref=e497]:
+                - img [ref=e498]
+                - paragraph
+                - generic [ref=e503]: Train your AI Support Agent to resolve enquiries, updates bookings and surface hidden revenue automatically.
+        - button "Sales Never miss a high-intent lead again Manual sales processes slow responses and let high-intent leads slip away. Your AI Sales Agent responds instantly, drafts proposals and drives conversions end-to-end." [ref=e506]:
+          - text: Sales
+          - generic:
+            - generic [ref=e507]:
+              - heading "Never miss a high-intent lead again" [level=3]
+            - generic [ref=e508]:
+              - generic [ref=e509]:
+                - img [ref=e510]
+                - paragraph
+                - generic [ref=e514]: Manual sales processes slow responses and let high-intent leads slip away.
+              - generic [ref=e515]:
+                - img [ref=e516]
+                - paragraph
+                - generic [ref=e521]: Your AI Sales Agent responds instantly, drafts proposals and drives conversions end-to-end.
+      - figure [ref=e525]
+    - generic [ref=e527]:
+      - generic [ref=e528]:
+        - heading "Built for professional experience creators" [level=2] [ref=e529]
+        - paragraph [ref=e530]: Powering the world’s leading creators from professional to enterprise.
+      - generic [ref=e531]:
+        - generic [ref=e532]:
+          - list [ref=e533]:
+            - listitem [ref=e534]:
+              - generic [ref=e535]: Music
+            - listitem [ref=e536]:
+              - generic [ref=e537]: Entertainment
+            - listitem [ref=e538]:
+              - generic [ref=e539]: Adventure
+          - generic [ref=e540]:
+            - generic: Festivals
+            - generic: Tours
+            - generic: Destination Shows
+            - generic: Concept Cruises
+            - generic: Club Brands
+            - generic: VIP Experience
+        - figure [ref=e543]
+    - generic [ref=e546]:
+      - generic [ref=e547]:
+        - img [ref=e548]
+        - heading "FEATURED IN" [level=4] [ref=e552]
+      - heading "“Easol is a vital resource for experience creators.”" [level=2] [ref=e553]
+      - generic [ref=e554]:
+        - link "Easol in the press" [ref=e555] [cursor=pointer]:
+          - /url: https://www.notion.so/easol/Easol-Newsroom-af70d0fb8dc249ccbe32c122cdf4b8b2#38e40e9d5b7742e9ad7b8d1d0319ce03
+          - generic [ref=e556]: Easol in the press
+        - figure [ref=e557]
+    - generic [ref=e559]:
+      - generic [ref=e560]:
+        - heading "The problem" [level=4] [ref=e562]
+        - generic [ref=e563]:
+          - paragraph [ref=e564]: Your
+          - generic [ref=e566]:
+            - generic [ref=e567]: Software
+            - generic [ref=e568]: Ticketing
+            - generic [ref=e569]: Booking Tool
+            - generic [ref=e570]: Marketplace
+            - generic [ref=e571]: Software
+          - paragraph [ref=e572]: is holding
+          - paragraph [ref=e573]: you back
+      - generic [ref=e574]:
+        - generic [ref=e575]:
+          - figure [ref=e576]
+          - heading "The solution" [level=4] [ref=e577]
+        - paragraph [ref=e579]: Your software shouldn’t demand your time. It should give it back. Finally, you can use one platform (not six) to manage everything you need and increase revenue for your experience business.
+        - list [ref=e580]:
+          - listitem [ref=e581]:
+            - generic [ref=e582]: Conversion
+            - generic [ref=e583]: 30%
+          - listitem [ref=e584]:
+            - generic [ref=e585]: Basket Spend
+            - generic [ref=e586]: 24%
+          - listitem [ref=e587]:
+            - generic [ref=e588]: ROI in six months
+            - generic [ref=e589]: 200%
+        - link "Book a demo" [ref=e591] [cursor=pointer]:
+          - /url: https://easol.com/book-a-demo/
+          - generic [ref=e592]: Book a demo
+    - generic [ref=e595]:
+      - heading "With Easol, growth isn’t possible it’s inevitable." [level=2] [ref=e596]
+      - link "Explore Platform" [ref=e598] [cursor=pointer]:
+        - /url: https://easol.com/platform/
+        - generic [ref=e599]: Explore Platform
+    - generic [ref=e602]:
+      - list [ref=e604]:
+        - button "Empower Build for your needs, flexible by design One-size-fits-all tools and legacy ticketing force you to bend your business. Build the software to run your experience business — your brand, your flows, your rules — without a custom build or dev team." [ref=e605]:
+          - text: Empower
+          - generic [ref=e606]:
+            - generic [ref=e607]:
+              - heading "Build for your needs, flexible by design" [level=3]
+            - generic [ref=e608]:
+              - generic [ref=e609]:
+                - img [ref=e610]
+                - paragraph
+                - generic [ref=e614]: One-size-fits-all tools and legacy ticketing force you to bend your business.
+              - generic [ref=e615]:
+                - img [ref=e616]
+                - paragraph
+                - generic [ref=e621]: Build the software to run your experience business — your brand, your flows, your rules — without a custom build or dev team.
+        - button "Convert Supercharge your revenues Restricted in how you want to sell and what you can sell to maximise spend. Flexible pricing rules, seamless packaging, automated upsells." [ref=e624]:
+          - text: Convert
+          - generic:
+            - generic [ref=e625]:
+              - heading "Supercharge your revenues" [level=3]
+            - generic [ref=e626]:
+              - generic [ref=e627]:
+                - img [ref=e628]
+                - paragraph
+                - generic [ref=e632]: Restricted in how you want to sell and what you can sell to maximise spend.
+              - generic [ref=e633]:
+                - img [ref=e634]
+                - paragraph
+                - generic [ref=e639]: Flexible pricing rules, seamless packaging, automated upsells.
+        - button "Scale Cut your costs Sprawling tools, manual ops, FX leakage. Automate ops; consolidate tools; protect margin with treasury optimisation and faster settlement." [ref=e641]:
+          - text: Scale
+          - generic:
+            - generic [ref=e642]:
+              - heading "Cut your costs" [level=3]
+            - generic [ref=e643]:
+              - generic [ref=e644]:
+                - img [ref=e645]
+                - paragraph
+                - generic [ref=e649]: Sprawling tools, manual ops, FX leakage.
+              - generic [ref=e650]:
+                - img [ref=e651]
+                - paragraph
+                - generic [ref=e656]: Automate ops; consolidate tools; protect margin with treasury optimisation and faster settlement.
+      - img "Easol_OnlineStore" [ref=e661]
+    - generic [ref=e663]:
+      - generic [ref=e664]:
+        - heading "Showcase experiences. Track every guest touchpoint." [level=2] [ref=e665]
+        - paragraph [ref=e666]: Centralise and track every stage of the customer booking journey, empowering your team to make faster, better informed decisions that drive lasting impact.
+      - generic [ref=e667]:
+        - button "View details for GROUPS & EVENTS" [ref=e668] [cursor=pointer]:
+          - generic [ref=e669]:
+            - figure [ref=e670]
+            - generic:
+              - figure
+          - generic [ref=e671]: GROUPS & EVENTS
+        - region:
+          - heading [level=3]: GROUPS & EVENTS
+          - generic:
+            - generic:
+              - paragraph: Send custom quotes for large groups, events, and personalised experiences.
+        - button "View details for PAYMENTS" [ref=e672] [cursor=pointer]:
+          - generic [ref=e673]:
+            - figure [ref=e674]
+            - generic:
+              - figure
+          - generic [ref=e675]: PAYMENTS
+        - region:
+          - heading [level=3]: PAYMENTS
+          - generic:
+            - generic:
+              - paragraph: Set up flexible payment options and methods on your domain.
+        - button "View details for LOCATIONS" [ref=e676] [cursor=pointer]:
+          - generic [ref=e677]:
+            - figure [ref=e678]
+            - generic:
+              - figure
+          - generic [ref=e679]: LOCATIONS
+        - region:
+          - heading [level=3]: LOCATIONS
+          - generic:
+            - generic:
+              - paragraph: Manage multiple locations and currencies around the world.
+        - button "View details for CAMPAIGNS" [ref=e680] [cursor=pointer]:
+          - generic [ref=e681]:
+            - figure [ref=e682]
+            - generic:
+              - figure
+          - generic [ref=e683]: CAMPAIGNS
+        - region:
+          - heading [level=3]: CAMPAIGNS
+          - generic:
+            - generic:
+              - paragraph: Run marketing campaigns with promotions and voucher codes.
+        - button "View details for PACKAGES" [ref=e684] [cursor=pointer]:
+          - generic [ref=e685]:
+            - figure [ref=e686]
+            - generic:
+              - figure
+          - generic [ref=e687]: PACKAGES
+        - region:
+          - heading [level=3]: PACKAGES
+          - generic:
+            - generic:
+              - paragraph: Bundle tickets, accommodations, and extras with optional add-ons.
+        - button "View details for GUEST DATA" [ref=e688] [cursor=pointer]:
+          - generic [ref=e689]:
+            - figure [ref=e690]
+            - generic:
+              - figure
+          - generic [ref=e691]: GUEST DATA
+        - region:
+          - heading [level=3]: GUEST DATA
+          - generic:
+            - generic:
+              - paragraph: Seamlessly collect critical guest information before arrival.
+        - button "View details for UPSELLS" [ref=e692] [cursor=pointer]:
+          - generic [ref=e693]:
+            - figure [ref=e694]
+            - generic:
+              - figure
+          - generic [ref=e695]: UPSELLS
+        - region:
+          - heading [level=3]: UPSELLS
+          - generic:
+            - generic:
+              - paragraph: Sell add-ons after checkout in your customers’ booking account.
+        - button "View details for BOOKING JOURNEY" [ref=e696] [cursor=pointer]:
+          - generic [ref=e697]:
+            - figure [ref=e698]
+            - generic:
+              - figure
+          - generic [ref=e699]: BOOKING JOURNEY
+        - region:
+          - heading [level=3]: BOOKING JOURNEY
+          - generic:
+            - generic:
+              - paragraph: Build custom booking journeys with tickets, extras, accommodations and more.
+        - button "View details for TIME SLOTS" [ref=e700] [cursor=pointer]:
+          - generic [ref=e701]:
+            - figure [ref=e702]
+            - generic:
+              - figure
+          - generic [ref=e703]: TIME SLOTS
+        - region:
+          - heading [level=3]: TIME SLOTS
+          - generic:
+            - generic:
+              - paragraph: Manage timed-entry tickets across rooms and other physical inventory.
+    - generic [ref=e706]:
+      - heading "Powering the world’s leading experience creators" [level=2] [ref=e708]
+      - generic [ref=e709]:
+        - tablist [ref=e711]:
+          - tab "Swingers" [selected] [ref=e712] [cursor=pointer]
+          - tab "Afro Nation" [ref=e713] [cursor=pointer]
+          - tab "Defected" [ref=e714] [cursor=pointer]
+          - tab "SurfYogaBeer" [ref=e715] [cursor=pointer]
+        - tabpanel "Swingers" [ref=e717]:
+          - generic [ref=e719]:
+            - heading "Swingers" [level=3] [ref=e720]
+            - heading "Mini Golf / Competitive Socialising" [level=4] [ref=e721]
+            - paragraph [ref=e722]: “Since we’ve moved over to Easol it’s been night and day really. We can be much more spontaneous and change our products on a regular basis, and our website is best-in-class, much more stable than what we used to have. And in terms of the customer experience, we can offer our customers so much more in flexibility and help, they can really curate their own booking with us. It’s given our team a whole new lease of life and we absolutely love it.” — Matt, Co-Founder
+            - link "Watch Case Study" [ref=e723] [cursor=pointer]:
+              - /url: https://youtu.be/nYTeJbrwoJ0
+            - list [ref=e724]:
+              - listitem [ref=e725]:
+                - generic [ref=e726]:
+                  - generic [ref=e727]:
+                    - generic [ref=e728]: "14"
+                    - generic [ref=e729]: "%"
+                  - generic [ref=e730]:
+                    - text: Increase in
+                    - text: Spend per Head
+    - generic [ref=e734]:
+      - generic [ref=e735]:
+        - heading "Work with our Revenue Architects" [level=2] [ref=e736]
+        - paragraph [ref=e737]: Easol is built from the ground up by experience creators. Work side-by-side with our Revenue Architects as an extension of your team. We have world-class specialists in every field of experience commerce from engineers, analysts, web designers, and more.
+        - link "About us" [ref=e738] [cursor=pointer]:
+          - /url: https://easol.com/about/
+          - generic [ref=e739]: About us
+      - generic [ref=e740]:
+        - article [ref=e741]:
+          - figure [ref=e742]
+          - generic [ref=e743]:
+            - heading "Discovery" [level=3] [ref=e744]
+            - paragraph [ref=e745]: Strategic analysis of your business and goals, with clear recommendations to support growth from day one.
+        - article [ref=e746]:
+          - figure [ref=e747]
+          - generic [ref=e748]:
+            - heading "On-sale" [level=3] [ref=e749]
+            - paragraph [ref=e750]: Specialists behind the world’s highest-grossing launches to set up your store and booking journey for a killer on-sale.
+        - article [ref=e751]:
+          - figure [ref=e752]
+          - generic [ref=e753]:
+            - heading "Insights" [level=3] [ref=e754]
+            - paragraph [ref=e755]: Revenue-focused guidance to define targets, uncover optimisation opportunities, and pull levers that drive more revenue.
+    - generic [ref=e769]:
+      - heading "Create moments, not things" [level=2] [ref=e770]
+      - paragraph [ref=e772]: Easol is your canvas, your team and your growth engine to power everything for your experience business.
+      - link "Book a demo" [ref=e774] [cursor=pointer]:
+        - /url: https://easol.com/book-a-demo/
+        - generic [ref=e775]: Book a demo
+    - figure [ref=e777]
+  - contentinfo [ref=e779]:
+    - generic [ref=e780]:
+      - generic [ref=e781]:
+        - link "Easol - Go to homepage" [ref=e782] [cursor=pointer]:
+          - /url: /
+          - img [ref=e783]
+        - img [ref=e785]
+      - paragraph [ref=e789]: EASOL © 2026
+    - paragraph [ref=e791]:
+      - text: Sell Experiences
+      - text: Not Things
+    - navigation [ref=e792]:
+      - paragraph [ref=e793]:
+        - link "About" [ref=e794] [cursor=pointer]:
+          - /url: https://easol.com/about
+      - paragraph [ref=e795]:
+        - link "Website Themes" [ref=e796] [cursor=pointer]:
+          - /url: https://easol.com/website-themes/
+      - paragraph [ref=e797]:
+        - link "Inspiration" [ref=e798] [cursor=pointer]:
+          - /url: https://easol.com/muse
+      - paragraph [ref=e799]:
+        - link "Press" [ref=e800] [cursor=pointer]:
+          - /url: https://www.notion.so/easol/Easol-Newsroom-af70d0fb8dc249ccbe32c122cdf4b8b2#38e40e9d5b7742e9ad7b8d1d0319ce03
+      - paragraph [ref=e801]:
+        - link "Creator terms" [ref=e802] [cursor=pointer]:
+          - /url: https://easol.com/creator-terms
+    - navigation [ref=e803]:
+      - paragraph [ref=e804]:
+        - link "Instagram" [ref=e805] [cursor=pointer]:
+          - /url: https://www.instagram.com/easol.official/
+      - paragraph [ref=e806]:
+        - link "Twitter" [ref=e807] [cursor=pointer]:
+          - /url: https://twitter.com/easol_
+      - paragraph [ref=e808]:
+        - link "Facebook" [ref=e809] [cursor=pointer]:
+          - /url: https://www.facebook.com/Easol.Official
+      - paragraph [ref=e810]:
+        - link "Linkedin" [ref=e811] [cursor=pointer]:
+          - /url: https://www.linkedin.com/company/easolhq/
+      - paragraph [ref=e812]:
+        - link "Privacy Policy" [ref=e813] [cursor=pointer]:
+          - /url: https://easol.com/privacy-policy
+    - navigation [ref=e814]:
+      - paragraph [ref=e815]:
+        - link "Help centre" [ref=e816] [cursor=pointer]:
+          - /url: https://support.easol.com/
+      - paragraph [ref=e817]:
+        - link "careers" [ref=e818] [cursor=pointer]:
+          - /url: https://www.notion.so/easol/Work-at-Easol-10c9bb92a00a4a419e611204d90df718
+      - paragraph [ref=e819]:
+        - link "Contact" [ref=e820] [cursor=pointer]:
+          - /url: mailto:support@easol.com
+      - paragraph [ref=e821]:
+        - link "Acceptable Use" [ref=e822] [cursor=pointer]:
+          - /url: https://easol.com/acceptable-use-terms
+      - paragraph [ref=e823]:
+        - link "Cookies Policy" [ref=e824] [cursor=pointer]:
+          - /url: https://easol.com/cookies-policy
+  - generic [ref=e827]:
+    - paragraph [ref=e829]: We use cookies to enhance your user experience
+    - generic [ref=e830]:
+      - button "Accept" [active] [ref=e831] [cursor=pointer]:
+        - generic [ref=e832]: Accept
+      - button "Decline" [ref=e833] [cursor=pointer]:
+        - generic [ref=e834]: Decline

@@ -1,0 +1,311 @@
+- generic [ref=f9e2]:
+  - banner [ref=f9e3]:
+    - generic [ref=f9e4]:
+      - link "home" [ref=f9e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f9e6]:
+          - generic [ref=f9e8]: by
+          - generic [ref=f9e10]: NIK
+          - generic [ref=f9e12]: las Bubori
+      - generic [ref=f9e13]:
+        - generic [ref=f9e15]: ZH · 01:31 AM
+        - button "menu" [ref=f9e16] [cursor=pointer]
+  - generic [ref=f9e21]:
+    - generic [ref=f9e22]:
+      - generic [ref=f9e23]:
+        - generic [ref=f9e25]: AWARDS
+        - generic [ref=f9e27]: x6
+      - generic [ref=f9e33]:
+        - group "1 / 3" [ref=f9e34]:
+          - link "Webflow News Honored to be named a Webflow Premium Partner, showcasing years of dedication." [ref=f9e35] [cursor=pointer]:
+            - /url: https://webflow.com/@niklasbubori
+            - generic [ref=f9e37]:
+              - generic [ref=f9e38]: Webflow News
+              - generic [ref=f9e39]: Honored to be named a Webflow Premium Partner, showcasing years of dedication.
+        - group "2 / 3" [ref=f9e41]:
+          - link "New Project Scriba.com is live! A new project redefining how we connect and collaborate." [ref=f9e42] [cursor=pointer]:
+            - /url: /projects
+            - generic [ref=f9e44]:
+              - generic [ref=f9e45]: New Project
+              - generic [ref=f9e46]: Scriba.com is live! A new project redefining how we connect and collaborate.
+        - group "3 / 3" [ref=f9e48]:
+          - link "Awards Submitted my portfolio to Awwwards—excited to see it reviewed by the community!" [ref=f9e49] [cursor=pointer]:
+            - /url: https://www.awwwards.com/niklasbubori/
+            - generic [ref=f9e51]:
+              - generic [ref=f9e52]: Awards
+              - generic [ref=f9e53]: Submitted my portfolio to Awwwards—excited to see it reviewed by the community!
+      - generic [ref=f9e55]:
+        - generic [ref=f9e65]: ZH · 01:31 AM
+        - generic [ref=f9e66]:
+          - generic [ref=f9e67]: “A sleek, refined website that perfectly represents my personal brand—effortless, modern, and beautifully executed.”
+          - generic [ref=f9e69]: Cameron Ewing · VP Alphasense
+    - generic [ref=f9e70]:
+      - generic [ref=f9e71]:
+        - link "Home Home" [ref=f9e72] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f9e74]:
+            - generic [ref=f9e75]: Home
+            - generic [ref=f9e76]: Home
+        - link "Projects Projects" [ref=f9e79] [cursor=pointer]:
+          - /url: /projects
+          - generic [ref=f9e81]:
+            - generic [ref=f9e82]: Projects
+            - generic [ref=f9e83]: Projects
+        - link "About About" [ref=f9e86] [cursor=pointer]:
+          - /url: /about
+          - generic [ref=f9e88]:
+            - generic [ref=f9e89]: About
+            - generic [ref=f9e90]: About
+      - link "Start a project Start a project" [ref=f9e94] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f9e95]:
+          - generic [ref=f9e96]: Start a project
+          - generic [ref=f9e97]: Start a project
+  - link [ref=f9e100] [cursor=pointer]:
+    - /url: "#"
+  - generic [ref=f9e101]:
+    - banner [ref=f9e102]:
+      - banner [ref=f9e103]:
+        - generic [ref=f9e107]:
+          - generic [ref=f9e109]:
+            - generic [ref=f9e111]:
+              - generic [ref=f9e112]: U
+              - generic [ref=f9e113]: "N"
+              - generic [ref=f9e114]: I
+              - generic [ref=f9e115]: Q
+              - generic [ref=f9e116]: U
+              - generic [ref=f9e117]: E
+            - generic [ref=f9e118]:
+              - generic [ref=f9e119]:
+                - generic [ref=f9e120]: B
+                - generic [ref=f9e121]: R
+                - generic [ref=f9e122]: A
+                - generic [ref=f9e123]: "N"
+                - generic [ref=f9e124]: D
+              - generic [ref=f9e125]: Digital
+              - generic [ref=f9e126]: Product
+            - generic [ref=f9e128]:
+              - generic [ref=f9e129]: E
+              - generic [ref=f9e130]: X
+              - generic [ref=f9e131]: P
+              - generic [ref=f9e132]: E
+              - generic [ref=f9e133]: R
+              - generic [ref=f9e134]: I
+              - generic [ref=f9e135]: E
+              - generic [ref=f9e136]: "N"
+              - generic [ref=f9e137]: C
+              - generic [ref=f9e138]: E
+              - generic [ref=f9e139]: .
+          - generic [ref=f9e142]:
+            - paragraph [ref=f9e144]: Award-winning Designer, Developer & Entrepreneur from Switzerland, redefining digital, user, & brand experiences to push boundaries and deliver impact.
+            - generic [ref=f9e148]:
+              - group "1 / 3" [ref=f9e149]:
+                - link "Awards Submitted my portfolio to Awwwards—excited to see it reviewed by the community!" [ref=f9e150] [cursor=pointer]:
+                  - /url: https://www.awwwards.com/niklasbubori/
+                  - generic [ref=f9e152]:
+                    - generic [ref=f9e153]: Awards
+                    - generic [ref=f9e154]: Submitted my portfolio to Awwwards—excited to see it reviewed by the community!
+              - group "2 / 3" [ref=f9e156]:
+                - link "Webflow news Honored to be named a Webflow Premium Partner, showcasing years of dedication." [ref=f9e157] [cursor=pointer]:
+                  - /url: https://webflow.com/@niklasbubori
+                  - generic [ref=f9e159]:
+                    - generic [ref=f9e160]: Webflow news
+                    - generic [ref=f9e161]: Honored to be named a Webflow Premium Partner, showcasing years of dedication.
+              - group "3 / 3" [ref=f9e163]:
+                - link "New Project Scriba Tax is live! Visit scriba.com to see how we’re transforming tax management." [ref=f9e164] [cursor=pointer]:
+                  - /url: /projects
+                  - generic [ref=f9e166]:
+                    - generic [ref=f9e167]: New Project
+                    - generic [ref=f9e168]: Scriba Tax is live! Visit scriba.com to see how we’re transforming tax management.
+    - generic [ref=f9e175]:
+      - generic [ref=f9e181] [cursor=pointer]:
+        - heading "Scriba Tax" [level=2] [ref=f9e183]
+        - generic [ref=f9e185]:
+          - paragraph [ref=f9e186]: DESIGN & DEVELOPMENT · 2024
+          - generic [ref=f9e189]:
+            - generic [ref=f9e190]: View project
+            - generic [ref=f9e191]: View project
+      - generic [ref=f9e202] [cursor=pointer]:
+        - heading "Cigarette Racing Middle east" [level=2] [ref=f9e204]
+        - generic [ref=f9e206]:
+          - paragraph [ref=f9e207]: DESIGN & DEVELOPMENT · 2024
+          - generic [ref=f9e210]:
+            - generic [ref=f9e211]: View project
+            - generic [ref=f9e212]: View project
+      - generic [ref=f9e223] [cursor=pointer]:
+        - heading "Asumma homes" [level=2] [ref=f9e225]
+        - generic [ref=f9e227]:
+          - paragraph [ref=f9e228]: DESIGN & DEVELOPMENT · 2023
+          - generic [ref=f9e231]:
+            - generic [ref=f9e232]: View project
+            - generic [ref=f9e233]: View project
+      - generic [ref=f9e244] [cursor=pointer]:
+        - heading "Galactic jet" [level=2] [ref=f9e246]
+        - generic [ref=f9e248]:
+          - paragraph [ref=f9e249]: DESIGN & DEVELOPMENT · 2024
+          - generic [ref=f9e252]:
+            - generic [ref=f9e253]: View project
+            - generic [ref=f9e254]: View project
+      - link "All projects All projects" [ref=f9e261] [cursor=pointer]:
+        - /url: /projects
+        - generic [ref=f9e262]:
+          - generic [ref=f9e263]: All projects
+          - generic [ref=f9e264]: All projects
+    - generic [ref=f9e269]:
+      - generic [ref=f9e271]: Hi there,
+      - generic [ref=f9e272]:
+        - generic [ref=f9e273]:
+          - generic [ref=f9e275]:
+            - generic [ref=f9e276]: C
+            - generic [ref=f9e277]: a
+            - generic [ref=f9e278]: l
+            - generic [ref=f9e279]: l
+            - generic [ref=f9e280]: m
+            - generic [ref=f9e281]: e
+            - text: ‍
+          - generic [ref=f9e283]:
+            - generic [ref=f9e284]: "N"
+            - generic [ref=f9e285]: i
+            - generic [ref=f9e286]: k
+        - generic [ref=f9e291]:
+          - paragraph [ref=f9e293]:
+            - text: Hi, I’m Nik, an award-winning Designer, Developer, and Entrepreneur from Switzerland. Over the years, I’ve had the privilege of working with global brands, B2B SaaS companies, and AI innovators in places like Silicon Valley, Dubai, and Singapore. My expertise goes beyond design—I partner with businesses to shape unique brands, craft digital and physical products, and create standout experiences that drive impact.
+            - text: Raised in a creative family, my journey began with graphic design, interior concepts, and craftsmanship, which now fuel my approach to building brands that truly lead their markets.
+          - generic [ref=f9e296]:
+            - link "Start a project Start a project" [ref=f9e297] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=f9e298]:
+                - generic [ref=f9e299]: Start a project
+                - generic [ref=f9e300]: Start a project
+            - link "Linkedin Linkedin" [ref=f9e301] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/niklas-bubori-43b747103/
+              - generic [ref=f9e302]:
+                - generic [ref=f9e303]: Linkedin
+                - generic [ref=f9e304]: Linkedin
+    - generic [ref=f9e315]:
+      - generic [ref=f9e317]: Services overview
+      - generic [ref=f9e318]:
+        - generic [ref=f9e319]:
+          - heading "Branding" [level=4] [ref=f9e320]
+          - paragraph [ref=f9e322]: Your brand is more than a logo—it's how the world perceives you. I create cohesive brand identities that resonate, tell a story, and make an impact, ensuring your business stands out in competitive markets.
+        - generic [ref=f9e323]:
+          - heading "UI / UX DESIGN" [level=4] [ref=f9e324]
+          - paragraph [ref=f9e326]: Exceptional design starts with the user. I craft intuitive interfaces and seamless experiences that not only look stunning but also drive engagement and enhance usability, putting your audience first.
+        - generic [ref=f9e327]:
+          - heading "ASSET PRODUCTIOn" [level=4] [ref=f9e328]
+          - paragraph [ref=f9e330]: From 3D assets, social media graphics to marketing materials, I deliver high-quality digital and physical assets tailored to amplify your brand’s voice and support your campaigns effectively.
+        - generic [ref=f9e331]:
+          - heading "WEB & APP design" [level=4] [ref=f9e332]
+          - paragraph [ref=f9e334]: I design responsive websites and applications that blend creativity with functionality, ensuring your digital presence meets your goals and keeps users engaged across all platforms.
+        - generic [ref=f9e335]:
+          - heading "INteraction design" [level=4] [ref=f9e336]
+          - paragraph [ref=f9e338]: Engaging animations and micro-interactions are the secret to dynamic user experiences. I design interactions that breathe life into your digital products, keeping users intrigued and connected.
+        - generic [ref=f9e339]:
+          - heading "Webflow" [level=4] [ref=f9e340]
+          - paragraph [ref=f9e342]: As an early adopter and expert, I bring your designs to life in Webflow, creating scalable, visually striking, and lightning-fast websites without compromising on flexibility or functionality.
+    - generic [ref=f9e347]:
+      - generic [ref=f9e348]:
+        - generic [ref=f9e350]:
+          - generic [ref=f9e351]: W
+          - generic [ref=f9e352]: h
+          - generic [ref=f9e353]: a
+          - generic [ref=f9e354]: t
+        - generic [ref=f9e356]:
+          - generic [ref=f9e357]: t
+          - generic [ref=f9e358]: h
+          - generic [ref=f9e359]: e
+          - generic [ref=f9e360]: "y"
+          - generic [ref=f9e361]: s
+          - generic [ref=f9e362]: a
+          - generic [ref=f9e363]: "y"
+      - generic [ref=f9e368]:
+        - generic [ref=f9e369]: Client voices
+        - generic [ref=f9e371]:
+          - generic [ref=f9e373]:
+            - group "1 / 5" [ref=f9e374]:
+              - generic [ref=f9e376]:
+                - paragraph [ref=f9e378]: "\"A refined and seamless online presence was exactly what I needed for my personal brand. Nik delivered a website that feels both sophisticated and effortless— perfectly aligned with my work and aesthetic.\""
+                - generic [ref=f9e379]: Cameron Ewing · VP Creative & Brand AlphaSense
+            - group "2 / 5":
+              - generic:
+                - generic:
+                  - paragraph: "\"Merantix needed a digital presence that reflects our vision for AI innovation. Nik’s expertise in design and development resulted in a platform that is both cutting-edge and highly functional.\""
+                - generic: Adrian Locher · Merantix Capital Founder
+            - group "3 / 5":
+              - generic:
+                - generic:
+                  - paragraph: “Creating a strong digital identity is crucial in our industry. Nik developed a website that not only looks exceptional but also communicates our brand’s expertise and credibility effortlessly.”
+                - generic: Thomas Rogers · Principal Cross Layer Capital
+            - group "4 / 5":
+              - generic:
+                - generic:
+                  - paragraph: “The complexity of quantum computing demands a website that is both clear and forward-thinking. Nik’s work elevated our online presence with a sleek, high-performance platform that truly represents Promethium.”
+                - generic: Joe Stamper · Director of Marketing QC Ware
+            - group "5 / 5":
+              - generic:
+                - generic:
+                  - paragraph: “A modern coworking space deserves a website that is just as dynamic. With a keen eye for design and seamless execution, Nik built a platform that reflects the flexibility and energy of Novu Campus.”
+                - generic: Emanuel Forny · Co-Founder Novu Campus
+          - button "Previous slide" [ref=f9e380] [cursor=pointer]
+          - button "Next slide" [ref=f9e381] [cursor=pointer]
+    - generic [ref=f9e387]:
+      - generic [ref=f9e391]:
+        - generic [ref=f9e392]:
+          - heading "Official Webflow Expert since 2021" [level=3] [ref=f9e394]
+          - generic [ref=f9e395]: As one of the first Webflow freelancers in Germany, I’ve been shaping digital experiences with Webflow since 2015. I bring years of hands-on experience to every project.
+        - link "Start a project Start a project" [ref=f9e397] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=f9e398]:
+            - generic [ref=f9e399]: Start a project
+            - generic [ref=f9e400]: Start a project
+      - generic [ref=f9e401]:
+        - generic [ref=f9e403]: 169+
+        - generic [ref=f9e404]:
+          - heading "Completed projects" [level=3] [ref=f9e405]
+          - generic [ref=f9e407]: I’ve collaborated with startups and established companies to elevate their brands and digital presence, helping some secure successful seed rounds with impactful redesigns.
+    - contentinfo [ref=f9e408]:
+      - generic [ref=f9e418]:
+        - link "S t a r t a p r o j e c t" [ref=f9e422] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=f9e423]:
+            - generic [ref=f9e424]: S
+            - generic [ref=f9e425]: t
+            - generic [ref=f9e426]: a
+            - generic [ref=f9e427]: r
+            - generic [ref=f9e428]: t
+            - generic [ref=f9e429]: a
+          - generic [ref=f9e431]:
+            - generic [ref=f9e432]: p
+            - generic [ref=f9e433]: r
+            - generic [ref=f9e434]: o
+            - generic [ref=f9e435]: j
+            - generic [ref=f9e436]: e
+            - generic [ref=f9e437]: c
+            - generic [ref=f9e438]: t
+        - generic [ref=f9e439]:
+          - generic [ref=f9e441]:
+            - link "Awwwards Awwwards" [ref=f9e442] [cursor=pointer]:
+              - /url: https://www.awwwards.com/niklasbubori/
+              - generic [ref=f9e443]:
+                - generic [ref=f9e444]: Awwwards
+                - generic [ref=f9e445]: Awwwards
+            - link "Webflow Webflow" [ref=f9e447] [cursor=pointer]:
+              - /url: https://webflow.com/@niklasbubori
+              - generic [ref=f9e448]:
+                - generic [ref=f9e449]: Webflow
+                - generic [ref=f9e450]: Webflow
+            - link "Linkedin Linkedin" [ref=f9e452] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/niklas-bubori-43b747103/
+              - generic [ref=f9e453]:
+                - generic [ref=f9e454]: Linkedin
+                - generic [ref=f9e455]: Linkedin
+          - generic [ref=f9e458]:
+            - generic [ref=f9e460]: ©2025 NIK
+            - generic [ref=f9e462]:
+              - link "Terms & Conditions" [ref=f9e463] [cursor=pointer]:
+                - /url: /terms-conditions
+              - link "Privacy" [ref=f9e464] [cursor=pointer]:
+                - /url: /privacy
+  - link [ref=f9e466] [cursor=pointer]:
+    - /url: https://www.awwwards.com/sites/niklas-bubori
+    - img [ref=f9e467]

@@ -1,0 +1,203 @@
+- generic [active] [ref=f6e1]:
+  - main [ref=f6e3]:
+    - generic [ref=f6e4]:
+      - generic:
+        - generic:
+          - link "Cash App Logo" [ref=f6e5] [cursor=pointer]:
+            - /url: /
+            - img "Cash App Logo" [ref=f6e7]
+          - generic:
+            - link "Sign up" [ref=f6e10] [cursor=pointer]:
+              - /url: /login?su
+              - generic [ref=f6e11]: Sign up
+              - img [ref=f6e13]
+            - link "Log in" [ref=f6e15] [cursor=pointer]:
+              - /url: /login
+      - main [ref=f6e17]:
+        - generic [ref=f6e18]:
+          - generic [ref=f6e21]:
+            - heading "The way money should work" [level=1] [ref=f6e24]
+            - generic [ref=f6e25]:
+              - paragraph [ref=f6e27]: From getting paid to growing what you've got, Cash App makes managing your money effortless and instant—without all the fees.
+              - link "Get started" [ref=f6e28] [cursor=pointer]:
+                - /url: /login?su
+                - text: Get started
+                - img [ref=f6e30]
+          - generic [ref=f6e37]:
+            - heading "Earn, save, and do more with Cash App Green" [level=2] [ref=f6e40]
+            - generic [ref=f6e41]:
+              - paragraph [ref=f6e43]: It's easier than ever to earn our best benefits yet—higher Borrow limits, up to 3.25% savings interest, free overdraft coverage, and free withdrawals from 40k in-network ATMs.
+              - link "Learn about Green" [ref=f6e44] [cursor=pointer]:
+                - /url: /bank/cash-app-green
+              - button "*See legal disclaimers" [ref=f6e45] [cursor=pointer]
+          - generic [ref=f6e48]:
+            - figure [ref=f6e50]:
+              - img "Cash App Glitter Card Design" [ref=f6e51]
+              - img "Cash App Card Black Design" [ref=f6e52]
+              - img "Cash App Card Pink Design" [ref=f6e53]
+              - img "Cash App Card White Design" [ref=f6e54]
+              - img "Cash App Card Glow Design" [ref=f6e55]
+              - img "Cash App Card Mood Design" [ref=f6e56]
+            - heading "Cash App Card is the debit card that works for you" [level=2] [ref=f6e59]
+            - generic [ref=f6e60]:
+              - list [ref=f6e62]:
+                - listitem [ref=f6e63]: No hidden or monthly fees ever
+                - listitem [ref=f6e64]: Weekly custom cash back offers
+                - listitem [ref=f6e65]: Real-time transaction alerts
+                - listitem [ref=f6e66]: Card designs you can fully personalize
+              - link "Meet Cash App Card" [ref=f6e67] [cursor=pointer]:
+                - /url: /card
+              - button "*See legal disclaimers" [ref=f6e68] [cursor=pointer]
+          - generic [ref=f6e71]:
+            - generic [ref=f6e72]:
+              - generic [ref=f6e74]:
+                - heading "Access cash when you need it" [level=2] [ref=f6e75]
+                - paragraph [ref=f6e76]: Explore our flexible ways to bridge the gap between payday and bill pay.
+              - link "Learn more" [ref=f6e78] [cursor=pointer]:
+                - /url: /access-cash
+            - generic [ref=f6e79]:
+              - generic [ref=f6e81]:
+                - button "Pause" [ref=f6e85] [cursor=pointer]:
+                  - img [ref=f6e86]
+                - paragraph [ref=f6e91]:
+                  - text: Get free overdraft coverage up to $200
+                  - superscript [ref=f6e92]: "*"
+              - paragraph [ref=f6e97]:
+                - text: Borrow up to $500 with no credit check
+                - superscript [ref=f6e98]: "**"
+              - paragraph [ref=f6e103]:
+                - text: Pay over time at top brands with Afterpay
+                - superscript [ref=f6e104]: "***"
+              - paragraph [ref=f6e109]: Get your paycheck up to 2 days early
+            - button "*See legal disclaimers" [ref=f6e110] [cursor=pointer]
+          - generic [ref=f6e113]:
+            - heading "Meet the all-new Cash App Tags" [level=2] [ref=f6e116]
+            - generic [ref=f6e117]:
+              - paragraph [ref=f6e119]: It's a more whimsical way to tap to pay. Tags are linked to Cash App Card, and you can lock them anytime for security.
+              - link "Explore tags" [ref=f6e120] [cursor=pointer]:
+                - /url: /tags
+              - button "*See legal disclaimers" [ref=f6e121] [cursor=pointer]
+          - generic [ref=f6e124]:
+            - heading "Make your money go even further" [level=2] [ref=f6e127]
+            - generic [ref=f6e128]:
+              - paragraph [ref=f6e130]:
+                - text: We make it easy to save and grow your money with up to 3.25% interest, automatic savings tools
+                - superscript [ref=f6e131]: "*"
+                - text: ", and the ability to turn spare change into stocks or bitcoin."
+                - superscript [ref=f6e132]: "**"
+              - link "Learn how to save and grow" [ref=f6e133] [cursor=pointer]:
+                - /url: /savings
+              - button "*See legal disclaimers" [ref=f6e134] [cursor=pointer]
+          - generic [ref=f6e137]:
+            - heading "Sending money is fast, free, and made for you" [level=2] [ref=f6e140]
+            - generic [ref=f6e141]:
+              - list [ref=f6e143]:
+                - listitem [ref=f6e144]: Personalize payments with stickers and text
+                - listitem [ref=f6e145]:
+                  - text: Collect money from a group with pools
+                  - superscript [ref=f6e146]: "*"
+                - listitem [ref=f6e147]: Sync your contacts to pay friends easily
+                - listitem [ref=f6e148]: Send money confidently with Security Lock
+              - link "Send money" [ref=f6e149] [cursor=pointer]:
+                - /url: /send
+          - generic [ref=f6e152]:
+            - heading "Security built into every swipe, tap, and send" [level=2] [ref=f6e155]
+            - generic [ref=f6e156]:
+              - paragraph [ref=f6e158]:
+                - text: Since 2020, we've prevented $2 billion+ in scams—while protecting what matters with real-time monitoring, Zero Fraud Liability, and FDIC insurance, subject to terms.
+                - superscript [ref=f6e159]: "*"
+              - link "Learn about security" [ref=f6e160] [cursor=pointer]:
+                - /url: /security
+              - button "*See legal disclaimers" [ref=f6e161] [cursor=pointer]
+          - generic [ref=f6e164]:
+            - heading "The money app 59 million+ people trust" [level=2] [ref=f6e167]
+            - generic [ref=f6e168]:
+              - blockquote [ref=f6e170]: “ Cash App makes it so easy to manage everything—I use it for saving, splitting bills, and getting paid. It's all-in-one. ”
+              - link "Read reviews" [ref=f6e171] [cursor=pointer]:
+                - /url: /reviews
+          - generic [ref=f6e173]:
+            - generic [ref=f6e174]:
+              - generic [ref=f6e175]: Cash App makes money simple
+              - generic [ref=f6e176]:
+                - generic [ref=f6e177]:
+                  - heading "5★" [level=3] [ref=f6e179]
+                  - paragraph [ref=f6e182]: Editor’s Choice on the App Store
+                - generic [ref=f6e183]:
+                  - heading "9.9m+" [level=3] [ref=f6e185]
+                  - paragraph [ref=f6e188]: Apple App Store and Google Play reviews
+                - generic [ref=f6e189]:
+                  - heading "4.5★" [level=3] [ref=f6e191]
+                  - paragraph [ref=f6e194]: Rated Excellent on Trustpilot
+                - link "Sign up now →" [ref=f6e195] [cursor=pointer]:
+                  - /url: /login?su
+                  - generic [ref=f6e196]:
+                    - heading "Sign up now" [level=3] [ref=f6e198]
+                    - paragraph [ref=f6e201]: →
+            - paragraph [ref=f6e205]:
+              - link "1 (800) 969-1940" [ref=f6e206] [cursor=pointer]:
+                - /url: tel:18009691940
+              - text: Available daily 8AM to 9:30PM ET
+            - generic [ref=f6e209]:
+              - link "Careers" [ref=f6e210] [cursor=pointer]:
+                - /url: /careers
+              - link "Press" [ref=f6e211] [cursor=pointer]:
+                - /url: /press
+              - link "Help" [ref=f6e212] [cursor=pointer]:
+                - /url: /help
+              - link "Status" [ref=f6e213] [cursor=pointer]:
+                - /url: https://status.cash.app/
+              - link "Legal" [ref=f6e214] [cursor=pointer]:
+                - /url: /legal/us/en-us/tos
+              - link "Licenses" [ref=f6e215] [cursor=pointer]:
+                - /url: https://block.xyz/legal/licenses
+              - link "Privacy Notice" [ref=f6e216] [cursor=pointer]:
+                - /url: /legal/us/en-us/privacy
+              - link "Your Privacy Choices" [ref=f6e217] [cursor=pointer]:
+                - /url: "#"
+            - generic [ref=f6e218]:
+              - link "X Logo" [ref=f6e219] [cursor=pointer]:
+                - /url: https://twitter.com/cashapp
+                - img "X Logo" [ref=f6e220]
+              - link "Instagram Logo" [ref=f6e222] [cursor=pointer]:
+                - /url: https://instagram.com/cashapp
+                - img "Instagram Logo" [ref=f6e223]
+              - link "Twitch Logo" [ref=f6e227] [cursor=pointer]:
+                - /url: https://www.twitch.tv/cashapp
+                - img "Twitch Logo" [ref=f6e228]
+              - link "Tik Tok Logo" [ref=f6e232] [cursor=pointer]:
+                - /url: https://www.tiktok.com/@cashapp
+                - img "Tik Tok Logo" [ref=f6e233]
+            - generic [ref=f6e235]:
+              - generic [ref=f6e239]:
+                - text: Cash App is a financial services platform, and not an FDIC-insured bank. Prepaid debit cards issued by Sutton Bank, Member FDIC. Cash App Visa® Debit Flex Cards issued by Sutton Bank, Member FDIC, and The Bancorp Bank, N.A., pursuant to a license from Visa U.S.A. Inc. See terms and conditions for the
+                - link "Sutton prepaid card" [ref=f6e240] [cursor=pointer]:
+                  - /url: https://cash.app/legal/us/en-us/card-agreement#toc-participating-in-the-program
+                - text: ","
+                - link "Sutton debit flex card" [ref=f6e241] [cursor=pointer]:
+                  - /url: https://cash.app/legal/us/en-us/debit-flex-card-agreement-sutton
+                - text: ", and"
+                - link "Bancorp debit flex card" [ref=f6e242] [cursor=pointer]:
+                  - /url: https://cash.app/legal/us/en-us/debit-flex-card-agreement-bancorp
+                - text: . Offers provided by Cash App, a Block, Inc. brand. Offers not affiliated with third party merchants.
+              - generic [ref=f6e246]:
+                - text: Brokerage services provided by Cash App Investing LLC, member
+                - link "FINRA" [ref=f6e247] [cursor=pointer]:
+                  - /url: https://www.finra.org/
+                - text: /
+                - link "SIPC" [ref=f6e248] [cursor=pointer]:
+                  - /url: https://www.sipc.org/
+                - text: ", subsidiary of Block, Inc. Bitcoin services provided by Block, Inc. Bitcoin services are not licensable activity in all U.S. states and territories. Block, Inc. operates in New York as Block of Delaware and is licensed to engage in virtual currency business activity by the New York State Department of Financial Services. Investing and bitcoin are non-deposit, non-bank products that are not FDIC insured and involve risk, including monetary loss. Cash App Investing does not trade bitcoin and Block, Inc. is not a member of FINRA or SIPC. For additional information, see the"
+                - link "Bitcoin" [ref=f6e249] [cursor=pointer]:
+                  - /url: https://cash.app/legal/us/en-us/bitcoin-disclosures
+                - text: and
+                - link "Cash App Investing" [ref=f6e250] [cursor=pointer]:
+                  - /url: https://cash.app/legal/us/en-us/disclosures-in-app
+                - text: disclosures.
+              - generic [ref=f6e254]:
+                - text: Additional fees for securities may apply such as regulatory fees and fees to transfer securities externally. Please see our
+                - link "House Rules" [ref=f6e255] [cursor=pointer]:
+                  - /url: https://cash.app/legal/cash-investing-house-rules
+                - text: for more information.
+              - generic [ref=f6e259]: P2P services and Savings are provided by Block, Inc. and not Cash App Investing LLC.
+              - generic [ref=f6e263]: Tax Filing Preparation services are provided by Cash App Taxes, Inc. and not Cash App Investing LLC.
+  - alert [ref=f6e264]
