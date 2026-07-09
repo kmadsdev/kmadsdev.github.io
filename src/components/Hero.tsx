@@ -5,6 +5,7 @@ import { HERO, HERO_NAME_LINES } from '@/constants/identity';
 import Eyebrow from '@/components/primitives/Eyebrow';
 import BgGrid from '@/components/primitives/BgGrid';
 import Globe from '@/components/primitives/Globe';
+import Ticker from '@/components/Ticker';
 
 /* Builds: 0 = name lines · 1 = tagline assembles word-by-word */
 export default function Hero({ buildIndex, active }: SceneProps) {
@@ -16,7 +17,8 @@ export default function Hero({ buildIndex, active }: SceneProps) {
   return (
     <BgGrid>
       <div className="scene hero" ref={reveal} data-reveal>
-        <div className="hero__inner">
+        <div className="hero__main">
+          <div className="hero__inner">
           <Eyebrow>{content.eyebrow}</Eyebrow>
           <h1 className="t-display hero__name" data-deck-layer="slow">
             {HERO_NAME_LINES.map((line, i) => (
@@ -42,14 +44,19 @@ export default function Hero({ buildIndex, active }: SceneProps) {
               </span>
             ))}
           </p>
-          <p className="hero__cue eyebrow" aria-hidden="true">
-            {content.scrollCue}
-            <span className="hero__cue-line" />
-          </p>
+            <p className="hero__cue eyebrow" aria-hidden="true">
+              {content.scrollCue}
+              <span className="hero__cue-line" />
+            </p>
+            {/* OG-site spinning globe — tighter to the name, not glued */}
+            <div className="hero__globe">
+              <Globe size={340} />
+            </div>
+          </div>
         </div>
-        {/* OG-site spinning globe, same placement (right side) */}
-        <div className="hero__globe" data-deck-layer="slow">
-          <Globe size={420} />
+        {/* auto-spinning marquee band, part of the hero (bottom) */}
+        <div className="hero__ticker">
+          <Ticker />
         </div>
       </div>
     </BgGrid>

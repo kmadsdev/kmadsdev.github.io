@@ -6,7 +6,6 @@ import { FLAGSHIP_ORDER, flagshipAnchor } from '@/constants/flagships';
 import Deck from '@/deck/Deck';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
-import Ticker from '@/components/Ticker';
 import About from '@/components/About';
 import Timeline from '@/components/Timeline';
 import ProjectsGallery from '@/components/ProjectsGallery';
@@ -51,8 +50,7 @@ function Site() {
       Component: FLAGSHIP_COMPONENTS[id],
     }));
     return [
-      { id: 'hero', builds: 2, Component: Hero, bg: 'var(--c-bg)' },
-      { id: 'ticker', builds: 1, Component: Ticker, bg: 'var(--c-bg)' }, // glides past — no slide dwell
+      { id: 'hero', builds: 2, Component: Hero, bg: 'var(--c-bg)' }, // ticker band lives inside
       { id: 'about', builds: 3, Component: About, bg: 'var(--c-bg-2)' },
       { id: 'timeline', builds: 8, Component: Timeline, bg: 'var(--c-bg)' }, // one chapter per gesture
       ...flagshipScenes,

@@ -156,10 +156,15 @@ html.is-deck body {
   border-bottom: none;
 }
 .ticker--display .ticker__row {
-  padding: var(--s-2) 0;
+  padding: var(--s-1) 0;
 }
 .ticker--display .ticker__row + .ticker__row {
   border-top: none;
+}
+/* both rows spin at the SAME speed, opposite directions (DS reverse row
+   ships slower — equalize) */
+.ticker--display .ticker__row--reverse .ticker__track {
+  animation-duration: var(--dur-ticker);
 }
 .ticker--display .ticker__set {
   gap: var(--s-5);
@@ -168,7 +173,7 @@ html.is-deck body {
 .ticker__phrase {
   font-family: 'Anton', var(--font-display);
   font-weight: 400;
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
   line-height: 1;
   letter-spacing: 0.01em;
   text-transform: uppercase;
@@ -185,7 +190,7 @@ html.is-deck body {
 .ticker__media {
   margin: 0;
   flex-shrink: 0;
-  block-size: clamp(3rem, 7vw, 6rem);
+  block-size: clamp(1.75rem, 3vw, 2.75rem);
   aspect-ratio: 16 / 9;
   border: none;
   border-radius: 0;
@@ -269,15 +274,42 @@ html.is-deck body {
 }
 
 /* ---------- hero ---------- */
+/* hero hosts the marquee band: content centers in the leftover space,
+   ticker sits at the bottom with breathing room */
+.hero {
+  align-content: stretch;
+  /* single explicit fr column — the marquee's max-content must not widen it */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  padding-bottom: var(--s-6);
+}
+.hero__ticker {
+  min-width: 0;
+  overflow: hidden;
+}
+.hero__main {
+  display: grid;
+  align-content: center;
+  min-height: 0;
+}
+.hero__ticker {
+  /* full-bleed band inside the padded scene */
+  margin-inline: calc(-1 * var(--s-6));
+  padding-bottom: var(--s-4);
+}
 .hero__inner {
   display: grid;
   gap: var(--s-6);
-  max-width: 84rem;
+  max-width: 76rem;
+  margin-inline: auto;
+  width: 100%;
+  padding-inline: clamp(var(--s-6), 5vw, var(--s-9));
 }
 .hero__name {
   display: grid;
   gap: var(--s-2);
   text-transform: uppercase;
+  font-size: clamp(2.75rem, 6vw, 5.25rem);
 }
 .hero__line {
   display: block;
@@ -306,15 +338,6 @@ html.is-deck body {
   width: var(--s-8);
   height: 1px;
   background: var(--c-line-strong);
-}
-
-/* ---------- ticker scene ---------- */
-.scene--ticker {
-  padding-left: 0;
-  padding-right: 0;
-}
-.scene--ticker .ticker {
-  width: 100%;
 }
 
 /* ---------- about ---------- */
@@ -748,9 +771,9 @@ a.gallery-archive {
 
 /* ---------- hero: OG spinning globe on the right ---------- */
 .hero__inner {
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: clamp(var(--s-7), 6vw, var(--s-10));
   align-items: center;
-  max-width: none;
 }
 .hero__inner > *:not(.hero__globe) {
   grid-column: 1;

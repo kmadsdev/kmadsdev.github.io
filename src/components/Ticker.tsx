@@ -1,6 +1,3 @@
-import { useRef } from 'react';
-import type { SceneProps } from '@/types';
-import { useTickerDrive } from '@/hooks/useTickerDrive';
 import { ROW1, ROW2_STACK } from '@/constants/ticker';
 import type { TickerEntry } from '@/constants/ticker';
 
@@ -82,15 +79,15 @@ function Entry({ entry }: { entry: TickerEntry }) {
   );
 }
 
-const SET_COPIES = 4; // ultrawide coverage (plan §2.5.4); wrap math uses one-set width
+/* CSS marquee loop: the track holds TWO byte-identical sets and ds-ticker
+   translates it by -50% — seamless. Row 2 runs the opposite direction at the
+   SAME speed (app.css overrides the DS reverse duration). Scroll never
+   touches it — it just spins. */
+const SET_COPIES = 2;
 
-export default function Ticker(_props: SceneProps) {
-  const row1 = useRef<HTMLDivElement>(null);
-  const row2 = useRef<HTMLDivElement>(null);
-  useTickerDrive(row1, row2);
-
-  const renderTrack = (entries: TickerEntry[], ref: React.RefObject<HTMLDivElement>) => (
-    <div className="ticker__track motion-ticker" ref={ref}>
+export default function Ticker() {
+  const renderTrack = (entries: TickerEntry[]) => (
+    <div className="ticker__track motion-ticker">
       {Array.from({ length: SET_COPIES }, (_, copy) => (
         <span key={copy} className="ticker__set" {...(copy > 0 ? { 'aria-hidden': true } : {})}>
           {entries.map((entry, i) => (
@@ -102,11 +99,9 @@ export default function Ticker(_props: SceneProps) {
   );
 
   return (
-    <div className="scene scene--ticker">
-      <div className="ticker ticker--display" id="ticker-band">
-        <div className="ticker__row">{renderTrack(ROW1, row1)}</div>
-        <div className="ticker__row ticker__row--reverse">{renderTrack(ROW2_STACK, row2)}</div>
-      </div>
+    <div className="ticker ticker--display" id="ticker-band">
+      <div className="ticker__row">{renderTrack(ROW1)}</div>
+      <div className="ticker__row ticker__row--reverse">{renderTrack(ROW2_STACK)}</div>
     </div>
   );
 }
