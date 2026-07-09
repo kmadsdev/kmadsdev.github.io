@@ -2,13 +2,17 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <!-- Redirect to the main page, if the page url is not found -->
-            <meta http-equiv="refresh" content="0; URL=/" />
-            <script>window.location.replace("/");</script>
-        <!-- -->
+        <!-- Path-aware redirect: legacy /projects* lands on the inline gallery anchor;
+             anything else falls back to the home page. Sibling project repos
+             (offmode, notes, doom, …) own their own paths and never hit this file. -->
+        <script>
+            var p = window.location.pathname;
+            window.location.replace(p.indexOf("/projects") === 0 ? "/#projects-gallery" : "/");
+        </script>
+        <noscript><meta http-equiv="refresh" content="0; URL=/" /></noscript>
         <style>
             body{
-                background-color: #262626;
+                background-color: #101010;
                 margin: 0;
                 padding: 0;
                 display: flex;
