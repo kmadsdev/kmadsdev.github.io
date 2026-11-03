@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>kmadsdev portfolio · Design System</title>
+<link rel="icon" type="image/png" href="../assets/kmads_logo_zoomedout.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   Living design system — kmadsdev portfolio prototype.
+   Self-contained: this file imports the SAME tokens that ship in
+   ../styles/prototype.css, then renders demos with them.
+   When tokens change in prototype.css, mirror the change here.
+   ============================================================ */
+:root {
+    --color-background:           #0e0e10;
+    --color-background-secondary: #131316;
+    --color-background-elevated:  #1a1a1f;
+    --color-accent:               #ff014f;
+    --color-accent-strong:        #ff3d72;
+    --color-accent-dim:           rgba(255, 1, 79, 0.12);
+    --color-accent-glow:          rgba(255, 1, 79, 0.18);
+    --color-text:                 #ffffff;
+    --color-text-secondary:       #c4cfde;
+    --color-text-muted:           #6e7480;
+    --shield-bg:                  rgba(15, 12, 14, 0.72);
+    --shield-border:              #5a1530;
+    --module-max:                 1180px;
+    --module-line:                #262629;
+    --module-line-soft:           #1c1c1f;
+    --module-line-strong:         #3a3a40;
+    --module-cell:                58px;
+    --module-stripe:
+        repeating-linear-gradient(135deg,
+            transparent 0 18px,
+            rgba(255, 255, 255, 0.06) 18px 19px,
+            transparent 19px 38px);
+    --font-sans: "Rubik", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.22s ease;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scrollbar-color: var(--color-text-muted) transparent; scrollbar-width: thin; }
+body {
+    font-family: var(--font-sans);
+    background: #06070a;
+    color: var(--color-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+a { color: var(--color-accent); text-decoration: none; transition: color var(--transition-fast); }
+a:hover { color: var(--color-accent-strong); }
+ul { list-style: none; }
+code, pre {
+    font-family: var(--font-mono);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+code { padding: 0.1rem 0.4rem; font-size: 0.85em; color: #e6e6e6; }
+pre { padding: 1rem 1.25rem; overflow-x: auto; font-size: 0.78rem; line-height: 1.6; color: #e6e6e6; }
+::selection { background: var(--color-accent); color: var(--color-background); }
+img, svg { max-width: 100%; height: auto; display: block; }
+
+.ds-shell { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+
+.ds-sidebar {
+    position: sticky; top: 0; align-self: start;
+    height: 100vh; overflow-y: auto;
+    padding: 2rem 1.5rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255, 1, 79, 0.05), transparent 30%), var(--color-background);
+}
+.ds-brand { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
+.ds-brand img { width: 30px; height: 30px; }
+.ds-brand .accent { color: var(--color-accent); }
+.ds-brand small { color: var(--color-text-muted); font-weight: 500; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; }
+
+.ds-nav { display: flex; flex-direction: column; gap: 0.1rem; font-size: 0.84rem; }
+.ds-nav h4 { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--color-text-muted); margin: 1.2rem 0 0.4rem; padding: 0 0.6rem; }
+.ds-nav a { display: block; padding: 0.4rem 0.6rem; color: var(--color-text-secondary); border-radius: 6px; border-left: 2px solid transparent; }
+.ds-nav a:hover { color: var(--color-text); background: rgba(255,255,255,0.03); border-left-color: var(--color-accent); }
+.ds-nav a.cross { color: var(--color-text-muted); }
+.ds-nav a.cross:hover { color: var(--color-accent); }
+
+.ds-content { padding: 3rem clamp(1rem, 4vw, 4rem); max-width: 1100px; }
+
+.ds-hero { padding: 3rem 0 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 3rem; }
+.ds-hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.025em; font-weight: 800; margin-bottom: 0.8rem; }
+.ds-hero .accent { color: var(--color-accent); }
+.ds-hero p { color: var(--color-text-secondary); font-size: 1.05rem; max-width: 64ch; margin-bottom: 1.4rem; }
+.ds-hero-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.72rem; }
+.ds-meta-pill { padding: 0.3rem 0.7rem; background: var(--color-accent-dim); color: var(--color-accent); border: 1px solid var(--shield-border); border-radius: 999px; letter-spacing: 0.05em; }
+
+section.ds-section { padding: 2.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); scroll-margin-top: 2rem; }
+section.ds-section:last-child { border-bottom: 0; }
+section.ds-section > h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.015em; display: flex; align-items: baseline; gap: 0.7rem; }
+section.ds-section > h2 .ds-h2-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-accent); background: var(--color-accent-dim); padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.06em; border: 1px solid var(--shield-border); }
+section.ds-section > .ds-section-lede { color: var(--color-text-secondary); margin-bottom: 1.8rem; max-width: 70ch; }
+.ds-section h3 { font-size: 1.05rem; font-weight: 700; margin: 2rem 0 0.7rem; color: var(--color-text); letter-spacing: -0.01em; }
+.ds-section p { margin-bottom: 0.9rem; color: var(--color-text-secondary); }
+.ds-section ul:not([class]) { padding-left: 1.2rem; margin-bottom: 1rem; color: var(--color-text-secondary); }
+.ds-section ul:not([class]) li { list-style: disc; margin-bottom: 0.3rem; }
+
+.ds-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0 1.5rem; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; }
+.ds-table th, .ds-table td { padding: 0.7rem 0.9rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+.ds-table th { font-weight: 600; background: var(--color-background-secondary); color: var(--color-text); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.ds-table tr:last-child td { border-bottom: 0; }
+.ds-table code { white-space: nowrap; }
+
+/* Color swatches */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.6rem; margin: 1rem 0 1.5rem; }
+.swatch { border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; }
+.swatch__color { height: 70px; }
+.swatch__meta { padding: 0.6rem 0.8rem; font-family: var(--font-mono); font-size: 0.72rem; }
+.swatch__meta strong { display: block; color: var(--color-text); font-weight: 700; }
+.swatch__meta span { color: var(--color-text-muted); }
+
+/* Type specimen */
+.type-row { padding: 0.8rem 0; border-bottom: 1px dashed rgba(255,255,255,0.06); display: grid; grid-template-columns: 160px 1fr; gap: 1.2rem; align-items: baseline; }
+.type-row:last-child { border-bottom: 0; }
+.type-row__label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.type-row__sample { color: var(--color-text); }
+
+/* Component gallery */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+.gallery__item { padding: 1.4rem; border: 1px solid var(--module-line); border-radius: 10px; background: rgba(255,255,255,0.012); }
+.gallery__item-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem; }
+
+/* Buttons demo */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; transition: transform var(--transition-fast), background var(--transition-fast); cursor: pointer; border: 1px solid transparent; }
+.btn--primary { background: var(--color-accent); color: var(--color-background); border-color: var(--color-accent); }
+.btn--primary:hover { background: var(--color-accent-strong); transform: translateY(-1px); }
+.btn--ghost { background: transparent; color: var(--color-text); border: 1px solid var(--module-line-strong); }
+.btn--ghost:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.btn--icon { width: 42px; height: 42px; padding: 0; border: 1px solid var(--module-line-strong); display: inline-flex; align-items: center; justify-content: center; color: var(--color-text); }
+
+/* Tag/badge demo */
+.tag { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--module-line-soft); background: rgba(255, 255, 255, 0.025); color: var(--color-text-muted); border-radius: 4px; display: inline-block; }
+.tag--accent { color: var(--color-accent); border-color: var(--shield-border); background: var(--color-accent-dim); }
+
+/* Card demo */
+.demo-card { padding: 1.4rem; min-height: 180px; border-right: 1px solid var(--module-line-soft); border-bottom: 1px solid var(--module-line-soft); background: linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px), rgba(255, 255, 255, 0.008); background-size: var(--module-cell) var(--module-cell), var(--module-cell) var(--module-cell), auto; transition: background var(--transition-base); }
+.demo-card:hover { background: radial-gradient(circle at calc(100% - 48px) 48px, var(--color-accent-glow), transparent 12rem), linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px), rgba(255, 255, 255, 0.012); background-size: auto, var(--module-cell) var(--module-cell), var(--module-cell) var(--module-cell), auto; }
+.demo-card__num { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--color-accent); border: 1px solid var(--shield-border); border-radius: 999px; padding: 4px 12px; margin-bottom: 16px; letter-spacing: 0.08em; background: rgba(15, 12, 14, 0.6); }
+.demo-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+.demo-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+
+/* Eyebrow demo */
+.eyebrow { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-muted); padding: 0.4rem 0.7rem; border: 1px solid var(--module-line); background: rgba(255,255,255,0.012); }
+.eyebrow .accent { color: var(--color-accent); margin-right: 6px; }
+
+/* Do / Don't */
+.ds-do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0 1.5rem; }
+@media (max-width: 700px) { .ds-do-dont { grid-template-columns: 1fr; } }
+.ds-do, .ds-dont { border-radius: 10px; padding: 1.2rem 1.4rem; border: 1px solid; font-size: 0.85rem; }
+.ds-do { border-color: var(--shield-border); background: var(--color-accent-dim); }
+.ds-dont { border-color: #553030; background: rgba(255, 80, 80, 0.06); }
+.ds-do h4, .ds-dont h4 { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; font-weight: 700; }
+.ds-do h4 { color: var(--color-accent); }
+.ds-dont h4 { color: #ff6b6b; }
+.ds-do ul, .ds-dont ul { padding-left: 1.1rem; }
+.ds-do ul li, .ds-dont ul li { list-style: disc; margin-bottom: 0.4rem; line-height: 1.5; color: var(--color-text-secondary); }
+
+/* Footer */
+.ds-footer { border-top: 1px solid rgba(255,255,255,0.06); margin-top: 3rem; padding-top: 2rem; color: var(--color-text-muted); font-size: 0.8rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+.ds-footer code { background: transparent; border: 0; padding: 0; color: var(--color-accent); }
+
+@media (max-width: 900px) {
+    .ds-shell { grid-template-columns: 1fr; }
+    .ds-sidebar { position: relative; height: auto; border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ds-content { padding: 2rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="ds-shell">
+
+    <aside class="ds-sidebar">
+        <div class="ds-brand">
+            <img src="../assets/globe.svg" alt="" />
+            <span>
+                <span class="accent">{ </span>kmads<span class="accent">.</span>dev<span class="accent"> }</span>
+                <small>Design System</small>
+            </span>
+        </div>
+
+        <nav class="ds-nav">
+            <h4>This page</h4>
+            <a href="#thesis">00 · The thesis</a>
+            <a href="#color">01 · Color</a>
+            <a href="#type">02 · Typography</a>
+            <a href="#spacing">03 · Spacing &amp; radius</a>
+            <a href="#components">04 · Components</a>
+            <a href="#cells">05 · Modular cells</a>
+            <a href="#eyebrows">06 · Indexed labels</a>
+            <a href="#voice">07 · Voice &amp; copy</a>
+            <a href="#do-dont">08 · Do &amp; Don't</a>
+
+            <h4>Cross-reference</h4>
+            <a href="./modular-design.html" class="cross">→ Modular system</a>
+            <a href="./brand-guidelines.md" class="cross">brand-guidelines.md</a>
+            <a href="./media.md" class="cross">media.md</a>
+            <a href="./README.md" class="cross">README.md</a>
+
+            <h4>The pages</h4>
+            <a href="../index.html" class="cross">← prototype/index.html</a>
+            <a href="../projects.html" class="cross">← prototype/projects.html</a>
+        </nav>
+    </aside>
+
+    <main class="ds-content">
+
+        <header class="ds-hero">
+            <h1>Designed in <span class="accent">boxes.</span></h1>
+            <p>The kmadsdev portfolio isn't a stack of cards floating on gradients — it's a <strong>blueprint of modules</strong>. Vertical guides, hairline borders, indexed labels, diagonal stripes, layered glows. This page documents the tokens and components that build those modules, with live demos rendered from the same CSS the production prototype ships.</p>
+            <div class="ds-hero-meta">
+                <span class="ds-meta-pill">Rubik + JetBrains Mono</span>
+                <span class="ds-meta-pill">Single accent · #ff014f</span>
+                <span class="ds-meta-pill">12-column module grid</span>
+                <span class="ds-meta-pill">3 line-weight tokens</span>
+                <span class="ds-meta-pill">Zero JS layout</span>
+            </div>
+        </header>
+
+        <section class="ds-section" id="thesis">
+            <h2><span class="ds-h2-num">00</span> The thesis</h2>
+            <p class="ds-section-lede">Personal portfolios drift toward <em>shapes</em> — rounded cards floating on gradients, parallax illustrations, hero collages. Recruiters scan them as fluff. So the brand picks the opposite vocabulary: <strong>schematics</strong>.</p>
+            <h3>Three principles</h3>
+            <ul>
+                <li><strong>Every section is a module.</strong> Bordered, labeled, indexed (<code>00 / KMADSDEV</code> through <code>-1 / THE END</code>). The eye reads it like a plan view, not a feed.</li>
+                <li><strong>Borders carry the design, not shadows.</strong> Three line-weight tokens (<code>--module-line-soft</code>, <code>--module-line</code>, <code>--module-line-strong</code>) do the entire compositional job.</li>
+                <li><strong>Cells are not cards.</strong> Cards float; cells <em>belong</em> to a frame. Removing border-radius and uniting them with a 12-col grid turns each section into a single object.</li>
+            </ul>
+            <p>This is a fork of <a href="../../../agentic/.design-system/modular-design.html"><code>agentic/.design-system/modular-design.html</code></a>, recolored from green to <code>#ff014f</code> and revoiced from "agent speed" to "50+ projects since 2018, still no idea what I'm doing."</p>
+        </section>
+
+        <section class="ds-section" id="color">
+            <h2><span class="ds-h2-num">01</span> Color</h2>
+            <p class="ds-section-lede">One accent. Three surfaces. Three border weights. That's the whole palette.</p>
+
+            <div class="swatches">
+                <div class="swatch"><div class="swatch__color" style="background:#0e0e10"></div><div class="swatch__meta"><strong>--color-background</strong><span>#0e0e10 · canvas</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#131316"></div><div class="swatch__meta"><strong>--color-background-secondary</strong><span>#131316</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#1a1a1f"></div><div class="swatch__meta"><strong>--color-background-elevated</strong><span>#1a1a1f</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#ff014f"></div><div class="swatch__meta"><strong>--color-accent</strong><span>#ff014f · the kmadsdev red</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#ff3d72"></div><div class="swatch__meta"><strong>--color-accent-strong</strong><span>#ff3d72 · hover</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:rgba(255,1,79,0.12)"></div><div class="swatch__meta"><strong>--color-accent-dim</strong><span>rgba(255, 1, 79, 0.12)</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#ffffff"></div><div class="swatch__meta"><strong>--color-text</strong><span>#ffffff</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#c4cfde"></div><div class="swatch__meta"><strong>--color-text-secondary</strong><span>#c4cfde</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#6e7480"></div><div class="swatch__meta"><strong>--color-text-muted</strong><span>#6e7480</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#262629"></div><div class="swatch__meta"><strong>--module-line</strong><span>#262629 · base border</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#1c1c1f"></div><div class="swatch__meta"><strong>--module-line-soft</strong><span>#1c1c1f · cell border</span></div></div>
+                <div class="swatch"><div class="swatch__color" style="background:#3a3a40"></div><div class="swatch__meta"><strong>--module-line-strong</strong><span>#3a3a40 · hero stage</span></div></div>
+            </div>
+
+            <p>Selection: <code>::selection</code> = <code>var(--color-accent)</code> bg, <code>var(--color-background)</code> text. Try selecting this paragraph.</p>
+        </section>
+
+        <section class="ds-section" id="type">
+            <h2><span class="ds-h2-num">02</span> Typography</h2>
+            <p class="ds-section-lede">Two families. Sans for everything content. Mono for everything technical.</p>
+
+            <h3>Sans · Rubik (universal)</h3>
+            <div class="type-row"><span class="type-row__label">Hero · 800</span><span class="type-row__sample" style="font-size: clamp(40px, 6vw, 84px); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em;">Kaique Souza<span style="color: var(--color-accent);">.</span></span></div>
+            <div class="type-row"><span class="type-row__label">Section h2 · 700</span><span class="type-row__sample" style="font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05;">Things I shipped. <span style="color: var(--color-accent);">Links go to source.</span></span></div>
+            <div class="type-row"><span class="type-row__label">Subtitle · 400</span><span class="type-row__sample" style="font-size: 19px; color: var(--color-text-secondary);">Software engineer. Open-source by default.</span></div>
+            <div class="type-row"><span class="type-row__label">Body · 400</span><span class="type-row__sample" style="font-size: 14.5px; color: var(--color-text-secondary);">Started in 2018 writing Discord bots. Eight years later, the bots are gone but the habit stuck.</span></div>
+            <div class="type-row"><span class="type-row__label">Card h3 · 700</span><span class="type-row__sample" style="font-size: 18px; font-weight: 700; letter-spacing: -0.01em;">Diabetes Indicator</span></div>
+
+            <h3>Mono · JetBrains Mono</h3>
+            <div class="type-row"><span class="type-row__label">Eyebrow · 600</span><span class="type-row__sample" style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-muted);">00 / KMADSDEV</span></div>
+            <div class="type-row"><span class="type-row__label">Tag · 500</span><span class="type-row__sample" style="font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent);">2025</span></div>
+            <div class="type-row"><span class="type-row__label">Code · 400</span><span class="type-row__sample" style="font-family: var(--font-mono); font-size: 13px;">git push origin main</span></div>
+            <div class="type-row"><span class="type-row__label">Step badge · 600</span><span class="type-row__sample" style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--color-accent); border: 1px solid var(--shield-border); border-radius: 999px; padding: 4px 12px; background: rgba(15, 12, 14, 0.6);">STEP 02</span></div>
+
+            <table class="ds-table">
+                <tr><th>Role</th><th>Size</th><th>Weight</th><th>Notes</th></tr>
+                <tr><td>Hero h1</td><td><code>clamp(48px, 8vw, 110px)</code></td><td>800</td><td>letter-spacing: -0.035em</td></tr>
+                <tr><td>Section h2</td><td><code>clamp(32px, 4vw, 56px)</code></td><td>700</td><td>letter-spacing: -0.025em</td></tr>
+                <tr><td>Subtitle</td><td><code>clamp(17px, 1.6vw, 22px)</code></td><td>400</td><td><code>--color-text-secondary</code></td></tr>
+                <tr><td>Body</td><td>14-15px</td><td>400</td><td>line-height 1.6</td></tr>
+                <tr><td>Eyebrow</td><td>11px</td><td>600</td><td>mono · uppercase · 0.2em</td></tr>
+                <tr><td>Tag</td><td>10px</td><td>500</td><td>mono · uppercase · 0.06em</td></tr>
+            </table>
+        </section>
+
+        <section class="ds-section" id="spacing">
+            <h2><span class="ds-h2-num">03</span> Spacing &amp; radius</h2>
+            <p class="ds-section-lede">Container clamps. Module fits inside the container. Cells inside the module are radius-0.</p>
+            <table class="ds-table">
+                <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+                <tr><td><code>--maxw</code></td><td>1240px</td><td>Outer container</td></tr>
+                <tr><td><code>--module-max</code></td><td>1180px</td><td>Module width — slightly tighter so borders breathe</td></tr>
+                <tr><td><code>--pad-x</code></td><td><code>clamp(20px, 4vw, 72px)</code></td><td>Inline padding on the container</td></tr>
+                <tr><td>Section padding</td><td><code>clamp(48px, 7vh, 92px)</code></td><td>Vertical breathing room around modules</td></tr>
+                <tr><td>Cell padding</td><td><code>clamp(20px, 2.5vw, 32px)</code></td><td>Inside a cell</td></tr>
+                <tr><td>Cell min-height</td><td>220px</td><td>Rhythm across the page</td></tr>
+                <tr><td><code>--radius-sm / -md / -lg</code></td><td>8 / 12 / 20 px</td><td>Reserved for chips, buttons, small surfaces. <strong>Cells in a module = 0.</strong></td></tr>
+                <tr><td>Pill</td><td>999px</td><td>Buttons, badges, mono pills, social icons</td></tr>
+            </table>
+        </section>
+
+        <section class="ds-section" id="components">
+            <h2><span class="ds-h2-num">04</span> Components</h2>
+            <p class="ds-section-lede">The shipped vocabulary. Hover them.</p>
+
+            <div class="gallery">
+                <div class="gallery__item">
+                    <span class="gallery__item-label">Buttons</span>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                        <button class="btn btn--primary"><span>Resume</span><span>↓</span></button>
+                        <button class="btn btn--ghost"><span>GitHub</span><span>↗</span></button>
+                        <button class="btn btn--icon" aria-label="Email">✉</button>
+                    </div>
+                </div>
+
+                <div class="gallery__item">
+                    <span class="gallery__item-label">Tags</span>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                        <span class="tag tag--accent">2025</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">React</span>
+                        <span class="tag">FastAPI</span>
+                    </div>
+                </div>
+
+                <div class="gallery__item">
+                    <span class="gallery__item-label">Eyebrow / indexed label</span>
+                    <div style="display:flex;gap:8px;flex-direction:column;">
+                        <span class="eyebrow"><span class="accent">00</span>/ KMADSDEV</span>
+                        <span class="eyebrow"><span class="accent">02.A</span>/ EDUCATION</span>
+                        <span class="eyebrow"><span class="accent">-1</span>/ THE END</span>
+                    </div>
+                </div>
+
+                <div class="gallery__item">
+                    <span class="gallery__item-label">Step badge</span>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--color-accent); border: 1px solid var(--shield-border); border-radius: 999px; padding: 4px 12px; background: rgba(15, 12, 14, 0.6);">STEP 01</span>
+                        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--color-accent); border: 1px solid var(--shield-border); border-radius: 999px; padding: 4px 12px; background: rgba(15, 12, 14, 0.6);">CURRENT</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ds-section" id="cells">
+            <h2><span class="ds-h2-num">05</span> Modular cells</h2>
+            <p class="ds-section-lede">Cells are the building blocks of any module body. Hover for the glow.</p>
+            <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:0;border:1px solid var(--module-line);">
+                <div class="demo-card">
+                    <span class="demo-card__num">STEP 01</span>
+                    <h4>Build it</h4>
+                    <p>Open the editor. Write the function. Make it work first.</p>
+                </div>
+                <div class="demo-card">
+                    <span class="demo-card__num">STEP 02</span>
+                    <h4>Ship it</h4>
+                    <p>Push to main. Let CI run. Ignore the warnings just this once.</p>
+                </div>
+                <div class="demo-card" style="border-right: 0;">
+                    <span class="demo-card__num">STEP 03</span>
+                    <h4>Document it</h4>
+                    <p>Write what it does. What broke. Why the fix worked.</p>
+                </div>
+            </div>
+            <p style="margin-top: 1rem;">Cells share the same recipe: hairline grid background (<code>var(--module-cell)</code> = 58px), soft right + bottom borders only, no radius. The last cell in a row drops <code>border-right</code>. Hover triggers a radial pink glow tinted with <code>--color-accent-glow</code>.</p>
+        </section>
+
+        <section class="ds-section" id="eyebrows">
+            <h2><span class="ds-h2-num">06</span> Indexed section labels</h2>
+            <p class="ds-section-lede">Every section gets a number. The portfolio reads as a 7-piece blueprint, plus a closing footer ribbon.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));gap:0;border: 1px solid var(--module-line);">
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">00</span> / KMADSDEV</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">01</span> / WHO</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">02</span> / WORK</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">02.A</span> / EDUCATION</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">03</span> / STACK</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">03.E</span> / AGENTS</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">04</span> / SHIPPED</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">05</span> / CONTACT</div>
+                <div style="padding:12px 16px;border-right:1px solid var(--module-line-soft);border-bottom:1px solid var(--module-line-soft);font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;color:rgba(255,255,255,0.6);text-transform:uppercase;background:linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);"><span style="color:var(--color-accent);">-1</span> / THE END</div>
+            </div>
+        </section>
+
+        <section class="ds-section" id="voice">
+            <h2><span class="ds-h2-num">07</span> Voice &amp; copy</h2>
+            <p class="ds-section-lede">Auto-ironic. Number-first. Sentence-case with periods. The numbers earn the joke.</p>
+            <table class="ds-table">
+                <tr><th>Old</th><th>New</th></tr>
+                <tr><td>👋 HELLO, MY NAME IS KAIQUE…</td><td><code>00 / KMADSDEV</code> + <strong>Kaique Souza.</strong></td></tr>
+                <tr><td>Software Engineer • Open-Source Developer</td><td>Software engineer. Open-source by default.</td></tr>
+                <tr><td>(no tagline)</td><td>50+ projects since 2018. Still no idea what I'm doing.</td></tr>
+                <tr><td>About Me</td><td>01 / WHO</td></tr>
+                <tr><td>My professional journey and academic background</td><td>Where I worked. Where I studied.</td></tr>
+                <tr><td>Send Message 📩</td><td>Send email</td></tr>
+                <tr><td>Become a Sponsor</td><td>Sponsor on GitHub</td></tr>
+            </table>
+            <p>Forbidden words: <code>revolutionary</code>, <code>magical</code>, <code>innovative</code>, <code>10x</code>, <code>passionate</code>, <code>cutting-edge</code>. No marketing exclamation marks. No Title-Case Headlines. Sentence-case + period everywhere.</p>
+            <p>See <a href="./brand-guidelines.md"><code>brand-guidelines.md §5</code></a> for the full canon.</p>
+        </section>
+
+        <section class="ds-section" id="do-dont">
+            <h2><span class="ds-h2-num">08</span> Do &amp; don't</h2>
+            <div class="ds-do-dont">
+                <div class="ds-do">
+                    <h4>Do</h4>
+                    <ul>
+                        <li>Render the globe massively in the hero. It IS the brand.</li>
+                        <li>Index every section: <code>00 / KMADSDEV</code>, <code>01 / WHO</code>, …, <code>-1 / THE END</code>.</li>
+                        <li>Use <strong>one</strong> accent — <code>#ff014f</code> — per page region.</li>
+                        <li>Mono for eyebrows, tags, badges, code, file paths.</li>
+                        <li>Sentence-case headlines with periods. The number earns the joke.</li>
+                        <li>Cells in a module = radius 0. Cards float; cells belong.</li>
+                    </ul>
+                </div>
+                <div class="ds-dont">
+                    <h4>Don't</h4>
+                    <ul>
+                        <li>Shrink the globe to a navbar icon.</li>
+                        <li>Skip section indices. They're the rhythm.</li>
+                        <li>Add a second accent (blue, green) — even for a project's logo color.</li>
+                        <li>Use mono for body or headlines.</li>
+                        <li>Title-Case Headlines. Or marketing <code>!</code>.</li>
+                        <li>Apply border-radius to cells inside a module.</li>
+                        <li>Use emoji in shipped copy. Allowed only as temporary icon placeholders.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="ds-footer">
+            <span>kmadsdev portfolio · Design System (prototype). Mirrors <code>../styles/prototype.css</code>.</span>
+            <span>© 2026 · @kmadsdev</span>
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

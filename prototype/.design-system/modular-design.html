@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>kmadsdev portfolio · Modular Design Strategy</title>
+<link rel="icon" type="image/png" href="../assets/kmads_logo_zoomedout.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+    --color-background:           #0e0e10;
+    --color-background-secondary: #131316;
+    --color-background-elevated:  #1a1a1f;
+    --color-accent:               #ff014f;
+    --color-accent-strong:        #ff3d72;
+    --color-accent-dim:           rgba(255, 1, 79, 0.12);
+    --color-accent-glow:          rgba(255, 1, 79, 0.18);
+    --color-text:                 #ffffff;
+    --color-text-secondary:       #c4cfde;
+    --color-text-muted:           #6e7480;
+    --shield-bg:                  rgba(15, 12, 14, 0.72);
+    --shield-border:              #5a1530;
+    --module-max:                 1180px;
+    --module-line:                #262629;
+    --module-line-soft:           #1c1c1f;
+    --module-line-strong:         #3a3a40;
+    --module-cell:                58px;
+    --module-stripe:
+        repeating-linear-gradient(135deg,
+            transparent 0 18px,
+            rgba(255, 255, 255, 0.06) 18px 19px,
+            transparent 19px 38px);
+    --font-sans: "Rubik", system-ui, -apple-system, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.22s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scrollbar-color: var(--color-text-muted) transparent; scrollbar-width: thin; }
+body {
+    font-family: var(--font-sans);
+    background: #06070a;
+    color: var(--color-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+img, video, svg { max-width: 100%; height: auto; display: block; }
+a { color: var(--color-accent); text-decoration: none; transition: color var(--transition-fast); }
+a:hover { color: var(--color-accent-strong); }
+ul { list-style: none; }
+code, pre {
+    font-family: var(--font-mono);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+}
+code { padding: 0.1rem 0.4rem; font-size: 0.85em; color: #e6e6e6; }
+pre { padding: 1rem 1.25rem; overflow-x: auto; font-size: 0.78rem; line-height: 1.6; color: #e6e6e6; }
+::selection { background: var(--color-accent); color: var(--color-background); }
+
+/* Shell */
+.ds-shell { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+.ds-sidebar {
+    position: sticky; top: 0; align-self: start;
+    height: 100vh; overflow-y: auto;
+    padding: 2rem 1.5rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255, 1, 79, 0.05), transparent 30%), var(--color-background);
+}
+.ds-brand { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
+.ds-brand img { width: 30px; height: 30px; }
+.ds-brand .accent { color: var(--color-accent); }
+.ds-brand small { color: var(--color-text-muted); font-weight: 500; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; }
+.ds-nav { display: flex; flex-direction: column; gap: 0.1rem; font-size: 0.84rem; }
+.ds-nav h4 { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--color-text-muted); margin: 1.2rem 0 0.4rem; padding: 0 0.6rem; }
+.ds-nav a { display: block; padding: 0.4rem 0.6rem; color: var(--color-text-secondary); border-radius: 6px; border-left: 2px solid transparent; }
+.ds-nav a:hover { color: var(--color-text); background: rgba(255,255,255,0.03); border-left-color: var(--color-accent); }
+.ds-nav a.cross { color: var(--color-text-muted); }
+.ds-nav a.cross:hover { color: var(--color-accent); }
+
+.ds-content { padding: 3rem clamp(1rem, 4vw, 4rem); max-width: 1100px; }
+.ds-hero { padding: 3rem 0 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 3rem; }
+.ds-hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.025em; font-weight: 800; margin-bottom: 0.8rem; }
+.ds-hero .accent { color: var(--color-accent); }
+.ds-hero p { color: var(--color-text-secondary); font-size: 1.05rem; max-width: 64ch; margin-bottom: 1.4rem; }
+.ds-hero-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.72rem; }
+.ds-meta-pill { padding: 0.3rem 0.7rem; background: var(--color-accent-dim); color: var(--color-accent); border: 1px solid var(--shield-border); border-radius: 999px; letter-spacing: 0.05em; }
+
+section.ds-section { padding: 2.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); scroll-margin-top: 2rem; }
+section.ds-section:last-child { border-bottom: 0; }
+section.ds-section > h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.015em; display: flex; align-items: baseline; gap: 0.7rem; }
+section.ds-section > h2 .ds-h2-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-accent); background: var(--color-accent-dim); padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.06em; border: 1px solid var(--shield-border); }
+section.ds-section > .ds-section-lede { color: var(--color-text-secondary); margin-bottom: 1.8rem; max-width: 70ch; }
+.ds-section h3 { font-size: 1.05rem; font-weight: 700; margin: 2rem 0 0.7rem; color: var(--color-text); letter-spacing: -0.01em; }
+.ds-section p { margin-bottom: 0.9rem; color: var(--color-text-secondary); }
+.ds-section ul:not([class]) { padding-left: 1.2rem; margin-bottom: 1rem; color: var(--color-text-secondary); }
+.ds-section ul:not([class]) li { list-style: disc; margin-bottom: 0.3rem; }
+
+.ds-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0 1.5rem; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; }
+.ds-table th, .ds-table td { padding: 0.7rem 0.9rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+.ds-table th { font-weight: 600; background: var(--color-background-secondary); color: var(--color-text); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.ds-table tr:last-child td { border-bottom: 0; }
+.ds-table code { white-space: nowrap; }
+
+/* ============== MODULAR PRIMITIVES (live demos) ============== */
+.module {
+    position: relative;
+    margin: 1.2rem 0 2rem;
+    border-right: 1px solid var(--module-line);
+    border-left: 1px solid var(--module-line);
+    background:
+        linear-gradient(to right, var(--module-line-soft) 1px, transparent 1px),
+        rgba(5, 6, 6, 0.94);
+    background-size: calc(100% / 12) 100%, auto;
+    overflow: clip;
+}
+.module__label {
+    display: block;
+    padding: 17px clamp(22px, 3vw, 36px);
+    border-top: 1px solid var(--module-line);
+    border-bottom: 1px solid var(--module-line);
+    color: rgba(255, 255, 255, 0.48);
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    background:
+        linear-gradient(90deg, rgba(255, 1, 79, 0.05), transparent 42%),
+        rgba(255, 255, 255, 0.012);
+}
+.module__label .accent { color: var(--color-accent); margin-right: 6px; }
+.module__header {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: end;
+    gap: 0;
+    min-height: clamp(180px, 22vw, 260px);
+    padding: clamp(28px, 4vw, 50px) clamp(22px, 3vw, 36px);
+    border-bottom: 1px solid var(--module-line);
+    background:
+        radial-gradient(circle at 74% 26%, var(--color-accent-glow), transparent 18rem),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.028), transparent);
+}
+.module__header h2 { grid-column: 1 / span 8; margin: 0; font-size: clamp(28px, 4vw, 56px); letter-spacing: -0.025em; line-height: 1.05; font-weight: 700; }
+.module__header h2 .accent { color: var(--color-accent); }
+.module__header p { grid-column: 9 / -1; max-width: 360px; margin: 0 0 8px auto; color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; }
+.module__body { display: grid; gap: 0; padding: 0; }
+.module__body--12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.module__body--4  { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.module__body--2  { grid-template-columns: 1fr 1fr; }
+.module__footer {
+    height: clamp(42px, 6vw, 76px);
+    border-top: 1px solid var(--module-line);
+    background: var(--module-stripe);
+    background-color: rgba(255, 255, 255, 0.012);
+}
+
+.cell {
+    min-height: 220px;
+    border: 0;
+    border-right: 1px solid var(--module-line-soft);
+    border-bottom: 1px solid var(--module-line-soft);
+    padding: clamp(20px, 2.5vw, 32px);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+        linear-gradient(to right, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+        #060807;
+    background-size: var(--module-cell) var(--module-cell), var(--module-cell) var(--module-cell), auto;
+}
+.cell--glow {
+    --card-glow: var(--color-accent-glow);
+    background:
+        radial-gradient(circle at calc(100% - 48px) 48px, var(--card-glow), transparent 12rem),
+        linear-gradient(to right, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.032) 1px, transparent 1px),
+        #060807;
+    background-size: auto, var(--module-cell) var(--module-cell), var(--module-cell) var(--module-cell), auto;
+}
+.cell h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; color: var(--color-text); }
+.cell p { color: var(--color-text-secondary); font-size: 13px; line-height: 1.55; }
+.cell--step .cell__num { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--color-accent); border: 1px solid var(--shield-border); border-radius: 999px; padding: 4px 12px; margin-bottom: 16px; letter-spacing: 0.06em; background: rgba(15,12,14,0.6); position: relative; z-index: 1; }
+.cell--step::before { content: ''; position: absolute; top: 44px; right: 0; left: 0; height: 1px; background: var(--shield-border); }
+.cell--step::after { content: ''; position: absolute; right: 26px; bottom: 26px; width: 76px; height: 76px; border: 1px dashed var(--shield-border); border-radius: 999px; opacity: 0.55; }
+
+/* Diag stripe band */
+.diag-stripe {
+    height: clamp(48px, 5vw, 70px);
+    border-top: 1px solid var(--module-line);
+    border-bottom: 1px solid var(--module-line);
+    background-image: var(--module-stripe);
+}
+
+/* Annotation pin */
+.annotated { position: relative; }
+.annotated__pin {
+    position: absolute;
+    width: 22px; height: 22px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700;
+    box-shadow: 0 0 0 3px rgba(255, 1, 79, 0.18), 0 4px 14px rgba(0,0,0,0.4);
+    z-index: 50;
+}
+
+/* Grid demo */
+.grid-demo {
+    position: relative;
+    height: 240px;
+    border: 1px solid var(--module-line);
+    background:
+        linear-gradient(to right, rgba(255, 1, 79, 0.13) 1px, transparent 1px),
+        linear-gradient(to right, var(--module-line-soft) 1px, transparent 1px),
+        rgba(5, 6, 6, 0.94);
+    background-size: calc(100% / 12) 100%, calc(100% / 12) 100%, auto;
+    overflow: hidden;
+}
+.grid-demo__cells { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); height: 100%; }
+.grid-demo__cell { border-right: 1px dashed rgba(255, 1, 79, 0.18); color: rgba(255, 1, 79, 0.4); font-family: var(--font-mono); font-size: 0.65rem; padding: 6px; letter-spacing: 0.05em; }
+.grid-demo__cell:last-child { border-right: 0; }
+.grid-demo__placement {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    height: 90px;
+    background: linear-gradient(135deg, rgba(255, 1, 79, 0.18), rgba(255, 1, 79, 0.05));
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+}
+
+/* Border-work composer */
+.border-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0; margin: 1rem 0 1.5rem;
+    border: 1px solid var(--module-line);
+    background: linear-gradient(to right, var(--module-line-soft) 1px, transparent 1px), rgba(5,6,6,0.94);
+    background-size: 100% 100%, auto;
+}
+.border-cell {
+    padding: 1.2rem; min-height: 100px;
+    border-right: 1px solid var(--module-line-soft);
+    border-bottom: 1px solid var(--module-line-soft);
+    background: rgba(255,255,255,0.012);
+    font-family: var(--font-mono); font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+/* Code block */
+.code-block { margin: 0.8rem 0 1.5rem; background: rgba(0,0,0,0.45); border: 1px solid var(--module-line); border-radius: 10px; overflow: hidden; }
+.code-block__head { padding: 0.6rem 1rem; background: rgba(255,255,255,0.018); border-bottom: 1px solid var(--module-line); font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-muted); letter-spacing: 0.1em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+.code-block__head .accent { color: var(--color-accent); }
+.code-block pre { background: transparent; border: 0; border-radius: 0; }
+
+/* Variable-span */
+.feature-span-demo {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    margin: 1rem 0 1.5rem;
+    border: 1px solid var(--module-line);
+    background: linear-gradient(to right, var(--module-line-soft) 1px, transparent 1px), rgba(5,6,6,0.94);
+    background-size: calc(100% / 12) 100%, auto;
+}
+.feature-span-demo > .cell { min-height: 200px; border-bottom: 0; }
+.feature-span-demo > .cell:nth-child(1) { grid-column: span 5; --card-glow: rgba(255, 1, 79, 0.23); }
+.feature-span-demo > .cell:nth-child(2) { grid-column: span 4; --card-glow: rgba(255, 1, 79, 0.16); }
+.feature-span-demo > .cell:nth-child(3) { grid-column: span 3; --card-glow: rgba(255, 1, 79, 0.10); }
+.feature-span-demo > .cell:nth-child(4) { grid-column: span 4; --card-glow: rgba(255, 1, 79, 0.18); }
+.feature-span-demo > .cell:nth-child(5) { grid-column: span 4; --card-glow: rgba(255, 1, 79, 0.14); }
+.feature-span-demo > .cell:nth-child(6) { grid-column: span 4; --card-glow: rgba(255, 1, 79, 0.20); }
+
+/* Label ribbon */
+.label-ribbon {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0;
+    border: 1px solid var(--module-line);
+    margin: 1rem 0 1.5rem;
+    background: rgba(5,6,6,0.94);
+}
+.label-ribbon__item {
+    padding: 12px 16px;
+    border-right: 1px solid var(--module-line-soft);
+    border-bottom: 1px solid var(--module-line-soft);
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    background: linear-gradient(90deg, rgba(255, 1, 79, 0.04), transparent 50%), rgba(255,255,255,0.012);
+}
+.label-ribbon__item .accent { color: var(--color-accent); margin-right: 6px; }
+
+.ds-do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0 1.5rem; }
+@media (max-width: 700px) { .ds-do-dont { grid-template-columns: 1fr; } }
+.ds-do, .ds-dont { border-radius: 10px; padding: 1.2rem 1.4rem; border: 1px solid; font-size: 0.85rem; }
+.ds-do { border-color: var(--shield-border); background: var(--color-accent-dim); }
+.ds-dont { border-color: #553030; background: rgba(255, 80, 80, 0.06); }
+.ds-do h4, .ds-dont h4 { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; font-weight: 700; }
+.ds-do h4 { color: var(--color-accent); }
+.ds-dont h4 { color: #ff6b6b; }
+.ds-do ul, .ds-dont ul { padding-left: 1.1rem; }
+.ds-do ul li, .ds-dont ul li { list-style: disc; margin-bottom: 0.4rem; line-height: 1.5; color: var(--color-text-secondary); }
+
+.ds-footer { border-top: 1px solid rgba(255,255,255,0.06); margin-top: 3rem; padding-top: 2rem; color: var(--color-text-muted); font-size: 0.8rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+.ds-footer code { background: transparent; border: 0; padding: 0; color: var(--color-accent); }
+
+@media (max-width: 900px) {
+    .ds-shell { grid-template-columns: 1fr; }
+    .ds-sidebar { position: relative; height: auto; border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ds-content { padding: 2rem 1.2rem; }
+    .module__body--12, .module__body--4 { grid-template-columns: 1fr 1fr; }
+    .feature-span-demo { grid-template-columns: 1fr 1fr; }
+    .feature-span-demo > .cell { grid-column: auto !important; }
+}
+@media (max-width: 560px) {
+    .module__header { grid-template-columns: 1fr; }
+    .module__header h2, .module__header p { grid-column: 1; max-width: none; margin: 0; }
+    .module__body--12, .module__body--4, .module__body--2 { grid-template-columns: 1fr; }
+    .feature-span-demo { grid-template-columns: 1fr; }
+    .grid-demo__cell:nth-child(n+5) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="ds-shell">
+
+    <aside class="ds-sidebar">
+        <div class="ds-brand">
+            <img src="../assets/globe.svg" alt="" />
+            <span>
+                <span class="accent">{ </span>kmads<span class="accent">.</span>dev<span class="accent"> }</span>
+                <small>Modular Strategy</small>
+            </span>
+        </div>
+        <nav class="ds-nav">
+            <h4>This page</h4>
+            <a href="#thesis">00 · The thesis</a>
+            <a href="#anatomy">01 · Module anatomy</a>
+            <a href="#tokens">02 · Modular tokens</a>
+            <a href="#grid">03 · The 12-col grid</a>
+            <a href="#labels">04 · Section labels</a>
+            <a href="#headers">05 · Two-column headers</a>
+            <a href="#cells">06 · Cell composition</a>
+            <a href="#borders">07 · Border-work</a>
+            <a href="#dividers">08 · Dividers &amp; stripes</a>
+            <a href="#span">09 · Variable-span layouts</a>
+            <a href="#hero">10 · Hero stage (the globe frame)</a>
+            <a href="#strategy">11 · Strategies recap</a>
+            <a href="#do-dont">12 · Do &amp; don't</a>
+
+            <h4>Cross-reference</h4>
+            <a href="./index.html" class="cross">← Tokens &amp; components</a>
+            <a href="./brand-guidelines.md" class="cross">brand-guidelines.md</a>
+            <a href="./README.md" class="cross">README.md</a>
+
+            <h4>The pages</h4>
+            <a href="../index.html" class="cross">← prototype/index.html</a>
+            <a href="../projects.html" class="cross">← prototype/projects.html</a>
+        </nav>
+    </aside>
+
+    <main class="ds-content">
+
+        <header class="ds-hero">
+            <h1>Designed in <span class="accent">boxes.</span></h1>
+            <p>The kmadsdev portfolio isn't a stack of sections — it's a <strong>blueprint of modules</strong>. Vertical guides, hairline borders, indexed labels, diagonal stripes, layered glows, variable-span cells. This page documents every strategy used to compose those modules, with live demos rendered from the same CSS the production prototype ships.</p>
+            <div class="ds-hero-meta">
+                <span class="ds-meta-pill">12-column module grid</span>
+                <span class="ds-meta-pill">3 line-weight tokens</span>
+                <span class="ds-meta-pill">Indexed sections</span>
+                <span class="ds-meta-pill">Single accent · #ff014f</span>
+                <span class="ds-meta-pill">Zero JS layout</span>
+            </div>
+        </header>
+
+        <!-- ============ 00 THESIS ============ -->
+        <section class="ds-section" id="thesis">
+            <h2><span class="ds-h2-num">00</span> The thesis</h2>
+            <p class="ds-section-lede">Personal portfolios drift toward <em>shapes</em> — rounded cards floating on gradients, parallax illustrations, hero collages. Recruiters scan those as fluff. So the brand picks the opposite vocabulary: <strong>schematics</strong>.</p>
+            <h3>Three principles</h3>
+            <ul>
+                <li><strong>Every section is a module.</strong> Bordered, labeled, indexed. The eye reads <em>"02 / WORK"</em> the way it reads a wiring diagram.</li>
+                <li><strong>Borders carry the design, not shadows.</strong> Three line-weight tokens (soft, base, strong) do the entire compositional job. No drop-shadows in the layout.</li>
+                <li><strong>Cells are not cards.</strong> Cards float; cells <em>belong</em> to a frame. Removing border-radius and uniting them with a 12-col grid turns each section into a single object.</li>
+            </ul>
+            <p>This page exists because reproducing those rules from memory is brittle. The next contributor — or future Kaique — needs the <em>strategies</em>, not just the tokens.</p>
+            <p>The system is forked from <a href="../../../agentic/.design-system/modular-design.html"><code>agentic/.design-system/modular-design.html</code></a>. Same skeleton. Different brand body: <code>#ff014f</code> instead of <code>#33b474</code>, Rubik instead of Inter, "kmadsdev" instead of "Agentic Template".</p>
+        </section>
+
+        <!-- ============ 01 ANATOMY ============ -->
+        <section class="ds-section" id="anatomy">
+            <h2><span class="ds-h2-num">01</span> Module anatomy</h2>
+            <p class="ds-section-lede">Every section below the hero is a module composed of four parts stacked vertically inside a vertical-bordered frame. Below is a live module rendered with the production CSS — annotated.</p>
+            <div class="annotated">
+                <div class="annotated__pin" style="top:-10px;left:-10px;">1</div>
+                <div class="annotated__pin" style="top:48px;left:-10px;">2</div>
+                <div class="annotated__pin" style="top:200px;left:-10px;">3</div>
+                <div class="annotated__pin" style="bottom:60px;left:-10px;">4</div>
+                <div class="annotated__pin" style="bottom:-10px;left:-10px;">5</div>
+
+                <div class="module">
+                    <div class="module__label"><span class="accent">04</span>/ SHIPPED</div>
+                    <div class="module__header">
+                        <h2>Things I shipped. <span class="accent">Links go to source.</span></h2>
+                        <p>Featured projects with media. The full inventory lives at <code>/projects</code>.</p>
+                    </div>
+                    <div class="module__body module__body--4">
+                        <div class="cell cell--step">
+                            <span class="cell__num">2025</span>
+                            <h4>Off Mode</h4>
+                            <p>Pomodoro timer. Web + desktop + FastAPI backend.</p>
+                        </div>
+                        <div class="cell cell--step">
+                            <span class="cell__num">2025</span>
+                            <h4>Diabetes Indicator</h4>
+                            <p>Survey-driven prediction. Scikit-learn + FastAPI.</p>
+                        </div>
+                        <div class="cell cell--step">
+                            <span class="cell__num">2024</span>
+                            <h4>TrocaTine</h4>
+                            <p>Marketplace for children's items. Java + Tomcat.</p>
+                        </div>
+                        <div class="cell cell--step" style="border-right: 0;">
+                            <span class="cell__num">+47</span>
+                            <h4>And more</h4>
+                            <p>Discord bots, hardware, ML, the firstborns.</p>
+                        </div>
+                    </div>
+                    <div class="module__footer"></div>
+                </div>
+            </div>
+
+            <table class="ds-table">
+                <tr><th>#</th><th>Layer</th><th>Class</th><th>Role</th></tr>
+                <tr><td>1</td><td>Vertical guides</td><td><code>.module</code> — left + right border</td><td>Frame the entire module against the page background</td></tr>
+                <tr><td>2</td><td>Indexed label</td><td><code>.module__label</code></td><td>Reads like a schematic legend: <code>04 / SHIPPED</code></td></tr>
+                <tr><td>3</td><td>Header</td><td><code>.module__header</code> (12-col grid)</td><td>Headline left (8 cols), lede right (4 cols)</td></tr>
+                <tr><td>4</td><td>Body</td><td><code>.module__body--N</code> + <code>.cell</code></td><td>Cells with hairline soft borders, no radius</td></tr>
+                <tr><td>5</td><td>Diagonal closer</td><td><code>.module__footer</code></td><td>Visually closes the module, signals "next section"</td></tr>
+            </table>
+        </section>
+
+        <!-- ============ 02 TOKENS ============ -->
+        <section class="ds-section" id="tokens">
+            <h2><span class="ds-h2-num">02</span> Modular tokens</h2>
+            <p class="ds-section-lede">Six tokens carry the entire modular system. Borders use only three weights so the eye can rank importance.</p>
+            <table class="ds-table">
+                <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+                <tr><td><code>--module-max</code></td><td>1180px</td><td>Outer width of every module</td></tr>
+                <tr><td><code>--module-line</code></td><td><code>#262629</code></td><td><strong>Base.</strong> Section borders, label dividers, grid guides</td></tr>
+                <tr><td><code>--module-line-soft</code></td><td><code>#1c1c1f</code></td><td><strong>Soft.</strong> Cell borders inside a module — quieter than the frame</td></tr>
+                <tr><td><code>--module-line-strong</code></td><td><code>#3a3a40</code></td><td><strong>Strong.</strong> Hero stage frame, terminal cards — earns more attention</td></tr>
+                <tr><td><code>--module-cell</code></td><td>58px</td><td>Inner grid cell size for cell backgrounds (the faint dotwork)</td></tr>
+                <tr><td><code>--module-stripe</code></td><td>repeating-linear-gradient(135deg, …)</td><td>Diagonal closer band</td></tr>
+            </table>
+            <p>Three line weights map to three depth levels: <strong>frame &gt; cell &gt; sub-cell</strong>. Pick one per layer; never mix two on the same edge.</p>
+            <div class="border-grid">
+                <div class="border-cell" style="border-color: var(--module-line); color: var(--color-text);">module-line · frame</div>
+                <div class="border-cell" style="border-color: var(--module-line-soft);">module-line-soft · cell</div>
+                <div class="border-cell" style="border-color: var(--module-line-strong); color: var(--color-text);">module-line-strong · hero stage</div>
+                <div class="border-cell" style="border-color: var(--shield-border); color: var(--color-accent);">shield-border · accent</div>
+            </div>
+        </section>
+
+        <!-- ============ 03 GRID ============ -->
+        <section class="ds-section" id="grid">
+            <h2><span class="ds-h2-num">03</span> The 12-column grid</h2>
+            <p class="ds-section-lede">Every module body sits on a 12-col grid. The grid is <strong>visible</strong> — vertical hairlines paint themselves into the background of <code>.module</code> via a <code>linear-gradient</code>. Cells then snap to <code>span N</code>.</p>
+
+            <div class="code-block">
+                <div class="code-block__head">
+                    <span>styles/prototype.css</span>
+                    <span class="accent">background-as-grid</span>
+                </div>
+                <pre><code>.module {
+    border-right: 1px solid var(--module-line);
+    border-left:  1px solid var(--module-line);
+    background:
+        linear-gradient(to right, var(--module-line-soft) 1px, transparent 1px),
+        var(--color-background);
+    background-size: calc(100% / 12) 100%, auto;
+}</code></pre>
+            </div>
+
+            <p>Below: the live grid with a sample cell at <code>span 5</code>. Resize the window — the cell width tracks the column width because it's the <em>same</em> grid.</p>
+            <div class="grid-demo">
+                <div class="grid-demo__cells">
+                    <div class="grid-demo__cell">01</div>
+                    <div class="grid-demo__cell">02</div>
+                    <div class="grid-demo__cell">03</div>
+                    <div class="grid-demo__cell">04</div>
+                    <div class="grid-demo__cell">05</div>
+                    <div class="grid-demo__cell">06</div>
+                    <div class="grid-demo__cell">07</div>
+                    <div class="grid-demo__cell">08</div>
+                    <div class="grid-demo__cell">09</div>
+                    <div class="grid-demo__cell">10</div>
+                    <div class="grid-demo__cell">11</div>
+                    <div class="grid-demo__cell">12</div>
+                </div>
+                <div class="grid-demo__placement" style="left: calc(100% / 12 * 1); width: calc(100% / 12 * 5);">grid-column: 2 / span 5</div>
+            </div>
+        </section>
+
+        <!-- ============ 04 LABELS ============ -->
+        <section class="ds-section" id="labels">
+            <h2><span class="ds-h2-num">04</span> Section labels — the index ribbon</h2>
+            <p class="ds-section-lede">Every section gets an index. The portfolio reads as <strong>seven indexed pieces + a closing footer</strong>. The numbering is intentional: <code>00</code> is the hero (the brand), positive numbers are content, <code>-1</code> is the closer (out of band, explicitly).</p>
+            <div class="label-ribbon">
+                <div class="label-ribbon__item"><span class="accent">00</span> / KMADSDEV</div>
+                <div class="label-ribbon__item"><span class="accent">01</span> / WHO</div>
+                <div class="label-ribbon__item"><span class="accent">02</span> / WORK</div>
+                <div class="label-ribbon__item"><span class="accent">02.A</span> / EDUCATION</div>
+                <div class="label-ribbon__item"><span class="accent">03</span> / STACK</div>
+                <div class="label-ribbon__item"><span class="accent">03.A</span> / LANGUAGES</div>
+                <div class="label-ribbon__item"><span class="accent">03.B</span> / BACKEND</div>
+                <div class="label-ribbon__item"><span class="accent">03.C</span> / DATA &amp; CLOUD</div>
+                <div class="label-ribbon__item"><span class="accent">03.D</span> / DEVOPS</div>
+                <div class="label-ribbon__item"><span class="accent">03.E</span> / AGENTS</div>
+                <div class="label-ribbon__item"><span class="accent">04</span> / SHIPPED</div>
+                <div class="label-ribbon__item"><span class="accent">05</span> / CONTACT</div>
+                <div class="label-ribbon__item"><span class="accent">-1</span> / THE END</div>
+            </div>
+            <p>Sub-indices like <code>02.A</code>, <code>03.E</code> are used for sub-modules inside a parent module (Education inside Work, Agents inside Stack). They read as "section <code>02</code>'s appendix A" and keep the rhythm without inventing new top-level sections.</p>
+        </section>
+
+        <!-- ============ 05 HEADERS ============ -->
+        <section class="ds-section" id="headers">
+            <h2><span class="ds-h2-num">05</span> Two-column headers</h2>
+            <p class="ds-section-lede">Every <code>.module__header</code> is a 12-col grid: <strong>headline takes 8 cols on the left, lede takes 4 cols on the right, bottom-aligned</strong>. This asymmetry is what gives the modules their "diagram" feeling — a label paired with a margin note.</p>
+            <div class="module" style="margin: 1rem 0;">
+                <div class="module__label"><span class="accent">02</span>/ WORK</div>
+                <div class="module__header">
+                    <h2>Where I worked. <span class="accent">Where I studied.</span></h2>
+                    <p>Six roles. Eight years. The ones that paid, the ones that didn't, the ones that taught.</p>
+                </div>
+                <div class="module__footer"></div>
+            </div>
+        </section>
+
+        <!-- ============ 06 CELLS ============ -->
+        <section class="ds-section" id="cells">
+            <h2><span class="ds-h2-num">06</span> Cell composition</h2>
+            <p class="ds-section-lede">Cells share one recipe but fill different roles via composition: a <code>.cell--step</code> adds a number badge and a hairline; a <code>.cell--glow</code> adds a radial pink halo. None of them have border-radius — they belong to the frame.</p>
+            <div class="module" style="margin: 1rem 0;">
+                <div class="module__label"><span class="accent">DEMO</span>/ CELL VARIANTS</div>
+                <div class="module__body module__body--4">
+                    <div class="cell">
+                        <h4>Plain cell</h4>
+                        <p>Just borders + grid background. Most cells.</p>
+                    </div>
+                    <div class="cell cell--step">
+                        <span class="cell__num">STEP 02</span>
+                        <h4>Step cell</h4>
+                        <p>Adds a mono pill, hairline, and a dashed circle.</p>
+                    </div>
+                    <div class="cell cell--glow">
+                        <h4>Glow cell</h4>
+                        <p>Adds a radial accent halo at the top-right corner.</p>
+                    </div>
+                    <div class="cell cell--glow" style="border-right: 0;">
+                        <h4>Glow + last in row</h4>
+                        <p>Drop <code>border-right</code> on the last cell of a row.</p>
+                    </div>
+                </div>
+                <div class="module__footer"></div>
+            </div>
+        </section>
+
+        <!-- ============ 07 BORDERS ============ -->
+        <section class="ds-section" id="borders">
+            <h2><span class="ds-h2-num">07</span> Border-work</h2>
+            <p class="ds-section-lede">Borders are not decoration — they are the layout. Three rules govern every line on every page.</p>
+            <ul>
+                <li><strong>Frame &gt; Cell &gt; Sub-cell.</strong> If a layer wraps another, the outer line must be heavier than (or equal to) the inner one.</li>
+                <li><strong>Last in row drops <code>border-right</code>.</strong> The frame already provides that line.</li>
+                <li><strong>Last row drops <code>border-bottom</code>.</strong> The next module's <code>border-top</code> handles the seam.</li>
+            </ul>
+            <div class="border-grid">
+                <div class="border-cell">cell · 01</div>
+                <div class="border-cell">cell · 02</div>
+                <div class="border-cell">cell · 03</div>
+                <div class="border-cell" style="border-right: 0;">cell · 04 (last in row)</div>
+                <div class="border-cell" style="border-bottom: 0;">cell · 05 (last row)</div>
+                <div class="border-cell" style="border-bottom: 0;">cell · 06 (last row)</div>
+                <div class="border-cell" style="border-bottom: 0;">cell · 07 (last row)</div>
+                <div class="border-cell" style="border-right: 0; border-bottom: 0;">cell · 08 (last + last)</div>
+            </div>
+        </section>
+
+        <!-- ============ 08 DIVIDERS ============ -->
+        <section class="ds-section" id="dividers">
+            <h2><span class="ds-h2-num">08</span> Dividers &amp; diagonal stripes</h2>
+            <p class="ds-section-lede">The diagonal-stripe band closes a module. Same pattern across every section. Used in three places only: module footer, hero footer, and any cell intentionally rendered "empty" to mark negative space.</p>
+            <div class="diag-stripe"></div>
+            <p>Spec: <code>repeating-linear-gradient(135deg, transparent 0 18px, rgba(255,255,255,0.06) 18px 19px, transparent 19px 38px)</code>. The 18 px stripe / 19 px gap rhythm is identical to <code>agentic/</code> — preserved on purpose so workspace projects share visual DNA.</p>
+        </section>
+
+        <!-- ============ 09 SPAN ============ -->
+        <section class="ds-section" id="span">
+            <h2><span class="ds-h2-num">09</span> Variable-span layouts</h2>
+            <p class="ds-section-lede">When all cells in a module are equal width, the eye stops registering the grid. Variable spans (<code>span 5</code>, <code>span 4</code>, <code>span 3</code>) re-introduce the grid's presence and ladder the importance of cells.</p>
+            <div class="feature-span-demo">
+                <div class="cell"><h4>Featured</h4><p>span 5 — the hero of the row.</p></div>
+                <div class="cell"><h4>Secondary</h4><p>span 4.</p></div>
+                <div class="cell"><h4>Caption</h4><p>span 3.</p></div>
+                <div class="cell"><h4>Equal</h4><p>span 4.</p></div>
+                <div class="cell"><h4>Equal</h4><p>span 4.</p></div>
+                <div class="cell" style="border-right: 0;"><h4>Equal</h4><p>span 4.</p></div>
+            </div>
+            <p>The Stack module uses 6-equal cells (each <code>span 2</code>) because the icons are catalog items with no hierarchy. The Shipped module uses 3-equal cells (each <code>span 4</code>) because the projects are intentionally peers. The Hero is 2 columns (<code>1.05fr / 1fr</code>) because the copy and the globe are the only two characters of the page.</p>
+        </section>
+
+        <!-- ============ 10 HERO ============ -->
+        <section class="ds-section" id="hero">
+            <h2><span class="ds-h2-num">10</span> Hero stage — the globe frame</h2>
+            <p class="ds-section-lede">The hero is the only module that uses <code>--module-line-strong</code> for its outer frame. The globe lives inside a <strong>stage cell</strong>, not floating freely. Corner markers (top-left + bottom-right) reinforce the "blueprint" gesture and frame the globe as a figure (<code>FIG · 00.A</code>).</p>
+            <h3>Layers</h3>
+            <ul>
+                <li><strong>Outer frame</strong> — <code>--module-line-strong</code>, the heaviest line on the page. Earns the heaviest weight because the hero is the only module without a continuation.</li>
+                <li><strong>Asymmetric grid</strong> — <code>1.05fr / 1fr</code>. Copy slightly larger than stage to balance the globe's visual weight.</li>
+                <li><strong>Stage</strong> — its own grid background (faint dotwork, 58px), corner markers in <code>--color-accent</code>, radial pink glow at center.</li>
+                <li><strong>Globe</strong> — outer ring (<code>globe-text.svg</code>) rotates <code>20s linear infinite</code>; inner globe (<code>globe.svg</code>) is still. Both are SVG, no rasterization. <code>prefers-reduced-motion</code> disables the rotation.</li>
+                <li><strong>Figure label</strong> — <code>FIG · 00.A — kmadsdev mark</code> in mono, bottom-left of the stage. Reads like an academic figure caption.</li>
+            </ul>
+            <p>Live demo: see the running prototype at <a href="../index.html"><code>../index.html</code></a>.</p>
+        </section>
+
+        <!-- ============ 11 STRATEGY RECAP ============ -->
+        <section class="ds-section" id="strategy">
+            <h2><span class="ds-h2-num">11</span> Strategy recap</h2>
+            <p class="ds-section-lede">The 10 strategies that produced the kmadsdev portfolio look. Each one is provably present in the prototype.</p>
+            <table class="ds-table">
+                <tr><th>#</th><th>Strategy</th><th>Where</th></tr>
+                <tr><td>1</td><td>Index every section (<code>00 / WHO</code> through <code>-1 / THE END</code>)</td><td><code>.module__label</code> on every module</td></tr>
+                <tr><td>2</td><td>Three border weights, frame &gt; cell &gt; sub-cell</td><td><code>--module-line-*</code> tokens</td></tr>
+                <tr><td>3</td><td>12-col grid painted as background hairlines</td><td><code>.module</code> background</td></tr>
+                <tr><td>4</td><td>Asymmetric module headers (8-col headline, 4-col lede)</td><td><code>.module__header</code></td></tr>
+                <tr><td>5</td><td>Cells = no border-radius</td><td><code>.cell</code></td></tr>
+                <tr><td>6</td><td>Diagonal-stripe closer at module footer</td><td><code>.module__footer</code></td></tr>
+                <tr><td>7</td><td>Single accent (<code>#ff014f</code>) glow on hover</td><td><code>.cell:hover</code>, <code>.project-card:hover</code></td></tr>
+                <tr><td>8</td><td>Variable-span grids inside modules</td><td>Stack (6×), Shipped (3×), Who (1.4 / 1)</td></tr>
+                <tr><td>9</td><td>Mono micro-copy: indices, badges, tags, code, file paths</td><td><code>--font-mono</code></td></tr>
+                <tr><td>10</td><td>Hero is its own creature: <code>--module-line-strong</code>, corner markers, figure label, massive globe</td><td><code>.hero__module</code> + <code>.hero__stage</code></td></tr>
+            </table>
+        </section>
+
+        <!-- ============ 12 DO / DONT ============ -->
+        <section class="ds-section" id="do-dont">
+            <h2><span class="ds-h2-num">12</span> Do &amp; don't</h2>
+            <div class="ds-do-dont">
+                <div class="ds-do">
+                    <h4>Do</h4>
+                    <ul>
+                        <li>Index every new section. Never ship an unlabeled module.</li>
+                        <li>Reuse existing border tokens. Three weights are enough.</li>
+                        <li>Drop <code>border-right</code> on last cell of a row, <code>border-bottom</code> on last row.</li>
+                        <li>Use mono <em>only</em> for technical micro-copy (indices, code, tags).</li>
+                        <li>Keep the globe massive in the hero. It IS the brand.</li>
+                        <li>Close every module with the diagonal stripe.</li>
+                    </ul>
+                </div>
+                <div class="ds-dont">
+                    <h4>Don't</h4>
+                    <ul>
+                        <li>Add a fourth border weight. Pick one of the three.</li>
+                        <li>Round cells inside a module. Cells belong; cards float.</li>
+                        <li>Use mono for body or headlines.</li>
+                        <li>Add a second accent (blue, green, purple) — even for a project's logo color.</li>
+                        <li>Skip the section index on a sub-module. Use sub-index notation: <code>02.A</code>, <code>03.E</code>.</li>
+                        <li>Drop the diagonal closer because "this section feels different". It doesn't.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="ds-footer">
+            <span>kmadsdev portfolio · Modular Design Strategy. Mirrors <code>../styles/prototype.css</code>.</span>
+            <span>Forked from <code>agentic/.design-system/modular-design.html</code>.</span>
+            <span>© 2026 · @kmadsdev</span>
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

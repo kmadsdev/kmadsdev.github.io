@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <!-- Path-aware redirect: legacy /projects* lands on the inline gallery anchor;
+             anything else falls back to the home page. Sibling project repos
+             (offmode, notes, doom, …) own their own paths and never hit this file. -->
+        <script>
+            var p = window.location.pathname;
+            window.location.replace(p.indexOf("/projects") === 0 ? "/#projects-gallery" : "/");
+        </script>
+        <noscript><meta http-equiv="refresh" content="0; URL=/" /></noscript>
+        <style>
+            body{
+                background-color: #101010;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            div.main-title{
+                width: 100vw;
+                height: 50vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            h1{
+                font-size: 5rem;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-title">
+            <h1>404 - Page Not Found</h1>
+        </div>
+    </body>
+</html>

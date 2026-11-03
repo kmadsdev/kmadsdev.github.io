@@ -1,0 +1,82 @@
+import { useMemo } from 'react';
+import type { ComponentType } from 'react';
+import type { FlagshipId, SceneDef, SceneProps } from '@/types';
+import { LanguageProvider } from '@/context/LanguageContext';
+import { FLAGSHIP_ORDER, flagshipAnchor } from '@/constants/flagships';
+import { TIMELINE_STEPS } from '@/constants/timeline';
+import Deck from '@/deck/Deck';
+import Nav from '@/components/Nav';
+import Hero from '@/components/Hero';
+import About from '@/components/About';
+import Timeline from '@/components/Timeline';
+import ProjectsGallery from '@/components/ProjectsGallery';
+import Skills from '@/components/Skills';
+import Footer from '@/components/Footer';
+import Agentic from '@/components/flagships/Agentic';
+import Ruph from '@/components/flagships/Ruph';
+import Overclock from '@/components/flagships/Overclock';
+import OffMode from '@/components/flagships/OffMode';
+import HiveMind from '@/components/flagships/HiveMind';
+import Diabetes from '@/components/flagships/Diabetes';
+import Notes from '@/components/flagships/Notes';
+import Doom from '@/components/flagships/Doom';
+
+const FLAGSHIP_COMPONENTS: Record<FlagshipId, ComponentType<SceneProps>> = {
+  agentic: Agentic,
+  ruph: Ruph,
+  overclock: Overclock,
+  offmode: OffMode,
+  hivemind: HiveMind,
+  diabetes: Diabetes,
+  doom: Doom,
+  notes: Notes,
+};
+
+/* deck bg floods (cash.app color swaps). Agentic's #070908 is the project's
+   own published palette — content, not a design token (sanctioned exception,
+   same rule as the Notes palette strip). */
+const FLAGSHIP_META: Record<FlagshipId, { builds: number; bg: string }> = {
+  agentic: { builds: 2, bg: '#070908' },
+  ruph: { builds: 2, bg: 'var(--c-bg-2)' },
+  overclock: { builds: 2, bg: 'var(--c-bg)' },
+  offmode: { builds: 2, bg: 'var(--c-bg-2)' },
+  hivemind: { builds: 2, bg: 'var(--c-bg)' },
+  diabetes: { builds: 4, bg: 'var(--c-bg-2)' }, // fixed phone, screens swap per gesture
+  doom: { builds: 2, bg: 'var(--c-frame)' },
+  notes: { builds: 2, bg: 'var(--c-accent)' },
+};
+
+function Site() {
+  /* Scene order is fixed; language switching swaps copy in place, so the
+     scene list never re-orders and the deck keeps its position. */
+  const scenes = useMemo<SceneDef[]>(() => {
+    const flagshipScenes: SceneDef[] = FLAGSHIP_ORDER.map((id) => ({
+      id: flagshipAnchor(id),
+      builds: FLAGSHIP_META[id].builds,
+      bg: FLAGSHIP_META[id].bg,
+      Component: FLAGSHIP_COMPONENTS[id],
+    }));
+    return [
+      { id: 'hero', builds: 2, Component: Hero, bg: 'var(--c-bg)' }, // ticker band lives inside
+      { id: 'about', builds: 3, Component: About, bg: 'var(--c-bg-2)' },
+      { id: 'timeline', builds: TIMELINE_STEPS.en.length, Component: Timeline, bg: 'var(--c-bg)' }, // one chapter per gesture
+      ...flagshipScenes,
+      { id: 'projects-gallery', builds: 2, Component: ProjectsGallery, bg: 'var(--c-bg)' },
+      { id: 'skills', builds: 2, Component: Skills, bg: 'var(--c-bg-2)' },
+    ];
+  }, []);
+
+  return (
+    <Deck scenes={scenes} footer={<Footer />}>
+      <Nav />
+    </Deck>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <Site />
+    </LanguageProvider>
+  );
+}

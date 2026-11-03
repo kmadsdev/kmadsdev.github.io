@@ -1,0 +1,1421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>kmads.dev · Design System</title>
+<link rel="icon" type="image/png" href="../public/assets/favicon.png" />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   kmads.dev — Design System
+   Self-contained reference. No build, no JS framework.
+   Tokens mirror src/styles/global.css (:root) and src/constants.js.
+   ============================================================ */
+
+:root {
+    --white:           #ffffff;
+    --bg-color:        #131313;
+    --secondary-color: #1e1e1e;
+    --special-color:   #ff014f;
+    --text-gray:       #c4cfde;
+
+    --ease-out-expo:    cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-quart:   cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-in-out-quart:cubic-bezier(0.76, 0, 0.24, 1);
+    --ease-card-hover:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    --radius-sm:  5px;
+    --radius-md:  8px;
+    --radius-lg:  20px;
+    --radius-pill: 25px;
+
+    --container-max: 1200px;
+    --container-pad-desktop: 4rem;
+    --container-pad-tablet:  3rem;
+    --container-pad-mobile:  1.5rem;
+
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2rem;
+    --space-6: 3rem;
+    --space-8: 4rem;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: "Rubik", sans-serif;
+    background: var(--bg-color);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+img, video, svg { max-width: 100%; height: auto; display: block; }
+a { color: var(--special-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    color: #e6e6e6;
+}
+code { padding: 0.1rem 0.4rem; font-size: 0.85em; }
+pre {
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 2.5rem 0;
+}
+::selection { background: var(--special-color); color: var(--white); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
+::-webkit-scrollbar-thumb { background: var(--special-color); border-radius: 10px; }
+
+/* ---------- Layout: sidebar + content ---------- */
+.ds-shell {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+}
+.ds-sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 2rem 1.5rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255,1,79,0.04), transparent 30%);
+}
+.ds-brand {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+.ds-brand-logo {
+    width: 38px; height: 38px;
+    background: var(--special-color);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 800; color: var(--white);
+}
+.ds-brand-name { font-weight: 700; font-size: 1rem; }
+.ds-brand-sub  { font-size: 0.75rem; color: var(--text-gray); letter-spacing: 1px; text-transform: uppercase; }
+
+.ds-nav { display: flex; flex-direction: column; gap: 0.1rem; }
+.ds-nav-section {
+    color: var(--text-gray);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 1rem 0.6rem 0.4rem;
+}
+.ds-nav a {
+    color: #e9eef7;
+    text-decoration: none;
+    padding: 0.45rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: background 0.2s, color 0.2s;
+}
+.ds-nav a:hover { background: rgba(255,1,79,0.12); color: var(--special-color); }
+
+.ds-content {
+    padding: 3rem 4rem 6rem;
+    max-width: 1100px;
+}
+.ds-hero {
+    padding: 2rem 0 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 3rem;
+}
+.ds-hero h1 {
+    font-size: 3rem; font-weight: 800; line-height: 1.1;
+    background: linear-gradient(90deg, var(--white) 0%, var(--special-color) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+.ds-hero p { color: var(--text-gray); font-size: 1.05rem; max-width: 720px; }
+.ds-hero .meta {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+.ds-hero .meta span {
+    font-size: 0.72rem;
+    background: rgba(255,1,79,0.1);
+    color: var(--special-color);
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ds-section { margin-bottom: 4rem; scroll-margin-top: 1rem; }
+.ds-section h2 {
+    font-size: 2rem; font-weight: 700;
+    margin-bottom: 0.4rem;
+    position: relative;
+    padding-bottom: 0.6rem;
+}
+.ds-section h2::after {
+    content: ''; position: absolute; left: 0; bottom: 0;
+    width: 50px; height: 3px; background: var(--special-color);
+}
+.ds-section h3 {
+    font-size: 1.25rem; font-weight: 600;
+    margin: 2rem 0 0.75rem;
+}
+.ds-section h4 {
+    font-size: 0.85rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--text-gray);
+    margin: 1.25rem 0 0.5rem;
+}
+.ds-section p { color: var(--text-gray); margin-bottom: 0.75rem; }
+.ds-section ul { padding-left: 1.4rem; color: var(--text-gray); }
+.ds-section ul li { margin-bottom: 0.4rem; }
+
+/* Card / preview blocks */
+.ds-card {
+    background: var(--secondary-color);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+.ds-preview {
+    background: repeating-linear-gradient(45deg, #181818 0 12px, #1c1c1c 12px 24px);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin: 1rem 0 0.75rem;
+    position: relative;
+}
+.ds-preview-label {
+    position: absolute;
+    top: 0.5rem; right: 0.75rem;
+    font-size: 0.65rem;
+    color: var(--text-gray);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* ---------- Color tokens ---------- */
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+.color-swatch {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: var(--secondary-color);
+}
+.color-swatch .chip {
+    height: 110px;
+    display: grid; place-items: end start;
+    padding: 0.75rem;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.color-swatch .meta {
+    padding: 0.75rem 1rem 1rem;
+}
+.color-swatch .name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+.color-swatch .hex  { color: var(--text-gray); font-size: 0.8rem; font-family: ui-monospace, Menlo, monospace; }
+.color-swatch .role { color: var(--text-gray); font-size: 0.78rem; margin-top: 0.4rem; line-height: 1.4; }
+
+/* ---------- Type scale ---------- */
+.type-row {
+    display: grid;
+    grid-template-columns: 110px 90px 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.type-row .label { color: var(--text-gray); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; }
+.type-row .size  { color: var(--text-gray); font-family: ui-monospace, Menlo, monospace; font-size: 0.8rem; }
+
+/* ---------- Spacing / radius scales ---------- */
+.scale-row { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; }
+.scale-row .bar { background: var(--special-color); height: 14px; border-radius: 4px; }
+.scale-row .scale-label { font-family: ui-monospace, Menlo, monospace; font-size: 0.8rem; color: var(--text-gray); width: 110px; }
+
+.radius-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.radius-row .box {
+    width: 110px; height: 110px;
+    background: var(--special-color);
+    display: grid; place-items: end center;
+    padding: 0.5rem;
+    color: var(--white); font-size: 0.7rem;
+    font-family: ui-monospace, Menlo, monospace;
+}
+
+/* ---------- Component clones (mirror real CSS) ---------- */
+
+/* Buttons */
+.kd-btn-primary {
+    background: var(--special-color);
+    color: var(--white);
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--special-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+.kd-btn-primary:hover {
+    background: transparent;
+    color: var(--special-color);
+    transform: translateY(-5px);
+}
+.kd-btn-pill {
+    background: var(--special-color);
+    color: var(--white);
+    padding: 0.75rem 2rem;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--special-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.kd-btn-pill:hover { background: transparent; color: var(--special-color); transform: translateY(-2px); }
+
+.kd-btn-ghost {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 50px;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.kd-btn-ghost:hover { background: var(--special-color); border-color: var(--special-color); transform: translateY(-2px); }
+
+.kd-btn-sponsor {
+    background: transparent;
+    border: 2px solid rgba(255,1,79,0.5);
+    color: var(--special-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    height: 50px;
+}
+.kd-btn-sponsor:hover { background: var(--special-color); border-color: var(--special-color); color: var(--white); transform: translateY(-2px); }
+
+/* Social icon */
+.kd-social-icon {
+    width: 55px; height: 55px;
+    background: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--radius-sm);
+    display: grid; place-items: center;
+    transition: all 0.3s ease;
+}
+.kd-social-icon:hover { border-color: var(--special-color); background: transparent; transform: translateY(-5px); }
+.kd-social-icon img { width: 60%; height: 60%; }
+
+/* Tag (pink chip) */
+.kd-tag {
+    font-size: 0.75rem;
+    color: var(--special-color);
+    background: rgba(255,1,79,0.1);
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-block;
+}
+.kd-badge {
+    display: inline-block;
+    background: var(--special-color);
+    color: var(--white);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Section divider (gradient pink card) */
+.kd-section-divider {
+    width: 250px; height: 200px;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--special-color) 0%, rgba(255,1,79,0.7) 100%);
+    border-radius: var(--radius-lg);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+}
+.kd-section-divider::before {
+    content: ''; position: absolute;
+    top: -50%; right: -50%; width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+}
+.kd-section-divider .label {
+    font-size: 0.75rem; color: rgba(255,255,255,0.8);
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 0.5rem; font-weight: 600;
+}
+.kd-section-divider .title { font-size: 2rem; font-weight: 700; color: var(--white); line-height: 1.1; }
+.kd-section-divider .count {
+    font-size: 3rem; font-weight: 800;
+    color: rgba(255,255,255,0.2);
+    position: absolute; bottom: 0.5rem; right: 1rem;
+}
+
+/* Skill card */
+.kd-skill-card {
+    width: 180px; height: 180px;
+    background: var(--secondary-color);
+    border: 2px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    display: grid; place-items: center;
+    transition: all 0.4s var(--ease-card-hover);
+    position: relative;
+}
+.kd-skill-card:hover {
+    border-color: var(--special-color);
+    transform: translateY(-12px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(255,1,79,0.15);
+}
+.kd-skill-card img { width: 125px; height: 125px; object-fit: contain; transition: transform 0.4s ease; }
+.kd-skill-card:hover img { transform: scale(1.15); }
+
+/* Experience card */
+.kd-exp-card {
+    width: 420px;
+    background: var(--secondary-color);
+    border: 2px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: all 0.4s var(--ease-card-hover);
+}
+.kd-exp-card:hover {
+    border-color: var(--special-color);
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+}
+.kd-exp-card .head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.kd-exp-card .company { font-size: 1.5rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+.kd-exp-card .role    { font-size: 0.95rem; color: var(--special-color); font-weight: 600; }
+.kd-exp-card .period  { font-size: 0.85rem; color: var(--text-gray); white-space: nowrap; }
+.kd-exp-card ul       { list-style: none; padding: 0; }
+.kd-exp-card ul li    { color: var(--text-gray); font-size: 0.9rem; padding: 0.4rem 0 0.4rem 1.5rem; position: relative; line-height: 1.7; }
+.kd-exp-card ul li::before { content: ''; position: absolute; left: 0; top: 0.85rem; width: 6px; height: 6px; background: var(--special-color); border-radius: 50%; }
+
+/* Project card */
+.kd-project-card {
+    width: 380px;
+    background: var(--secondary-color);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.4s var(--ease-card-hover);
+}
+.kd-project-card:hover { border-color: rgba(255,1,79,0.4); transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+.kd-project-card .media {
+    width: 100%; height: 200px; background: #1a1a1a;
+    display: grid; place-items: center;
+    color: var(--text-gray); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.kd-project-card .body { padding: 1.75rem; }
+.kd-project-card .tags { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.kd-project-card .title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+.kd-project-card .desc  { color: var(--text-gray); font-size: 0.95rem; line-height: 1.7; }
+
+/* View-more card */
+.kd-viewmore {
+    width: 240px; height: 250px;
+    background: linear-gradient(135deg, rgba(255,1,79,0.08) 0%, rgba(30,30,30,0.9) 100%);
+    border: 2px dashed rgba(255,1,79,0.25);
+    border-radius: var(--radius-lg);
+    display: grid; place-items: center;
+    transition: all 0.4s ease;
+}
+.kd-viewmore:hover { border-color: var(--special-color); }
+.kd-viewmore .inner { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; padding: 2rem; text-align: center; }
+.kd-viewmore .inner .lbl { font-size: 0.8rem; color: var(--text-gray); letter-spacing: 2px; text-transform: uppercase; }
+.kd-viewmore .inner .ttl { font-size: 1.6rem; font-weight: 700; color: var(--white); }
+
+/* Header preview */
+.kd-header {
+    background: rgba(255,255,255,0.01);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    padding: 1.25rem 2rem;
+    border-radius: var(--radius-md);
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.kd-header .logo { font-size: 1.25rem; font-weight: 700; color: var(--special-color); }
+.kd-header nav { display: flex; gap: 1.5rem; }
+.kd-header nav a { color: var(--white); font-weight: 500; font-size: 0.9rem; }
+.kd-header nav a:hover { color: var(--special-color); text-decoration: none; }
+
+/* Hero radial dot pattern preview */
+.kd-hero-bg {
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 5%, transparent 15%) repeat;
+    background-size: 30px 30px;
+    background-color: var(--bg-color);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.kd-hero-bg h3 { color: var(--white); font-size: 2rem; }
+.kd-hero-bg .gradient-text {
+    background: var(--special-color);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3rem; font-weight: 800;
+    margin: 0.5rem 0;
+}
+
+/* Spinning badge demo */
+.kd-badge-wrap { width: 240px; aspect-ratio: 1/1; position: relative; margin: 0 auto; }
+.kd-badge-wrap img { position: absolute; inset: 0; margin: auto; transform-origin: center; will-change: transform; }
+.kd-badge-wrap .outer { width: 100%; animation: spin-ccw 20s linear infinite; }
+.kd-badge-wrap .inner { width: 65%; }
+@keyframes spin-cw  { to { transform: rotate(360deg); } }
+@keyframes spin-ccw { to { transform: rotate(-360deg); } }
+
+/* Easing demo */
+.ease-row { display: grid; grid-template-columns: 200px 1fr; gap: 1rem; align-items: center; padding: 0.5rem 0; }
+.ease-track { background: rgba(255,255,255,0.05); border-radius: 999px; height: 18px; position: relative; overflow: hidden; }
+.ease-ball  { position: absolute; top: 0; left: 0; width: 18px; height: 18px; background: var(--special-color); border-radius: 50%; }
+.ease-ball.expo  { animation: slide 2.4s var(--ease-out-expo)     infinite alternate; }
+.ease-ball.quart { animation: slide 2.4s var(--ease-out-quart)    infinite alternate; }
+.ease-ball.inout { animation: slide 2.4s var(--ease-in-out-quart) infinite alternate; }
+.ease-ball.card  { animation: slide 2.4s var(--ease-card-hover)   infinite alternate; }
+@keyframes slide { to { left: calc(100% - 18px); } }
+
+/* Breakpoint table */
+.bp-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.bp-table th, .bp-table td {
+    text-align: left;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.9rem;
+}
+.bp-table th { color: var(--text-gray); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+.bp-table td:first-child { font-family: ui-monospace, Menlo, monospace; color: var(--special-color); white-space: nowrap; }
+
+/* Viewport mockup */
+.viewport-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+.viewport {
+    background: #0c0c0c;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1rem;
+    text-align: center;
+}
+.viewport .frame {
+    width: 100%;
+    background: var(--bg-color);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    position: relative;
+    color: var(--text-gray);
+    display: grid; place-items: center;
+    font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
+}
+.viewport.desktop .frame { aspect-ratio: 16/10; }
+.viewport.tablet  .frame { aspect-ratio: 4/5;  max-width: 240px; margin: 0 auto; }
+.viewport.mobile  .frame { aspect-ratio: 9/19; max-width: 140px; margin: 0 auto; }
+.viewport .label  { font-size: 0.78rem; color: var(--text-gray); margin-top: 0.6rem; }
+.viewport .label b { color: var(--white); }
+.viewport .frame::before {
+    content: '';
+    position: absolute; top: 8%; left: 0; right: 0; bottom: 0;
+    background:
+      linear-gradient(180deg, transparent 0 18%, rgba(255,1,79,0.15) 18% 26%, transparent 26% 100%),
+      radial-gradient(circle, rgba(255,255,255,0.06) 5%, transparent 15%) repeat;
+    background-size: auto, 16px 16px;
+}
+
+/* Iconography grid */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 1rem;
+}
+.icon-grid .icon {
+    aspect-ratio: 1/1;
+    background: var(--secondary-color);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    display: grid; place-items: center;
+    padding: 1rem;
+    transition: border-color 0.2s, transform 0.2s;
+}
+.icon-grid .icon:hover { border-color: var(--special-color); transform: translateY(-3px); }
+.icon-grid .icon img { width: 60%; height: 60%; object-fit: contain; }
+.icon-grid .label {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-gray);
+    margin-top: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.icon-cell { display: flex; flex-direction: column; }
+
+/* Do / Dont */
+.dodont {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin-top: 1rem;
+}
+.dodont .col {
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+.dodont .do   { background: rgba(0, 200, 100, 0.06); border-color: rgba(0, 200, 100, 0.2); }
+.dodont .dont { background: rgba(255, 1, 79, 0.06); border-color: rgba(255, 1, 79, 0.25); }
+.dodont .col h4 { color: var(--white); }
+.dodont .col ul { padding-left: 1.2rem; }
+.dodont .col li { margin-bottom: 0.4rem; color: var(--text-gray); font-size: 0.9rem; }
+
+/* Mobile (this doc itself) */
+@media (max-width: 900px) {
+    .ds-shell { grid-template-columns: 1fr; }
+    .ds-sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ds-content { padding: 2rem 1.25rem 4rem; }
+    .ds-hero h1 { font-size: 2rem; }
+    .kd-exp-card, .kd-project-card { width: 100%; }
+    .dodont { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="ds-shell">
+
+    <!-- ============ Sidebar ============ -->
+    <aside class="ds-sidebar">
+        <div class="ds-brand">
+            <div class="ds-brand-logo">K</div>
+            <div>
+                <div class="ds-brand-name">kmads.dev</div>
+                <div class="ds-brand-sub">Design System</div>
+            </div>
+        </div>
+        <nav class="ds-nav">
+            <span class="ds-nav-section">Foundations</span>
+            <a href="#brand">01 · Brand identity</a>
+            <a href="#color">02 · Color</a>
+            <a href="#type">03 · Typography</a>
+            <a href="#spacing">04 · Spacing &amp; radius</a>
+            <a href="#motion">05 · Motion &amp; easing</a>
+            <a href="#patterns">06 · Surfaces &amp; patterns</a>
+
+            <span class="ds-nav-section">Components</span>
+            <a href="#buttons">07 · Buttons</a>
+            <a href="#tags">08 · Tags &amp; badges</a>
+            <a href="#cards">09 · Cards</a>
+            <a href="#section-divider">10 · Section dividers</a>
+            <a href="#header">11 · Header</a>
+            <a href="#hero">12 · Hero</a>
+            <a href="#footer">13 · Footer</a>
+
+            <span class="ds-nav-section">Layout</span>
+            <a href="#layout">14 · Container &amp; grid</a>
+            <a href="#breakpoints">15 · Breakpoints</a>
+            <a href="#responsive">16 · Mobile / desktop views</a>
+
+            <span class="ds-nav-section">Media &amp; Brand</span>
+            <a href="#iconography">17 · Iconography</a>
+            <a href="#media">18 · Media library</a>
+            <a href="#voice">19 · Voice &amp; content</a>
+            <a href="#guidelines">20 · Brand guidelines</a>
+
+            <span class="ds-nav-section">More pages</span>
+            <a href="./modular-design.html" style="color: var(--special-color);">→ Modular design strategy</a>
+            <a href="./brand-guidelines.md" style="color: var(--text-gray);">brand-guidelines.md</a>
+            <a href="./media.md" style="color: var(--text-gray);">media.md</a>
+        </nav>
+    </aside>
+
+    <!-- ============ Content ============ -->
+    <main class="ds-content">
+
+        <header class="ds-hero">
+            <h1>kmads.dev — Design System</h1>
+            <p>Single source of truth for the look, feel, and rules behind <a href="https://kmads.dev/" target="_blank">kmads.dev</a> and every project routed under it. Tokens mirror <code>src/styles/global.css</code> and <code>src/constants.js</code>; components are rendered live from the same CSS.</p>
+            <div class="meta">
+                <span>v1 · 2026</span>
+                <span>dark · pink-accent</span>
+                <span>Rubik · static gh-pages</span>
+                <span>kmadsdev/kmadsdev.github.io</span>
+                <a href="./modular-design.html" style="font-size: 0.72rem; background: rgba(255,1,79,0.1); color: var(--special-color); padding: 0.35rem 0.75rem; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-decoration: none;">→ Modular design strategy</a>
+            </div>
+        </header>
+
+        <!-- 01 Brand identity -->
+        <section id="brand" class="ds-section">
+            <h2>01 · Brand identity</h2>
+            <p>kmads.dev is the public-facing brand of <strong>Kaique Souza</strong> (alias <strong>Kmads</strong>) — a one-person studio shipping outstanding, reliable, free software since 2018. The portfolio site doubles as a <em>domain gateway</em>: every owned project is reachable at <code>kmads.dev/&lt;project&gt;</code>.</p>
+
+            <h4>Brand pillars</h4>
+            <ul>
+                <li><strong>Reliable.</strong> Tools that stay free and keep working.</li>
+                <li><strong>Direct.</strong> Engineer voice — no marketing fluff, no jargon for jargon's sake.</li>
+                <li><strong>Open.</strong> Open-source by default, public roadmaps, public learning.</li>
+                <li><strong>Self-hosted look.</strong> Dark UI, monospace accents, hot-pink highlight — no SaaS-template feel.</li>
+            </ul>
+
+            <h4>Naming conventions</h4>
+            <ul>
+                <li>Brand name: <code>kmads.dev</code> (always lowercase, with the dot — never "Kmads.dev" or "KMADS.DEV").</li>
+                <li>Person: <code>Kaique Souza</code> · alias <code>Kmads</code> (capitalized when used as a name).</li>
+                <li>GitHub org / handle: <code>kmadsdev</code> (no dot).</li>
+                <li>Project URLs: <code>kmads.dev/&lt;project-slug&gt;</code> (kebab-case, lowercase).</li>
+            </ul>
+
+            <div class="ds-preview">
+                <div class="ds-preview-label">Logomark</div>
+                <div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:center;">
+                    <div style="text-align:center;">
+                        <img src="../public/assets/kmads_logo_zoomedout.png" alt="Kmads logo" style="width:120px; height:120px; border-radius:50%;">
+                        <div style="margin-top:0.6rem; color:var(--text-gray); font-size:0.78rem;">Primary mark</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="../public/assets/badge.svg" alt="Kmads badge" style="width:140px;">
+                        <div style="margin-top:0.6rem; color:var(--text-gray); font-size:0.78rem;">Spinning badge</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div class="kd-badge-wrap">
+                            <img class="outer" src="../public/assets/globe-text.svg" alt="">
+                            <img class="inner" src="../public/assets/globe.svg" alt="">
+                        </div>
+                        <div style="margin-top:0.6rem; color:var(--text-gray); font-size:0.78rem;">Hero badge (live)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 Color -->
+        <section id="color" class="ds-section">
+            <h2>02 · Color</h2>
+            <p>5-color palette. Dark by default. Pink (<code>--special-color</code>) is the only accent — never introduce a 6th hue.</p>
+
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="chip" style="background:#131313;">#131313</div>
+                    <div class="meta">
+                        <div class="name">Background</div>
+                        <div class="hex">--bg-color · #131313</div>
+                        <div class="role">Page bg, section bg, sticky scroll-track. Never use pure black (#000).</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="chip" style="background:#1e1e1e;">#1e1e1e</div>
+                    <div class="meta">
+                        <div class="name">Secondary surface</div>
+                        <div class="hex">--secondary-color · #1e1e1e</div>
+                        <div class="role">Cards, social icons, ghost buttons. The +1 elevation step over bg.</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="chip" style="background:#ff014f;">#ff014f</div>
+                    <div class="meta">
+                        <div class="name">Special / accent</div>
+                        <div class="hex">--special-color · #ff014f</div>
+                        <div class="role">CTAs, focus, hover, dividers, highlights. The brand. Use sparingly — 1 accent per viewport zone.</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="chip" style="background:#ffffff; color:rgba(0,0,0,0.6);">#ffffff</div>
+                    <div class="meta">
+                        <div class="name">White</div>
+                        <div class="hex">--white · #ffffff</div>
+                        <div class="role">Primary text on dark, button labels, headings.</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="chip" style="background:#c4cfde; color:rgba(0,0,0,0.55);">#c4cfde</div>
+                    <div class="meta">
+                        <div class="name">Text gray</div>
+                        <div class="hex">--text-gray · #c4cfde</div>
+                        <div class="role">Body copy, supporting text, captions, scroll hints.</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Derivative tints / overlays</h3>
+            <ul>
+                <li><code>rgba(255, 1, 79, 0.1)</code> — tag chip background.</li>
+                <li><code>rgba(255, 1, 79, 0.7)</code> — gradient stop on section dividers.</li>
+                <li><code>rgba(255, 255, 255, 0.06)</code> — card border resting state.</li>
+                <li><code>rgba(255, 255, 255, 0.05)</code> — scroll track background.</li>
+                <li><code>rgba(255, 255, 255, 0.01)</code> + <code>backdrop-filter: blur(40px)</code> — fixed header.</li>
+            </ul>
+
+            <h3>Off-palette colors — found in the wild</h3>
+            <p>Found auditing <code>src/styles/</code>: three solid hex values that don't trace back to the palette above or its derivative tints. Each has a clear, narrow job — not necessarily wrong — but undocumented means the next edit reaches for a guess instead of a token.</p>
+            <ul>
+                <li><code>#ff1a5c</code> — <code>Experience.css:73</code>. Hover tint on the experience-rail scrollbar thumb, written as <code>var(--special-color-hover, #ff1a5c)</code> — the variable is referenced but never declared in <code>:root</code>, so the fallback always wins.</li>
+                <li><code>#ececec</code> — <code>Hero.css:44</code>. Color of <code>.hero-subtitle</code>, the single-line tagline under the hero name. Softer than <code>--white</code>, cooler than <code>--text-gray</code> — its own thing.</li>
+                <li><code>#1a1a1a</code> — <code>Projects.css:155</code>. Background of <code>.project-media-wrapper</code>, the letterbox behind project cover media — a half-step between <code>--bg-color</code> and <code>--secondary-color</code>.</li>
+            </ul>
+            <p>Going forward: a new color earns a token in <code>:root</code> first, referenced via <code>var(--name)</code> — never a bare hex inside a component file. These three predate that discipline; formalize <code>--special-color-hover</code> (it's already being called for) or fold the other two into their nearest-neighbor token next time those files are touched.</p>
+        </section>
+
+        <!-- 03 Typography -->
+        <section id="type" class="ds-section">
+            <h2>03 · Typography</h2>
+            <p>Single typeface — <strong>Rubik</strong> (Google Fonts), weights 300–900. Loaded via <code>&lt;link&gt;</code> in <code>index.html</code> / <code>projects.html</code>. Body line-height <code>1.6</code>. Never mix in a second font family.</p>
+
+            <div class="ds-card">
+                <div class="type-row"><span class="label">Hero title</span>      <span class="size">4rem · 700</span> <span style="font-size:4rem; font-weight:700; line-height:1.1;">Kaique Souza</span></div>
+                <div class="type-row"><span class="label">Section title</span>   <span class="size">3rem · 700</span> <span style="font-size:3rem; font-weight:700;">My Projects</span></div>
+                <div class="type-row"><span class="label">Card title</span>      <span class="size">1.5rem · 700</span> <span style="font-size:1.5rem; font-weight:700;">PicPay</span></div>
+                <div class="type-row"><span class="label">Hero subtitle</span>   <span class="size">1.5rem · 100</span> <span style="font-size:1.5rem; font-weight:100; color:#ececec;">Software Engineer · OSS Dev</span></div>
+                <div class="type-row"><span class="label">Body</span>            <span class="size">1rem · 400</span>   <span style="font-size:1rem; color:var(--text-gray);">I love contributing to the community and building useful projects.</span></div>
+                <div class="type-row"><span class="label">Body small</span>      <span class="size">0.9rem · 400</span> <span style="font-size:0.9rem; color:var(--text-gray);">Allocated on the Engineering Squad…</span></div>
+                <div class="type-row"><span class="label">Caption / meta</span>  <span class="size">0.85rem · 500</span><span style="font-size:0.85rem; color:var(--text-gray);">Dec 2025 · Present</span></div>
+                <div class="type-row"><span class="label">Eyebrow</span>         <span class="size">0.75rem · 600 · upper · ls 2px</span><span style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:rgba(255,255,255,0.8);">Industry</span></div>
+                <div class="type-row"><span class="label">Pill / badge</span>    <span class="size">0.7rem · 700 · upper · ls 0.5px</span><span class="kd-badge">Current</span></div>
+            </div>
+
+            <h4>Special treatment — gradient title</h4>
+            <p>Hero title uses pink as a clipped <code>background-image</code> on text. Reserved for the hero only. Do not apply to section titles or buttons.</p>
+            <pre>background: var(--special-color);
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;</pre>
+        </section>
+
+        <!-- 04 Spacing & radius -->
+        <section id="spacing" class="ds-section">
+            <h2>04 · Spacing &amp; radius</h2>
+            <h4>Spacing scale (rem)</h4>
+            <div class="ds-card">
+                <div class="scale-row"><span class="scale-label">0.5rem · 8px</span>  <div class="bar" style="width:8px;"></div></div>
+                <div class="scale-row"><span class="scale-label">1rem · 16px</span>   <div class="bar" style="width:16px;"></div></div>
+                <div class="scale-row"><span class="scale-label">1.5rem · 24px</span> <div class="bar" style="width:24px;"></div></div>
+                <div class="scale-row"><span class="scale-label">2rem · 32px</span>   <div class="bar" style="width:32px;"></div></div>
+                <div class="scale-row"><span class="scale-label">3rem · 48px</span>   <div class="bar" style="width:48px;"></div></div>
+                <div class="scale-row"><span class="scale-label">4rem · 64px</span>   <div class="bar" style="width:64px;"></div></div>
+                <div class="scale-row"><span class="scale-label">6rem · 96px</span>   <div class="bar" style="width:96px;"></div></div>
+            </div>
+            <p style="margin-top:0.75rem;">Section vertical padding: <code>4rem 0 2rem</code> on desktop, <code>3rem 0 2rem</code> at <code>≤768px</code>, <code>2rem 0 1.5rem</code> at <code>≤480px</code>.</p>
+
+            <h4>Radius scale</h4>
+            <div class="ds-card">
+                <div class="radius-row">
+                    <div class="box" style="border-radius:5px;">5px · sm</div>
+                    <div class="box" style="border-radius:8px;">8px · md</div>
+                    <div class="box" style="border-radius:20px;">20px · lg</div>
+                    <div class="box" style="border-radius:25px;">25px · pill</div>
+                    <div class="box" style="border-radius:50%;">50% · circle</div>
+                </div>
+            </div>
+            <ul>
+                <li><strong>5px</strong> — primary CTA buttons, social icons.</li>
+                <li><strong>8px</strong> — ghost buttons, sponsor button, footer social icons.</li>
+                <li><strong>20px</strong> — every card (experience, skill, project, section divider, view-more).</li>
+                <li><strong>25px / pill</strong> — header "Hire" button.</li>
+                <li><strong>circle</strong> — project hover overlay icon, brand mark.</li>
+            </ul>
+        </section>
+
+        <!-- 05 Motion -->
+        <section id="motion" class="ds-section">
+            <h2>05 · Motion &amp; easing</h2>
+            <p>All interactive transitions use one of four easing tokens. Standard duration: <code>0.3s</code> for hover / state, <code>0.4s</code> for cards, <code>0.6–0.8s</code> for reveals, <code>20s</code> for the hero badge spin.</p>
+
+            <div class="ds-card">
+                <div class="ease-row"><span><code>--ease-out-expo</code><br><small style="color:var(--text-gray);">cubic-bezier(0.19, 1, 0.22, 1)</small></span><div class="ease-track"><div class="ease-ball expo"></div></div></div>
+                <div class="ease-row"><span><code>--ease-out-quart</code><br><small style="color:var(--text-gray);">cubic-bezier(0.25, 1, 0.5, 1)</small></span><div class="ease-track"><div class="ease-ball quart"></div></div></div>
+                <div class="ease-row"><span><code>--ease-in-out-quart</code><br><small style="color:var(--text-gray);">cubic-bezier(0.76, 0, 0.24, 1)</small></span><div class="ease-track"><div class="ease-ball inout"></div></div></div>
+                <div class="ease-row"><span><code>card-hover</code><br><small style="color:var(--text-gray);">cubic-bezier(0.25, 0.46, 0.45, 0.94)</small></span><div class="ease-track"><div class="ease-ball card"></div></div></div>
+            </div>
+
+            <h4>Standard reveal</h4>
+            <pre>.fade-in { opacity: 0; transform: translateY(30px); animation: fadeInUp 0.8s var(--ease-out-expo) forwards; }
+.fade-in-delay-1 { animation-delay: 0.1s; }
+/* …delay-2..5 in 0.1s steps */</pre>
+
+            <h4>Card hover (canonical)</h4>
+            <ul>
+                <li><strong>Lift:</strong> <code>translateY(-8px)</code> (cards) · <code>translateY(-12px) scale(1.05)</code> (skill cards) · <code>translateY(-2px)</code> (buttons).</li>
+                <li><strong>Border:</strong> resting <code>rgba(255,255,255,0.06)</code> → hover <code>var(--special-color)</code>.</li>
+                <li><strong>Shadow:</strong> <code>0 30px 60px rgba(0,0,0,0.3)</code>.</li>
+                <li><strong>Inner image:</strong> <code>scale(1.08)</code> on project card · <code>scale(1.15)</code> on skill icon.</li>
+            </ul>
+
+            <h4>Smooth scroll</h4>
+            <p>Page scroll handled by <strong>Lenis</strong> (<code>useLenis.jsx</code>). Native <code>scroll-behavior</code> is set to <code>auto</code> so Lenis owns it. Defaults: <code>lerp 0.075</code>, <code>wheelMultiplier 0.8</code>, <code>touchMultiplier 0.5</code>.</p>
+        </section>
+
+        <!-- 06 Patterns -->
+        <section id="patterns" class="ds-section">
+            <h2>06 · Surfaces &amp; patterns</h2>
+
+            <h3>Radial dot grid (hero background)</h3>
+            <pre>background: radial-gradient(circle, rgba(255,255,255,0.15) 5%, transparent 15%) repeat;
+background-size: 30px 30px;
+background-color: var(--bg-color);</pre>
+            <div class="kd-hero-bg">
+                <h3>Signature pattern</h3>
+                <div class="gradient-text">Kmads</div>
+                <p style="color:var(--text-gray);">30×30 px radial dots @ 15% white, on bg.</p>
+            </div>
+
+            <h3>Pink gradient (section dividers, accent surfaces)</h3>
+            <pre>background: linear-gradient(135deg, var(--special-color) 0%, rgba(255,1,79,0.7) 100%);</pre>
+
+            <h3>Glass / blur</h3>
+            <p>Two real usages, both leaning on <code>backdrop-filter</code> rather than a flat translucent fill — the blur is what sells "glass," not the tint. Watch the checker blur behind the panel below.</p>
+            <div class="ds-preview" style="height:140px; display:flex; align-items:center; justify-content:center;">
+                <div style="background: rgba(255,255,255,0.01); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:0.85rem 1.4rem; text-align:center;">
+                    <strong style="font-size:0.85rem;">Sticky header</strong>
+                    <div style="color:var(--text-gray); font-size:0.72rem; margin-top:0.2rem;">rgba(255,255,255,.01) · backdrop-filter: blur(40px)</div>
+                </div>
+            </div>
+            <pre>/* Header.css — sticky bar: near-invisible tint, heavy blur */
+background: rgba(255, 255, 255, 0.01);
+backdrop-filter: blur(40px);
+
+/* Projects.css — card hover overlay: lighter blur, legible over media */
+backdrop-filter: blur(10px);</pre>
+
+            <h3>Color glow accents</h3>
+            <p>Pink shows up as soft glow in exactly two interaction states — tight radius, low opacity, always a halo rather than a hard drop shadow.</p>
+            <div class="ds-preview" style="display:flex; gap:2rem; flex-wrap:wrap; align-items:center; justify-content:center; padding:2.5rem 1.5rem;">
+                <div style="text-align:center;">
+                    <input type="text" placeholder="Focus me" readonly
+                           style="background:var(--secondary-color); border:1px solid var(--special-color); border-radius:8px; padding:0.65rem 1rem; color:var(--white); font-family:inherit; font-size:0.9rem; box-shadow:0 0 0 2px rgba(255,1,79,0.1); outline:none;">
+                    <div style="margin-top:0.5rem; color:var(--text-gray); font-size:0.72rem;">Input focus ring</div>
+                </div>
+                <div style="text-align:center;">
+                    <span style="display:inline-block; background:var(--special-color); color:var(--white); border-radius:5px; padding:0.75rem 2rem; font-weight:600; font-size:0.9rem; transform:translateY(-3px); box-shadow:0 10px 30px rgba(255,1,79,0.3);">Hover lift</span>
+                    <div style="margin-top:0.5rem; color:var(--text-gray); font-size:0.72rem;">Button hover, lifted</div>
+                </div>
+            </div>
+            <ul>
+                <li><code>0 0 0 2px rgba(255, 1, 79, 0.1)</code> — <code>Contact.css:53</code>. Focus ring on form inputs/textareas, paired with a solid <code>--special-color</code> border. A halo, not a shadow.</li>
+                <li><code>0 10px 30px rgba(255, 1, 79, 0.3)</code> — <code>Contact.css:81</code>. Submit-button hover, paired with <code>translateY(-3px)</code> — the lift "throws" the glow downward.</li>
+            </ul>
+        </section>
+
+        <!-- 07 Buttons -->
+        <section id="buttons" class="ds-section">
+            <h2>07 · Buttons</h2>
+
+            <h3>Primary — "Download Resume"</h3>
+            <p>Filled pink, square 5px radius. Hover swaps to outline + lifts 5px.</p>
+            <div class="ds-preview"><div class="ds-preview-label">Hover me</div><button class="kd-btn-primary">Download Resume</button></div>
+
+            <h3>Pill — "Hire Me" (header)</h3>
+            <p>25px pill, used only inside the fixed header.</p>
+            <div class="ds-preview"><button class="kd-btn-pill">Hire Me</button></div>
+
+            <h3>Ghost — "Back to top" (footer)</h3>
+            <p>Translucent, white border. Hover fills pink.</p>
+            <div class="ds-preview"><button class="kd-btn-ghost">↑ Back to top</button></div>
+
+            <h3>Sponsor — "Sponsor" (footer)</h3>
+            <p>Outline pink. Always paired with the heart icon.</p>
+            <div class="ds-preview">
+                <button class="kd-btn-sponsor">
+                    <img src="../public/assets/ui/heart.svg" alt="" style="width:18px; height:18px;">
+                    Sponsor
+                </button>
+            </div>
+
+            <h4>Rules</h4>
+            <ul>
+                <li>Only <strong>one</strong> primary button per visible viewport zone.</li>
+                <li>Hover always lifts (<code>translateY</code>); never just darkens.</li>
+                <li>Border width is always <code>2px</code>, never 1px.</li>
+                <li>Don't combine pill + outline-pink + filled in the same row — pick one variant per zone.</li>
+            </ul>
+        </section>
+
+        <!-- 08 Tags & Badges -->
+        <section id="tags" class="ds-section">
+            <h2>08 · Tags &amp; badges</h2>
+            <div class="ds-preview" style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
+                <span class="kd-tag">Python</span>
+                <span class="kd-tag">ML</span>
+                <span class="kd-tag">Healthcare</span>
+                <span class="kd-tag">Desktop</span>
+                <span class="kd-badge">Current</span>
+            </div>
+            <ul>
+                <li><strong>Tag chip</strong> — pink text on translucent pink bg. Used for project tech-stack tags.</li>
+                <li><strong>Badge</strong> — solid pink fill, white uppercase text. Used for "current" job marker. Never use for tags.</li>
+            </ul>
+        </section>
+
+        <!-- 09 Cards -->
+        <section id="cards" class="ds-section">
+            <h2>09 · Cards</h2>
+
+            <h3>Skill card</h3>
+            <p>180×180, large icon (125×125), tooltip-style name on hover.</p>
+            <div class="ds-preview" style="display:flex; gap:1rem; flex-wrap:wrap;">
+                <div class="kd-skill-card"><img src="../public/assets/icons/python.svg" alt="Python"></div>
+                <div class="kd-skill-card"><img src="../public/assets/icons/react.svg" alt="React"></div>
+                <div class="kd-skill-card"><img src="../public/assets/icons/docker.svg" alt="Docker"></div>
+                <div class="kd-skill-card"><img src="../public/assets/icons/aws.svg" alt="AWS"></div>
+            </div>
+
+            <h3>Experience card</h3>
+            <p>Min 420px wide, 320 tall. Header row = company + period/badge. Body = bullet list w/ pink dot markers.</p>
+            <div class="ds-preview">
+                <div class="kd-exp-card">
+                    <div class="head">
+                        <div>
+                            <div class="company">PicPay</div>
+                            <div class="role">Software Engineer · Full-time</div>
+                        </div>
+                        <div style="text-align:right; display:flex; flex-direction:column; gap:0.4rem; align-items:flex-end;">
+                            <span class="period">Dec 2025 · Present</span>
+                            <span class="kd-badge">Current</span>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>Allocated on the Engineering Squad (IT Corp / HR Division).</li>
+                        <li>Working on Project Survey — internal platform replacing third-party tools.</li>
+                        <li>Centralizes survey management; expected multi-million annual savings.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Project card</h3>
+            <p>Image (200–260px tall) on top, content below. Hover lifts + reveals link button overlay.</p>
+            <div class="ds-preview">
+                <div class="kd-project-card">
+                    <div class="media">[Project media — image / video on hover]</div>
+                    <div class="body">
+                        <div class="tags">
+                            <span class="kd-tag">Python</span>
+                            <span class="kd-tag">ML</span>
+                            <span class="kd-tag">Healthcare</span>
+                        </div>
+                        <div class="title">Diabetes Indicator</div>
+                        <div class="desc">A survey that can indicate the probability of you having diabetes or not.</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>View-more card</h3>
+            <p>Dashed pink border, gradient pink-tinted bg. Closes every horizontal track.</p>
+            <div class="ds-preview">
+                <div class="kd-viewmore">
+                    <div class="inner">
+                        <span class="lbl">Discover</span>
+                        <span class="ttl">More projects</span>
+                        <button class="kd-btn-pill">Explore →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10 Section dividers -->
+        <section id="section-divider" class="ds-section">
+            <h2>10 · Section dividers</h2>
+            <p>Pink gradient cards that open every horizontal-scroll track. Always carry: eyebrow label, title, count digit (semi-transparent white in bottom-right).</p>
+            <div class="ds-preview" style="display:flex; gap:1rem; flex-wrap:wrap;">
+                <div class="kd-section-divider">
+                    <div class="label">Industry</div>
+                    <div class="title">Work<br>Experience</div>
+                    <div class="count">06</div>
+                </div>
+                <div class="kd-section-divider">
+                    <div class="label">Toolbox</div>
+                    <div class="title">Tech<br>Stack</div>
+                    <div class="count">17</div>
+                </div>
+                <div class="kd-section-divider">
+                    <div class="label">Showcase</div>
+                    <div class="title">My<br>Projects</div>
+                    <div class="count">03</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11 Header -->
+        <section id="header" class="ds-section">
+            <h2>11 · Header</h2>
+            <p>Fixed, full-width, glassy. Logo (pink, lowercase brand) on the left, nav links + "Hire" pill on the right. Underline animates on hover. Hidden nav menu at <code>≤768px</code> (no hamburger in the current build — TBD).</p>
+            <div class="ds-preview">
+                <div class="kd-header">
+                    <div class="logo">kmads.dev</div>
+                    <nav>
+                        <a>Home</a><a>About</a><a>Experience</a><a>Skills</a><a>Projects</a>
+                    </nav>
+                    <button class="kd-btn-pill">Hire Me</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12 Hero -->
+        <section id="hero" class="ds-section">
+            <h2>12 · Hero</h2>
+            <p>Two-column grid (1fr 1fr): copy block left, spinning badge right. Title is the only place using gradient-clipped text. CTA + social-icon row beneath.</p>
+            <div class="ds-preview" style="padding:0;">
+                <div style="background: radial-gradient(circle, rgba(255,255,255,0.15) 5%, transparent 15%) repeat; background-size: 30px 30px; background-color: var(--bg-color); padding: 3rem 2rem; border-radius: var(--radius-lg);">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items:center; max-width: 900px; margin: 0 auto;">
+                        <div>
+                            <p style="color:var(--text-gray); font-size:0.78rem; letter-spacing:1px; margin-bottom:0.6rem;">👋 HELLO, MY NAME IS KAIQUE, ALSO KNOWN AS <span style="color:var(--special-color); font-weight:700;">KMADS</span></p>
+                            <h1 style="font-size: 2.6rem; font-weight: 700; background: var(--special-color); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.4rem;">Kaique Souza</h1>
+                            <p style="font-size:1.15rem; font-weight:100; color:#ececec; margin-bottom:1rem;">Software Engineer · Open-Source Developer</p>
+                            <p style="color:var(--text-gray); font-size:0.9rem; line-height:1.7; margin-bottom:1.25rem;">Full-time Engineer + Full-time student.<br>I love contributing to the community and building useful projects.</p>
+                            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                                <button class="kd-btn-primary" style="padding:0.75rem 1.5rem; font-size:0.9rem;">Download Resume</button>
+                                <a class="kd-social-icon"><img src="../public/assets/social/github-icon-red.svg" alt=""></a>
+                                <a class="kd-social-icon"><img src="../public/assets/social/linkedin-icon-red.svg" alt=""></a>
+                                <a class="kd-social-icon"><img src="../public/assets/social/email-icon-red.svg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="kd-badge-wrap" style="width: 220px;">
+                            <img class="outer" src="../public/assets/globe-text.svg" alt="">
+                            <img class="inner" src="../public/assets/globe.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 13 Footer -->
+        <section id="footer" class="ds-section">
+            <h2>13 · Footer</h2>
+            <p>Banner (full-bleed SVG illustration) on top, then 4-column grid: <strong>brand</strong> (1fr 2× weight) + 3 link columns (Navigation · Connect · Resources). Bottom bar: copyright left, sponsor + back-to-top right. At <code>≤480px</code>, columns stack to 1-col with thin top dividers between them.</p>
+            <ul>
+                <li>Banner image: <code>public/assets/footer-banner.svg</code> · min-height 1200px desktop · 150–250px mobile.</li>
+                <li>Brand description max width <code>300px</code>; never wider.</li>
+                <li>Sponsor button always opens <code>github.com/sponsors/kmadsdev</code>.</li>
+            </ul>
+        </section>
+
+        <!-- 14 Layout -->
+        <section id="layout" class="ds-section">
+            <h2>14 · Container &amp; grid</h2>
+            <ul>
+                <li><strong>Page container</strong> — <code>max-width: 1200px; margin: 0 auto;</code> (header, hero, about, experience header, stack header, projects header).</li>
+                <li><strong>Footer container</strong> — <code>max-width: 1400px;</code> (slightly wider on purpose).</li>
+                <li><strong>Section padding</strong> — <code>4rem</code> sides on desktop, <code>3rem</code> at 1200px, <code>1.5rem</code> at 768px, <code>1rem</code> at 480px, <code>0.75rem</code> at 360px.</li>
+                <li><strong>Hero grid</strong> — <code>1fr 1fr</code> (copy / badge), collapses to 1-col at 968px.</li>
+                <li><strong>About grid</strong> — <code>2fr 1fr</code> (text / logo), collapses to 1-col at 968px (logo on top).</li>
+                <li><strong>Horizontal-scroll sections</strong> (Experience, Stack, Projects) — flex track w/ <code>gap: 1.5rem</code> · custom thin pink scrollbar · pads <code>0 4rem</code>. On mobile (≤768px) they become native horizontal scroll w/ scrollbar hidden, or vertical stack (Experience).</li>
+            </ul>
+        </section>
+
+        <!-- 15 Breakpoints -->
+        <section id="breakpoints" class="ds-section">
+            <h2>15 · Breakpoints</h2>
+            <p>Defined in <code>src/styles/mobile.css</code>. The portfolio scales from 280px phones up to 4K monitors by tweaking <code>:root font-size</code> + per-component sizes. Mobile-first <strong>not</strong> applied — desktop is the default; queries cascade <em>down</em> and <em>up</em>.</p>
+            <table class="bp-table">
+                <thead><tr><th>Range</th><th>Label</th><th>Behavior</th></tr></thead>
+                <tbody>
+                    <tr><td>≥ 3840px</td><td>4K</td>           <td>root 20px · hero title 6rem · badge 700px</td></tr>
+                    <tr><td>2880–3839</td><td>3K</td>          <td>root 18px · hero title 5rem · badge 600px</td></tr>
+                    <tr><td>2560–2879</td><td>QHD / 2.5K</td>  <td>root 17px · badge 550px</td></tr>
+                    <tr><td>2048–2559</td><td>2K</td>          <td>root 16px (default reset)</td></tr>
+                    <tr><td>1440–2047</td><td>Large desktop</td><td>badge 500px</td></tr>
+                    <tr><td>1200–1439</td><td>Standard desktop</td><td>section side-pad 3rem · badge 450px</td></tr>
+                    <tr><td>969–1199</td><td>Small desktop / large tablet</td><td>section title 2.5rem · about → 1-col</td></tr>
+                    <tr><td>769–968</td><td>Tablet landscape</td><td>hero → 1-col (badge first), section pad 4rem 2rem</td></tr>
+                    <tr><td>≤ 768px</td><td>Tablet / mobile</td><td>nav menu hidden · sections stack · horizontal tracks become native scroll</td></tr>
+                    <tr><td>≤ 480px</td><td>Large mobile</td>  <td>section title 1.5rem · skill card 80² · footer 1-col</td></tr>
+                    <tr><td>≤ 360px</td><td>Small mobile</td>  <td>hero title 1.75rem · skill card 70²</td></tr>
+                    <tr><td>≤ 280px</td><td>Tiny mobile</td>   <td>buttons stack · skill card 60²</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 16 Responsive views -->
+        <section id="responsive" class="ds-section">
+            <h2>16 · Mobile / desktop views</h2>
+            <p>Same composition, three densities. Desktop = side-by-side hero + horizontal scroll for collections. Tablet = collapsing grids. Mobile = stacked content + horizontal swipe for skills/projects, vertical stack for experience.</p>
+
+            <div class="viewport-row">
+                <div class="viewport desktop">
+                    <div class="frame"></div>
+                    <div class="label"><b>Desktop</b> · ≥ 1200px · 1200px container · 4rem padding</div>
+                </div>
+                <div class="viewport tablet">
+                    <div class="frame"></div>
+                    <div class="label"><b>Tablet</b> · 769–968 · hero stacks · about stacks</div>
+                </div>
+                <div class="viewport mobile">
+                    <div class="frame"></div>
+                    <div class="label"><b>Mobile</b> · ≤ 480px · 1-col footer · native swipe tracks</div>
+                </div>
+            </div>
+
+            <h4>Mobile-specific behavior</h4>
+            <ul>
+                <li>Header nav links hidden (<code>display: none</code>); only logo + Hire pill remain.</li>
+                <li>Hero re-orders: badge on top, copy below, all centered. Buttons row centers + wraps.</li>
+                <li>Horizontal-scroll sections lose pinned headers; tracks scroll natively, <code>scrollbar-width: none</code>.</li>
+                <li>Card hover lift is dampened (<code>translateY(-4px)</code>) — touch devices don't keep hover state.</li>
+                <li>Footer collapses 4-col → 2-col (≤768) → 1-col (≤480). Brand always spans full width.</li>
+                <li>Page scrollbar hidden entirely below 480px to avoid the pink track on small screens.</li>
+            </ul>
+        </section>
+
+        <!-- 17 Iconography -->
+        <section id="iconography" class="ds-section">
+            <h2>17 · Iconography</h2>
+            <p>All icons are SVG, monochrome where possible, sourced from <code>public/assets/</code>. Three sets:</p>
+
+            <h3>Tech stack — <code>public/assets/icons/</code></h3>
+            <p>Used inside skill cards. Full-color brand SVGs (e.g. official Python yellow/blue, React cyan). Square viewBox, pad to 60% inside its card.</p>
+            <div class="icon-grid">
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/python.svg" alt=""></div><div class="label">python</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/javascript.svg" alt=""></div><div class="label">javascript</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/typescript.svg" alt=""></div><div class="label">typescript</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/php.svg" alt=""></div><div class="label">php</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/c.svg" alt=""></div><div class="label">c</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/react.svg" alt=""></div><div class="label">react</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/vite.svg" alt=""></div><div class="label">vite</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/nodejs.svg" alt=""></div><div class="label">nodejs</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/fastapi.svg" alt=""></div><div class="label">fastapi</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/laravel.svg" alt=""></div><div class="label">laravel</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/hyperf.svg" alt=""></div><div class="label">hyperf</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/postgresql.svg" alt=""></div><div class="label">postgres</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/mysql.svg" alt=""></div><div class="label">mysql</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/redis.svg" alt=""></div><div class="label">redis</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/aws.svg" alt=""></div><div class="label">aws</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/gcp.svg" alt=""></div><div class="label">gcp</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/vercel.svg" alt=""></div><div class="label">vercel</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/docker.svg" alt=""></div><div class="label">docker</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/icons/githubactions.svg" alt=""></div><div class="label">gh-actions</div></div>
+            </div>
+
+            <h3>Social — <code>public/assets/social/</code></h3>
+            <p>Two color variants per platform: <code>-red</code> (active/hover) and <code>-white</code>. Used on Hero CTA row and Footer brand column.</p>
+            <div class="icon-grid">
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/social/github-icon-red.svg" alt=""></div><div class="label">github-red</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/social/linkedin-icon-red.svg" alt=""></div><div class="label">linkedin-red</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/social/email-icon-red.svg" alt=""></div><div class="label">email-red</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/social/gituhb-icon-white.svg" alt=""></div><div class="label">github-white</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/social/linkedin-icon-white.svg" alt=""></div><div class="label">linkedin-white</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/social/email-icon-white.svg" alt=""></div><div class="label">email-white</div></div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-gray);">⚠️ Two filenames currently typo'd: <code>gituhb-icon-red.svg</code>, <code>gituhb-icon-white.svg</code>. Keep until fully renamed in <code>constants.js</code> + <code>FOOTER_CONFIG</code>.</p>
+
+            <h3>UI affordances — <code>public/assets/ui/</code> &amp; root</h3>
+            <div class="icon-grid">
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/ui/arrow-external.svg" alt=""></div><div class="label">external</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/ui/heart.svg" alt=""></div><div class="label">heart (sponsor)</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/arrow-redirect.svg" alt=""></div><div class="label">redirect</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/arrow-scroll.svg" alt=""></div><div class="label">scroll-cue</div></div>
+                <div class="icon-cell"><div class="icon"><img src="../public/assets/45deg-white-arrow.svg" alt=""></div><div class="label">45° arrow</div></div>
+            </div>
+        </section>
+
+        <!-- 18 Media library -->
+        <section id="media" class="ds-section">
+            <h2>18 · Media library</h2>
+            <p>All media lives under <code>kmadsdev.github.io/public/assets/</code>. Path is preserved at deploy: <code>kmads.dev/assets/&lt;…&gt;</code>.</p>
+
+            <h3>Brand marks</h3>
+            <table class="bp-table">
+                <thead><tr><th>Path</th><th>Use</th></tr></thead>
+                <tbody>
+                    <tr><td>assets/kmads_logo_zoomedout.png</td><td>Favicon (and primary logomark in About section).</td></tr>
+                    <tr><td>assets/favicon.png</td><td>Tab favicon.</td></tr>
+                    <tr><td>assets/badge.svg</td><td>Static brand badge (decorative).</td></tr>
+                    <tr><td>assets/globe.svg + globe-text.svg</td><td>Hero spinning badge — text rotates CCW 20s, globe stays.</td></tr>
+                    <tr><td>assets/footer-banner.svg</td><td>Full-bleed footer banner illustration.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Project media — <code>public/assets/projects/</code></h3>
+            <ul>
+                <li><code>offmode.png</code> · <code>diabetes-indicator.png</code> · <code>trocatine.png</code> — static covers (16:9-ish).</li>
+                <li><code>diabetes-indicator-demo.mp4</code> — hover video, plays on card hover, muted/looped.</li>
+                <li>Format rule: <strong>cover image required</strong>, video optional. Both fit <code>object-fit: cover</code> at <code>height: 200–260px</code>.</li>
+                <li>Aspect target: ~16:10 cover; videos same crop, ≤ 5s loop, ≤ 2 MB encoded H.264.</li>
+            </ul>
+
+            <h3>Adding new project media</h3>
+            <ol style="color:var(--text-gray); padding-left:1.4rem;">
+                <li>Drop cover at <code>public/assets/projects/&lt;slug&gt;.png</code>.</li>
+                <li>Optional demo at <code>public/assets/projects/&lt;slug&gt;-demo.mp4</code>.</li>
+                <li>Append entry to <code>src/constants.js</code> → <code>PROJECTS</code> (image, video, tags, link).</li>
+                <li>Add a row to <code>projects.json</code> (the SSoT for the <code>/projects</code> page).</li>
+                <li><code>npm run deploy</code>.</li>
+            </ol>
+        </section>
+
+        <!-- 19 Voice -->
+        <section id="voice" class="ds-section">
+            <h2>19 · Voice &amp; content</h2>
+
+            <h4>Tone</h4>
+            <ul>
+                <li><strong>Engineer-first.</strong> Lead with what the thing does, not adjectives.</li>
+                <li><strong>First person, casual.</strong> "I love…", "I'm familiar with…", "Hi! My name is Kaique."</li>
+                <li><strong>Lowercase wherever it's not a name.</strong> <code>kmads.dev</code>, never KMADS.DEV.</li>
+                <li><strong>Bilingual OK.</strong> English-default; Portuguese fragments allowed where the audience requires (e.g. study materials, BR-only projects).</li>
+            </ul>
+
+            <h4>Patterns</h4>
+            <ul>
+                <li>Greetings open with an emoji (👋) — the <em>only</em> emoji in body copy.</li>
+                <li>Highlight the alias: <code>"…ALSO KNOWN AS <span style="color:var(--special-color); font-weight:700;">KMADS</span>"</code>.</li>
+                <li>Short bullet lists describe roles; keep to ≤ 6 lines per card.</li>
+                <li>Tag format: <strong>Title-case stack name</strong> (<code>Python</code>, <code>FastAPI</code>) — never lowercase.</li>
+                <li>Resume CTA always says <code>"Download Resume"</code> (links to <code>kmads.dev/cv</code>).</li>
+            </ul>
+
+            <h4>Microcopy reference (canonical strings)</h4>
+            <pre>SITE_CONFIG.title       = "Kaique Souza"
+SITE_CONFIG.description = "Software Engineer · Open-Source Developer"
+SITE_CONFIG.copyright   = "© 2026 kmads.dev All rights reserved."
+HERO_CONTENT.greeting   = "👋 HELLO, MY NAME IS KAIQUE, ALSO KNOWN AS"
+HERO_CONTENT.highlightName = "KMADS"</pre>
+        </section>
+
+        <!-- 20 Brand guidelines -->
+        <section id="guidelines" class="ds-section">
+            <h2>20 · Brand guidelines</h2>
+            <p>Hard rules. If you're tempted to break one, write an ADR first.</p>
+
+            <h3>Logo &amp; mark</h3>
+            <div class="dodont">
+                <div class="col do">
+                    <h4>✓ Do</h4>
+                    <ul>
+                        <li>Use the round logo on dark backgrounds at ≥ 80px diameter.</li>
+                        <li>Keep min clear-space = 25% of logo diameter on all sides.</li>
+                        <li>Use the spinning badge only at the hero, only with the globe + globe-text pair.</li>
+                    </ul>
+                </div>
+                <div class="col dont">
+                    <h4>✗ Don't</h4>
+                    <ul>
+                        <li>Don't recolor the logomark (no white-on-white, no green, no gradient swaps).</li>
+                        <li>Don't crop, rotate, or skew the badge.</li>
+                        <li>Don't pair the spinning badge with another animation in the same viewport.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Color</h3>
+            <div class="dodont">
+                <div class="col do">
+                    <h4>✓ Do</h4>
+                    <ul>
+                        <li>Pink (<code>#ff014f</code>) is the only accent. One pink thing per viewport zone.</li>
+                        <li>Use the secondary surface (<code>#1e1e1e</code>) for elevation; never lighten with white opacity.</li>
+                        <li>Use white (<code>#ffffff</code>) for headings; <code>#c4cfde</code> for body copy.</li>
+                    </ul>
+                </div>
+                <div class="col dont">
+                    <h4>✗ Don't</h4>
+                    <ul>
+                        <li>Don't introduce a 6th color. No blue, green, orange variants.</li>
+                        <li>Don't use pure black (<code>#000</code>) anywhere — page bg is <code>#131313</code>.</li>
+                        <li>Don't apply pink to large surface areas (only borders, accents, ≤ 250px gradient cards).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Typography</h3>
+            <div class="dodont">
+                <div class="col do">
+                    <h4>✓ Do</h4>
+                    <ul>
+                        <li>Use Rubik for everything.</li>
+                        <li>Use the gradient-text treatment only on the hero title.</li>
+                        <li>Keep section titles centered with the 100px pink underline (or left-aligned for horizontal sections).</li>
+                    </ul>
+                </div>
+                <div class="col dont">
+                    <h4>✗ Don't</h4>
+                    <ul>
+                        <li>Don't load a second typeface (no Inter, no IBM Plex, no fancy serif).</li>
+                        <li>Don't use weight 900 outside <code>section-divider-count</code>.</li>
+                        <li>Don't justify body copy.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Motion</h3>
+            <div class="dodont">
+                <div class="col do">
+                    <h4>✓ Do</h4>
+                    <ul>
+                        <li>Use the 4 easing tokens. Pick one per interaction class.</li>
+                        <li>Lift on hover (<code>translateY</code>); never use <code>scale &gt; 1.15</code>.</li>
+                        <li>Respect <code>prefers-reduced-motion</code> for the spinning badge (TBD — open work item).</li>
+                    </ul>
+                </div>
+                <div class="col dont">
+                    <h4>✗ Don't</h4>
+                    <ul>
+                        <li>Don't add JS-driven scroll snapping; Lenis owns scroll.</li>
+                        <li>Don't animate color → pink (always border or background, never text fade).</li>
+                        <li>Don't add page-load splash animations.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Voice &amp; naming</h3>
+            <div class="dodont">
+                <div class="col do">
+                    <h4>✓ Do</h4>
+                    <ul>
+                        <li>Write in first person, casual.</li>
+                        <li>Always lowercase <code>kmads.dev</code>.</li>
+                        <li>Title-case tech tags.</li>
+                    </ul>
+                </div>
+                <div class="col dont">
+                    <h4>✗ Don't</h4>
+                    <ul>
+                        <li>No marketing buzzwords ("synergy", "ecosystem", "leverage").</li>
+                        <li>No emojis in body copy except the hero 👋.</li>
+                        <li>No third-person "Kmads is a developer who…".</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+        <p style="color:var(--text-gray); font-size:0.85rem; text-align:center;">
+            © 2026 kmads.dev — Design System v1 · See <code>.design-system/README.md</code> &amp; <code>.design-system/brand-guidelines.md</code> for the markdown sources.
+        </p>
+
+    </main>
+</div>
+
+</body>
+</html>
