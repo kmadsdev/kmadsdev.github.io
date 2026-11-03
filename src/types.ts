@@ -19,6 +19,8 @@ export type IconName =
 
 export type FlagshipId =
   | 'agentic'
+  | 'ruph'
+  | 'overclock'
   | 'offmode'
   | 'hivemind'
   | 'diabetes'

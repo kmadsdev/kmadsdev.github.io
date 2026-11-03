@@ -206,11 +206,21 @@ html.is-deck body {
 }
 
 /* ---------- structural overrides ---------- */
-/* 8 timeline chapters → tokens' native 4-col grid wraps to two clean rows
-   of 4; row gap widened so the second rail reads as its own line. */
+/* 9 timeline chapters → tokens' native 4-col grid; 5 columns on wide
+   screens so they wrap to two rows (5 + 4); row gap widened so the second
+   rail reads as its own line. */
 @media (min-width: 768px) {
   #timeline .timeline {
     row-gap: var(--s-7);
+  }
+}
+@media (min-width: 1200px) {
+  #timeline .timeline {
+    grid-template-columns: repeat(5, 1fr);
+    row-gap: var(--s-6);
+  }
+  .deck .timeline-scene {
+    gap: var(--s-6);
   }
 }
 
@@ -417,6 +427,16 @@ html.is-deck body {
   justify-items: center;
   align-content: center;
 }
+/* Ruph / Overclock: private-repo case studies — the diagram IS the visual */
+.flagship-visual--diagram {
+  width: 100%;
+}
+.flagship-visual--diagram > svg {
+  max-width: 520px;
+}
+.projects-flagship__note {
+  color: var(--c-text-faint);
+}
 .flagship-visual__devices {
   display: flex;
   align-items: end;
@@ -470,6 +490,20 @@ a.gallery-secondary,
 a.gallery-archive {
   color: inherit;
   text-decoration: none;
+}
+/* four live projects on one row; the archive keeps three columns */
+@media (min-width: 1024px) {
+  .gallery-grid:not(.gallery-grid--archive) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  /* narrower cards: denser copy so the archive row still fits 900px */
+  .gallery-scene .gallery-secondary {
+    gap: var(--s-3);
+  }
+  .gallery-scene .gallery-secondary__blurb {
+    font-size: var(--t-small-size);
+    line-height: var(--t-small-lh);
+  }
 }
 @media (max-width: 1023px) {
   .gallery-grid {
@@ -615,6 +649,16 @@ a.gallery-archive {
 .palette-strip__swatch span {
   font-family: var(--font-mono);
   font-size: var(--t-eyebrow-size);
+}
+/* links on the accent flood were accent-on-accent (invisible) */
+.projects-flagship--layout-flood .btn--link {
+  color: var(--c-on-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.projects-flagship--layout-flood .btn--link:hover {
+  color: var(--c-on-accent);
+  text-decoration-thickness: 2px;
 }
 .projects-flagship--layout-flood .palette-strip__swatch span,
 .projects-flagship--layout-flood .palette-strip figcaption {
@@ -849,7 +893,7 @@ a.gallery-archive {
   }
 }
 
-/* ---------- timeline: 8 chapters, pills for facts ---------- */
+/* ---------- timeline: chapters, pills for facts ---------- */
 .timeline__tag-row {
   display: flex;
   flex-wrap: wrap;
@@ -914,11 +958,9 @@ a.gallery-archive {
   }
 }
 
-/* ---------- Notes: logo inside the monitor ---------- */
-.notes-logo {
-  width: 40% !important;
-  height: auto !important;
-  object-fit: contain !important;
+/* ---------- Notes: live capture inside the monitor ---------- */
+.flagship-visual--notes .mockup-studio-display {
+  width: min(540px, 100%);
 }
 
 /* ---------- Diabetes: fixed phone, screens slide inside (cash.app) ---------- */

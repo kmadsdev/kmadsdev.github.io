@@ -11,6 +11,13 @@ export const GALLERY_HEAD: Localized<{ eyebrow: string; title: string }> = {
 export const GALLERY_SECONDARY: Localized<GalleryCard[]> = {
   en: [
     {
+      title: 'BurnRate',
+      blurb:
+        'Finance tracker for engineers, built around AI, cloud and tooling costs. Bank import through Open Finance Brasil (Pluggy), cloud costs read from Ruph, charts hand-rolled in SVG. Private repo.',
+      callout: 'OPEN FINANCE · RUPH COST EXPORT',
+      tags: ['React', 'Express', 'PostgreSQL', 'Cloud Run'],
+    },
+    {
       title: 'Custom Square',
       blurb:
         'Real-time CSS property, gradient and color playground — vanilla JS with localStorage theme persistence. A utility, and it behaves like one.',
@@ -34,6 +41,13 @@ export const GALLERY_SECONDARY: Localized<GalleryCard[]> = {
     },
   ],
   pt: [
+    {
+      title: 'BurnRate',
+      blurb:
+        'Controle financeiro para engenheiros, focado em custos de IA, nuvem e ferramentas. Importação bancária via Open Finance Brasil (Pluggy), custos de nuvem lidos do Ruph, gráficos em SVG feitos à mão. Repositório privado.',
+      callout: 'OPEN FINANCE · EXPORT DE CUSTOS DO RUPH',
+      tags: ['React', 'Express', 'PostgreSQL', 'Cloud Run'],
+    },
     {
       title: 'Custom Square',
       blurb:

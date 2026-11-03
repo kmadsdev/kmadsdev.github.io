@@ -14,7 +14,7 @@ interface FlagshipSectionProps {
   variant?: string;
 }
 
-/* Shell for the 6 flagship scenes. Builds: 0 = enter · 1 = stats count up. */
+/* Shell for the flagship scenes. Builds: 0 = enter · 1 = stats count up. */
 export default function FlagshipSection({ content, visual, buildIndex, variant }: FlagshipSectionProps) {
   const reveal = useScrollReveal<HTMLDivElement>({ targets: '.projects-flagship__copy > *', stagger: 70 });
   const layoutClass =
@@ -63,6 +63,7 @@ export default function FlagshipSection({ content, visual, buildIndex, variant }
               ))}
             </div>
           )}
+          {content.note && <p className="eyebrow projects-flagship__note">{content.note}</p>}
         </div>
         <div className="projects-flagship__visual" data-deck-layer="fast">
           {visual}

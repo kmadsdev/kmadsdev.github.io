@@ -3,6 +3,7 @@ import type { ComponentType } from 'react';
 import type { FlagshipId, SceneDef, SceneProps } from '@/types';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { FLAGSHIP_ORDER, flagshipAnchor } from '@/constants/flagships';
+import { TIMELINE_STEPS } from '@/constants/timeline';
 import Deck from '@/deck/Deck';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
@@ -12,6 +13,8 @@ import ProjectsGallery from '@/components/ProjectsGallery';
 import Skills from '@/components/Skills';
 import Footer from '@/components/Footer';
 import Agentic from '@/components/flagships/Agentic';
+import Ruph from '@/components/flagships/Ruph';
+import Overclock from '@/components/flagships/Overclock';
 import OffMode from '@/components/flagships/OffMode';
 import HiveMind from '@/components/flagships/HiveMind';
 import Diabetes from '@/components/flagships/Diabetes';
@@ -20,6 +23,8 @@ import Doom from '@/components/flagships/Doom';
 
 const FLAGSHIP_COMPONENTS: Record<FlagshipId, ComponentType<SceneProps>> = {
   agentic: Agentic,
+  ruph: Ruph,
+  overclock: Overclock,
   offmode: OffMode,
   hivemind: HiveMind,
   diabetes: Diabetes,
@@ -32,6 +37,8 @@ const FLAGSHIP_COMPONENTS: Record<FlagshipId, ComponentType<SceneProps>> = {
    same rule as the Notes palette strip). */
 const FLAGSHIP_META: Record<FlagshipId, { builds: number; bg: string }> = {
   agentic: { builds: 2, bg: '#070908' },
+  ruph: { builds: 2, bg: 'var(--c-bg-2)' },
+  overclock: { builds: 2, bg: 'var(--c-bg)' },
   offmode: { builds: 2, bg: 'var(--c-bg-2)' },
   hivemind: { builds: 2, bg: 'var(--c-bg)' },
   diabetes: { builds: 4, bg: 'var(--c-bg-2)' }, // fixed phone, screens swap per gesture
@@ -52,7 +59,7 @@ function Site() {
     return [
       { id: 'hero', builds: 2, Component: Hero, bg: 'var(--c-bg)' }, // ticker band lives inside
       { id: 'about', builds: 3, Component: About, bg: 'var(--c-bg-2)' },
-      { id: 'timeline', builds: 8, Component: Timeline, bg: 'var(--c-bg)' }, // one chapter per gesture
+      { id: 'timeline', builds: TIMELINE_STEPS.en.length, Component: Timeline, bg: 'var(--c-bg)' }, // one chapter per gesture
       ...flagshipScenes,
       { id: 'projects-gallery', builds: 2, Component: ProjectsGallery, bg: 'var(--c-bg)' },
       { id: 'skills', builds: 2, Component: Skills, bg: 'var(--c-bg-2)' },

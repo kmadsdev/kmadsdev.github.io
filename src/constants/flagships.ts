@@ -15,6 +15,8 @@ export interface FlagshipContent {
   stats: Stat[];
   tags: string[];
   links: { label: string; href: string; external?: boolean }[];
+  /** shown when there is no public link (private repo case studies) */
+  note?: string;
   layout: 'left' | 'right' | 'flood';
 }
 
@@ -45,6 +47,45 @@ const EN: Record<FlagshipId, FlagshipContent> = {
       { label: 'KMADS.DEV/AGENTIC', href: 'https://kmads.dev/agentic', external: true },
       { label: 'USE THIS TEMPLATE', href: 'https://github.com/kmadsdev/agentic-template', external: true },
     ],
+    layout: 'left',
+  },
+  /* Ruph + Overclock: case studies of private repos — no repo links (Kmads,
+     2026-11-02). Facts: workspace docs/RUPH-PLATFORM/RUPH-PLATFORM-DOCS.md,
+     ruph .claude/CONTEXT.md, overclock README + .claude/docs/02-ONTOLOGY.md. */
+  ruph: {
+    id: 'ruph',
+    anchor: 'flagship-ruph',
+    eyebrow: 'PLATFORM · CONTROL PLANE · WORKAHOLIC',
+    title: 'Ruph',
+    paragraphs: [
+      'The control plane behind every app on kmads.dev: one registry of apps and environments, resources provisioned on GCP, Azure, Cloudflare, Vercel, Supabase and Neon, builds promoted from QA to PROD.',
+      'Nothing changes without a plan: an agent or a human drafts it, only a human approves it, and every apply lands in an append-only ledger. Budgets warn or pause. Terraform and GCP Cloud Run underneath.',
+    ],
+    stats: [
+      { value: '4', label: 'WAYS IN, ONE /V1 API', source: 'web · REST · CLI · MCP' },
+      { value: '12', label: 'WORKSPACE PACKAGES', source: 'modular monolith, microkernel' },
+    ],
+    tags: ['TypeScript', 'Hono', 'PostgreSQL', 'Cloud Run', 'Terraform', 'MCP'],
+    links: [],
+    note: 'INTERNAL PLATFORM · PRIVATE REPOSITORY',
+    layout: 'right',
+  },
+  overclock: {
+    id: 'overclock',
+    anchor: 'flagship-overclock',
+    eyebrow: 'PERSONAL SYSTEM · WEB + ANDROID',
+    title: 'Overclock',
+    paragraphs: [
+      'A personal performance system: 22 attributes across four pillars — Mental, Physical, Finances, Career — each scored 0–100 by a published formula. The Index is a geometric mean, so it falls toward the weakest pillar.',
+      'Missing data is unknown, never zero, and AI never writes a number. A React web app and an Expo Android app with an offline outbox share one Postgres source of record.',
+    ],
+    stats: [
+      { value: '22', label: 'SCORED ATTRIBUTES', source: '2 cross-pillar + 20 in pillars' },
+      { value: '4', label: 'PILLARS, ONE INDEX', source: 'geometric mean' },
+    ],
+    tags: ['TypeScript', 'React', 'React Native', 'Expo', 'PostgreSQL', 'Claude API'],
+    links: [],
+    note: 'PERSONAL TOOL · PRIVATE REPOSITORY',
     layout: 'left',
   },
   offmode: {
@@ -131,19 +172,21 @@ const EN: Record<FlagshipId, FlagshipContent> = {
   notes: {
     id: 'notes',
     anchor: 'flagship-notes',
-    eyebrow: 'CRAFT · EDITOR · LIVE',
-    title: 'Browser Notes',
+    eyebrow: 'CRAFT · EDITOR · LIVE · OPEN SOURCE',
+    title: 'Notes',
     paragraphs: [
-      'A VSCode-inspired web editor living in a single HTML file — uses the Monaco engine and the File System Access API to autosave straight to disk.',
-      'If you like the VSCode codeblock appearance and don’t want to open a whole IDE just to type quick notes, this application is perfect for you.',
-      'It can preview Markdown, YAML, JSON, Swagger and PlantUML files too.',
+      'A VS Code-style editor in one HTML file — no backend, no uploads, no accounts. Monaco highlights 80+ languages; in Chrome and Edge, files save straight back to disk.',
+      'Live previews for Markdown, YAML, JSON, OpenAPI, PlantUML, Mermaid, CSV/TSV, HTML and SVG. Tabs come back after a reload, and it works on phones.',
     ],
     stats: [
-      { value: '1', label: 'FILE, LESS THAN 60KB', source: 'Zero-install, works offline' },
-      { value: '5', label: 'BUILT-IN PREVIEW FORMATS', source: 'Markdown · JSON · YAML · Swagger · PlantUML' },
+      { value: '1', label: 'HTML FILE, NO BACKEND', source: 'no build step' },
+      { value: '9', label: 'LIVE PREVIEW TYPES', source: 'Markdown → Mermaid → SVG' },
     ],
-    tags: ['Lightweight', 'File System Access API', 'Vanilla JS'],
-    links: [{ label: 'KMADS.DEV/NOTES', href: 'https://kmads.dev/notes', external: true }],
+    tags: ['Monaco', 'File System Access API', 'Vanilla JS'],
+    links: [
+      { label: 'KMADS.DEV/NOTES', href: 'https://kmads.dev/notes', external: true },
+      { label: 'KMADSDEV/NOTES', href: 'https://github.com/kmadsdev/notes', external: true },
+    ],
     layout: 'flood',
   },
 };
@@ -172,6 +215,30 @@ const PT: Record<FlagshipId, FlagshipContent> = {
       { label: 'KMADS.DEV/AGENTIC', href: 'https://kmads.dev/agentic', external: true },
       { label: 'USE ESTE TEMPLATE', href: 'https://github.com/kmadsdev/agentic-template', external: true },
     ],
+  },
+  ruph: {
+    ...EN.ruph,
+    paragraphs: [
+      'O control plane por trás de todo app em kmads.dev: um registro único de apps e ambientes, recursos provisionados em GCP, Azure, Cloudflare, Vercel, Supabase e Neon, builds promovidos de QA para PROD.',
+      'Nada muda sem um plano: um agente ou uma pessoa escreve, só um humano aprova, e cada apply vai para um ledger append-only. Orçamentos avisam ou pausam. Terraform e GCP Cloud Run por baixo.',
+    ],
+    stats: [
+      { value: '4', label: 'PORTAS DE ENTRADA, UMA API /V1', source: 'web · REST · CLI · MCP' },
+      { value: '12', label: 'PACOTES NO WORKSPACE', source: 'monólito modular, microkernel' },
+    ],
+    note: 'PLATAFORMA INTERNA · REPOSITÓRIO PRIVADO',
+  },
+  overclock: {
+    ...EN.overclock,
+    paragraphs: [
+      'Um sistema de performance pessoal: 22 atributos em quatro pilares — Mental, Físico, Finanças, Carreira — cada um com nota de 0 a 100 por uma fórmula publicada. O índice é uma média geométrica, então cai em direção ao pilar mais fraco.',
+      'Dado ausente é desconhecido, nunca zero, e a IA nunca escreve um número. Um app web em React e um app Android em Expo com fila offline compartilham um único Postgres como fonte da verdade.',
+    ],
+    stats: [
+      { value: '22', label: 'ATRIBUTOS COM NOTA', source: '2 transversais + 20 nos pilares' },
+      { value: '4', label: 'PILARES, UM ÍNDICE', source: 'média geométrica' },
+    ],
+    note: 'FERRAMENTA PESSOAL · REPOSITÓRIO PRIVADO',
   },
   offmode: {
     ...EN.offmode,
@@ -225,13 +292,12 @@ const PT: Record<FlagshipId, FlagshipContent> = {
   notes: {
     ...EN.notes,
     paragraphs: [
-      'Um editor web inspirado no VSCode que vive em um único arquivo HTML — usa o engine Monaco e a File System Access API para salvar direto no disco.',
-      'Se você gosta do visual de codeblock do VSCode e não quer abrir uma IDE inteira só pra anotar algo rápido, esta aplicação é perfeita pra você.',
-      'Também faz preview de arquivos Markdown, YAML, JSON, Swagger e PlantUML.',
+      'Um editor no estilo VS Code em um único arquivo HTML — sem backend, sem uploads, sem contas. O Monaco destaca 80+ linguagens; no Chrome e no Edge, os arquivos salvam direto no disco.',
+      'Previews ao vivo para Markdown, YAML, JSON, OpenAPI, PlantUML, Mermaid, CSV/TSV, HTML e SVG. As abas voltam depois de recarregar, e funciona no celular.',
     ],
     stats: [
-      { value: '1', label: 'ARQUIVO, MENOS DE 60KB', source: 'Zero instalação, funciona offline' },
-      { value: '5', label: 'FORMATOS DE PREVIEW NATIVOS', source: 'Markdown · JSON · YAML · Swagger · PlantUML' },
+      { value: '1', label: 'ARQUIVO HTML, SEM BACKEND', source: 'sem etapa de build' },
+      { value: '9', label: 'TIPOS DE PREVIEW AO VIVO', source: 'Markdown → Mermaid → SVG' },
     ],
   },
 };
@@ -239,7 +305,7 @@ const PT: Record<FlagshipId, FlagshipContent> = {
 export const FLAGSHIPS: Localized<Record<FlagshipId, FlagshipContent>> = { en: EN, pt: PT };
 
 /* Single display order (Recruiter/Builder split removed, user 2026-07-09). */
-export const FLAGSHIP_ORDER: FlagshipId[] = ['agentic', 'offmode', 'hivemind', 'diabetes', 'doom', 'notes'];
+export const FLAGSHIP_ORDER: FlagshipId[] = ['agentic', 'ruph', 'overclock', 'offmode', 'hivemind', 'diabetes', 'doom', 'notes'];
 
 export function flagshipAnchor(id: FlagshipId): string {
   return EN[id].anchor;

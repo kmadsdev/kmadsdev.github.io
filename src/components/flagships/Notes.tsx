@@ -5,9 +5,9 @@ import FlagshipSection from '@/components/FlagshipSection';
 import PaletteStrip from '@/components/visuals/PaletteStrip';
 import StudioDisplay from '@/components/mockups/StudioDisplay';
 
-/* Monitor now shows the BrowserNotes logo (screenshot was illegible at this
-   scale). The bare monitor treatment is archived in
-   .backlog/ref-portifolio-080726/references/StudioDisplay-monitor.tsx */
+/* Monitor shows a real headless capture of kmads.dev/notes (2026-11-03):
+   a Markdown file with the split live preview — large preview type stays
+   legible at this scale. Earlier logo treatment: git history. */
 export default function Notes({ buildIndex }: SceneProps) {
   const { lang } = useLang();
   return (
@@ -19,9 +19,8 @@ export default function Notes({ buildIndex }: SceneProps) {
         <div className="flagship-visual flagship-visual--notes">
           <StudioDisplay>
             <img
-              className="notes-logo"
-              src="/mockups/BrowserNotes.svg"
-              alt="Browser Notes logo"
+              src="/mockups/notes-live.jpg"
+              alt="Notes editing a Markdown file with the live preview open beside it"
               loading="lazy"
             />
           </StudioDisplay>

@@ -30,6 +30,8 @@ export const ROW1: TickerEntry[] = [
   { kind: 'media', src: '/mockups/ticker-diabetes.jpg', alt: 'Diabetes Indicator confidence result' },
   { kind: 'phrase', text: 'AUTO-REVERT CI/CD GUARD' },
   { kind: 'media', mini: 'threetier', alt: 'OffMode 3-tier architecture' },
+  { kind: 'phrase', text: 'PLAN → APPROVE → APPLY' },
+  { kind: 'media', src: '/mockups/notes-live.jpg', alt: 'Notes editor with live Markdown preview' },
 ];
 
 /** Row 2 — ranked stack strip + remaining crops, muted register (spins right) */
