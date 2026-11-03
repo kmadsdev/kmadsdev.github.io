@@ -1,12 +1,14 @@
 import type { Localized, TimelineStep } from '@/types';
 
-/* User-provided timeline (2026-07-09 revision) — 8 chapters, one gesture each.
+/* User-provided timeline (2026-07-09 revision) + Workaholic CTO chapter
+   (2026-11-03, source: workspace .claude/CLAUDE.md §07 + docs/ENTERPRISE.md;
+   start date TO VERIFY with Kmads/LinkedIn) — 9 chapters, one gesture each.
    Job titles stay English in both languages (user ruling); windows and
    description pills localize. Amber ('progress') on the PicPay SWE row ONLY. */
 
 export const TIMELINE_HEAD: Localized<{ eyebrow: string; title: string }> = {
-  en: { eyebrow: 'TIMELINE — 2018 → NOW', title: 'Eight years, eight chapters.' },
-  pt: { eyebrow: 'TRAJETÓRIA — 2018 → HOJE', title: 'Oito anos, oito capítulos.' },
+  en: { eyebrow: 'TIMELINE — 2018 → NOW', title: 'Eight years, nine chapters.' },
+  pt: { eyebrow: 'TRAJETÓRIA — 2018 → HOJE', title: 'Oito anos, nove capítulos.' },
 };
 
 export const TIMELINE_STEPS: Localized<TimelineStep[]> = {
@@ -101,6 +103,19 @@ export const TIMELINE_STEPS: Localized<TimelineStep[]> = {
         'Credit card acquisition',
         'Corporate IT / HR',
         'Vehicle Hub / BodyShop',
+      ],
+      complete: false,
+    },
+    {
+      title: 'CTO',
+      window: '2026 – Present',
+      tags: ['Workaholic'],
+      tagVariant: 'shipped',
+      descriptionTags: [
+        'AI-native software studio',
+        'Ruph control plane',
+        'Apps on kmads.dev',
+        'Squad of 9 AI agents',
       ],
       complete: false,
     },
@@ -207,6 +222,19 @@ export const TIMELINE_STEPS: Localized<TimelineStep[]> = {
         'Aquisição de cartão de crédito',
         'TI corporativa / RH',
         'Vehicle Hub / BodyShop',
+      ],
+      complete: false,
+    },
+    {
+      title: 'CTO',
+      window: '2026 – Atual',
+      tags: ['Workaholic'],
+      tagVariant: 'shipped',
+      descriptionTags: [
+        'Estúdio de software AI-native',
+        'Control plane Ruph',
+        'Apps em kmads.dev',
+        'Squad de 9 agentes de IA',
       ],
       complete: false,
     },

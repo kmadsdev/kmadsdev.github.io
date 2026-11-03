@@ -5,7 +5,7 @@ import { TIMELINE_STEPS, TIMELINE_HEAD } from '@/constants/timeline';
 import Eyebrow from '@/components/primitives/Eyebrow';
 import Pill from '@/components/primitives/Pill';
 
-/* easol progress rail — 8 chapters, ONE per gesture (builds = 8); the rail
+/* easol progress rail — one chapter per gesture (builds = chapter count); the rail
    fills as each chapter lands. Amber tag = PicPay SWE row only. */
 export default function Timeline({ buildIndex }: SceneProps) {
   const { lang } = useLang();

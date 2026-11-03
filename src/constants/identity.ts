@@ -25,13 +25,13 @@ export const HERO: Localized<HeroContent> = {
   en: {
     eyebrow: 'SOFTWARE ENGINEER · BRAZIL · REMOTE',
     tagline:
-      'Software Engineer — distributed systems, SaaS and backend/cloud/AI. 8 years shipping software, from Discord bots to production ML.',
+      'Software Engineer and CTO of Workaholic — distributed systems, SaaS and backend/cloud/AI. 8 years shipping software, from Discord bots to production ML and a cloud control plane.',
     scrollCue: 'SCROLL',
   },
   pt: {
     eyebrow: 'SOFTWARE ENGINEER · BRASIL · REMOTO',
     tagline:
-      'Software Engineer — sistemas distribuídos, SaaS e backend/cloud/IA. 8 anos entregando software, de bots de Discord a ML em produção.',
+      'Software Engineer e CTO da Workaholic — sistemas distribuídos, SaaS e backend/cloud/IA. 8 anos entregando software, de bots de Discord a ML em produção e um control plane de nuvem.',
     scrollCue: 'SCROLL',
   },
 };

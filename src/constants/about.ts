@@ -15,8 +15,8 @@ export const WHOAMI_GROUPS: Localized<string[][]> = {
       'software engineering, architecture and distributed systems.',
     ],
     [
-      'Today: building SaaS and open-source software, engineering AI-native systems,',
-      'and teaching aspiring engineers along the way. Always building, always learning.',
+      'Today: CTO of Workaholic, an AI-native software studio — building its control plane,',
+      'SaaS and open-source software, and teaching aspiring engineers. Always building, always learning.',
     ],
   ],
   pt: [
@@ -30,8 +30,8 @@ export const WHOAMI_GROUPS: Localized<string[][]> = {
       'engenharia de software, arquitetura e sistemas distribuídos.',
     ],
     [
-      'Hoje: construindo SaaS e software open source, criando sistemas AI-native',
-      'e ensinando engenheiros em formação pelo caminho. Sempre construindo, sempre aprendendo.',
+      'Hoje: CTO da Workaholic, um estúdio de software AI-native — construindo seu control plane,',
+      'SaaS e software open source, e ensinando engenheiros em formação. Sempre construindo, sempre aprendendo.',
     ],
   ],
 };
