@@ -176,17 +176,23 @@ export const facts = {
             stack: ['Java 21', 'Spring Boot', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'Testcontainers', 'Docker', 'GitHub Actions'],
             tests: 183,
             source: `${GITHUB}/consignado-api`,
+            image: '/assets/projects/consignado-api.jpg',
+            video: '/assets/projects/consignado-api.mp4',
         },
         'credit-card-engine': {
             name: 'credit-card-engine',
             stack: ['Java 21', 'Spring Boot', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'Testcontainers', 'ArchUnit', 'Docker', 'GitHub Actions'],
             variants: { base: 'R$2,000', platinum: 'R$8,000' },
             source: `${GITHUB}/credit-card-engine`,
+            image: '/assets/projects/credit-card-engine.jpg',
+            video: '/assets/projects/credit-card-engine.mp4',
         },
         'payment-gateway': {
             name: 'simple-payment-gateway',
             stack: ['Go', 'PostgreSQL', 'OpenAPI', 'Prometheus', 'Docker', 'GitHub Actions'],
             source: `${GITHUB}/simple-payment-gateway`,
+            image: '/assets/projects/payment-gateway.jpg',
+            video: '/assets/projects/payment-gateway.mp4',
         },
         notes: {
             name: 'Notes',
