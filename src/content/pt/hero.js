@@ -14,6 +14,7 @@ export const hero = {
     primaryCta: 'Ler os casos',
     secondaryCta: 'Enviar um email',
     scroll: 'Role',
+    localTime: 'Hora local',
     stats: [
         { value: `${person.yearsEngineering}`, label: 'anos de trabalho em engenharia' },
         { value: `${person.codingSince}`, label: 'primeira linha de código' },

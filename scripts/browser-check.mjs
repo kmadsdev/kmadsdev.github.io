@@ -71,7 +71,7 @@ try {
             // The language toggle changes the first heading.
             const before = await page.locator('h1').textContent();
             const other = lang === 'en' ? 'PT' : 'EN';
-            const toggle = page.locator('.toggle-option', { hasText: other }).first();
+            const toggle = page.locator('.wh-seg__option', { hasText: other }).first();
             if (await toggle.isVisible()) {
                 await toggle.click();
                 const after = await page.locator('h1').textContent();

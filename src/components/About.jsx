@@ -6,19 +6,19 @@ export default function About() {
     return (
         <Section id="about" index="01" label={about.label} title={about.title}>
             <div className="about-grid">
-                <div className="about-text">
+                <div className="prose about-text">
                     {about.paragraphs.map((text) => <p key={text}>{text}</p>)}
                 </div>
                 <div className="principles">
-                    <h3 className="minor-title">{about.principlesTitle}</h3>
-                    <ol className="principle-list">
+                    <h3 className="wh-label">{about.principlesTitle}</h3>
+                    <ul className="principle-list">
                         {about.principles.map((item) => (
                             <li className="principle" key={item.title}>
                                 <h4>{item.title}</h4>
                                 <p>{item.text}</p>
                             </li>
                         ))}
-                    </ol>
+                    </ul>
                 </div>
             </div>
         </Section>

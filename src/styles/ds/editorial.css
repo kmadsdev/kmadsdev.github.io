@@ -1,0 +1,295 @@
+/* Editorial surfaces: the instrument look for long pages (portfolio, case study, landing).
+   Needs tokens.css. Every colour, space and duration here is a token.
+
+   Parts: display type, rulers, dot field, readout strip, spec rows, tags,
+   segmented control, flowchart. Class names start with "wh-". */
+
+:root {
+    --wh-font-display: "Archivo Variable", Archivo, var(--wh-font-sans);
+    --wh-rail: 44px;
+    --wh-rule-x: 10px;
+}
+
+/* ---------- Display type ----------
+   Archivo, a little wider than normal. Sentence case. One hero headline per page. */
+.wh-headline {
+    margin: 0;
+    font-family: var(--wh-font-display);
+    font-stretch: 112%;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--wh-color-text-strong);
+    text-wrap: balance;
+}
+.wh-headline--hero { font-size: clamp(2.375rem, 1rem + 5.4vw, 5.75rem); line-height: 0.96; }
+.wh-headline--section { font-size: clamp(1.75rem, 1.1rem + 2.4vw, 3.25rem); }
+.wh-headline--item { font-size: clamp(1.375rem, 1.05rem + 1.3vw, 2.25rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.024em; }
+
+/* Mono label: one per section, for facts (codes, dates, states). */
+.wh-label {
+    margin: 0;
+    font: var(--wh-weight-medium) var(--wh-text-xs) / var(--wh-leading-xs) var(--wh-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--wh-color-text-muted);
+}
+.wh-label--accent { color: var(--wh-color-accent-text); }
+
+/* ---------- Rulers ----------
+   A fixed rail on the left and a strip under the top bar. The red index shows
+   scroll progress; the grey marks follow the pointer. Hidden below 1024px. */
+.wh-rule {
+    position: fixed;
+    z-index: var(--wh-z-sticky);
+    pointer-events: none;
+    font: 10px/1 var(--wh-font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--wh-color-text-muted);
+    background-color: var(--wh-color-canvas);
+}
+.wh-rule--y {
+    left: 0;
+    top: var(--wh-layout-topbar);
+    bottom: 0;
+    width: var(--wh-rail);
+    border-right: 1px solid var(--wh-color-line);
+    background-image:
+        repeating-linear-gradient(to bottom, var(--wh-color-line-control) 0 1px, transparent 1px 40px),
+        repeating-linear-gradient(to bottom, var(--wh-color-line-strong) 0 1px, transparent 1px 8px);
+    background-size: 12px 100%, 5px 100%;
+    background-position: right top, right top;
+    background-repeat: no-repeat;
+}
+.wh-rule--x {
+    left: var(--wh-rail);
+    right: 0;
+    top: var(--wh-layout-topbar);
+    height: var(--wh-rule-x);
+    background-color: transparent;
+    background-image:
+        repeating-linear-gradient(to right, var(--wh-color-line-control) 0 1px, transparent 1px 40px),
+        repeating-linear-gradient(to right, var(--wh-color-line-strong) 0 1px, transparent 1px 8px);
+    background-size: 100% 10px, 100% 4px;
+    background-repeat: no-repeat;
+}
+.wh-rule__index,
+.wh-rule__cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+}
+.wh-rule--y .wh-rule__index,
+.wh-rule--y .wh-rule__cursor { right: 0; height: 1px; }
+.wh-rule--x .wh-rule__cursor { bottom: 0; width: 1px; }
+.wh-rule__index { background: var(--wh-color-accent); }
+.wh-rule__cursor { background: var(--wh-color-text-muted); opacity: 0; transition: opacity var(--wh-duration-fast) linear; }
+.wh-rule[data-pointer="on"] .wh-rule__cursor { opacity: 1; }
+.wh-rule__value { position: absolute; left: 5px; top: 5px; white-space: nowrap; }
+.wh-rule__index .wh-rule__value { color: var(--wh-color-accent-text); }
+.wh-rule--x .wh-rule__value { left: 5px; top: 1px; }
+
+/* ---------- Dot field ----------
+   A canvas behind the page. Dots near the pointer grow and take the accent. */
+.wh-field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* ---------- Readout strip ----------
+   Numbers with their unit text, in cells split by hairlines. */
+.wh-readout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr));
+    gap: 1px;
+    margin: 0;
+    border: 1px solid var(--wh-color-line);
+    background: var(--wh-color-line);
+}
+.wh-readout__cell {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: var(--wh-space-2);
+    min-width: 0;
+    padding: var(--wh-space-4);
+    background: var(--wh-color-canvas);
+}
+.wh-readout__value {
+    margin: 0;
+    font-family: var(--wh-font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(1.625rem, 1.1rem + 1.6vw, 2.75rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--wh-color-text-strong);
+    white-space: nowrap;
+}
+.wh-readout__label {
+    font: var(--wh-text-xs) / var(--wh-leading-xs) var(--wh-font-mono);
+    color: var(--wh-color-text-muted);
+}
+.wh-readout--surface .wh-readout__cell { background: var(--wh-color-surface); }
+
+/* ---------- Spec rows ----------
+   A name on the left, the content on the right, a hairline above each row. */
+.wh-spec { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--wh-color-line); }
+.wh-spec__row {
+    display: grid;
+    grid-template-columns: minmax(9rem, 17rem) minmax(0, 1fr);
+    gap: var(--wh-space-2) var(--wh-space-8);
+    padding: var(--wh-space-5) 0;
+    border-top: 1px solid var(--wh-color-line);
+}
+.wh-spec__name { margin: 0; }
+.wh-spec__body { margin: 0; min-width: 0; }
+@media (max-width: 640px) {
+    .wh-spec__row { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- Tags ---------- */
+.wh-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.wh-tags > li {
+    padding: 3px var(--wh-space-2);
+    border: 1px solid var(--wh-color-line-strong);
+    border-radius: var(--wh-radius-sm);
+    font: var(--wh-text-xs) / var(--wh-leading-xs) var(--wh-font-mono);
+    color: var(--wh-color-text);
+    background: var(--wh-color-canvas);
+}
+
+/* ---------- Segmented control ----------
+   Two or three options, one pressed. The pressed one is inverted, not accent. */
+.wh-seg {
+    display: inline-flex;
+    border: 1px solid var(--wh-color-line-control);
+    border-radius: var(--wh-radius-sm);
+}
+.wh-seg__option {
+    min-width: 2.5rem;
+    height: calc(var(--wh-control-sm) - 2px);
+    padding: 0 var(--wh-space-2);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font: var(--wh-weight-medium) var(--wh-text-xs) / 1 var(--wh-font-mono);
+    letter-spacing: 0.04em;
+    color: var(--wh-color-text-muted);
+    cursor: pointer;
+    transition: background-color var(--wh-duration-instant) linear, color var(--wh-duration-instant) linear;
+}
+.wh-seg__option:hover { color: var(--wh-color-text-strong); background: var(--wh-color-surface-hover); }
+.wh-seg__option[aria-pressed="true"] { background: var(--wh-color-text-strong); color: var(--wh-color-canvas); }
+.wh-seg__option:focus-visible { outline: 0; box-shadow: var(--wh-focus-ring); position: relative; }
+
+/* ---------- Flowchart ----------
+   Nodes and edges in SVG. One edge is active at a time; a packet moves on it. */
+.wh-flow {
+    min-width: 0;
+    margin: 0;
+    border: 1px solid var(--wh-color-line-strong);
+    background: var(--wh-color-surface);
+    box-shadow: var(--wh-edge);
+}
+.wh-flow__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--wh-space-3);
+    padding: var(--wh-space-2) var(--wh-space-3);
+    border-bottom: 1px solid var(--wh-color-line);
+}
+.wh-flow__title { margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wh-flow__controls { display: flex; align-items: center; gap: 2px; flex: none; }
+.wh-flow__count { margin-right: var(--wh-space-2); font: var(--wh-text-xs) / 1 var(--wh-font-mono); font-variant-numeric: tabular-nums; color: var(--wh-color-text-muted); }
+.wh-flow__button {
+    display: inline-grid;
+    place-items: center;
+    width: var(--wh-control-sm);
+    height: var(--wh-control-sm);
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--wh-radius-sm);
+    background: transparent;
+    color: var(--wh-color-text);
+    cursor: pointer;
+}
+.wh-flow__button:hover { background: var(--wh-color-surface-hover); color: var(--wh-color-text-strong); }
+.wh-flow__button:active { transform: scale(0.97); }
+.wh-flow__button:focus-visible { outline: 0; box-shadow: var(--wh-focus-ring); }
+.wh-flow__stage {
+    overflow-x: auto;
+    background-image: radial-gradient(circle, var(--wh-color-line-strong) 1px, transparent 1.2px);
+    background-size: 16px 16px;
+    background-position: 8px 8px;
+}
+.wh-flow__svg { display: block; width: 100%; min-width: 31rem; height: auto; }
+.wh-flow__edge { fill: none; stroke: var(--wh-color-line-control); stroke-width: 1; transition: stroke var(--wh-duration-base) var(--wh-ease-out); }
+.wh-flow__edge--link { stroke-dasharray: 2 5; }
+.wh-flow__edge[data-state="active"] { stroke: var(--wh-color-accent); stroke-width: 1.5; }
+.wh-flow__head { fill: var(--wh-color-line-control); transition: fill var(--wh-duration-base) var(--wh-ease-out); }
+.wh-flow__head[data-state="active"] { fill: var(--wh-color-accent); }
+.wh-flow__node rect {
+    fill: var(--wh-color-surface-raised);
+    stroke: var(--wh-color-line-strong);
+    stroke-width: 1;
+    transition: stroke var(--wh-duration-base) var(--wh-ease-out), fill var(--wh-duration-base) var(--wh-ease-out);
+}
+.wh-flow__node[data-state="active"] rect { stroke: var(--wh-color-text-strong); fill: var(--wh-color-surface-hover); }
+.wh-flow__node-name { font: var(--wh-weight-medium) 12.5px var(--wh-font-sans); fill: var(--wh-color-text); }
+.wh-flow__node[data-state="active"] .wh-flow__node-name { fill: var(--wh-color-text-strong); }
+.wh-flow__node-sub { font: 10.5px var(--wh-font-mono); fill: var(--wh-color-text-muted); }
+.wh-flow__pin { fill: var(--wh-color-line-control); }
+.wh-flow__node[data-state="active"] .wh-flow__pin { fill: var(--wh-color-signal); }
+.wh-flow__packet { fill: var(--wh-color-accent); }
+.wh-flow__caption {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--wh-space-3);
+    align-items: baseline;
+    min-height: calc(var(--wh-leading-md) * 3 + var(--wh-space-6));
+    padding: var(--wh-space-3);
+    border-top: 1px solid var(--wh-color-line);
+}
+.wh-flow__caption-index { font: var(--wh-weight-medium) var(--wh-text-xs) / var(--wh-leading-md) var(--wh-font-mono); color: var(--wh-color-accent-text); }
+.wh-flow__caption-text { margin: 0; font-size: var(--wh-text-md); line-height: var(--wh-leading-md); color: var(--wh-color-text-strong); }
+
+/* The same steps as a list. The active step has the red index. */
+.wh-steps { margin: 0; padding: 0; list-style: none; counter-reset: step; border-bottom: 1px solid var(--wh-color-line); }
+.wh-steps__item { border-top: 1px solid var(--wh-color-line); }
+.wh-steps__button {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: var(--wh-space-2);
+    width: 100%;
+    min-height: var(--wh-control-touch);
+    padding: var(--wh-space-3) var(--wh-space-2) var(--wh-space-3) 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    color: var(--wh-color-text-muted);
+    cursor: pointer;
+    transition: color var(--wh-duration-instant) linear, background-color var(--wh-duration-instant) linear;
+}
+.wh-steps__button:hover { color: var(--wh-color-text-strong); background: var(--wh-color-surface); }
+.wh-steps__button:focus-visible { outline: 0; box-shadow: var(--wh-focus-ring); }
+.wh-steps__index { font: var(--wh-text-xs) / var(--wh-leading-md) var(--wh-font-mono); font-variant-numeric: tabular-nums; }
+.wh-steps__route { display: block; font: var(--wh-text-xs) / var(--wh-leading-xs) var(--wh-font-mono); margin-bottom: 2px; }
+.wh-steps__text { display: block; font-size: var(--wh-text-md); line-height: var(--wh-leading-md); }
+.wh-steps__button[aria-current="step"] { color: var(--wh-color-text-strong); }
+.wh-steps__button[aria-current="step"] .wh-steps__index { color: var(--wh-color-accent-text); }
+
+@media (max-width: 1023.98px) {
+    .wh-rule { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .wh-flow__packet { display: none; }
+}

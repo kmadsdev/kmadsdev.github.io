@@ -183,6 +183,7 @@ export const facts = {
             live: `${SITE}/diabetes-indicator`,
             source: `${GITHUB}/diabetes-indicator-backend`,
             image: '/assets/projects/diabetes-indicator.jpg',
+            imageFit: 'contain',
         },
         offmode: {
             name: 'OffMode',

@@ -13,6 +13,7 @@ export const hero = {
     primaryCta: 'Read the case files',
     secondaryCta: 'Send an email',
     scroll: 'Scroll',
+    localTime: 'Local time',
     stats: [
         { value: `${person.yearsEngineering}`, label: 'years of engineering work' },
         { value: `${person.codingSince}`, label: 'first line of code' },

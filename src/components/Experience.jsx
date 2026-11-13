@@ -7,14 +7,17 @@ export default function Experience() {
         <Section id="experience" index="02" label={experience.label} title={experience.title} intro={experience.intro}>
             <ol className="timeline">
                 {experience.items.map((job, i) => (
-                    <li className="job" key={job.id}>
+                    <li className="job" key={job.id} data-current={i === 0 ? 'true' : undefined}>
                         <div className="job-rail">
                             <p className="job-period">{job.period}</p>
-                            {i === 0 ? <p className="job-current">{experience.current}</p> : null}
+                            {i === 0 ? (
+                                <p className="status wh-label"><span className="status-dot" aria-hidden="true" />{experience.current}</p>
+                            ) : null}
                         </div>
                         <div className="job-body">
                             <h3 className="job-title">
-                                {job.role} <span className="job-company">{job.company}</span>
+                                <span className="wh-headline wh-headline--item">{job.company}</span>
+                                <span className="job-role">{job.role}</span>
                             </h3>
                             <p className="job-context">{job.context}</p>
                             <ul className="job-bullets">
@@ -24,13 +27,17 @@ export default function Experience() {
                     </li>
                 ))}
             </ol>
-            <h3 className="minor-title">{experience.earlierTitle}</h3>
-            <ul className="earlier">
+            <h3 className="wh-label block-label">{experience.earlierTitle}</h3>
+            <ul className="wh-spec">
                 {experience.earlier.map((item) => (
-                    <li className="earlier-item" key={item.id}>
-                        <p className="job-period">{item.period}</p>
-                        <h4>{item.title}</h4>
-                        <p>{item.text}</p>
+                    <li className="wh-spec__row" key={item.id}>
+                        <div className="wh-spec__name">
+                            <p className="job-period">{item.period}</p>
+                        </div>
+                        <div className="wh-spec__body">
+                            <h4 className="row-title">{item.title}</h4>
+                            <p className="row-text">{item.text}</p>
+                        </div>
                     </li>
                 ))}
             </ul>

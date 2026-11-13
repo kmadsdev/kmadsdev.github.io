@@ -1,8 +1,8 @@
-/* Step 2: structure only. The design system styles replace this file in step 5. */
-:root { --bg: #111; --fg: #eee; color-scheme: dark; }
-:root[data-theme='light'] { --bg: #fafafa; --fg: #111; color-scheme: light; }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
-.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-main, .site-header, .site-footer { max-width: 960px; margin: 0 auto; padding: 16px; }
-a { color: inherit; }
-img { max-width: 320px; height: auto; }
+/* Fonts are self-hosted: no request to another site. */
+@import "@fontsource-variable/geist/wght.css";
+@import "@fontsource-variable/geist-mono/wght.css";
+@import "@fontsource-variable/archivo/wdth.css";
+
+@import "./ds/tokens.css";
+@import "./ds/editorial.css";
+@import "./site.css";

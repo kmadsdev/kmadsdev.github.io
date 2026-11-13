@@ -22,6 +22,10 @@ export const cases = {
         stack: 'Stack',
         step: 'Passo',
         links: 'Links',
+        prev: 'Passo anterior',
+        next: 'Próximo passo',
+        play: 'Reproduzir os passos',
+        pause: 'Pausar os passos',
     },
     items: [
         {

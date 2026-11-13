@@ -1,5 +1,6 @@
 import { LanguageProvider, useLanguage } from './i18n/LanguageProvider.jsx';
 import { ThemeProvider } from './theme/ThemeProvider.jsx';
+import Instrument from './components/Instrument.jsx';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
@@ -15,17 +16,20 @@ function Page() {
     return (
         <>
             <a className="skip-link" href="#main">{t.nav.skip}</a>
+            <Instrument />
             <Header />
-            <main id="main">
-                <Hero />
-                <About />
-                <Experience />
-                <Cases />
-                <Projects />
-                <Skills />
-                <Contact />
-            </main>
-            <Footer />
+            <div className="page">
+                <main id="main">
+                    <Hero />
+                    <About />
+                    <Experience />
+                    <Cases />
+                    <Projects />
+                    <Skills />
+                    <Contact />
+                </main>
+                <Footer />
+            </div>
         </>
     );
 }
