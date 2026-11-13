@@ -152,6 +152,9 @@ export const facts = {
 
     // Shown in this order in the "Projects" section.
     projectOrder: [
+        'consignado-api',
+        'credit-card-engine',
+        'payment-gateway',
         'notes',
         'diabetes',
         'offmode',
@@ -167,6 +170,24 @@ export const facts = {
     ],
 
     projects: {
+        // Study projects with simulated data. No users, no real money.
+        'consignado-api': {
+            name: 'consignado-api',
+            stack: ['Java 21', 'Spring Boot', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'Testcontainers', 'Docker', 'GitHub Actions'],
+            tests: 183,
+            source: `${GITHUB}/consignado-api`,
+        },
+        'credit-card-engine': {
+            name: 'credit-card-engine',
+            stack: ['Java 21', 'Spring Boot', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'Testcontainers', 'ArchUnit', 'Docker', 'GitHub Actions'],
+            variants: { base: 'R$2,000', platinum: 'R$8,000' },
+            source: `${GITHUB}/credit-card-engine`,
+        },
+        'payment-gateway': {
+            name: 'simple-payment-gateway',
+            stack: ['Go', 'PostgreSQL', 'OpenAPI', 'Prometheus', 'Docker', 'GitHub Actions'],
+            source: `${GITHUB}/simple-payment-gateway`,
+        },
         notes: {
             name: 'Notes',
             stack: ['Monaco', 'File System Access API', 'JavaScript'],
