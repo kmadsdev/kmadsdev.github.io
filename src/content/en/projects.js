@@ -12,6 +12,8 @@ export const projects = {
     source: 'Source code',
     privateRepo: 'Private repository',
     stack: 'Stack',
+    playClip: 'Play the clip',
+    pauseClip: 'Pause the clip',
     items: [
         {
             id: 'notes',

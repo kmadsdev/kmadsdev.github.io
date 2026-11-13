@@ -20,6 +20,7 @@ npm run dev        # http://localhost:1337
 | `npm run build` | Build de produção em `dist/`, com a página 404 |
 | `npm run preview` | Serve o `dist/` em http://localhost:1338 |
 | `npm run check:browser` | Abre o build no Chrome: desktop e celular, os dois idiomas, os dois temas |
+| `npm run check:responsive` | Verifica o layout em 15 larguras de tela, de 320 a 2560px |
 | `npm run check:links` | Faz uma requisição para cada link do site |
 | `npm run check` | Testes, build e verificação no navegador, nesta ordem |
 

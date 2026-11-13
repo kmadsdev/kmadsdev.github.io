@@ -32,6 +32,7 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run check:browser
+      - run: npm run check:responsive
       - name: Write the build id
         run: echo "${{ github.sha }}" > dist/version.txt
       - uses: actions/upload-artifact@v4
