@@ -1,26 +1,41 @@
-import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Experience from './components/Experience';
-import Stack from './components/Stack';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import { LanguageProvider, useLanguage } from './i18n/LanguageProvider.jsx';
+import { ThemeProvider } from './theme/ThemeProvider.jsx';
+import Header from './components/Header.jsx';
+import Hero from './components/Hero.jsx';
+import About from './components/About.jsx';
+import Experience from './components/Experience.jsx';
+import Cases from './components/Cases.jsx';
+import Projects from './components/Projects.jsx';
+import Skills from './components/Skills.jsx';
+import Contact from './components/Contact.jsx';
+import Footer from './components/Footer.jsx';
 
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <Hero />
-      <About />
-      <Experience />
-      <Stack />
-      <Projects />
-      {/* <Contact /> */}
-      <Footer />
-    </div>
-  );
+function Page() {
+    const { t } = useLanguage();
+    return (
+        <>
+            <a className="skip-link" href="#main">{t.nav.skip}</a>
+            <Header />
+            <main id="main">
+                <Hero />
+                <About />
+                <Experience />
+                <Cases />
+                <Projects />
+                <Skills />
+                <Contact />
+            </main>
+            <Footer />
+        </>
+    );
 }
 
-export default App;
+export default function App() {
+    return (
+        <ThemeProvider>
+            <LanguageProvider>
+                <Page />
+            </LanguageProvider>
+        </ThemeProvider>
+    );
+}
