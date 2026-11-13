@@ -174,7 +174,7 @@ export const facts = {
         'consignado-api': {
             name: 'consignado-api',
             stack: ['Java 21', 'Spring Boot', 'Spring Data JPA', 'PostgreSQL', 'Flyway', 'Testcontainers', 'Docker', 'GitHub Actions'],
-            tests: 183,
+            tests: 196,
             source: `${GITHUB}/consignado-api`,
             image: '/assets/projects/consignado-api.jpg',
             video: '/assets/projects/consignado-api.mp4',
