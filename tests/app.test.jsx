@@ -113,3 +113,31 @@ describe('links', () => {
         }
     });
 });
+
+describe('project clips', () => {
+    const withVideo = Object.entries(facts.projects).filter(([, data]) => data.video);
+
+    it('has at least one project with a clip, and each clip has a poster image', () => {
+        expect(withVideo.length).toBeGreaterThan(0);
+        for (const [id, data] of withVideo) expect(data.image, id).toBeTruthy();
+    });
+
+    it('does not load or play a clip before the visitor asks for it', () => {
+        const { container } = open('/');
+        const videos = [...container.querySelectorAll('video')];
+        expect(videos.length).toBe(withVideo.length);
+        for (const video of videos) {
+            expect(video.getAttribute('preload')).toBe('none');
+            expect(video.muted).toBe(true);
+            expect(video.hasAttribute('playsinline')).toBe(true);
+            expect(video.hasAttribute('autoplay')).toBe(false);
+            expect(video.getAttribute('poster')).toBeTruthy();
+        }
+    });
+
+    it('gives each clip a play button with a name in the current language', () => {
+        open('/?lang=pt');
+        const buttons = screen.getAllByRole('button', { name: new RegExp(`^${content.pt.projects.playClip}`) });
+        expect(buttons.length).toBe(withVideo.length);
+    });
+});

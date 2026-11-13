@@ -13,6 +13,8 @@ export const projects = {
     source: 'Código-fonte',
     privateRepo: 'Repositório privado',
     stack: 'Stack',
+    playClip: 'Reproduzir o clipe',
+    pauseClip: 'Pausar o clipe',
     items: [
         {
             id: 'notes',

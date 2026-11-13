@@ -175,6 +175,7 @@ export const facts = {
             live: `${SITE}/notes`,
             source: `${GITHUB}/notes`,
             image: '/assets/projects/notes.jpg',
+            video: '/assets/projects/notes.mp4',
         },
         diabetes: {
             name: 'Diabetes Indicator',
@@ -183,13 +184,14 @@ export const facts = {
             live: `${SITE}/diabetes-indicator`,
             source: `${GITHUB}/diabetes-indicator-backend`,
             image: '/assets/projects/diabetes-indicator.jpg',
-            imageFit: 'contain',
+            video: '/assets/projects/diabetes-indicator.mp4',
         },
         offmode: {
             name: 'OffMode',
             stack: ['React', 'Python', 'FastAPI', 'Electron', 'Vercel'],
             live: `${SITE}/offmode`,
             image: '/assets/projects/offmode.jpg',
+            video: '/assets/projects/offmode.mp4',
         },
         doom: {
             name: 'Doom, offline',
@@ -198,6 +200,7 @@ export const facts = {
             sizeAfter: '4.4 MB',
             live: `${SITE}/doom`,
             image: '/assets/projects/doom.jpg',
+            video: '/assets/projects/doom.mp4',
         },
         overclock: {
             name: 'Overclock',
@@ -214,6 +217,7 @@ export const facts = {
             stack: ['MCP', 'Skills', 'TDD', 'Claude Code', 'Codex'],
             live: `${SITE}/agentic`,
             image: '/assets/projects/agentic.jpg',
+            video: '/assets/projects/agentic.mp4',
         },
         'devops-challenge': {
             name: 'DevOps challenge',
@@ -231,11 +235,15 @@ export const facts = {
             stack: ['JavaScript', 'CSS'],
             live: `${SITE}/custom-square`,
             source: `${GITHUB}/custom-square`,
+            image: '/assets/projects/custom-square.jpg',
+            video: '/assets/projects/custom-square.mp4',
         },
         trocatine: {
             name: 'TrocaTine landing page',
             stack: ['React', 'Tailwind CSS', 'GitHub Pages'],
             live: `${SITE}/trocatine/`,
+            image: '/assets/projects/trocatine.jpg',
+            video: '/assets/projects/trocatine.mp4',
         },
         'student-tools': {
             name: 'Engineer Student Tools',

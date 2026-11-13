@@ -14,6 +14,8 @@
 *::after { box-sizing: border-box; }
 
 html {
+    /* Large screens get a larger base size, so the proportions stay the same. */
+    font-size: clamp(100%, 0.36vw + 0.64rem, 125%);
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--header-h) + 1.5rem);
     scrollbar-color: var(--wh-color-line-strong) var(--wh-color-canvas);
@@ -208,14 +210,16 @@ button { font: inherit; color: inherit; }
     margin-left: var(--wh-rail);
     padding-top: calc(var(--header-h) + var(--wh-rule-x));
 }
-#main > * { padding-inline: var(--gutter); }
+/* Hairlines run edge to edge; the content stops at 100rem. */
+#main > *,
+.site-footer { padding-inline: max(var(--gutter), (100% - 100rem) / 2); }
 
 /* ---------- Hero ---------- */
 .hero {
     display: grid;
     grid-template-rows: auto 1fr auto;
     gap: var(--wh-space-10);
-    min-height: calc(100svh - var(--header-h) - var(--wh-rule-x));
+    min-height: min(calc(100svh - var(--header-h) - var(--wh-rule-x)), 62rem);
     padding-block: var(--wh-space-8) var(--wh-space-10);
 }
 .hero-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--wh-space-2) var(--wh-space-6); }
@@ -348,14 +352,35 @@ button { font: inherit; color: inherit; }
 }
 .project-featured:nth-child(even) .project-media { order: 2; }
 .project-media {
-    aspect-ratio: 16 / 10;
     overflow: hidden;
     border: 1px solid var(--wh-color-line-strong);
     background: var(--wh-color-surface);
 }
-.project-media img { width: 100%; height: 100%; object-fit: cover; object-position: top left; transition: transform 900ms var(--wh-ease-out); }
-.project-media[data-fit="contain"] img { object-fit: contain; object-position: center; padding: var(--wh-space-5); }
-.project-featured:hover .project-media img { transform: scale(1.025); }
+.project-media { position: relative; aspect-ratio: 16 / 9; }
+.project-media img,
+.project-media video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.clip-button {
+    position: absolute;
+    left: var(--wh-space-3);
+    bottom: var(--wh-space-3);
+    display: inline-grid;
+    place-items: center;
+    width: var(--wh-control-lg);
+    height: var(--wh-control-lg);
+    padding: 0;
+    border: 1px solid var(--wh-color-line-control);
+    border-radius: var(--wh-radius-sm);
+    background: color-mix(in srgb, var(--wh-color-canvas) 88%, transparent);
+    color: var(--wh-color-text-strong);
+    cursor: pointer;
+    transition: background-color var(--wh-duration-instant) linear, opacity var(--wh-duration-base) linear, transform var(--wh-duration-instant) var(--wh-ease-out);
+}
+.clip-button:hover { background: var(--wh-color-canvas); }
+.clip-button:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+    .project-clip[data-playing="true"] .clip-button:not(:focus-visible) { opacity: 0; }
+    .project-clip[data-playing="true"]:hover .clip-button { opacity: 1; }
+}
 .project-body { display: grid; gap: var(--wh-space-3); align-content: start; min-width: 0; }
 .project-name { font-size: var(--wh-text-xl); font-weight: var(--wh-weight-semibold); line-height: var(--wh-leading-xl); letter-spacing: var(--wh-tracking-xl); color: var(--wh-color-text-strong); }
 .project-tagline { font-weight: var(--wh-weight-medium); color: var(--wh-color-text-strong); }
@@ -380,7 +405,7 @@ button { font: inherit; color: inherit; }
 .channels .wh-spec__row { align-items: center; padding: var(--wh-space-4) 0; }
 
 /* ---------- Footer ---------- */
-.site-footer { overflow: hidden; padding: var(--wh-space-10) var(--gutter) 0; border-top: 1px solid var(--wh-color-line); }
+.site-footer { overflow: hidden; padding-top: var(--wh-space-10); border-top: 1px solid var(--wh-color-line); }
 .footer-row {
     display: flex;
     flex-wrap: wrap;
@@ -404,7 +429,17 @@ button { font: inherit; color: inherit; }
 [data-theme="light"] .footer-mark { color: var(--wh-color-line); }
 .site-footer { display: flex; flex-direction: column-reverse; }
 
-/* ---------- Small screens ---------- */
+/* ---------- Smaller screens ----------
+   Below 1280px: the section label moves above the heading and a case file
+   becomes one column. Below 1024px: no rulers, two-row header.
+   Below 768px: everything is one column. */
+@media (max-width: 1279.98px) {
+    .section { grid-template-columns: minmax(0, 1fr); }
+    .section-label { position: static; }
+    .case-grid { grid-template-columns: minmax(0, 1fr); }
+    .case-scope { position: static; }
+    .case-scope .wh-flow__svg { max-width: 46rem; margin-inline: auto; }
+}
 @media (max-width: 1023.98px) {
     :root { --header-h: calc(var(--wh-layout-topbar) + 2.75rem); --wh-rail: 0px; --wh-rule-x: 0px; }
     .site-header { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: var(--wh-layout-topbar) 2.75rem; height: var(--header-h); }
@@ -413,16 +448,16 @@ button { font: inherit; color: inherit; }
     .site-nav { grid-column: 1 / -1; grid-row: 2; padding-left: calc(var(--gutter) - var(--wh-space-3)); border-top: 1px solid var(--wh-color-line); overflow-x: auto; scrollbar-width: none; }
     .site-nav::-webkit-scrollbar { display: none; }
     .site-nav a::after { bottom: 0; }
-    .section { grid-template-columns: minmax(0, 1fr); }
-    .section-label { position: static; }
     .section-head { margin-bottom: var(--wh-space-10); }
-    .about-grid,
-    .case-grid,
-    .project-featured { grid-template-columns: minmax(0, 1fr); }
-    .project-featured:nth-child(even) .project-media { order: 0; }
-    .case-scope { position: static; }
     .hero { min-height: 0; padding-block: var(--wh-space-8) var(--wh-space-12); }
+}
+@media (max-width: 899.98px) {
+    .about-grid { grid-template-columns: minmax(0, 1fr); }
     .hero-lower { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767.98px) {
+    .project-featured { grid-template-columns: minmax(0, 1fr); gap: var(--wh-space-5); padding: var(--wh-space-8) 0; }
+    .project-featured:nth-child(even) .project-media { order: 0; }
 }
 @media (max-width: 640px) {
     .job { grid-template-columns: minmax(0, 1fr); padding: var(--wh-space-8) 0; }
@@ -435,7 +470,7 @@ button { font: inherit; color: inherit; }
     html { scroll-behavior: auto; }
     .hero-word { animation: word-fade 300ms linear both; }
     .status-dot::after { animation: none; }
-    .project-media img, .link .icon { transition: none; }
+    .link .icon { transition: none; }
 }
 @keyframes word-fade {
     from { opacity: 0; }
