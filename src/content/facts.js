@@ -224,6 +224,8 @@ export const facts = {
             stack: ['Docker Compose', 'Python', 'Go', 'Node.js', 'Redis'],
             containers: 4,
             source: `${GITHUB}/devops-challenge`,
+            image: '/assets/projects/devops-challenge.jpg',
+            video: '/assets/projects/devops-challenge.mp4',
         },
         'incident-api': {
             name: 'Incident alert API',
