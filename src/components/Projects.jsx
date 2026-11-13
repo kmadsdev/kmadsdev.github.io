@@ -1,147 +1,52 @@
-import React, { useRef, useState } from 'react';
-import { PROJECTS } from '../constants';
-import { useDecoupledScroll } from '../hooks/useDecoupledScroll';
-import '../styles/Projects.css';
+import { facts } from '../content/index.js';
+import { useLanguage } from '../i18n/LanguageProvider.jsx';
+import ExternalLink from './ExternalLink.jsx';
+import Section from './Section.jsx';
 
-const ProjectCard = ({ project, index }) => {
-    const hasMedia = project.image || project.video;
-    const hasLink = project.link;
-    const videoRef = useRef(null);
-    const [isHovered, setIsHovered] = useState(false);
-    const [videoLoaded, setVideoLoaded] = useState(false);
-
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-        if (videoRef.current && project.video) {
-            // Play video when hovering
-            videoRef.current.play().catch(() => {
-                // Autoplay might be blocked, ignore error
-            });
-        }
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-        if (videoRef.current && project.video) {
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-        }
-    };
-
-    const handleVideoLoaded = () => {
-        setVideoLoaded(true);
-    };
-    
+function Links({ data, labels }) {
     return (
-        <div 
-            className="project-card" 
-            style={{ '--card-index': index }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
-            {hasMedia && (
-                <div className="project-media-wrapper">
-                    {/* Always show image as base layer */}
-                    {project.image && (
-                        <img 
-                            src={project.image} 
-                            alt={project.title}
-                            loading="lazy"
-                            className="project-image"
-                        />
-                    )}
-                    
-                    {/* Video overlay - preloaded, shown on hover */}
-                    {project.video && (
-                        <video 
-                            ref={videoRef}
-                            src={project.video}
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            onLoadedData={handleVideoLoaded}
-                            className={`project-video ${isHovered && videoLoaded ? 'visible' : ''}`}
-                        />
-                    )}
-                    
-                    {hasLink && (
-                        <div className="project-media-overlay">
-                            <a 
-                                href={project.link} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="project-link-btn"
-                            >
-                                <img 
-                                    src="/assets/ui/arrow-external.svg" 
-                                    alt="External Link" 
-                                />
-                            </a>
-                        </div>
-                    )}
-                </div>
-            )}
-            
-            <div className="project-card-content">
-                {project.tags && project.tags.length > 0 && (
-                    <div className="project-card-tags">
-                        {project.tags.map((tag, i) => (
-                            <span key={i} className="project-tag">{tag}</span>
-                        ))}
-                    </div>
-                )}
-                <h3 className="project-card-title">{project.title}</h3>
-                <p className="project-card-description">{project.description}</p>
-            </div>
-        </div>
+        <p className="project-links">
+            {data.live ? <ExternalLink href={data.live}>{labels.live}</ExternalLink> : null}
+            {data.source ? <ExternalLink href={data.source}>{labels.source}</ExternalLink> : null}
+            {!data.live && !data.source ? <span className="project-private wh-label">{labels.privateRepo}</span> : null}
+        </p>
     );
-};
+}
 
-const Projects = () => {
-    const scrollRef = useRef(null);
-    useDecoupledScroll(scrollRef);
-
+function Project({ item, labels, featured }) {
+    const data = facts.projects[item.id];
     return (
-        <section id="projects" className="projects-section">
-            <div className="projects-container">
-                <div className="projects-header">
-                    <div className="projects-title-wrapper">
-                        <h2 className="section-title projects-main-title">Projects</h2>
-                        <p className="projects-subtitle">
-                            My featured Projects & Applications
-                        </p>
-                    </div>
+        <li className={featured ? 'project project-featured' : 'project'}>
+            {featured ? (
+                <div className="project-media" data-fit={data.imageFit ?? 'cover'}>
+                    <img src={data.image} alt="" loading="lazy" decoding="async" />
                 </div>
-
-                <div ref={scrollRef} className="projects-scroll-wrapper">
-                    <div className="projects-track">
-                        {/* Projects Section Divider */}
-                        <div className="section-divider projects-divider">
-                            <span className="section-divider-label">Portfolio</span>
-                            <h3 className="section-divider-title">Projects</h3>
-                            <span className="section-divider-count">{PROJECTS.length.toString().padStart(2, '0')}</span>
-                        </div>
-
-                        {PROJECTS.map((project, index) => (
-                            <ProjectCard key={project.title} project={project} index={index} />
-                        ))}
-
-                        {/* View More Card */}
-                        <div className="view-more-card">
-                            <div className="view-more-content">
-                                <span className="view-more-label">Explore more</span>
-                                <h3 className="view-more-title">All Projects</h3>
-                                <a href="/projects" className="view-more-btn">
-                                    View All →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            ) : null}
+            <div className="project-body">
+                <h3 className={featured ? 'wh-headline wh-headline--item' : 'project-name'}>{data.name}</h3>
+                <p className="project-tagline">{item.tagline}</p>
+                <p className="project-text">{item.text}</p>
+                <ul className="wh-tags" aria-label={labels.stack}>
+                    {data.stack.map((name) => <li key={name}>{name}</li>)}
+                </ul>
+                <Links data={data} labels={labels} />
             </div>
-        </section>
+        </li>
     );
-};
+}
 
-export default Projects;
+export default function Projects() {
+    const { projects } = useLanguage().t;
+    const featured = projects.items.filter((item) => facts.projects[item.id].image);
+    const rest = projects.items.filter((item) => !facts.projects[item.id].image);
+    return (
+        <Section id="projects" index="04" label={projects.label} title={projects.title} intro={projects.intro} className="section-wide">
+            <ul className="project-features">
+                {featured.map((item) => <Project key={item.id} item={item} labels={projects} featured />)}
+            </ul>
+            <ul className="project-index">
+                {rest.map((item) => <Project key={item.id} item={item} labels={projects} />)}
+            </ul>
+        </Section>
+    );
+}

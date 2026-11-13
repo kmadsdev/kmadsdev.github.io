@@ -1,60 +1,70 @@
-import { useRef, useEffect, useState } from 'react';
-import { CONTACT, SITE_CONFIG, HERO_CONTENT } from '../constants';
-import '../styles/Hero.css';
+import { useEffect, useState } from 'react';
+import { facts } from '../content/index.js';
+import { useLanguage } from '../i18n/LanguageProvider.jsx';
+import Icon from './Icon.jsx';
 
+const clock = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' });
 
-const Hero = () => {
-    const heroRef = useRef(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const outer_spin_duration = 20;
-    const inner_spin_duration = outer_spin_duration * 0;
-
+/** The time in Brazil (UTC-3), refreshed each 20 seconds. */
+function useLocalTime() {
+    const [time, setTime] = useState(() => clock.format(new Date()));
     useEffect(() => {
-        setIsLoaded(true);
+        const timer = window.setInterval(() => setTime(clock.format(new Date())), 20000);
+        return () => window.clearInterval(timer);
     }, []);
+    return time;
+}
 
+export default function Hero() {
+    const { t } = useLanguage();
+    const { hero } = t;
+    const time = useLocalTime();
+    const words = hero.headline.split(' ');
     return (
-        <section id="home" className="hero" ref={heroRef}>
-            <div className={`hero-container ${isLoaded ? 'hero-loaded' : ''}`}>
-                <div className="hero-content">
-                    <p className="hero-greeting fade-in fade-in-delay-1">
-                        {HERO_CONTENT.greeting} <span className="highlight">{HERO_CONTENT.highlightName}</span>
-                    </p>
-                    
-                    <h1 className="hero-title fade-in fade-in-delay-2">{SITE_CONFIG.title}</h1>
-                    <p className="hero-subtitle fade-in fade-in-delay-3">{SITE_CONFIG.description}</p>
-                    <p className="hero-description fade-in fade-in-delay-4">
-                        {HERO_CONTENT.description.map((line, i) => (
-                            <span key={i}>{line}{i < HERO_CONTENT.description.length - 1 && <br />}</span>
-                        ))}
-                    </p>
-                    
-                    <div className="buttons-container fade-in fade-in-delay-5">
-                        <button className="download-btn" onClick={() => (window.location.href = SITE_CONFIG.resumeUrl)}>
-                            Download Resume
-                        </button>
+        <section id="top" className="hero" aria-labelledby="hero-title">
+            <div className="hero-top">
+                <p className="status wh-label"><span className="status-dot" aria-hidden="true" />{hero.status}</p>
+                <p className="wh-label hero-place">
+                    <span>{hero.location}</span>
+                    <span className="hero-time"><span className="visually-hidden">{hero.localTime} </span>{time}</span>
+                </p>
+            </div>
 
-                        <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" className="social-icon">
-                            <img className="social-icon-img" src="assets/social/github-icon-red.svg" alt="GitHub"></img>
+            <div className="hero-main">
+                <p className="hero-name">
+                    <strong>{hero.name}</strong> <span>{hero.alias}</span>
+                </p>
+                <h1 id="hero-title" className="wh-headline wh-headline--hero hero-headline" key={hero.headline}>
+                    {words.map((word, i) => (
+                        <span key={`${word}-${i}`}>
+                            <span className="hero-word" style={{ '--i': i }}>{word}</span>
+                            {i < words.length - 1 ? ' ' : ''}
+                        </span>
+                    ))}
+                </h1>
+                <div className="hero-lower">
+                    <p className="hero-lead">{hero.lead}</p>
+                    <p className="hero-actions">
+                        <a className="button button-primary" href="#cases">
+                            <span>{hero.primaryCta}</span>
+                            <Icon name="arrow-down" />
                         </a>
-                        <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon">
-                            <img className="social-icon-img" src="assets/social/linkedin-icon-red.svg" alt="LinkedIn"></img>
+                        <a className="button" href={`mailto:${facts.contact.email}`}>
+                            <Icon name="mail" />
+                            <span>{hero.secondaryCta}</span>
                         </a>
-                        <a href={`mailto:${CONTACT.email}`} className="social-icon">
-                            <img className="social-icon-img" src="assets/social/email-icon-red.svg" alt="Email"></img>
-                        </a>
-                    </div>
-                </div>
-                
-                <div className="hero-image-container fade-in">
-                    <div className="hero-badge">
-                        <img src="/assets/globe-text.svg" className="badge-outer" style={{ animationDuration: `${outer_spin_duration}s` }} alt="Globe text" />
-                        <img src="/assets/globe.svg" className="badge-inner" style={{ animationDuration: `${inner_spin_duration}s` }} alt="Globe" />
-                    </div>
+                    </p>
                 </div>
             </div>
+
+            <dl className="wh-readout hero-readout">
+                {hero.stats.map((stat) => (
+                    <div className="wh-readout__cell" key={stat.label}>
+                        <dt className="wh-readout__label">{stat.label}</dt>
+                        <dd className="wh-readout__value">{stat.value}</dd>
+                    </div>
+                ))}
+            </dl>
         </section>
     );
-};
-
-export default Hero;
+}

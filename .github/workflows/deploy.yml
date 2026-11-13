@@ -1,0 +1,87 @@
+name: Check and deploy
+
+# Every pull request: tests, build, real-browser check.
+# Every push to main: the same checks, then the site goes to the gh-pages
+# branch (GitHub Pages serves it at kmads.dev) and the live site is verified.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Test, build, browser check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run check:browser
+      - name: Write the build id
+        run: echo "${{ github.sha }}" > dist/version.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: dist
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy:
+    name: Publish to GitHub Pages
+    needs: check
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: dist
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
+          publish_branch: gh-pages
+          cname: kmads.dev
+          enable_jekyll: false
+          commit_message: "deploy: ${{ github.sha }}"
+
+  verify:
+    name: Verify the live site
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Wait until kmads.dev serves this build
+        run: |
+          for attempt in $(seq 1 30); do
+            live="$(curl -fsS "https://kmads.dev/version.txt?t=$attempt" || true)"
+            if [ "$live" = "${{ github.sha }}" ]; then echo "Live build: $live"; exit 0; fi
+            echo "Attempt $attempt: live build is '${live}'. Waiting."
+            sleep 15
+          done
+          echo "kmads.dev does not serve build ${{ github.sha }} after 7 minutes."
+          exit 1
+      - name: Check the live addresses and every link
+        run: node scripts/check-links.mjs --site https://kmads.dev
