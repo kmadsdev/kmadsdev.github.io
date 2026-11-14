@@ -17,6 +17,21 @@ export const projects = {
     pauseClip: 'Pausar o clipe',
     items: [
         {
+            id: 'consignado-api',
+            tagline: 'Uma API de crédito consignado com as regras do banco no código',
+            text: `Uma API REST de crédito consignado em Java 21 e Spring Boot. Simula o empréstimo com tabela Price, valida a margem consignável na simulação e de novo na aprovação, e conduz o contrato pelos estados com transactional outbox. Tem ${p['consignado-api'].tests} testes, com PostgreSQL via Testcontainers. Projeto de estudo: sem usuários, não roda em produção.`,
+        },
+        {
+            id: 'credit-card-engine',
+            tagline: 'Quem recebe qual cartão, e por quê',
+            text: `Um motor de cartões em Java 21 e Spring Boot com dois fluxos: aquisição para clientes novos e upgrade para clientes existentes. Quatro variantes: Débito (limite 0), Crédito Base (até ${ptNumber(p['credit-card-engine'].variants.base)}), Crédito Platinum (até ${ptNumber(p['credit-card-engine'].variants.platinum)}) e Crédito Black (acima de ${ptNumber(p['credit-card-engine'].variants.platinum)}). Todas as regras de crédito ficam em um módulo de policy guiado por tabelas, e cada decisão é salva com os motivos. Projeto de estudo com dados simulados.`,
+        },
+        {
+            id: 'payment-gateway',
+            tagline: 'Authorize, capture e refund, sem cobrança em dobro',
+            text: 'Um payment gateway simulado para uma loja online, em Go e PostgreSQL, só backend. Tokenização de cartão e Pix, uma state machine para authorize, capture e refund, idempotency keys, um ledger em partidas dobradas e webhooks assinados via transactional outbox. O CI roda os testes com race detector contra um PostgreSQL real. Projeto de estudo: sem dinheiro real.',
+        },
+        {
             id: 'notes',
             tagline: 'Um editor de código em um único arquivo HTML',
             text: `Um bloco de notas com a cara e o jeito do VS Code, sem backend e sem conta. O Monaco destaca ${p.notes.languages} linguagens. Os arquivos ficam no navegador, ou salvam direto no seu disco no Chrome e no Edge. Tem ${p.notes.previews} previews ao vivo, de Markdown a Mermaid.`,

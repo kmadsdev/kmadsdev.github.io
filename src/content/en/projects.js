@@ -16,6 +16,21 @@ export const projects = {
     pauseClip: 'Pause the clip',
     items: [
         {
+            id: 'consignado-api',
+            tagline: 'A payroll loan API with the bank rules in the code',
+            text: `A REST API for payroll-deducted loans (crédito consignado) in Java 21 and Spring Boot. It simulates a loan with a Price amortization schedule, checks the consignable margin on simulation and again on approval, and moves the contract through its states with a transactional outbox. It has ${p['consignado-api'].tests} tests, with PostgreSQL through Testcontainers. Study project: no users, not in production.`,
+        },
+        {
+            id: 'credit-card-engine',
+            tagline: 'Who gets which card, and why',
+            text: `A card engine in Java 21 and Spring Boot with two flows: acquisition for new clients and upgrade for existing clients. Four variants: Debit (limit 0), Credit Base (up to ${p['credit-card-engine'].variants.base}), Credit Platinum (up to ${p['credit-card-engine'].variants.platinum}) and Credit Black (above ${p['credit-card-engine'].variants.platinum}). All credit rules are in one table-driven policy module, and each decision is stored with its reasons. Study project with simulated data.`,
+        },
+        {
+            id: 'payment-gateway',
+            tagline: 'Authorize, capture and refund, with no double charge',
+            text: 'A simulated payment gateway for an online store, in Go and PostgreSQL, backend only. Card tokenization and Pix, a state machine for authorize, capture and refund, idempotency keys, a double-entry ledger, and signed webhooks through a transactional outbox. CI runs the tests with the race detector against a real PostgreSQL. Study project: no real money.',
+        },
+        {
             id: 'notes',
             tagline: 'A code editor in one HTML file',
             text: `A notepad that looks and works like VS Code, with no backend and no account. Monaco highlights ${p.notes.languages} languages. Files stay in the browser, or save straight to your disk in Chrome and Edge. It has ${p.notes.previews} live previews, from Markdown to Mermaid.`,
