@@ -6,3 +6,14 @@
 @import "./ds/tokens.css";
 @import "./ds/editorial.css";
 @import "./site.css";
+@import "./bento.css";
+@import "./art.css";
+/* Section styles: one file per section in ./sections/, imported here by the owner of this file. */
+@import "./sections/intro.css";
+@import "./sections/intro-art-a.css";
+@import "./sections/intro-art-b.css";
+@import "./sections/experience.css";
+@import "./sections/education.css";
+@import "./sections/applications.css";
+@import "./sections/more.css";
+@import "./sections/figma-row.css";

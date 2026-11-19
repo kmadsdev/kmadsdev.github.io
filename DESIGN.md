@@ -1,27 +1,41 @@
 # Design of kmads.dev
 
-The page looks and behaves like a measuring instrument: a graphite ground, 1px hairlines, square corners, and one red index mark. It shows backend work, so the main objects are flowcharts that run, not screenshots.
+The page is a board of modules, like a motherboard or a gauge cluster. I tune car ECUs, build PCs and run servers, so the layout of my site is the layout of a board: a grid of tiles, small labels printed next to the parts, and lines that carry signal. The board is told with restraint. You feel it in the grid, the labels and the line art, not in decoration.
 
 ## Decisions
 
 | Area | Decision |
 |---|---|
-| Colour | Neutrals do the work. Red (`#FF014F`) marks where to act and where you are: the primary button, the scroll index, the active step. Green means "current" and nothing else. |
-| Themes | Dark is the default. Light is a full theme with the same contrast relations. The choice is saved. |
-| Type | Archivo (a little wide, heavy) for headlines and numbers. Geist for text. Geist Mono only for facts: dates, codes, labels, stack names. Sentence case. |
-| Shape | Corners 0 to 2px. No card shadows. Depth comes from hairlines and one lighter surface step. |
-| Rulers | A fixed ruler on the left and one under the top bar. The red index shows scroll progress. Grey marks show the pointer position. Hidden below 1024px. |
-| Dot field | A canvas behind the page. Dots near the pointer grow and move away. It draws only when the pointer or the page moves. |
-| Flowcharts | SVG made from data. One step is active: its line is red and a packet moves on it. The steps play while the chart is on screen and stop under the pointer. The step list next to the chart is the text form of the same data. |
-| Layout | Each section has a mono label in a left column that stays in view. Case files keep the flowchart in view while the story scrolls. |
-| Motion | One authored entrance (the hero headline). All other motion shows a state change. With reduced motion: no packet, no autoplay, a still dot field, fades only. |
+| Theme | One theme: dark. Ground `#0B0B10`, tiles one soft step lighter (`#12121A`). |
+| Colour | One accent per view: red `#FF014F`. It marks identity and action: the badge, the primary button, the scroll index, the line in use, the sun. The violet to blue gradient (`#B300FF` to `#009DFF`) means data in motion and lives only inside drawings. Mint `#00FFBB` is a status dot: "live now". Body text is never red, violet or blue. |
+| Type | Archivo, wide and heavy, for headlines and numbers. Geist for text, 17 to 19px with a long line height. Geist Mono for facts: dates, labels, stack names. Sentence case. An uppercase poster word is rare: at most one per chapter. |
+| Column | The content stands on one centred column (72rem). The base font size grows from 16px to 24px on very wide screens, so the column grows with it. Only the rulers, the dot field, section grounds and the sunset run edge to edge. |
+| Air | A chapter has one label, one headline, one short lead, then its tiles. The space between chapters is large (about 180px on a laptop). No more than about five tiles on one screen. |
+| Tiles | Radius 22px, a border you can hardly see. A tile holds one idea: a picture or a diagram on top, a short title, at most three lines of text. Long text goes in the text column of the chapter. A tile that is a link shows an arrow and reacts to the pointer. A tile that is not a link does not react. |
+| Labels | A drawing or diagram tile can carry a small mono label with a reference number, as on a circuit board (`D10 · REQUEST PATH`). Screen readers get the plain name only. |
+| Light | One soft red light per view is allowed behind the main object (the badge, a featured tile), like the light of the sunset. No glass, no noise, no gradient text. |
+| Rulers | A fixed ruler on the left edge and one under the top bar, on every section. The red index shows scroll progress. Grey marks show the pointer position. Hidden below 1024px. |
+| Hero | Name, role, a short summary, four links, place and local time. The dot field exists only here. Two bodies bend it: the badge (the dots leave its disc and turn around it) and the pointer. |
+| Badge | My globe badge. The red ring of text turns one way and the globe the other way, only while it is on screen. A press on it stops the turn. |
+| Drawings | SVG, drawn from zero, in one hand: 1.5px strokes that do not scale, round joins, halftone dots for tone. A drawing moves only to show a real mechanism (a request on its path, the cell an engine control unit reads) and only while it is on screen. A number on a drawing is real, or the drawing has no numbers. |
+| Flowcharts | SVG made from data. One step is active: its line is red and a packet moves on it. The step list next to the chart is the text form of the same data. |
+| Motion | One entrance for tiles: a 420ms fade with a 12px rise, 40ms apart, once. The hero name has its own entrance. All other motion shows a state change. With reduced motion: no packet, no turn, a still dot field, fades only. Nothing is lost: each moving picture has its meaning in text. |
+| End of the page | The contact block, then my sunset. The sun keeps its proportions at every width and goes down behind the footer line. Red dots under the line are what is left of its light. |
 
-## Tokens and parts
+## Files
 
-`src/styles/ds/tokens.css` is generated from the design system this site shares with my other apps. `src/styles/ds/editorial.css` holds the reusable parts (classes that start with `wh-`). `src/styles/site.css` is the layout of this page only.
+| File | Holds |
+|---|---|
+| `src/styles/ds/tokens.css` | The palette (`--c-*`), shape, layout and motion values. The `--wh-*` names are older names of the same values. |
+| `src/styles/ds/editorial.css` | Reusable parts: display type, rulers, dot field, readout, tags, segmented control, flowchart (classes that start with `wh-`). |
+| `src/styles/site.css` | The page: top bar, hero, end of the page, and the older sections. |
+| `src/styles/bento.css` + `src/components/bento/` | Chapters, the grid and the tiles. |
+| `src/styles/art.css` + `src/components/art/kit/` | The frame and the parts of every drawing. |
+| `scripts/sunset.mjs` | Makes the sunset pictures from `scripts/sources/sunset.svg`. The SVG has 19 blur filters and needs a long paint, so the page loads a WebP made from it. |
 
 ## Checks
 
-- Text contrast is at least 4.5:1 in both themes (the tokens are tested at the source).
-- Nothing scrolls sideways at 390px. A flowchart scrolls inside its own frame.
-- Every control has a visible focus ring and a 44px target on touch screens.
+- `node scripts/contrast.mjs`: every text colour pair is at least 4.5:1. Text on the red button is the ground colour (5.0:1). White on red fails (3.9:1) and is not used.
+- `npm run check:responsive`: 19 screens from 320x568 to 5120x1440, in both languages. Nothing scrolls sideways, no text is cut, controls are 44px on touch screens.
+- `npm run check:browser`: no console error, no failed request, no request to another host.
+- Every control has a visible focus ring. The skip link goes to the content.

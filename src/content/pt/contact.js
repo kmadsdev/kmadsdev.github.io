@@ -16,9 +16,7 @@ export const contact = {
 };
 
 export const controls = {
-    theme: 'Tema',
-    themes: { dark: 'Escuro', light: 'Claro' },
-    switchToDark: 'Usar o tema escuro',
-    switchToLight: 'Usar o tema claro',
     external: 'abre em uma nova aba',
+    stopBadge: 'Parar o selo',
+    playBadge: 'Girar o selo',
 };

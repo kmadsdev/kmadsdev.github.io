@@ -1,24 +1,22 @@
-// Primeira tela.
+// Primeira tela: nome, cargo, um resumo curto, a localização e quatro links.
 import { facts } from '../facts.js';
-import { ptNumber } from '../format.js';
 
-const { person, picpay } = facts;
+const { person, picpay, contact } = facts;
 
 export const hero = {
     status: `Engenheiro de Software no ${picpay.name}`,
-    location: 'Brasil (UTC-3)',
     name: person.name,
-    alias: `também conhecido como ${person.alias}`,
-    headline: 'Construo sistemas de backend e conserto os que ninguém quer abrir.',
-    lead: `Engenheiro de Software Backend no ${picpay.name}. Java, Go, Python, PHP, SQL e MongoDB. Projeto sistemas que escalam e dou aos agentes de IA uma estrutura para seguir.`,
-    primaryCta: 'Ler os casos',
-    secondaryCta: 'Enviar um email',
-    scroll: 'Role',
+    alias: person.aliasUpper,
+    role: 'Engenheiro de Software',
+    focus: 'Arquitetura & Cloud',
+    summary: `Projeto e construo sistemas de backend, a infraestrutura de cloud por baixo deles e os pipelines que fazem o deploy. Tenho ${person.yearsEngineering} anos de experiência em engenharia e ${person.yearsInTech} anos em tecnologia, e hoje trabalho nos motores de cartão de crédito do ${picpay.name}.`,
+    location: [`${person.city}, ${person.state}, Brasil`, 'Remoto', person.utc],
     localTime: 'Hora local',
-    stats: [
-        { value: `${person.yearsEngineering}`, label: 'anos de trabalho em engenharia' },
-        { value: `${person.codingSince}`, label: 'primeira linha de código' },
-        { value: ptNumber(picpay.bodyshop.customers), label: `clientes no escopo do ${picpay.bodyshop.name}` },
-        { value: ptNumber(picpay.bodyshop.approvalRate), label: 'das imagens do piloto aprovadas sem trabalho manual' },
+    links: [
+        { id: 'applications', label: 'Aplicações', href: '#applications' },
+        { id: 'github', label: 'GitHub', href: contact.github },
+        { id: 'linkedin', label: 'LinkedIn', href: contact.linkedin },
+        { id: 'email', label: 'Email', href: `mailto:${contact.email}` },
     ],
+    scroll: 'Role',
 };

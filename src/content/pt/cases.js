@@ -1,19 +1,20 @@
-// Seção "Casos": um problema, as decisões, o resultado e um fluxograma.
+// Casos: um problema, as decisões, o resultado e um fluxograma.
+// A seção Experiência mostra os casos de cada empresa (experience.items[].projects).
+// A seção Aplicações mostra o caso `ruph` em app-ruph.
 //
 // flow.nodes: um rótulo para cada id de facts.cases[id].flow.nodes.
 // flow.steps: uma frase para cada aresta de facts.cases[id].flow.edges, na mesma ordem.
+// flow: null = só texto, sem fluxograma (os motores de cartões).
 import { facts } from '../facts.js';
 import { ptNumber as br } from '../format.js';
 
 const { picpay, startups } = facts;
-const { bodyshop, survey, oracle } = picpay;
+const { bodyshop, survey, oracle, cards } = picpay;
 const { hivemind } = startups;
 const decade = oracle.legacySince.replace('s', '');
 
 export const cases = {
     label: 'Casos',
-    title: 'Cinco sistemas, abertos por dentro.',
-    intro: 'Cada caso traz o problema, as decisões que tomei e o que saiu disso. Os fluxogramas mostram como as partes conversam.',
     labels: {
         problem: 'O problema',
         decisions: 'O que eu decidi',
@@ -26,10 +27,30 @@ export const cases = {
         next: 'Próximo passo',
         play: 'Reproduzir os passos',
         pause: 'Pausar os passos',
+        wordsOnly: 'Só texto. Os sistemas e os dados pertencem à empresa.',
     },
     items: [
         {
+            id: 'cards',
+            anchor: 'case-cards',
+            kicker: `${picpay.name} · área de cartões · em produção`,
+            title: 'Motores de cartões: quem recebe qual cartão',
+            problem: `A área de cartões decide crédito em tempo real: pedidos de cartão novo, pedidos de upgrade e solicitações de clientes que chegam pelo Banco Central ou por auditoria interna. O trabalho roda em ${cards.microservices} microsserviços em Java e Go e nos sistemas legados em volta deles. Eles respondem milhões de requisições de centenas de milhares de clientes.`,
+            decisions: [
+                'Escrevo e mantenho os serviços em Java (Spring Boot, JPA) e Go dos fluxos de aquisição e upgrade, com mensageria, CI/CD e observabilidade.',
+                'Sigo um incidente pelos microsserviços até achar o defeito. Depois escrevo o teste, e depois a correção.',
+                'Criei jobs de autocorreção que limpam o banco de dados sem trabalho manual.',
+            ],
+            result: `Encontrei e corrigi bugs e defeitos escondidos em ${cards.legacySystems} sistemas legados em Java e resolvi centenas de incidentes de clientes. Este caso não tem diagrama nem número exato, porque os sistemas e os dados pertencem ao ${picpay.name}.`,
+            stats: [
+                { value: cards.microservices, label: 'microsserviços na área' },
+                { value: `${cards.legacySystems}`, label: 'sistemas legados em Java com correções' },
+            ],
+            flow: null,
+        },
+        {
             id: 'bodyshop',
+            anchor: 'case-bodyshop',
             kicker: `${picpay.name} · plataforma interna · em QA`,
             title: `${bodyshop.name}: cada cliente vê o próprio carro`,
             problem: `${br(bodyshop.customers)} de clientes abriam o app e viam um carro que não era o deles: uma imagem genérica, ou o modelo, o ano ou a cor errados. Um estudo interno mostrou que satisfação e retenção podem subir quando o carro exato aparece.`,
@@ -72,6 +93,7 @@ export const cases = {
         },
         {
             id: 'survey',
+            anchor: 'case-survey',
             kicker: `${picpay.name} · plataforma interna`,
             title: `${survey.name}: uma plataforma no lugar de várias ferramentas pagas`,
             problem: `Cerca de ${br(survey.employees)} funcionários respondiam pesquisas de NPS e de clima em várias ferramentas pagas, com pouco espaço para customizar e pouco controle de privacidade. O primeiro plano para a substituta era um conjunto de microsserviços.`,
@@ -107,17 +129,20 @@ export const cases = {
         },
         {
             id: 'oracle',
+            anchor: 'case-oracle',
             kicker: `${picpay.name} · dados de RH`,
             title: 'Oracle HCM: um mapa para dados que não tinham nenhum',
             problem: `Centenas de bancos de dados do Oracle Cloud HCM, alguns de sistemas que rodam desde os anos ${decade}, e nenhuma documentação. As pessoas continuavam escrevendo consultas novas em cima de views legadas de ${oracle.viewLines} linhas, sem índice e sem cache.`,
             decisions: [
                 'Li os próprios dados para descobrir o que cada tabela e cada coluna significa, e registrei tudo em um índice.',
+                `Reescrevi consultas grandes em ${oracle.tables} tabelas e views. Elas foram de milhares de linhas para centenas e ficaram de ${oracle.speedupMin} a ${oracle.speedupMax} vezes mais rápidas.`,
                 'Escrevi automações em SQL e consultas de apoio à decisão em cima do índice.',
                 'Planejei uma modelagem de banco que substitui as views legadas.',
             ],
             result: 'O índice economizou centenas de horas de pesquisa de engenheiros e analistas, e o RH recebeu dados organizados para modelos preditivos.',
             stats: [
                 { value: '100+', label: 'bancos de dados mapeados' },
+                { value: `${oracle.speedupMin} a ${oracle.speedupMax}x`, label: 'consultas mais rápidas' },
                 { value: oracle.viewLines, label: 'linhas em uma view legada' },
                 { value: decade, label: 'sistema mais antigo, sem documentação' },
             ],
@@ -141,6 +166,7 @@ export const cases = {
         },
         {
             id: 'hivemind',
+            anchor: 'case-hivemind',
             kicker: `MVP de startup · ${hivemind.year}`,
             title: `${hivemind.name}: um modelo de ${hivemind.modelBefore} que virou ${br(hivemind.modelAfter)}`,
             problem: `O ${hivemind.name} calcula o quanto uma empresa combina com um produto, a partir de um questionário curto. O primeiro modelo era um arquivo de Random Forest com cerca de ${hivemind.modelBefore}, guardado no S3 e carregado pela API.`,
@@ -174,6 +200,8 @@ export const cases = {
         },
         {
             id: 'ruph',
+            // No anchor of its own: the Applications section shows this case inside app-ruph.
+            anchor: null,
             kicker: 'Minha própria plataforma · em produção',
             title: 'Ruph: um control plane para todos os apps que eu mantenho',
             problem: 'Mantenho vários apps em GCP, Cloudflare, Vercel, Supabase e Neon. Eu queria um lugar só que conhecesse cada app e cada ambiente, e queria agentes de IA ajudando no trabalho sem o poder de mudar a produção sozinhos.',

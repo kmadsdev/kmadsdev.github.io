@@ -16,9 +16,7 @@ export const contact = {
 };
 
 export const controls = {
-    theme: 'Theme',
-    themes: { dark: 'Dark', light: 'Light' },
-    switchToDark: 'Use the dark theme',
-    switchToLight: 'Use the light theme',
     external: 'opens in a new tab',
+    stopBadge: 'Stop the badge',
+    playBadge: 'Turn the badge',
 };

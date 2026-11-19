@@ -1,17 +1,18 @@
-// "Case files" section: one problem, the decisions, the result, and a flowchart.
+// Case files: one problem, the decisions, the result, and a flowchart.
+// The Experience section shows the cases of each company (experience.items[].projects).
+// The Applications section shows the case `ruph` under app-ruph.
 //
 // flow.nodes: one label per node id of facts.cases[id].flow.nodes.
 // flow.steps: one sentence per edge of facts.cases[id].flow.edges, in the same order.
+// flow: null = words only, no chart (the cards engines).
 import { facts } from '../facts.js';
 
 const { picpay, startups } = facts;
-const { bodyshop, survey, oracle } = picpay;
+const { bodyshop, survey, oracle, cards } = picpay;
 const { hivemind } = startups;
 
 export const cases = {
     label: 'Case files',
-    title: 'Five systems, opened up.',
-    intro: 'Each file has the problem, the decisions I made and what came out. The flowcharts show how the parts talk to each other.',
     labels: {
         problem: 'The problem',
         decisions: 'What I decided',
@@ -24,10 +25,30 @@ export const cases = {
         next: 'Next step',
         play: 'Play the steps',
         pause: 'Pause the steps',
+        wordsOnly: 'Words only. The systems and their data belong to the company.',
     },
     items: [
         {
+            id: 'cards',
+            anchor: 'case-cards',
+            kicker: `${picpay.name} · cards area · in production`,
+            title: 'Cards engines: who gets which card',
+            problem: `The cards area decides credit in real time: requests for a new card, requests for an upgrade, and customer requests that arrive through the central bank or an internal audit. The work runs on ${cards.microservices} microservices in Java and Go and on the legacy systems around them. They answer millions of requests from hundreds of thousands of clients.`,
+            decisions: [
+                'I write and maintain the Java (Spring Boot, JPA) and Go services of the acquisition and upgrade flows, with messaging, CI/CD and observability.',
+                'I read an incident across the microservices until I find the defect. Then I write the test, and then the fix.',
+                'I built self-healing jobs that clean the database with no manual work.',
+            ],
+            result: `I found and fixed bugs and hidden defects in ${cards.legacySystems} legacy Java systems and closed hundreds of client incidents. This entry has no diagram and no exact number, because the systems and their data belong to ${picpay.name}.`,
+            stats: [
+                { value: cards.microservices, label: 'microservices in the area' },
+                { value: `${cards.legacySystems}`, label: 'legacy Java systems with fixes' },
+            ],
+            flow: null,
+        },
+        {
             id: 'bodyshop',
+            anchor: 'case-bodyshop',
             kicker: `${picpay.name} · internal platform · in QA`,
             title: `${bodyshop.name}: every customer sees their own car`,
             problem: `${bodyshop.customers} customers opened the app and saw a car that was not theirs: a generic picture, or the wrong model, year or color. An internal study showed that satisfaction and retention can rise when the exact car appears.`,
@@ -70,6 +91,7 @@ export const cases = {
         },
         {
             id: 'survey',
+            anchor: 'case-survey',
             kicker: `${picpay.name} · internal platform`,
             title: `${survey.name}: one platform in place of many paid tools`,
             problem: `About ${survey.employees} employees answered NPS and workplace surveys on several paid tools, with little room to customize them and little control of privacy. The first plan for the replacement was a set of microservices.`,
@@ -105,17 +127,20 @@ export const cases = {
         },
         {
             id: 'oracle',
+            anchor: 'case-oracle',
             kicker: `${picpay.name} · HR data`,
             title: 'Oracle HCM: a map for data that had none',
             problem: `Hundreds of Oracle Cloud HCM databases, some from systems that run since the ${oracle.legacySince}, and no documents. People kept writing new queries on top of legacy views of ${oracle.viewLines} lines, with no index and no cache.`,
             decisions: [
                 'I read the data itself to find what each table and column means, and I wrote it down as an index.',
+                `I rewrote large queries across ${oracle.tables} tables and views. They went from thousands of lines to hundreds and ran ${oracle.speedupMin} to ${oracle.speedupMax} times faster.`,
                 'I wrote SQL automations and decision-support queries on top of the index.',
                 'I planned a database design that replaces the legacy views.',
             ],
             result: 'The index saved hundreds of hours of research for engineers and analysts, and HR got organized data for predictive models.',
             stats: [
                 { value: '100s', label: 'of databases mapped' },
+                { value: `${oracle.speedupMin} to ${oracle.speedupMax}x`, label: 'faster queries' },
                 { value: oracle.viewLines, label: 'lines in one legacy view' },
                 { value: oracle.legacySince, label: 'oldest system, no documents' },
             ],
@@ -139,6 +164,7 @@ export const cases = {
         },
         {
             id: 'hivemind',
+            anchor: 'case-hivemind',
             kicker: `Startup MVP · ${hivemind.year}`,
             title: `${hivemind.name}: a ${hivemind.modelBefore} model that became ${hivemind.modelAfter}`,
             problem: `${hivemind.name} scores how well a company matches a product, from a short survey. The first model was a Random Forest file of about ${hivemind.modelBefore}, stored in S3 and loaded by the API.`,
@@ -172,6 +198,8 @@ export const cases = {
         },
         {
             id: 'ruph',
+            // No anchor of its own: the Applications section shows this case inside app-ruph.
+            anchor: null,
             kicker: 'My own platform · in production',
             title: 'Ruph: one control plane for every app I run',
             problem: 'I run several apps on GCP, Cloudflare, Vercel, Supabase and Neon. I wanted one place that knows every app and every environment, and I wanted AI agents to help with the work without the power to change production alone.',

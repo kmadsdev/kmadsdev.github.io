@@ -1,0 +1,220 @@
+/* The board: chapters, the bento grid and its tiles.
+   Components: src/components/bento/. Guide: DESIGN.md. */
+
+/* ---------- Chapter ---------- */
+.chapter { padding-block: var(--section-gap) 0; }
+.chapter-head { display: grid; gap: var(--wh-space-5); max-width: 46rem; margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
+.chapter-label { display: inline-flex; align-items: center; gap: 0.625rem; }
+.chapter-label::before { content: ""; width: 6px; height: 6px; background: var(--c-red); }
+.chapter-lead { max-width: 60ch; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); line-height: 1.65; color: var(--c-text-muted); }
+.chapter-text { display: grid; gap: var(--wh-space-5); max-width: 68ch; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); line-height: 1.7; color: var(--c-text); }
+.chapter-text a { color: var(--c-text-strong); text-decoration: underline; text-decoration-color: var(--c-line-control); text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-decoration-color var(--wh-duration-instant) linear; }
+.chapter-text a:hover { text-decoration-color: var(--c-red); }
+.chapter-group { margin-top: clamp(4rem, 2.5rem + 5vw, 7.5rem); }
+.chapter-group__head { display: grid; gap: var(--wh-space-4); max-width: 46rem; margin-bottom: var(--wh-space-10); }
+.chapter > .bento + .bento,
+.chapter > .bento + .chapter-text,
+.chapter > .chapter-text + .bento,
+.chapter > .split + .bento,
+.chapter > .bento + .split { margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem); }
+
+/* Two columns: text on the left, the main object (a picture, a diagram) on the right.
+   One column below 900px.
+   .split--top     both columns start at the top
+   .split--sticky  the object stays in view while the text scrolls (use with long text)
+   .split--flip    the object on the left */
+.split { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--wh-space-10) clamp(2rem, 1rem + 4vw, 5rem); align-items: center; }
+.split__media { min-width: 0; }
+.split__media > :is(img, video, picture) { display: block; width: 100%; height: auto; border: 1px solid var(--c-line); border-radius: var(--r-tile); }
+@media (min-width: 900px) {
+    .split { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .split--even { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .split--flip > :first-child { order: 2; }
+    .split--top,
+    .split--sticky { align-items: start; }
+    .split--sticky > .split__media { position: sticky; top: calc(var(--header-h) + var(--wh-rule-x) + 2rem); }
+}
+@media (max-width: 899.98px) {
+    .split__media { max-width: 26rem; }
+}
+
+/* ---------- Grid ---------- */
+.bento {
+    --bento-cols: 4;
+    --bento-gap: 0.75rem;
+    --bento-row: auto;
+    display: grid;
+    grid-template-columns: repeat(var(--bento-cols), minmax(0, 1fr));
+    grid-auto-rows: minmax(var(--bento-row), auto);
+    gap: var(--bento-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+@media (min-width: 768px) {
+    .bento { --bento-cols: 8; --bento-row: clamp(9rem, 5.5rem + 6vw, 12.5rem); }
+}
+@media (min-width: 1280px) {
+    .bento { --bento-cols: 12; --bento-gap: 1rem; }
+}
+
+/* ---------- Tile ---------- */
+.tile {
+    --w: var(--w-s, 4);
+    --h: var(--h-s, 1);
+    position: relative;
+    grid-column: span var(--w);
+    grid-row: span var(--h);
+    display: flex;
+    flex-direction: column;
+    gap: var(--wh-space-4);
+    min-width: 0;
+    padding: var(--tile-pad);
+    overflow: hidden;
+    border: 1px solid var(--c-line-soft);
+    border-radius: var(--r-tile);
+    background: var(--c-tile);
+    color: var(--c-text);
+    text-decoration: none;
+}
+@media (min-width: 768px) {
+    .tile { --w: var(--w-m, 4); --h: var(--h-m, 1); }
+}
+@media (min-width: 1280px) {
+    .tile { --w: var(--w-l, 4); --h: var(--h-l, 1); }
+}
+@media (max-width: 767.98px) {
+    .tile { --r-tile: 0.875rem; }
+}
+
+/* One soft red light, for the main object of a view. */
+.tile[data-light]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(70% 80% at 72% 0%, rgb(255 1 79 / 0.17), transparent 70%);
+    pointer-events: none;
+}
+.tile > * { position: relative; }
+
+/* Silk-screen label: small, mono. For art and diagram tiles. */
+.tile__label {
+    margin: 0;
+    font: var(--wh-weight-medium) 0.6875rem / 1rem var(--wh-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-text-faint);
+}
+
+/* Figure: the picture or diagram, on top, in a plain inner frame. */
+.tile__figure {
+    flex: 1 1 auto;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    margin: calc(var(--tile-pad) * -0.5) calc(var(--tile-pad) * -0.5) 0;
+    padding: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+    overflow: hidden;
+    border-radius: calc(var(--r-tile) - var(--tile-pad) * 0.5);
+    background: var(--c-ground);
+}
+.tile__label + .tile__figure { margin-top: 0; }
+.tile--media .tile__figure { padding: 0; }
+.tile--media .tile__figure > :is(img, video, picture) { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.tile__body { display: grid; gap: var(--wh-space-2); align-content: start; min-width: 0; }
+.tile[data-figure] .tile__body { flex: none; }
+.tile:not([data-figure]) .tile__body { flex: 1 1 auto; align-content: end; }
+.tile__title {
+    margin: 0;
+    font: var(--wh-weight-semibold) clamp(1.0625rem, 1rem + 0.35vw, 1.25rem) / 1.3 var(--wh-font-sans);
+    letter-spacing: -0.012em;
+    color: var(--c-text-strong);
+    text-wrap: balance;
+}
+.tile__text { max-width: 52ch; margin: 0; font-size: 0.9375rem; line-height: 1.6; color: var(--c-text-muted); text-wrap: pretty; }
+.tile__text a { color: var(--c-text-strong); text-decoration: underline; text-decoration-color: var(--c-line-control); text-underline-offset: 3px; }
+.tile__text a:hover { text-decoration-color: var(--c-red); }
+
+.tile__poster {
+    margin: 0;
+    font-family: var(--wh-font-display);
+    font-stretch: 125%;
+    font-weight: 900;
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--c-text-strong);
+    overflow-wrap: anywhere;
+}
+
+/* Stat: one number, its unit, its source. */
+.stat { display: grid; gap: var(--wh-space-2); }
+.stat__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5rem; margin: 0; }
+.stat__value {
+    font-family: var(--wh-font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 1.8rem + 2.4vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--c-text-strong);
+}
+.stat__unit { font: var(--wh-weight-medium) 0.8125rem / 1.2 var(--wh-font-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--c-text-muted); }
+.stat__source { max-width: 36ch; margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--c-text-muted); }
+
+/* List: short rows of facts. */
+.tile__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.tile__list li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--wh-space-4);
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--c-line);
+    font: 0.8125rem / 1.25rem var(--wh-font-mono);
+    color: var(--c-text);
+}
+.tile__list li:first-child { border-top: 0; padding-top: 0; }
+.tile__list-value { color: var(--c-text-muted); text-align: right; }
+
+/* A tile that is a link shows it. A tile that is not a link has no hover. */
+a.tile { cursor: pointer; padding-right: calc(var(--tile-pad) + 2.25rem); }
+a.tile[data-figure] { padding-right: var(--tile-pad); }
+.tile__arrow {
+    position: absolute;
+    top: var(--tile-pad);
+    right: var(--tile-pad);
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--c-line-strong);
+    border-radius: 999px;
+    background: var(--c-tile);
+    color: var(--c-text-strong);
+    transition: background-color var(--wh-duration-fast) linear, color var(--wh-duration-fast) linear, border-color var(--wh-duration-fast) linear, transform var(--wh-duration-base) var(--wh-ease-out);
+}
+a.tile:hover { border-color: var(--c-line-strong); background: var(--c-tile-2); }
+a.tile:hover .tile__arrow { border-color: var(--c-red); background: var(--c-red); color: var(--c-on-red); transform: translate(2px, -2px); }
+a.tile:focus-visible { outline: 0; border-radius: var(--r-tile); box-shadow: var(--wh-focus-ring); }
+
+/* ---------- Entrance ----------
+   Set by useReveal: [data-reveal] on the box, [data-in] on a child that was seen. */
+[data-reveal="on"] > * { opacity: 0; transform: translateY(12px); }
+[data-reveal="on"] > [data-in] {
+    opacity: 1;
+    transform: none;
+    transition:
+        opacity 420ms var(--wh-ease-out) calc(var(--i, 0) * 40ms),
+        transform 420ms var(--wh-ease-out) calc(var(--i, 0) * 40ms),
+        border-color var(--wh-duration-fast) linear,
+        background-color var(--wh-duration-fast) linear;
+}
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal="on"] > * { transform: none; }
+    [data-reveal="on"] > [data-in] { transition: opacity 300ms linear; }
+    .tile__arrow { transition: none; }
+    a.tile:hover .tile__arrow { transform: none; }
+}

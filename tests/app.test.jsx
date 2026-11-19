@@ -12,7 +12,6 @@ function open(url = '/') {
 beforeEach(() => {
     window.localStorage.clear();
     document.documentElement.removeAttribute('lang');
-    document.documentElement.removeAttribute('data-theme');
 });
 afterEach(cleanup);
 
@@ -24,7 +23,10 @@ describe('the page in each language', () => {
             open(`/?lang=${lang}`);
             expect(document.documentElement.lang).toBe(t.meta.htmlLang);
             expect(document.title).toBe(t.meta.title);
-            expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(t.hero.headline);
+            expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(t.hero.name);
+            for (const id of ['top', 'intro', 'experience', 'education', 'applications', 'more', 'contact']) {
+                expect(document.getElementById(id), id).toBeTruthy();
+            }
             for (const section of ['about', 'experience', 'cases', 'projects', 'skills', 'education', 'contact']) {
                 expect(screen.getByRole('heading', { level: 2, name: t[section].title })).toBeTruthy();
             }
@@ -57,7 +59,7 @@ describe('language toggle', () => {
         expect(document.documentElement.lang).toBe('en');
         fireEvent.click(screen.getByRole('button', { name: /PT/ }));
         expect(document.documentElement.lang).toBe('pt-BR');
-        expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(content.pt.hero.headline);
+        expect(document.querySelector('.hero-role').textContent).toContain(content.pt.hero.role);
         expect(window.localStorage.getItem('kmads.lang')).toBe('pt');
         expect(screen.getByRole('button', { name: /PT/ }).getAttribute('aria-pressed')).toBe('true');
         expect(screen.getByRole('button', { name: /EN/ }).getAttribute('aria-pressed')).toBe('false');
@@ -77,14 +79,56 @@ describe('language toggle', () => {
     });
 });
 
-describe('theme toggle', () => {
-    it('starts dark, changes to light and saves the choice', () => {
+describe('hero', () => {
+    for (const lang of ['en', 'pt']) {
+        const { hero } = content[lang];
+
+        it(`shows the name, the role, the place and the four links in ${lang}`, () => {
+            const { container } = open(`/?lang=${lang}`);
+            const top = container.querySelector('#top');
+            for (const text of [hero.status, hero.alias, hero.role, hero.focus, hero.summary, ...hero.location]) {
+                expect(top.textContent).toContain(text);
+            }
+            expect(hero.links.map((link) => link.id)).toEqual(['applications', 'github', 'linkedin', 'email']);
+            for (const link of hero.links) {
+                const a = within(top).getByRole('link', { name: new RegExp(`^${link.label}`) });
+                expect(a.getAttribute('href')).toBe(link.href);
+            }
+        });
+    }
+
+    it('has one theme and no theme switch', () => {
+        const { container } = open('/');
+        expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
+        expect(container.querySelector('.theme-toggle')).toBeNull();
+    });
+
+    it('lets the visitor stop the turning badge', () => {
         open('/');
-        expect(document.documentElement.dataset.theme).toBe('dark');
-        fireEvent.click(screen.getByRole('button', { name: content.en.controls.switchToLight }));
-        expect(document.documentElement.dataset.theme).toBe('light');
-        expect(window.localStorage.getItem('kmads.theme')).toBe('light');
-        expect(screen.getByRole('button', { name: content.en.controls.switchToDark })).toBeTruthy();
+        const badge = screen.getByRole('button', { name: content.en.controls.stopBadge });
+        fireEvent.click(badge);
+        expect(screen.getByRole('button', { name: content.en.controls.playBadge }).dataset.spin).toBe('off');
+    });
+});
+
+describe('top bar', () => {
+    it('opens and closes the section links with the menu button', () => {
+        open('/');
+        const button = screen.getByRole('button', { name: content.en.nav.open });
+        expect(button.getAttribute('aria-expanded')).toBe('false');
+        fireEvent.click(button);
+        expect(screen.getByRole('button', { name: content.en.nav.close }).getAttribute('aria-expanded')).toBe('true');
+        fireEvent.keyDown(window, { key: 'Escape' });
+        expect(screen.getByRole('button', { name: content.en.nav.open }).getAttribute('aria-expanded')).toBe('false');
+    });
+});
+
+describe('illustrations', () => {
+    it('gives each drawing a text label in the current language', () => {
+        open('/?lang=pt');
+        for (const key of Object.keys(content.pt.art)) {
+            expect(screen.getByRole('img', { name: content.pt.art[key].label })).toBeTruthy();
+        }
     });
 });
 

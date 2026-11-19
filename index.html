@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kaique Souza (Kmads) · Backend Software Engineer</title>
     <meta name="description" content="Backend Software Engineer at PicPay. Java, Go, Python, PHP, SQL and MongoDB. Case files with architecture flowcharts, projects in production and the full experience record." />
     <meta name="author" content="Kaique Souza" />
-    <meta name="theme-color" content="#101010" />
+    <meta name="theme-color" content="#0B0B10" />
+    <meta name="color-scheme" content="dark" />
     <link rel="canonical" href="https://kmads.dev/" />
     <link rel="alternate" hreflang="en" href="https://kmads.dev/?lang=en" />
     <link rel="alternate" hreflang="pt-BR" href="https://kmads.dev/?lang=pt" />
@@ -43,12 +44,11 @@
     }
     </script>
 
-    <!-- Sets the saved theme and language before the first paint. -->
+    <!-- Sets the saved language before the first paint. -->
     <script>
         (function () {
             try {
                 var root = document.documentElement;
-                if (localStorage.getItem('kmads.theme') === 'light') root.dataset.theme = 'light';
                 var lang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('kmads.lang') || navigator.language || '';
                 if (lang.toLowerCase().slice(0, 2) === 'pt') root.lang = 'pt-BR';
             } catch (e) {}
@@ -58,7 +58,7 @@
 <body>
     <div id="root"></div>
     <noscript>
-        <div style="max-width: 640px; margin: 80px auto; padding: 0 24px; font-family: system-ui, sans-serif; color: #eee; background: #101010;">
+        <div style="max-width: 640px; margin: 80px auto; padding: 0 24px; font-family: system-ui, sans-serif; color: #eee; background: #0B0B10;">
             <h1>Kaique Souza (Kmads)</h1>
             <p>Backend Software Engineer at PicPay. This page needs JavaScript to show the case files and the projects.</p>
             <p>Engenheiro de Software Backend no PicPay. Esta página precisa de JavaScript para mostrar os casos e os projetos.</p>

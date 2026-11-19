@@ -1,23 +1,22 @@
-// First screen.
+// First screen: name, role, a short summary, the location and four links.
 import { facts } from '../facts.js';
 
-const { person, picpay } = facts;
+const { person, picpay, contact } = facts;
 
 export const hero = {
     status: `Software Engineer at ${picpay.name}`,
-    location: 'Brazil (UTC-3)',
     name: person.name,
-    alias: `also known as ${person.alias}`,
-    headline: 'I build backend systems and fix the ones nobody wants to open.',
-    lead: `Backend Software Engineer at ${picpay.name}. Java, Go, Python, PHP, SQL and MongoDB. I design systems that scale, and I give AI coding agents a structure to follow.`,
-    primaryCta: 'Read the case files',
-    secondaryCta: 'Send an email',
-    scroll: 'Scroll',
+    alias: person.aliasUpper,
+    role: 'Software Engineer',
+    focus: 'Architecture & Cloud',
+    summary: `I design and build backend systems, the cloud infrastructure under them and the pipelines that deploy them. I have ${person.yearsEngineering} years of engineering experience and ${person.yearsInTech} years in tech, and today I work on the credit card engines of ${picpay.name}.`,
+    location: [`${person.city}, ${person.state}, Brazil`, 'Remote', person.utc],
     localTime: 'Local time',
-    stats: [
-        { value: `${person.yearsEngineering}`, label: 'years of engineering work' },
-        { value: `${person.codingSince}`, label: 'first line of code' },
-        { value: picpay.bodyshop.customers, label: `customers in the scope of ${picpay.bodyshop.name}` },
-        { value: picpay.bodyshop.approvalRate, label: 'of pilot images approved with no manual work' },
+    links: [
+        { id: 'applications', label: 'Applications', href: '#applications' },
+        { id: 'github', label: 'GitHub', href: contact.github },
+        { id: 'linkedin', label: 'LinkedIn', href: contact.linkedin },
+        { id: 'email', label: 'Email', href: `mailto:${contact.email}` },
     ],
+    scroll: 'Scroll',
 };
