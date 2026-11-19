@@ -7,7 +7,7 @@
 // File names: <device>-<lang>-<nn>.jpg
 import { mkdir } from 'node:fs/promises';
 import { preview } from 'vite';
-import { chromium } from 'playwright-core';
+import { launchBrowser } from './browser.mjs';
 
 const args = process.argv.slice(2).filter((arg) => arg !== 'dark' && arg !== 'light');
 const [out, device = 'desktop', lang = 'en', ...targets] = args;
@@ -17,7 +17,7 @@ const viewport = custom ? { width: Number(custom[1]), height: Number(custom[2]) 
 const touch = viewport.width < 1024;
 await mkdir(out, { recursive: true });
 const server = await preview({ build: { outDir: process.env.PF_DIST || 'dist' }, preview: { port: 0, strictPort: false, open: false }, logLevel: 'silent' });
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launchBrowser();
 try {
     const context = await browser.newContext({ viewport, deviceScaleFactor: 1, hasTouch: touch, reducedMotion: process.env.PF_MOTION === 'reduce' ? 'reduce' : 'no-preference' });
     const page = await context.newPage();

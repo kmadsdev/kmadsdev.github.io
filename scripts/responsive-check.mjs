@@ -11,7 +11,7 @@
 //   - the hero badge on top of the hero text
 import { mkdir } from 'node:fs/promises';
 import { preview } from 'vite';
-import { chromium } from 'playwright-core';
+import { launchBrowser } from './browser.mjs';
 
 // Phones, a phone on its side, tablets, laptops, desktops, ultrawide screens.
 const SCREENS = [
@@ -24,7 +24,7 @@ const shotsDir = shotsIndex > -1 ? process.argv[shotsIndex + 1] : null;
 if (shotsDir) await mkdir(shotsDir, { recursive: true });
 
 const server = await preview({ build: { outDir: process.env.PF_DIST || 'dist' }, preview: { port: 0, strictPort: false, open: false }, logLevel: 'silent' });
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launchBrowser();
 const problems = [];
 
 try {

@@ -1,1 +1,204 @@
-/* applications: styles of this part only. Owner: its section agent. */
+/* Applications: src/components/Applications.jsx and src/components/applications/.
+   The grid, the tiles and the chapter come from bento.css. This file holds the
+   clip frame, the featured blocks, the gallery and the study rows. */
+
+#applications [id^="app-"],
+#applications [id^="applications-"] { scroll-margin-top: calc(var(--header-h) + var(--wh-rule-x) + 1.5rem); }
+
+/* ---------- Clip: a picture of a working app ----------
+   Fixed aspect ratio, poster first, the clip over it once it plays. */
+.clip {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--clip-ratio, 16 / 9);
+    overflow: hidden;
+    background: var(--c-ground);
+}
+.clip__frame { position: absolute; inset: 0; }
+.clip__poster,
+.clip__video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+.clip__video { opacity: 0; transition: opacity var(--wh-duration-base) linear; }
+.clip[data-playing="true"] .clip__video { opacity: 1; }
+/* An absent file: a quiet dot ground in place of the picture. */
+.clip[data-empty="true"] .clip__frame {
+    background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1.2px);
+    background-size: 12px 12px;
+}
+.clip__button {
+    position: absolute;
+    right: clamp(0.5rem, 0.3rem + 0.6vw, 0.875rem);
+    bottom: clamp(0.5rem, 0.3rem + 0.6vw, 0.875rem);
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--c-line-strong);
+    border-radius: 999px;
+    background: rgb(11 11 16 / 0.78);
+    color: var(--c-text-strong);
+    cursor: pointer;
+    transition: background-color var(--wh-duration-fast) linear, border-color var(--wh-duration-fast) linear, color var(--wh-duration-fast) linear;
+}
+.clip__button:hover { border-color: var(--c-red); background: var(--c-red); color: var(--c-on-red); }
+.clip__button:focus-visible { border-radius: 999px; }
+
+/* A clip inside a media tile fills the figure (the tile next to it may be taller). */
+.tile--media .tile__figure > .clip { height: 100%; }
+.app-tile .tile__figure { place-items: stretch; }
+
+/* ---------- Featured applications ---------- */
+.app-features { display: grid; gap: clamp(5rem, 3rem + 6vw, 9rem); }
+.app-features + .app-bento { margin-top: clamp(5rem, 3rem + 6vw, 9rem); }
+
+.app-feature__head { display: grid; justify-items: start; gap: var(--wh-space-3); max-width: 48rem; margin-bottom: clamp(1.75rem, 1.25rem + 1.5vw, 2.75rem); }
+.app-feature__name { font-size: clamp(1.75rem, 1.1rem + 2.2vw, 3.25rem); }
+.app-feature__tagline { margin: 0; max-width: 40ch; font-size: clamp(1.0625rem, 0.98rem + 0.4vw, 1.3125rem); line-height: 1.45; color: var(--c-text-muted); text-wrap: balance; }
+.app-status { font: var(--wh-weight-medium) 0.8125rem / 1.25rem var(--wh-font-mono); letter-spacing: 0.04em; }
+
+/* The main object, large, with the one soft red light of the view behind it. */
+.app-feature__main { position: relative; }
+.app-feature__main::before {
+    content: "";
+    position: absolute;
+    inset: -3rem 0 auto;
+    height: 75%;
+    background: radial-gradient(55% 70% at 50% 45%, rgb(255 1 79 / 0.13), transparent 72%);
+    pointer-events: none;
+}
+.app-feature__main > * { position: relative; }
+
+.app-feature__body { margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem); }
+.app-feature__body > .chapter-text { gap: var(--wh-space-8); }
+.app-feature__side { display: grid; align-content: start; gap: var(--wh-space-8); min-width: 0; }
+
+.app-block { display: grid; gap: var(--wh-space-3); min-width: 0; }
+.app-block__list { display: grid; gap: var(--wh-space-3); margin: 0; padding: 0; list-style: none; }
+.app-block__list li { position: relative; padding-left: 1.25rem; }
+.app-block__list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.8em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--c-line-control);
+}
+.app-feature__side .app-block__list { font-size: 0.9375rem; line-height: 1.6; color: var(--c-text); }
+
+.app-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--wh-space-3) var(--wh-space-5); font-size: 0.9375rem; }
+.app-links__label { flex-basis: 100%; }
+.app-links__live + .app-links__label { margin-top: var(--wh-space-2); }
+.app-links__private { padding: 0.375rem 0.625rem; border: 1px dashed var(--c-line-control); border-radius: var(--r-chip); }
+.app-stack { max-width: 40rem; }
+
+/* ---------- Gallery of the flagship ---------- */
+.gallery { display: grid; gap: var(--wh-space-4); }
+.gallery__main { display: grid; gap: var(--wh-space-3); margin: 0; }
+.gallery__main > .clip { border: 1px solid var(--c-line); border-radius: var(--r-tile); }
+.gallery__caption { display: flex; gap: var(--wh-space-4); max-width: 72ch; font-size: 0.9375rem; line-height: 1.55; color: var(--c-text-muted); }
+.gallery__count { flex: none; padding-top: 0.125rem; font: var(--wh-weight-medium) 0.75rem / 1.25rem var(--wh-font-mono); letter-spacing: 0.04em; color: var(--c-text-faint); font-variant-numeric: tabular-nums; }
+.gallery__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(6.5rem, 30%), 1fr));
+    gap: var(--wh-space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.gallery__thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-control);
+    background: var(--c-ground);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity var(--wh-duration-fast) linear, border-color var(--wh-duration-fast) linear;
+}
+.gallery__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.gallery__thumb:hover { opacity: 0.92; border-color: var(--c-line-strong); }
+.gallery__thumb[aria-pressed="true"] { opacity: 1; border-color: var(--c-red); }
+.gallery__thumb:focus-visible { border-radius: var(--r-control); opacity: 1; }
+.gallery__kind {
+    position: absolute;
+    left: 0.375rem;
+    bottom: 0.375rem;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: rgb(11 11 16 / 0.8);
+    color: var(--c-text-strong);
+}
+
+/* ---------- Ruph: the case file as a flowchart ---------- */
+.app-case { display: grid; gap: var(--wh-space-8) clamp(2rem, 1rem + 3vw, 4rem); }
+.app-case__chart { min-width: 0; }
+.app-case__side { display: grid; align-content: start; gap: var(--wh-space-6); min-width: 0; }
+.app-case__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--wh-space-4); margin: 0; }
+.app-case__stats > div { display: grid; align-content: start; gap: var(--wh-space-1); padding-top: var(--wh-space-3); border-top: 1px solid var(--c-line); }
+.app-case__stats dt { order: 2; font-size: 0.8125rem; line-height: 1.4; color: var(--c-text-muted); }
+.app-case__stats dd {
+    order: 1;
+    margin: 0;
+    font-family: var(--wh-font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--c-text-strong);
+}
+@media (min-width: 1100px) {
+    .app-case { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+}
+
+/* ---------- Bento of the other live applications ---------- */
+.app-tile .tile__body { gap: var(--wh-space-3); }
+.app-tile .app-links { margin-top: var(--wh-space-1); }
+
+/* ---------- Study projects: compact rows ---------- */
+.study { display: grid; margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--c-line); }
+.study__item {
+    display: grid;
+    gap: var(--wh-space-5) clamp(2rem, 1rem + 3vw, 4rem);
+    padding-block: clamp(1.75rem, 1.25rem + 1.5vw, 2.75rem);
+    border-top: 1px solid var(--c-line);
+}
+.study__body { display: grid; align-content: start; gap: var(--wh-space-3); min-width: 0; max-width: 68ch; }
+.study__name { margin: 0; font: var(--wh-weight-semibold) clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem) / 1.25 var(--wh-font-mono); letter-spacing: -0.01em; color: var(--c-text-strong); overflow-wrap: anywhere; }
+.study__tagline { margin: 0; font-size: 1.0625rem; line-height: 1.45; color: var(--c-text-strong); }
+.study__text { margin: 0; font-size: 0.9375rem; line-height: 1.65; color: var(--c-text-muted); }
+.study__body .app-stack { margin-top: var(--wh-space-1); }
+.study__media { min-width: 0; }
+.study__media > .clip { border: 1px solid var(--c-line); border-radius: var(--r-tile); }
+@media (min-width: 900px) {
+    .study__item[data-media] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+}
+@media (max-width: 899.98px) {
+    .study__media { max-width: 32rem; }
+}
+
+/* ---------- End of the section ---------- */
+.apps-foot { display: grid; gap: var(--wh-space-3); max-width: 68ch; margin-top: clamp(3rem, 2rem + 3vw, 5rem); font-size: 1rem; line-height: 1.6; color: var(--c-text); }
+.apps-foot p { margin: 0; }
+.apps-foot__note { font-size: 0.875rem; color: var(--c-text-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+    .clip__video, .clip__button, .gallery__thumb { transition: none; }
+}

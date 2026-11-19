@@ -141,6 +141,13 @@ export const facts = {
         },
     },
 
+    // Given by Kmads on 2026-11-18. A hobby gets one short line: a mention, not a claim to build on.
+    hobbies: {
+        gym: { years: 3, bench: '110 kg', deadlift: '120 kg' },
+        basketball: { years: 1 },
+        chess: { years: 3, rating: '1600', bot: 'Komodo21', botRating: '2500', site: 'chess.com' },
+    },
+
     earlier: {
         // His LinkedIn profile: bots, webhooks, Minescord, Glitch and Discloud.
         discord: {

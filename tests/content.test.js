@@ -131,7 +131,8 @@ describe('text rules (CONTRACT.md section 2)', () => {
     it('names ArgoCD, Tekton and SQS in the PicPay context only', () => {
         const found = whole.filter(([p, v]) => {
             if (!/\b(argocd|tekton|sqs)\b/i.test(v)) return false;
-            const inPicpay = /PicPay|BodyShop/.test(v) || /experience\.items\[0\]|clouds\.aws/.test(p);
+            // cases.items[1] is the BodyShop case file (PicPay work).
+            const inPicpay = /PicPay|BodyShop/.test(v) || /experience\.items\[0\]|clouds\.aws|cases\.items\[1\]/.test(p);
             return !inPicpay;
         });
         expect(found.map(([p, v]) => `${p}: ${v}`)).toEqual([]);
@@ -501,7 +502,7 @@ describe('applications and more', () => {
         expect(content.en.more.languages.items.map((item) => `${item.name} ${item.level}`)).toEqual(['Portuguese Native', 'English C1', 'Spanish Basic']);
         expect(facts.earlier.reddit).toMatchObject({ start: 2022, end: 2024, people: '250+' });
         for (const lang of LANGS) {
-            expect(content[lang].more.hobbies.items.map((item) => item.id)).toEqual(['ecu', 'pc', 'gym', 'basketball', 'running']);
+            expect(content[lang].more.hobbies.items.map((item) => item.id)).toEqual(['ecu', 'pc', 'gym', 'basketball', 'chess']);
             for (const hobby of content[lang].more.hobbies.items) expect(sentences(hobby.text), hobby.id).toBeLessThanOrEqual(2);
             expect(content[lang].more.future.items.map((item) => item.id)).toEqual(facts.future.map((item) => item.id));
         }

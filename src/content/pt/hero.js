@@ -13,7 +13,7 @@ export const hero = {
     location: [`${person.city}, ${person.state}, Brasil`, 'Remoto', person.utc],
     localTime: 'Hora local',
     links: [
-        { id: 'applications', label: 'Aplicações', href: '#applications' },
+        { id: 'applications', label: 'Aplicações', href: '/projects' },
         { id: 'github', label: 'GitHub', href: contact.github },
         { id: 'linkedin', label: 'LinkedIn', href: contact.linkedin },
         { id: 'email', label: 'Email', href: `mailto:${contact.email}` },

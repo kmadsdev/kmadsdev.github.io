@@ -18,5 +18,10 @@ export const contact = {
 export const controls = {
     external: 'abre em uma nova aba',
     stopBadge: 'Parar o selo',
+    // Textos longos e detalhes abrem no lugar.
+    readMore: 'Ler a história completa',
+    readLess: 'Mostrar menos',
+    showDetails: 'Mostrar os detalhes',
+    hideDetails: 'Ocultar os detalhes',
     playBadge: 'Girar o selo',
 };

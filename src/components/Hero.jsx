@@ -5,6 +5,7 @@ import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import Badge from './Badge.jsx';
 import DotField from './DotField.jsx';
 import Icon from './Icon.jsx';
+import { PROJECTS_PATH, openProjects } from '../routes.js';
 
 const clock = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' });
 
@@ -26,6 +27,7 @@ function HeroLink({ link, external }) {
         <a
             className={`button ${link.id === 'applications' ? 'button-primary' : ''}`.trim()}
             href={link.href}
+            onClick={link.href === PROJECTS_PATH ? openProjects : undefined}
             {...(outside ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
             {link.id === 'email' ? <Icon name={ICON.email} /> : null}

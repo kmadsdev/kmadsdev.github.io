@@ -55,8 +55,6 @@ export const intro = {
                 '.',
             ],
         ],
-        // The last line of his LinkedIn "About". Optional for the section agent.
-        signature: 'Always building and always learning.',
     },
 
     chaptersLabel: 'What I do',
@@ -470,9 +468,9 @@ export const intro = {
                 nodes: {
                     cloudfront: { label: 'CloudFront', use: `Serves ${bodyshop.name} images and the ${survey.name} app` },
                     s3: { label: 'S3', use: `${bodyshop.name} images at fixed paths, ${hivemind.name} model files` },
-                    sqs: { label: 'SQS', use: `Queue in the ${bodyshop.name} stack` },
+                    sqs: { label: 'SQS', use: `Queue between the app request and the image service of ${bodyshop.name}` },
                     ec2: { label: 'EC2', use: `${hivemind.name} API and ML service` },
-                    rds: { label: 'RDS', use: 'Managed relational databases' },
+                    rds: { label: 'RDS', use: `PostgreSQL at ${picpay.name}: client accounts, issued cards, transactions` },
                 },
             },
             gcp: {

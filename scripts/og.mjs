@@ -1,10 +1,10 @@
 // Makes public/og.png (1200 x 630), the image that link previews show.
 // Run after a change of the hero: npm run build && node scripts/og.mjs
 import { preview } from 'vite';
-import { chromium } from 'playwright-core';
+import { launchBrowser } from './browser.mjs';
 
 const server = await preview({ preview: { port: 0, strictPort: false, open: false }, logLevel: 'silent' });
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launchBrowser();
 try {
     const page = await (await browser.newContext({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1, reducedMotion: 'reduce' })).newPage();
     await page.goto(`${server.resolvedUrls.local[0]}?lang=en`, { waitUntil: 'networkidle' });

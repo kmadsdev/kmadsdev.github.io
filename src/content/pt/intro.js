@@ -57,8 +57,6 @@ export const intro = {
                 '.',
             ],
         ],
-        // A última linha do "Sobre" dele no LinkedIn (em inglês lá). Opcional para o agente da seção.
-        signature: 'Sempre construindo e sempre aprendendo.',
     },
 
     chaptersLabel: 'O que eu faço',
@@ -477,9 +475,9 @@ export const intro = {
                 nodes: {
                     cloudfront: { label: 'CloudFront', use: `Entrega as imagens do ${bodyshop.name} e o app do ${survey.name}` },
                     s3: { label: 'S3', use: `Imagens do ${bodyshop.name} em caminhos fixos, arquivos de modelo do ${hivemind.name}` },
-                    sqs: { label: 'SQS', use: `Fila na stack do ${bodyshop.name}` },
+                    sqs: { label: 'SQS', use: `Fila entre o pedido do app e o serviço de imagens do ${bodyshop.name}` },
                     ec2: { label: 'EC2', use: `API e serviço de ML do ${hivemind.name}` },
-                    rds: { label: 'RDS', use: 'Bancos de dados relacionais gerenciados' },
+                    rds: { label: 'RDS', use: `PostgreSQL no ${picpay.name}: contas de clientes, cartões emitidos, transações` },
                 },
             },
             gcp: {

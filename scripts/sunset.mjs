@@ -10,14 +10,14 @@ import { mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright-core';
+import { launchBrowser } from './browser.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const svg = await readFile(join(root, 'scripts/sources/sunset.svg'), 'utf8');
 const WIDTH = 1440;
 const HEIGHT = 844;
 const work = await mkdtemp(join(tmpdir(), 'sunset-'));
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launchBrowser();
 try {
     for (const scale of [1, 2]) {
         const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: scale });

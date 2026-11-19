@@ -18,5 +18,10 @@ export const contact = {
 export const controls = {
     external: 'opens in a new tab',
     stopBadge: 'Stop the badge',
+    // Disclosures: long text and details open in place.
+    readMore: 'Read the full story',
+    readLess: 'Show less',
+    showDetails: 'Show the details',
+    hideDetails: 'Hide the details',
     playBadge: 'Turn the badge',
 };

@@ -10,4 +10,4 @@ export { applications } from './applications.js';
 export { more } from './more.js';
 export { contact, controls } from './contact.js';
 // Temporary: the drawings of the kit chapter (foundation). It leaves when the introduction lands.
-export { art, showcase } from './art.js';
+export { art } from './art.js';

@@ -41,11 +41,11 @@ export const applications = {
                 {
                     media: {
                         preview: { caption: 'Um visitante roda a simulação, e o diagrama acende o caminho daquela requisição.', alt: `Clipe do site do ${c.name}: o formulário de simulação e depois o diagrama da requisição com o tempo de cada etapa.` },
-                        lifecycle: { caption: 'As etapas da subida de um cluster, como a página da janela de acesso mostra. Este clipe é uma simulação.', alt: 'Clipe da página da janela de acesso: as etapas da subida de um cluster AKS, uma depois da outra, até a janela ficar pronta.' },
+                        lifecycle: { caption: 'O replay de um start gravado do cluster AKS, a 8 vezes a velocidade real.', alt: `Clipe do site do ${c.name}: o replay do start de um cluster AKS, etapa por etapa, até o cluster ficar pronto.` },
                         api: { caption: 'A API sozinha, em uma execução local: um convênio, um cliente e um empréstimo de 84 meses.', alt: 'Gravação de terminal: o curl cria um convênio e um cliente, depois simula um empréstimo e mostra a parcela.' },
-                        'still-1': { caption: `${c.name}, tela 1 de 3.`, alt: `Tela do site do ${c.name}, imagem 1 de 3.` },
-                        'still-2': { caption: `${c.name}, tela 2 de 3.`, alt: `Tela do site do ${c.name}, imagem 2 de 3.` },
-                        'still-3': { caption: `${c.name}, tela 3 de 3.`, alt: `Tela do site do ${c.name}, imagem 3 de 3.` },
+                        'still-1': { caption: 'A simulação rápida: o formulário com o resultado, e se a parcela cabe na margem.', alt: `Tela do site do ${c.name}: o formulário da simulação rápida com o resultado e a checagem da margem.` },
+                        'still-2': { caption: 'Uma simulação warm como trace, com o Request Inspector aberto na mesma requisição.', alt: `Tela do site do ${c.name}: o trace de uma requisição do navegador até a API Spring Boot, e o painel Request Inspector.` },
+                        'still-3': { caption: 'O replay de um start do cluster AKS, cada etapa com o tempo medido.', alt: `Tela do site do ${c.name}: o diagrama do start de um cluster AKS no fim do replay.` },
                     },
                     architecture: [
                         `Edge: um Worker da Cloudflare com TLS, cache para arquivos estáticos e limite de ${c.rateLimit.requests} requisições a cada ${c.rateLimit.seconds} s por IP na API.`,

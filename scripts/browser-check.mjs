@@ -9,7 +9,7 @@
 // The site has one theme, so there is no theme step. The server stops when the script ends.
 import { mkdir } from 'node:fs/promises';
 import { preview } from 'vite';
-import { chromium } from 'playwright-core';
+import { launchBrowser } from './browser.mjs';
 
 const shotsIndex = process.argv.indexOf('--shots');
 const shotsDir = shotsIndex > -1 ? process.argv[shotsIndex + 1] : null;
@@ -23,7 +23,7 @@ const SECTIONS = ['top', 'intro', 'experience', 'education', 'applications', 'mo
 
 const server = await preview({ build: { outDir: process.env.PF_DIST || 'dist' }, preview: { port: 0, strictPort: false, open: false }, logLevel: 'silent' });
 const base = server.resolvedUrls.local[0];
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launchBrowser();
 const problems = [];
 
 try {

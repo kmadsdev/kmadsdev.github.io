@@ -9,12 +9,14 @@ import Applications from './components/Applications.jsx';
 import More from './components/More.jsx';
 import { Contact, Footer } from './components/Outro.jsx';
 import ArtLab from './components/intro/ArtLab.jsx';
+import { useProjectsPath } from './routes.js';
 
 // TEMPORARY review switch: ?artlab=1 shows only the drawings.
 const artLab = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('artlab');
 
 function Page() {
     const { t } = useLanguage();
+    useProjectsPath();
     return (
         <>
             <a className="skip-link" href="#main">{t.nav.skip}</a>

@@ -197,78 +197,98 @@
 .wh-seg__option:focus-visible { outline: 0; box-shadow: var(--wh-focus-ring); position: relative; }
 
 /* ---------- Flowchart ----------
-   Nodes and edges in SVG. One edge is active at a time; a packet moves on it. */
+   Nodes and edges in SVG. One edge is active at a time: its line is red and a
+   packet (the signal gradient: data on its way) moves on it. The frame has the
+   tile look: a mono label on top, the drawing in an inner frame on the ground,
+   the sentence of the active step below. */
 .wh-flow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     min-width: 0;
     margin: 0;
+    padding: 0.5rem;
     overflow: hidden;
-    border: 1px solid var(--wh-color-line);
+    border: 1px solid var(--c-line-soft);
     border-radius: var(--r-tile);
-    background: var(--wh-color-surface);
+    background: var(--c-tile);
 }
 .wh-flow__bar {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: var(--wh-space-3);
-    padding: var(--wh-space-2) var(--wh-space-3);
-    border-bottom: 1px solid var(--wh-color-line);
+    gap: var(--wh-space-2) var(--wh-space-3);
+    min-height: 2.75rem;
+    padding: 0.25rem 0.25rem 0.5rem calc(var(--tile-pad) - 0.5rem);
 }
-.wh-flow__title { margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wh-flow__controls { display: flex; align-items: center; gap: 2px; flex: none; }
-.wh-flow__count { margin-right: var(--wh-space-2); font: var(--wh-text-xs) / 1 var(--wh-font-mono); font-variant-numeric: tabular-nums; color: var(--wh-color-text-muted); }
+.wh-flow__title {
+    flex: 1 1 12rem;
+    margin: 0;
+    min-width: 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--c-text-faint);
+}
+.wh-flow__controls { display: flex; align-items: center; gap: 2px; flex: none; margin-left: auto; }
+.wh-flow__count { margin-right: var(--wh-space-2); font: var(--wh-text-xs) / 1 var(--wh-font-mono); font-variant-numeric: tabular-nums; color: var(--c-text-muted); }
 .wh-flow__button {
     display: inline-grid;
     place-items: center;
-    width: var(--wh-control-sm);
-    height: var(--wh-control-sm);
+    width: var(--wh-control-md);
+    height: var(--wh-control-md);
     padding: 0;
-    border: 1px solid transparent;
-    border-radius: var(--wh-radius-sm);
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
     background: transparent;
-    color: var(--wh-color-text);
+    color: var(--c-text-strong);
     cursor: pointer;
+    transition: background-color var(--wh-duration-instant) linear, border-color var(--wh-duration-instant) linear, transform var(--wh-duration-instant) var(--wh-ease-out);
 }
-.wh-flow__button:hover { background: var(--wh-color-surface-hover); color: var(--wh-color-text-strong); }
-.wh-flow__button:active { transform: scale(0.97); }
-.wh-flow__button:focus-visible { outline: 0; box-shadow: var(--wh-focus-ring); }
+.wh-flow__button:hover { background: var(--c-tile-3); border-color: var(--c-line-strong); }
+.wh-flow__button:active { transform: scale(0.96); }
+.wh-flow__button:focus-visible { outline: 0; border-radius: 999px; box-shadow: var(--wh-focus-ring); }
 .wh-flow__stage {
     overflow-x: auto;
-    background-image: radial-gradient(circle, var(--wh-color-line-strong) 1px, transparent 1.2px);
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-line-control) transparent;
+    border-radius: calc(var(--r-tile) - 0.5rem);
+    background-color: var(--c-ground);
+    background-image: radial-gradient(circle, rgb(255 255 255 / 0.07) 1px, transparent 1.2px);
     background-size: 16px 16px;
     background-position: 8px 8px;
 }
-.wh-flow__svg { display: block; width: 100%; min-width: 31rem; height: auto; }
-.wh-flow__edge { fill: none; stroke: var(--wh-color-line-control); stroke-width: 1; transition: stroke var(--wh-duration-base) var(--wh-ease-out); }
+.wh-flow__stage:focus-visible { box-shadow: var(--wh-focus-ring); }
+/* The chart never shrinks below about 92% of its drawn size: the frame scrolls instead. */
+.wh-flow__svg { display: block; width: 100%; min-width: calc(var(--flow-w, 34rem) * 0.92); height: auto; }
+.wh-flow__edge { fill: none; stroke: var(--c-line-control); stroke-width: 1; transition: stroke var(--wh-duration-base) var(--wh-ease-out); }
 .wh-flow__edge--link { stroke-dasharray: 2 5; }
-.wh-flow__edge[data-state="active"] { stroke: var(--wh-color-accent); stroke-width: 1.5; }
-.wh-flow__head { fill: var(--wh-color-line-control); transition: fill var(--wh-duration-base) var(--wh-ease-out); }
-.wh-flow__head[data-state="active"] { fill: var(--wh-color-accent); }
+.wh-flow__edge[data-state="active"] { stroke: var(--c-red); stroke-width: 1.5; }
+.wh-flow__head { fill: var(--c-line-control); transition: fill var(--wh-duration-base) var(--wh-ease-out); }
+.wh-flow__head[data-state="active"] { fill: var(--c-red); }
 .wh-flow__node rect {
-    rx: 6px;
-    fill: var(--wh-color-surface-raised);
-    stroke: var(--wh-color-line-strong);
-    stroke-width: 1;
+    fill: var(--c-tile-2);
+    stroke: rgb(255 255 255 / 0.16);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
     transition: stroke var(--wh-duration-base) var(--wh-ease-out), fill var(--wh-duration-base) var(--wh-ease-out);
 }
-.wh-flow__node[data-state="active"] rect { stroke: var(--wh-color-text-strong); fill: var(--wh-color-surface-hover); }
-.wh-flow__node-name { font: var(--wh-weight-medium) 12.5px var(--wh-font-sans); fill: var(--wh-color-text); }
-.wh-flow__node[data-state="active"] .wh-flow__node-name { fill: var(--wh-color-text-strong); }
-.wh-flow__node-sub { font: 10.5px var(--wh-font-mono); fill: var(--wh-color-text-muted); }
-.wh-flow__pin { fill: var(--wh-color-line-control); }
-.wh-flow__node[data-state="active"] .wh-flow__pin { fill: var(--wh-color-signal); }
-.wh-flow__packet { fill: var(--wh-color-accent); }
+.wh-flow__node[data-state="active"] rect { stroke: var(--c-text-strong); fill: var(--c-tile-3); }
+.wh-flow__node-name { font: var(--wh-weight-medium) 13px var(--wh-font-sans); fill: var(--c-text); }
+.wh-flow__node[data-state="active"] .wh-flow__node-name { fill: var(--c-text-strong); }
+.wh-flow__node-sub { font: 11px var(--wh-font-mono); fill: var(--c-text-muted); }
+.wh-flow__pin { fill: rgb(255 255 255 / 0.16); transition: fill var(--wh-duration-base) var(--wh-ease-out); }
+.wh-flow__node[data-state="active"] .wh-flow__pin { fill: var(--c-red); }
 .wh-flow__caption {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     gap: var(--wh-space-3);
     align-items: baseline;
-    min-height: calc(var(--wh-leading-md) * 3 + var(--wh-space-6));
-    padding: var(--wh-space-3);
-    border-top: 1px solid var(--wh-color-line);
+    min-height: calc(1.5rem * 3 + 1.75rem);
+    padding: 1rem calc(var(--tile-pad) - 0.5rem) 0.75rem;
 }
-.wh-flow__caption-index { font: var(--wh-weight-medium) var(--wh-text-xs) / var(--wh-leading-md) var(--wh-font-mono); color: var(--wh-color-accent-text); }
-.wh-flow__caption-text { margin: 0; font-size: var(--wh-text-md); line-height: var(--wh-leading-md); color: var(--wh-color-text-strong); }
+.wh-flow__caption-index { font: var(--wh-weight-medium) var(--wh-text-xs) / 1.5rem var(--wh-font-mono); font-variant-numeric: tabular-nums; color: var(--c-red-text); }
+.wh-flow__caption-text { margin: 0; font-size: 1rem; line-height: 1.5rem; color: var(--c-text-strong); text-wrap: pretty; }
 
 /* The same steps as a list. The active step has the red index. */
 .wh-steps { margin: 0; padding: 0; list-style: none; counter-reset: step; border-bottom: 1px solid var(--wh-color-line); }

@@ -1,1 +1,51 @@
-/* more: styles of this part only. Owner: its section agent. */
+/* More: src/components/More.jsx. An honourable mention at the end of the page:
+   four quiet tiles, no drawing. The grid and the tiles come from bento.css. */
+
+#more [id^="more-"] { scroll-margin-top: calc(var(--header-h) + var(--wh-rule-x) + 1.5rem); }
+
+/* Content starts at the top (the kit puts a tile with no figure at the bottom). */
+.tile.more-tile .tile__body { gap: var(--wh-space-4); align-content: start; }
+
+/* Volunteering: the number, the role, the text. */
+.more-volunteer__head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--wh-space-3) var(--wh-space-6); }
+.more-volunteer__value { margin: 0; font-size: clamp(2.5rem, 1.9rem + 2.2vw, 4rem); }
+.more-volunteer__role { display: grid; gap: var(--wh-space-1); padding-bottom: 0.3rem; }
+.more-meta { margin: 0; font: var(--wh-weight-medium) 0.8125rem / 1.25rem var(--wh-font-mono); letter-spacing: 0.04em; color: var(--c-text-muted); }
+.more-volunteer__text { max-width: 62ch; }
+
+/* Rows: a name and its value, with a hairline between rows. */
+.more-rows { display: grid; margin: 0; }
+.more-rows__row { display: grid; gap: var(--wh-space-1) var(--wh-space-5); padding-block: 0.625rem; border-top: 1px solid var(--c-line); }
+.more-rows__row:first-child { border-top: 0; padding-top: 0; }
+.more-rows dt { min-width: 0; color: var(--c-text-strong); }
+.more-rows dd { margin: 0; min-width: 0; }
+
+/* Languages: name left, level right. */
+.more-languages__row { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; }
+.more-languages__row dt { display: flex; align-items: baseline; gap: var(--wh-space-3); font-size: 1rem; color: var(--c-text); }
+.more-languages__code { font: var(--wh-weight-medium) 0.75rem / 1 var(--wh-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-text-faint); }
+.more-languages__level {
+    font-family: var(--wh-font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(1.125rem, 0.95rem + 0.6vw, 1.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--c-text-strong);
+    text-align: right;
+}
+
+/* Hobbies: a short list, the name and one or two lines. */
+.more-hobbies__row dt { font-weight: var(--wh-weight-semibold); font-size: 0.9375rem; }
+.more-hobbies__row dd { font-size: 0.9375rem; line-height: 1.55; color: var(--c-text-muted); text-wrap: pretty; }
+.more-hobbies__row .link { font-size: 0.875rem; }
+@media (min-width: 600px) {
+    .more-hobbies__row { grid-template-columns: 9.5rem minmax(0, 1fr); }
+}
+
+/* Future projects: a link and its line. */
+.more-future__list { display: grid; gap: var(--wh-space-5); margin: 0; padding: 0; list-style: none; }
+.more-future__list li { display: grid; gap: var(--wh-space-2); }
+.more-future__list p { margin: 0; font-size: 0.9375rem; line-height: 1.55; color: var(--c-text-muted); }
+.more-future__name { font-weight: var(--wh-weight-semibold); color: var(--c-text-strong); }
+.more-future__note { color: var(--c-text-faint); }

@@ -1,7 +1,8 @@
-// Writes dist/404.html from the text files, so the 404 page has no text of its own.
+// Writes dist/404.html from the text files, so the 404 page has no text of its own,
+// and dist/projects.html as a copy of the page.
 // The folder is `dist`, or the folder in the PF_DIST environment variable.
 // GitHub Pages serves this file for every address that does not exist.
-import { writeFile } from 'node:fs/promises';
+import { copyFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { content } from '../src/content/index.js';
 
@@ -55,3 +56,7 @@ a:focus-visible { outline: 2px solid var(--strong); outline-offset: 2px; }
 `;
 await writeFile(resolve(dist, '404.html'), html);
 console.log(`${dist}/404.html written`);
+
+// kmads.dev/projects is this page at the "Applications" section (src/routes.js).
+await copyFile(resolve(dist, 'index.html'), resolve(dist, 'projects.html'));
+console.log(`${dist}/projects.html written`);

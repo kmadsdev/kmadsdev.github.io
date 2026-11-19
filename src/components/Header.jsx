@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import { LANGS } from '../i18n/language.js';
 import { useActiveSection } from '../hooks.js';
+import { PROJECTS_PATH, openProjects } from '../routes.js';
 
 export function LanguageToggle() {
     const { lang, setLang, t } = useLanguage();
@@ -56,7 +57,14 @@ export default function Header() {
                 <ul>
                     {t.nav.items.map((item) => (
                         <li key={item.id}>
-                            <a href={`#${item.id}`} aria-current={active === item.id ? 'true' : undefined} onClick={() => setOpen(false)}>
+                            <a
+                                href={item.id === 'applications' ? PROJECTS_PATH : `#${item.id}`}
+                                aria-current={active === item.id ? 'true' : undefined}
+                                onClick={(event) => {
+                                    setOpen(false);
+                                    if (item.id === 'applications') openProjects(event);
+                                }}
+                            >
                                 {item.label}
                             </a>
                         </li>

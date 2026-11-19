@@ -41,11 +41,11 @@ export const applications = {
                 {
                     media: {
                         preview: { caption: 'A guest runs the loan preview, and the diagram lights the path of that request.', alt: `Clip of the ${c.name} site: the loan preview form, then the request diagram with the time of each stage.` },
-                        lifecycle: { caption: 'The stages of a cluster start, as the access window page shows them. This clip is a simulation.', alt: 'Clip of the access window page: the stages of an AKS cluster start, one after the other, until the window is ready.' },
+                        lifecycle: { caption: 'A replay of one recorded AKS cluster start, at 8 times the real speed.', alt: `Clip of the ${c.name} site: the replay of an AKS cluster start, stage by stage, until the cluster is ready.` },
                         api: { caption: 'The API alone, in a local run: an agreement, a customer and a loan of 84 months.', alt: 'Terminal recording: curl creates an agreement and a customer, then simulates a loan and prints the installment.' },
-                        'still-1': { caption: `${c.name}, screen 1 of 3.`, alt: `Screen of the ${c.name} site, picture 1 of 3.` },
-                        'still-2': { caption: `${c.name}, screen 2 of 3.`, alt: `Screen of the ${c.name} site, picture 2 of 3.` },
-                        'still-3': { caption: `${c.name}, screen 3 of 3.`, alt: `Screen of the ${c.name} site, picture 3 of 3.` },
+                        'still-1': { caption: 'The loan preview: the form with its result, and whether the installment fits the margin.', alt: `Screen of the ${c.name} site: the loan preview form with its result and the margin check.` },
+                        'still-2': { caption: 'One warm preview as a trace, with the Request Inspector open on the same request.', alt: `Screen of the ${c.name} site: the trace of one request from the browser to the Spring Boot API, and the Request Inspector panel.` },
+                        'still-3': { caption: 'The replay of one AKS cluster start, each stage with its measured time.', alt: `Screen of the ${c.name} site: the diagram of an AKS cluster start at the end of its replay.` },
                     },
                     architecture: [
                         `Edge: a Cloudflare Worker with TLS, a cache for static files and a limit of ${c.rateLimit.requests} requests per ${c.rateLimit.seconds} s per IP on the API.`,

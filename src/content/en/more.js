@@ -1,9 +1,9 @@
 // "More" section: volunteering, languages, hobbies and future projects.
-// One honest line for each hobby. No record, no team, no detail without a source.
+// A short mention for each hobby, with the details that Kmads gave. Numbers are in facts.hobbies.
 import { facts } from '../facts.js';
 import { years } from '../format.js';
 
-const { earlier, contact } = facts;
+const { earlier, contact, hobbies } = facts;
 const { reddit } = earlier;
 
 export const more = {
@@ -40,9 +40,9 @@ export const more = {
                 link: { label: 'open-civic', to: contact.carRepo },
             },
             { id: 'pc', title: 'PC hardware', text: 'I build PCs and homelabs, and I read the benchmarks before I buy a part.', link: null },
-            { id: 'gym', title: 'Gym', text: 'I train at the gym.', link: null },
-            { id: 'basketball', title: 'Basketball', text: 'I play basketball for fun.', link: null },
-            { id: 'running', title: 'Running', text: 'I run.', link: null },
+            { id: 'gym', title: 'Gym', text: `I have trained for ${hobbies.gym.years} years, mostly hypertrophy and powerlifting. My best bench press is ${hobbies.gym.bench} and my best deadlift is ${hobbies.gym.deadlift}.`, link: null },
+            { id: 'basketball', title: 'Basketball', text: `I have played for ${hobbies.basketball.years} year, on weekends with friends.`, link: null },
+            { id: 'chess', title: 'Chess', text: `I have played for ${hobbies.chess.years} years and my rating is above ${hobbies.chess.rating}. I once beat ${hobbies.chess.bot}, a ${hobbies.chess.site} bot rated ${hobbies.chess.botRating}.`, link: null },
         ],
     },
     future: {

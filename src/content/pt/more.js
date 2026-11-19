@@ -3,7 +3,7 @@
 import { facts } from '../facts.js';
 import { years } from '../format.js';
 
-const { earlier, contact } = facts;
+const { earlier, contact, hobbies } = facts;
 const { reddit } = earlier;
 
 export const more = {
@@ -40,9 +40,9 @@ export const more = {
                 link: { label: 'open-civic', to: contact.carRepo },
             },
             { id: 'pc', title: 'Hardware de PC', text: 'Monto PCs e homelabs, e leio os benchmarks antes de comprar uma peça.', link: null },
-            { id: 'gym', title: 'Academia', text: 'Treino na academia.', link: null },
-            { id: 'basketball', title: 'Basquete', text: 'Jogo basquete por diversão.', link: null },
-            { id: 'running', title: 'Corrida', text: 'Corro.', link: null },
+            { id: 'gym', title: 'Academia', text: `Treino há ${hobbies.gym.years} anos, com foco em hipertrofia e powerlifting. Meu recorde no supino é ${hobbies.gym.bench} e no levantamento terra é ${hobbies.gym.deadlift}.`, link: null },
+            { id: 'basketball', title: 'Basquete', text: `Jogo há ${hobbies.basketball.years} ano, nos fins de semana com amigos.`, link: null },
+            { id: 'chess', title: 'Xadrez', text: `Jogo há ${hobbies.chess.years} anos e meu rating passa de ${hobbies.chess.rating}. Já venci o ${hobbies.chess.bot}, um bot do ${hobbies.chess.site} com rating ${hobbies.chess.botRating}.`, link: null },
         ],
     },
     future: {
