@@ -2,13 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Projects · kmads.dev</title>
-    <meta name="robots" content="noindex" />
-    <link rel="canonical" href="https://kmads.dev/#projects" />
-    <meta http-equiv="refresh" content="0; url=/#projects" />
-    <script>location.replace('/#projects');</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Each word in double braces is a value from src/content/content.js. scripts/index-html.mjs fills them when Vite serves or builds the page. LanguageProvider.jsx sets the text again at run time. -->
+    <title>Kaique Souza (KMADS) · Software Engineer · Architecture &amp; Cloud</title>
+    <meta name="description" content="Software Engineer at PicPay. Backend, architecture and cloud in Java, Go, Python and SQL: AWS at work, GCP and Azure in my own projects. Work experience, applications in production with their architecture, and public code." />
+    <meta name="author" content="Kaique Souza" />
+    <meta name="theme-color" content="#0B0B10" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href="https://kmads.dev/" />
+    <link rel="alternate" hreflang="en" href="https://kmads.dev/?lang=en" />
+    <link rel="alternate" hreflang="pt-BR" href="https://kmads.dev/?lang=pt" />
+    <link rel="alternate" hreflang="x-default" href="https://kmads.dev/" />
+    <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/favicon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="kmads.dev" />
+    <meta property="og:url" content="https://kmads.dev/" />
+    <meta property="og:title" content="Kaique Souza (KMADS) · Software Engineer · Architecture &amp; Cloud" />
+    <meta property="og:description" content="Software Engineer at PicPay. Backend, architecture and cloud in Java, Go, Python and SQL: AWS at work, GCP and Azure in my own projects. Work experience, applications in production with their architecture, and public code." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta property="og:image" content="https://kmads.dev/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kaique Souza (KMADS) · Software Engineer · Architecture &amp; Cloud" />
+    <meta name="twitter:description" content="Software Engineer at PicPay. Backend, architecture and cloud in Java, Go, Python and SQL: AWS at work, GCP and Azure in my own projects. Work experience, applications in production with their architecture, and public code." />
+    <meta name="twitter:image" content="https://kmads.dev/og.png" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Kaique Souza",
+        "alternateName": "KMADS",
+        "url": "https://kmads.dev/",
+        "email": "mailto:contact@kmads.dev",
+        "jobTitle": "Software Engineer",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "PicPay"
+        },
+        "sameAs": [
+            "https://github.com/kmadsdev",
+            "https://linkedin.com/in/kaique-souza-kmads"
+        ]
+    }
+    </script>
+    <!-- Sets the saved language before the first paint. -->
+    <script>
+        (function () {
+            try {
+                var root = document.documentElement;
+                var lang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('kmads.lang') || navigator.language || '';
+                if (lang.toLowerCase().slice(0, 2) === 'pt') root.lang = 'pt-BR';
+            } catch (e) {}
+        })();
+    </script>
+  <script type="module" crossorigin src="/assets/index-DNpQisF4.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Co31sQnw.css">
 </head>
 <body>
-    <p><a href="/#projects">kmads.dev/#projects</a></p>
+    <div id="root"></div>
+    <noscript>
+        <div style="max-width: 640px; margin: 80px auto; padding: 0 24px; font-family: system-ui, sans-serif; color: #eee; background: #0B0B10;">
+            <h1>Kaique Souza (KMADS)</h1>
+            <p>Software Engineer · Architecture &amp; Cloud. Software Engineer at PicPay. São Paulo, SP, Brazil · UTC-3. This page needs JavaScript to show the experience and the applications.</p>
+            <p>Engenheiro de Software · Arquitetura &amp; Cloud. Engenheiro de Software no PicPay. São Paulo, SP, Brasil · UTC-3. Esta página precisa de JavaScript para mostrar a experiência e as aplicações.</p>
+            <p><a href="mailto:contact@kmads.dev" style="color: #ff5c8a;">contact@kmads.dev</a> · <a href="https://github.com/kmadsdev" style="color: #ff5c8a;">GitHub</a> · <a href="https://linkedin.com/in/kaique-souza-kmads" style="color: #ff5c8a;">LinkedIn</a></p>
+        </div>
+    </noscript>
 </body>
 </html>
