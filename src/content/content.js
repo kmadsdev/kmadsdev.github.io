@@ -466,7 +466,6 @@ export const facts = {
                 nodes: ['agent', 'human', 'api', 'ledger', 'providers', 'ci'],
                 edges: [['agent', 'api'], ['human', 'api'], ['api', 'ledger'], ['api', 'providers'], ['ci', 'api']],
             },
-            tests: '2,000+',
             entries: 4,
             providers: 5,
             links: [{ label: 'ruph.kmads.dev', url: links.ruphLive }],
@@ -1159,7 +1158,7 @@ const en = {
                     ],
                     [
                         link('Ruph', '#app-ruph'),
-                        `, my own platform, runs on GCP: Cloud Run for the API, Cloud SQL for the PostgreSQL ledger, Secret Manager for the secrets, and Terraform for the access rules. GitHub Actions deploys a new version only after ${ruph.tests} tests and the health checks pass.`,
+                        `, my own platform, runs on GCP: Cloud Run for the API, Cloud SQL for the PostgreSQL ledger, Secret Manager for the secrets, and Terraform for the access rules. GitHub Actions deploys a new version only after the tests and the health checks pass.`,
                     ],
                     [
                         link(c.name, '#app-consignado'),
@@ -1242,7 +1241,7 @@ const en = {
                     [
                         'Terraform creates the Azure resources with remote state. I run it by hand, because it needs my sign-in. On ',
                         link('Ruph', '#app-ruph'),
-                        `, GitHub Actions runs ${ruph.tests} tests and the PostgreSQL migration tests, and it deploys only after the health checks pass.`,
+                        `, GitHub Actions runs the test suite and the PostgreSQL migration tests, and it deploys only after the health checks pass.`,
                     ],
                     [
                         link('The workflow of this site', site.workflow),
@@ -2059,9 +2058,8 @@ const en = {
                     'Each apply is written to an append-only ledger. Budgets warn or pause the work.',
                     'Provider plugins for GCP, Cloudflare, Vercel, Supabase and Neon. Terraform manages the access rules.',
                 ],
-                result: `Ruph deploys and provisions my own apps in QA and in production. GitHub Actions runs ${facts.cases.ruph.tests} tests and the PostgreSQL migration tests, and deploys only after the health checks pass. It is a private platform: I am its only operator.`,
+                result: `Ruph deploys and provisions my own apps in QA and in production. GitHub Actions runs the test suite and the PostgreSQL migration tests, and deploys only after the health checks pass. It is a private platform: I am its only operator.`,
                 stats: [
-                    { value: facts.cases.ruph.tests, label: 'automated tests' },
                     { value: '4', label: 'ways in: web, REST, CLI, MCP' },
                     { value: '5', label: 'cloud providers behind one API' },
                 ],
@@ -2189,7 +2187,7 @@ const en = {
                     architecture: [
                         'One API in TypeScript (Hono). The web dashboard, the CLI and the MCP server all use it.',
                         'Cloud Run for the API, Cloud SQL for the PostgreSQL ledger, Secret Manager for the secrets, and Terraform for the access rules.',
-                        `GitHub Actions runs ${ruph.tests} tests and the PostgreSQL migration tests, and deploys only after the health checks pass.`,
+                        `GitHub Actions runs the test suite and the PostgreSQL migration tests, and deploys only after the health checks pass.`,
                     ],
                     goals: [
                         'One place that knows each app and each environment.',
@@ -2789,7 +2787,7 @@ const pt = {
                     [
                         'O ',
                         link('Ruph', '#app-ruph'),
-                        `, minha própria plataforma, roda na GCP: Cloud Run para a API, Cloud SQL para o ledger em PostgreSQL, Secret Manager para os segredos e Terraform para as regras de acesso. O GitHub Actions só faz o deploy de uma versão nova depois que ${br(ruph.tests)} testes e os health checks passam.`,
+                        `, minha própria plataforma, roda na GCP: Cloud Run para a API, Cloud SQL para o ledger em PostgreSQL, Secret Manager para os segredos e Terraform para as regras de acesso. O GitHub Actions só faz o deploy de uma versão nova depois que os testes e os health checks passam.`,
                     ],
                     [
                         'O ',
@@ -2873,7 +2871,7 @@ const pt = {
                     [
                         'O Terraform cria os recursos da Azure com remote state. Eu rodo o Terraform à mão, porque ele precisa do meu login. No ',
                         link('Ruph', '#app-ruph'),
-                        `, o GitHub Actions roda ${br(ruph.tests)} testes e os testes de migração do PostgreSQL, e só faz o deploy depois que os health checks passam.`,
+                        `, o GitHub Actions roda a suíte de testes e os testes de migração do PostgreSQL, e só faz o deploy depois que os health checks passam.`,
                     ],
                     [
                         link('O workflow deste site', site.workflow),
@@ -3692,9 +3690,8 @@ const pt = {
                     'Cada apply fica gravado em um ledger append-only. Orçamentos avisam ou pausam o trabalho.',
                     'Plugins de provedor para GCP, Cloudflare, Vercel, Supabase e Neon. O Terraform gerencia as regras de acesso.',
                 ],
-                result: `O Ruph faz o deploy e o provisionamento dos meus próprios apps em QA e em produção. O GitHub Actions roda ${br(facts.cases.ruph.tests)} testes e os testes de migração do PostgreSQL, e só faz o deploy depois que os health checks passam. É uma plataforma privada: eu sou o único operador.`,
+                result: `O Ruph faz o deploy e o provisionamento dos meus próprios apps em QA e em produção. O GitHub Actions roda a suíte de testes e os testes de migração do PostgreSQL, e só faz o deploy depois que os health checks passam. É uma plataforma privada: eu sou o único operador.`,
                 stats: [
-                    { value: br(facts.cases.ruph.tests), label: 'testes automatizados' },
                     { value: '4', label: 'entradas: web, REST, CLI, MCP' },
                     { value: '5', label: 'provedores de cloud atrás de uma API' },
                 ],
@@ -3822,7 +3819,7 @@ const pt = {
                     architecture: [
                         'Uma API em TypeScript (Hono). O dashboard web, a CLI e o servidor MCP usam a mesma API.',
                         'Cloud Run para a API, Cloud SQL para o ledger em PostgreSQL, Secret Manager para os segredos e Terraform para as regras de acesso.',
-                        `O GitHub Actions roda ${br(ruph.tests)} testes e os testes de migração do PostgreSQL, e só faz o deploy depois que os health checks passam.`,
+                        `O GitHub Actions roda a suíte de testes e os testes de migração do PostgreSQL, e só faz o deploy depois que os health checks passam.`,
                     ],
                     goals: [
                         'Um lugar que conhece cada app e cada ambiente.',
