@@ -1,12 +1,15 @@
 // Real-browser check of the built site. Run: npm run check:browser
+//   PF_DIST=<folder>   the built site to serve (default: dist)
+//   --shots <dir>      also save screenshots (--full for the full page)
 //
-// It serves dist/ on a free port, opens the page in Chrome at desktop and phone
-// width, in both languages and both themes, and fails on: a console error, a
-// failed request, sideways scroll, a missing section, or a toggle that does not work.
-// With --shots <dir> it also saves screenshots. The server stops when the script ends.
+// It serves the folder on a free port, opens the page in Chrome at desktop and
+// phone size, in both languages, and fails on: a console error, a failed
+// request, a request to another host, sideways scroll, a missing section, a
+// picture that did not load, a language toggle or a menu button that does not work.
+// The site has one theme, so there is no theme step. The server stops when the script ends.
 import { mkdir } from 'node:fs/promises';
 import { preview } from 'vite';
-import { chromium } from 'playwright-core';
+import { launchBrowser } from './browser.mjs';
 
 const shotsIndex = process.argv.indexOf('--shots');
 const shotsDir = shotsIndex > -1 ? process.argv[shotsIndex + 1] : null;
@@ -16,11 +19,11 @@ const VIEWPORTS = {
     desktop: { width: 1440, height: 900 },
     phone: { width: 390, height: 844 },
 };
-const SECTIONS = ['top', 'about', 'experience', 'cases', 'projects', 'skills', 'education', 'contact'];
+const SECTIONS = ['top', 'intro', 'experience', 'education', 'applications', 'more', 'contact'];
 
-const server = await preview({ preview: { port: 0, strictPort: false, open: false }, logLevel: 'silent' });
+const server = await preview({ build: { outDir: process.env.PF_DIST || 'dist' }, preview: { port: 0, strictPort: false, open: false }, logLevel: 'silent' });
 const base = server.resolvedUrls.local[0];
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launchBrowser();
 const problems = [];
 
 try {
@@ -34,6 +37,7 @@ try {
             page.on('console', (msg) => msg.type() === 'error' && problems.push(`${tag}: console error: ${msg.text()}`));
             page.on('pageerror', (err) => problems.push(`${tag}: page error: ${err.message}`));
             page.on('requestfailed', (req) => problems.push(`${tag}: request failed: ${req.url()}`));
+            page.on('request', (req) => !req.url().startsWith(base) && !req.url().startsWith('data:') && problems.push(`${tag}: request to another host: ${req.url()}`));
             page.on('response', (res) => res.status() >= 400 && problems.push(`${tag}: HTTP ${res.status()}: ${res.url()}`));
 
             await page.goto(`${base}?lang=${lang}`, { waitUntil: 'networkidle' });
@@ -57,25 +61,29 @@ try {
             });
             for (const src of broken) problems.push(`${tag}: image did not load: ${src}`);
 
-            for (const theme of ['dark', 'light']) {
-                const current = await page.evaluate(() => document.documentElement.dataset.theme);
-                if (current !== theme) await page.locator('.theme-toggle').first().click();
-                const now = await page.evaluate(() => document.documentElement.dataset.theme);
-                if (now !== theme) problems.push(`${tag}: theme toggle did not set ${theme}`);
-                if (shotsDir) {
-                    await page.evaluate(() => window.scrollTo(0, 0));
-                    await page.screenshot({ path: `${shotsDir}/${device}-${lang}-${theme}.png`, fullPage: full });
-                }
+            if (shotsDir) {
+                await page.evaluate(() => window.scrollTo(0, 0));
+                await page.screenshot({ path: `${shotsDir}/${device}-${lang}.png`, fullPage: full });
             }
 
-            // The language toggle changes the first heading.
-            const before = await page.locator('h1').textContent();
+            // On a phone the section links are behind the menu button.
+            if (device === 'phone') {
+                const menu = page.locator('.menu-button');
+                await menu.click();
+                if (!(await page.locator('.site-nav a').first().isVisible())) problems.push(`${tag}: the menu button did not open the links`);
+                await page.keyboard.press('Escape');
+                if (await page.locator('.site-nav a').first().isVisible()) problems.push(`${tag}: Escape did not close the menu`);
+            }
+
+            // The language toggle changes the language of the page and the role line.
+            const before = await page.locator('.hero-role').textContent();
             const other = lang === 'en' ? 'PT' : 'EN';
             const toggle = page.locator('.wh-seg__option', { hasText: other }).first();
             if (await toggle.isVisible()) {
                 await toggle.click();
-                const after = await page.locator('h1').textContent();
-                if (after === before) problems.push(`${tag}: language toggle did not change the text`);
+                const after = await page.locator('.hero-role').textContent();
+                const nowLang = await page.evaluate(() => document.documentElement.lang);
+                if (after === before || nowLang === expectedLang) problems.push(`${tag}: language toggle did not change the text`);
             } else {
                 problems.push(`${tag}: language toggle is not visible`);
             }
@@ -93,4 +101,4 @@ if (problems.length) {
     for (const line of [...new Set(problems)]) console.error(`  - ${line}`);
     process.exit(1);
 }
-console.log('Browser check passed: desktop and phone, EN and PT, dark and light.');
+console.log('Browser check passed: desktop and phone, EN and PT. 0 console errors, 0 failed requests, 0 requests to another host.');

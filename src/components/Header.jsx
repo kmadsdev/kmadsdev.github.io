@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import { LANGS } from '../i18n/language.js';
-import { useTheme } from '../theme/ThemeProvider.jsx';
 import { useActiveSection } from '../hooks.js';
+import { PROJECTS_PATH, PROJECTS_SECTION, openProjects } from '../routes.js';
+import { facts, links } from '../content/index.js';
 
 export function LanguageToggle() {
     const { lang, setLang, t } = useLanguage();
@@ -17,48 +19,75 @@ export function LanguageToggle() {
                     title={t.nav.languages[code]}
                     onClick={() => setLang(code)}
                 >
-                    {code.toUpperCase()}
+                    {t.nav.codes[code]}
                 </button>
             ))}
         </div>
     );
 }
 
-export function ThemeToggle() {
-    const { theme, toggle } = useTheme();
-    const { t } = useLanguage();
-    const label = theme === 'dark' ? t.controls.switchToLight : t.controls.switchToDark;
-    return (
-        <button type="button" className="theme-toggle" aria-label={label} title={label} onClick={toggle}>
-            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-                <circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor" />
-            </svg>
-        </button>
-    );
-}
-
+/**
+ * Top bar: wordmark, section links, language.
+ * Below 1024px the links are in a panel that the menu button opens.
+ * Escape closes the panel and gives the focus back to the button.
+ */
 export default function Header() {
     const { t } = useLanguage();
     const ids = t.nav.items.map((item) => item.id);
     const active = useActiveSection(ids);
+    const [open, setOpen] = useState(false);
+    const buttonRef = useRef(null);
+
+    useEffect(() => {
+        if (!open) return undefined;
+        const onKey = (event) => {
+            if (event.key !== 'Escape') return;
+            setOpen(false);
+            buttonRef.current?.focus();
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [open]);
+
     return (
-        <header className="site-header">
-            <a className="wordmark" href="#top" aria-label={t.nav.home}>
-                <span aria-hidden="true">KMA<br />DS</span>
+        <header className="site-header" data-open={open ? 'true' : undefined}>
+            <a className="wordmark" href={links.top} aria-label={t.nav.home} translate="no">
+                <span aria-hidden="true">{facts.person.wordmark[0]}<br />{facts.person.wordmark[1]}</span>
             </a>
-            <nav className="site-nav" aria-label={t.nav.menu}>
+            <nav id="site-nav" className="site-nav" aria-label={t.nav.menu}>
                 <ul>
                     {t.nav.items.map((item) => (
                         <li key={item.id}>
-                            <a href={`#${item.id}`} aria-current={active === item.id ? 'true' : undefined}>{item.label}</a>
+                            <a
+                                href={item.id === PROJECTS_SECTION ? PROJECTS_PATH : `#${item.id}`}
+                                aria-current={active === item.id ? 'true' : undefined}
+                                onClick={(event) => {
+                                    setOpen(false);
+                                    if (item.id === PROJECTS_SECTION) openProjects(event);
+                                }}
+                            >
+                                {item.label}
+                            </a>
                         </li>
                     ))}
                 </ul>
             </nav>
             <div className="site-controls">
                 <LanguageToggle />
-                <ThemeToggle />
+                <button
+                    ref={buttonRef}
+                    type="button"
+                    className="menu-button"
+                    aria-expanded={open}
+                    aria-controls="site-nav"
+                    aria-label={open ? t.nav.close : t.nav.open}
+                    onClick={() => setOpen((value) => !value)}
+                >
+                    <svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true" focusable="false">
+                        <path className="menu-button__a" d="M2.5 5.5h11" />
+                        <path className="menu-button__b" d="M2.5 10.5h11" />
+                    </svg>
+                </button>
             </div>
         </header>
     );

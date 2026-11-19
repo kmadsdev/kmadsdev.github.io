@@ -1,8 +1,8 @@
 // Link check. Run: npm run check:links
 //
-// 1. Every https link in src/content/facts.js must answer below 400.
+// 1. Every https link in src/content/content.js (PART 1 links and PART 2 facts) must answer below 400.
 // 2. With --site <url>, the main addresses of the deployed site must answer 200.
-import { facts } from '../src/content/facts.js';
+import { facts, links } from '../src/content/index.js';
 
 const siteIndex = process.argv.indexOf('--site');
 const site = siteIndex > -1 ? process.argv[siteIndex + 1].replace(/\/$/, '') : null;
@@ -27,10 +27,10 @@ async function status(url) {
     return 0;
 }
 
-const urls = [...collect(facts)].filter((url) => !url.endsWith('/og.png') || site);
+const urls = [...collect({ links, facts })].filter((url) => !url.endsWith('/og.png') || site);
 const targets = urls.map((url) => ({ url, want: 'below 400' }));
 if (site) {
-    for (const path of ['/', '/projects', '/404.html', '/robots.txt', '/sitemap.xml', '/og.png', '/assets/favicon.png']) {
+    for (const path of [links.home, links.projectsPath, '/404.html', '/robots.txt', '/sitemap.xml', '/og.png', links.favicon]) {
         targets.push({ url: `${site}${path}`, want: '200' });
     }
 }

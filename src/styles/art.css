@@ -1,0 +1,81 @@
+/* Illustrations. Components: src/components/art/kit/. One hand for every drawing:
+   1.5px strokes that do not scale, round joins, the palette of the tokens. */
+.art {
+    --art-ink: rgb(255 255 255 / 0.46);
+    --art-ink-faint: rgb(255 255 255 / 0.16);
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+/* A tall drawing (the phone layout of a wide one) keeps a readable width. */
+.art--narrow { max-width: 17rem; margin-inline: auto; }
+.art > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+.art-line {
+    fill: none;
+    stroke: var(--art-ink);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+.art-line--faint { stroke: var(--art-ink-faint); stroke-width: 1; }
+.art-line--strong { stroke: var(--c-text-strong); }
+.art-line--red { stroke: var(--c-red); }
+.art-fill { fill: var(--c-tile-2); }
+
+.art-wire { transition: stroke var(--wh-duration-base) var(--wh-ease-out); }
+.art-wire[data-tone="faint"] { stroke: var(--art-ink-faint); }
+.art-wire[data-tone="active"] { stroke: var(--c-red); }
+
+.art-node rect {
+    fill: var(--c-tile-2);
+    stroke: var(--art-ink-faint);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    transition: stroke var(--wh-duration-base) var(--wh-ease-out), fill var(--wh-duration-base) var(--wh-ease-out);
+}
+.art-node[data-state="active"] rect { fill: var(--c-tile-3); stroke: var(--c-text-strong); }
+.art-pin { fill: var(--art-ink-faint); }
+.art-pin[data-pin="live"] { fill: var(--c-mint); }
+.art-name { font: 500 12px var(--wh-font-sans); fill: var(--c-text); }
+.art-node[data-state="active"] .art-name { fill: var(--c-text-strong); }
+.art-text { font: 500 11px var(--wh-font-mono); letter-spacing: 0.06em; text-transform: uppercase; fill: var(--c-text-faint); }
+.art-text[data-tone="strong"] { fill: var(--c-text-strong); }
+.art-text[data-tone="red"] { fill: var(--c-red-text); }
+
+/* CSS animations inside an art stop while it is off screen. */
+.art[data-playing="false"] * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+    .art * { animation: none !important; transition: none !important; }
+}
+
+/* Pause and play of a drawing that loops (kit/Playback.jsx). Same shape as the flowchart buttons, smaller. */
+.art-toggle {
+    position: relative;
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--c-text-muted);
+    cursor: pointer;
+    transition: background-color var(--wh-duration-instant) linear, border-color var(--wh-duration-instant) linear, color var(--wh-duration-instant) linear;
+}
+.art-toggle:hover { background: var(--c-tile-3); border-color: var(--c-line-strong); color: var(--c-text-strong); }
+.art-toggle:focus-visible { border-radius: 999px; }
+@media (max-width: 1023.98px), (pointer: coarse) {
+    .art-toggle { width: 2.75rem; height: 2.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .art-toggle { transition: none; }
+}
+
+/* Fuel map (src/components/art/FuelMap.jsx) */
+.fuel-cell { stroke: rgb(255 255 255 / 0.3); stroke-width: 1; }
+.fuel-point { transition: transform 430ms linear; }

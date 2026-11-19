@@ -1,0 +1,43 @@
+/* education: styles of this part only. Owner: its section agent.
+   Component: src/components/Education.jsx. Two tiles: the program, the certificates. */
+
+.edu .tile { gap: var(--wh-space-5); }
+.edu .tile .tile__body { align-content: start; gap: var(--wh-space-3); }
+.edu-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-bottom: var(--wh-space-2);
+    font: var(--wh-weight-medium) 0.8125rem / 1.25rem var(--wh-font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--c-text);
+}
+.edu-meta > :last-child { color: var(--c-text-muted); }
+.edu-title { font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.625rem); }
+.edu-place { font-weight: var(--wh-weight-medium); color: var(--c-text); }
+.edu-subjects { display: grid; gap: var(--wh-space-3); margin-top: var(--wh-space-4); padding-top: var(--wh-space-5); border-top: 1px solid var(--c-line); }
+.edu-subjects .tile__list li { font-family: var(--wh-font-sans); font-size: 0.9375rem; line-height: 1.4; }
+@media (min-width: 600px) {
+    .edu-subjects .tile__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--wh-space-6); }
+    .edu-subjects .tile__list li:nth-child(2) { border-top: 0; padding-top: 0; }
+}
+
+.edu-cert-list { display: grid; margin: var(--wh-space-3) 0 var(--wh-space-4); }
+.edu-cert {
+    display: grid;
+    gap: 0.25rem;
+    padding: var(--wh-space-4) 0;
+    border-top: 1px solid var(--c-line);
+}
+.edu-cert:last-child { border-bottom: 1px solid var(--c-line); }
+.edu-cert__name { font-weight: var(--wh-weight-semibold); font-size: 1.0625rem; line-height: 1.35; color: var(--c-text-strong); }
+.edu-cert__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    font: 0.8125rem / 1.25rem var(--wh-font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--c-text-muted);
+}

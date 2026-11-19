@@ -26,3 +26,15 @@ export function years({ start, end }) {
 export function ptNumber(value) {
     return String(value).replace(/[.,]/g, (mark) => (mark === '.' ? ',' : '.'));
 }
+
+/** duration(433) -> '7 min 13 s', duration(26) -> '26 s'. The same text in both languages. */
+export function duration(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return minutes ? `${minutes} min ${seconds} s` : `${seconds} s`;
+}
+
+/** Number text for one language: local('18.6', 'pt') -> '18,6', local('18.6', 'en') -> '18.6' */
+export function local(value, lang) {
+    return lang === 'pt' ? ptNumber(value) : String(value);
+}

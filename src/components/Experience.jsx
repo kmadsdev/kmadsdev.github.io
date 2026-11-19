@@ -1,46 +1,52 @@
+// Section 3, id "experience": the proof of practice.
+// One entry per company or period, newest first. Under each, its case files.
+// Every case starts closed. A link to a case anchor (#case-bodyshop) opens that case and scrolls to it.
+import { useCallback, useState } from 'react';
+import { facts } from '../content/index.js';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
-import Section from './Section.jsx';
+import { Chapter } from './bento/index.js';
+import CompanyEntry from './experience/CompanyEntry.jsx';
+import { useAnchorLanding } from './experience/useAnchorLanding.js';
+
+// Board numbers of the flowcharts (range 40 to 59), in reading order.
+const NUMBERS = Object.fromEntries(
+    facts.caseFileOrder.filter((id) => facts.cases[id].flow && id !== 'ruph').map((id, i) => [id, 40 + i]),
+);
 
 export default function Experience() {
-    const { experience } = useLanguage().t;
+    const { experience, cases, controls } = useLanguage().t;
+    const [open, setOpen] = useState(() => new Set());
+
+    const toggle = useCallback((id, value) => {
+        setOpen((now) => {
+            if (now.has(id) === value) return now;
+            const next = new Set(now);
+            if (value) next.add(id);
+            else next.delete(id);
+            return next;
+        });
+    }, []);
+
+    const caseOf = (anchor) => cases.items.find((c) => c.anchor === anchor);
+    useAnchorLanding(facts.anchors.experience, (anchor) => {
+        const item = caseOf(anchor);
+        if (item) toggle(item.id, true);
+    });
+
     return (
-        <Section id="experience" index="02" label={experience.label} title={experience.title} intro={experience.intro}>
-            <ol className="timeline">
-                {experience.items.map((job, i) => (
-                    <li className="job" key={job.id} data-current={i === 0 ? 'true' : undefined}>
-                        <div className="job-rail">
-                            <p className="job-period">{job.period}</p>
-                            {i === 0 ? (
-                                <p className="status wh-label"><span className="status-dot" aria-hidden="true" />{experience.current}</p>
-                            ) : null}
-                        </div>
-                        <div className="job-body">
-                            <h3 className="job-title">
-                                <span className="wh-headline wh-headline--item">{job.company}</span>
-                                <span className="job-role">{job.role}</span>
-                            </h3>
-                            <p className="job-context">{job.context}</p>
-                            <ul className="job-bullets">
-                                {job.bullets.map((text) => <li key={text}>{text}</li>)}
-                            </ul>
-                        </div>
-                    </li>
-                ))}
-            </ol>
-            <h3 className="wh-label block-label">{experience.earlierTitle}</h3>
-            <ul className="wh-spec">
-                {experience.earlier.map((item) => (
-                    <li className="wh-spec__row" key={item.id}>
-                        <div className="wh-spec__name">
-                            <p className="job-period">{item.period}</p>
-                        </div>
-                        <div className="wh-spec__body">
-                            <h4 className="row-title">{item.title}</h4>
-                            <p className="row-text">{item.text}</p>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </Section>
+        <Chapter id="experience" label={experience.label} title={experience.title} lead={experience.lead} className="xp">
+            {experience.items.map((item) => (
+                <CompanyEntry
+                    key={item.id}
+                    item={item}
+                    labels={experience.labels}
+                    controls={controls}
+                    cases={cases}
+                    isOpen={(id) => open.has(id)}
+                    onToggle={toggle}
+                    numbers={NUMBERS}
+                />
+            ))}
+        </Chapter>
     );
 }

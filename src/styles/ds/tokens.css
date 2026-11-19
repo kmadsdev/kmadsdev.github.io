@@ -1,5 +1,45 @@
-/* Design tokens: spacing, type scale, motion and the graphite + red palette (dark and light). Generated file. Do not edit by hand. */
+/* Design tokens of kmads.dev. One theme: dark.
+   The --c-* names are the palette. The --wh-* names are the older names of the
+   same values; the parts in editorial.css and the older sections still read them. */
 :root {
+  color-scheme: dark;
+
+  /* ---------- Palette ---------- */
+  --c-ground: #0B0B10;
+  --c-tile: #12121A;
+  --c-tile-2: #191923;
+  --c-tile-3: #21212D;
+  --c-line: rgb(255 255 255 / 0.08);
+  --c-line-soft: rgb(255 255 255 / 0.05);
+  --c-line-strong: rgb(255 255 255 / 0.18);
+  --c-line-control: #6E6A7C;
+  --c-text-strong: #F6F3EC;
+  --c-text: #D5D1DA;
+  --c-text-muted: #A39FAE;
+  --c-text-faint: #8A8696;
+  --c-red: #FF014F;
+  --c-red-hover: #FF2D6C;
+  --c-red-pressed: #FF1A60;
+  --c-red-text: #FF5C8A;
+  --c-on-red: #0B0B10;
+  --c-violet: #B300FF;
+  --c-blue: #009DFF;
+  --g-signal: linear-gradient(90deg, #B300FF, #009DFF);
+  --c-mint: #00FFBB;
+
+  /* ---------- Shape ---------- */
+  --r-tile: 1.375rem;
+  --r-control: 0.625rem;
+  --r-chip: 0.375rem;
+
+  /* ---------- Layout ---------- */
+  --gutter: clamp(1rem, 0.2rem + 3.4vw, 3.5rem);
+  --col: 72rem;
+  --col-wide: 84rem;
+  --section-gap: clamp(6rem, 3rem + 9vw, 13.5rem);
+  --tile-pad: clamp(1.125rem, 0.9rem + 0.8vw, 1.75rem);
+
+  /* ---------- Older names ---------- */
   --wh-space-0: 0;
   --wh-space-1: 0.25rem;
   --wh-space-2: 0.5rem;
@@ -12,10 +52,10 @@
   --wh-space-12: 3rem;
   --wh-space-16: 4rem;
   --wh-radius-none: 0;
-  --wh-radius-xs: 1px;
-  --wh-radius-sm: 2px;
-  --wh-radius-md: 2px;
-  --wh-radius-lg: 4px;
+  --wh-radius-xs: 2px;
+  --wh-radius-sm: var(--r-chip);
+  --wh-radius-md: var(--r-control);
+  --wh-radius-lg: var(--r-tile);
   --wh-radius-full: 999px;
   --wh-text-xs: 0.75rem;
   --wh-leading-xs: 1rem;
@@ -67,144 +107,37 @@
   --wh-control-md: 2.25rem;
   --wh-control-lg: 2.75rem;
   --wh-control-touch: 2.75rem;
-  --wh-layout-sidebar: 240px;
-  --wh-layout-topbar: 56px;
-  --wh-layout-content: 1200px;
+  --wh-layout-topbar: 3.5rem;
+  --wh-layout-content: var(--col);
   --wh-font-sans: "Geist Variable", Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --wh-font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --wh-focus-ring: 0 0 0 2px var(--wh-color-canvas), 0 0 0 4px var(--wh-color-focus);
-}
-:root,
-[data-theme="dark"] {
-  color-scheme: dark;
-  --wh-color-canvas: #101010;
-  --wh-color-surface: #161616;
-  --wh-color-surface-raised: #1C1C1C;
-  --wh-color-surface-hover: #242424;
-  --wh-color-line: #242424;
-  --wh-color-line-strong: #333333;
-  --wh-color-line-control: #757575;
-  --wh-color-text: #E1E1E1;
-  --wh-color-text-strong: #FFFFFF;
-  --wh-color-text-muted: #909090;
-  --wh-color-text-on-accent: #0F0F0F;
-  --wh-color-accent: #FF014F;
-  --wh-color-accent-hover: #FF2D6C;
-  --wh-color-accent-pressed: #F8004B;
-  --wh-color-accent-text: #FF4D7F;
-  --wh-color-accent-subtle: #2A0A14;
-  --wh-color-accent-subtle-text: #FF4D7F;
-  --wh-color-signal: #33B474;
-  --wh-color-signal-text: #33B474;
-  --wh-color-signal-subtle: #0B1D14;
-  --wh-color-signal-line: #1A472E;
-  --wh-color-warn-text: #F4C76B;
-  --wh-color-warn-subtle: #30230D;
-  --wh-color-selection: #FF014F;
-  --wh-color-selection-text: #0F0F0F;
-  --wh-color-focus: #FF014F;
+  --wh-focus-ring: 0 0 0 2px var(--c-ground), 0 0 0 4px var(--c-text-strong);
+
+  --wh-color-canvas: var(--c-ground);
+  --wh-color-surface: var(--c-tile);
+  --wh-color-surface-raised: var(--c-tile-2);
+  --wh-color-surface-hover: var(--c-tile-3);
+  --wh-color-line: var(--c-line);
+  --wh-color-line-strong: var(--c-line-strong);
+  --wh-color-line-control: var(--c-line-control);
+  --wh-color-text: var(--c-text);
+  --wh-color-text-strong: var(--c-text-strong);
+  --wh-color-text-muted: var(--c-text-muted);
+  --wh-color-text-on-accent: var(--c-on-red);
+  --wh-color-accent: var(--c-red);
+  --wh-color-accent-hover: var(--c-red-hover);
+  --wh-color-accent-pressed: var(--c-red-pressed);
+  --wh-color-accent-text: var(--c-red-text);
+  --wh-color-accent-subtle: #2A0A16;
+  --wh-color-accent-subtle-text: var(--c-red-text);
+  --wh-color-signal: var(--c-mint);
+  --wh-color-signal-text: var(--c-mint);
+  --wh-color-selection: var(--c-red);
+  --wh-color-selection-text: var(--c-on-red);
+  --wh-color-focus: var(--c-text-strong);
   --wh-color-scrim: rgb(0 0 0 / 0.6);
-  --wh-chart-1: #FF014F;
-  --wh-chart-2: #33B474;
-  --wh-chart-3: #4D8DFF;
-  --wh-chart-4: #F4C76B;
-  --wh-chart-5: #B07CFF;
-  --wh-chart-6: #2EC4D6;
-  --wh-chart-7: #FF8A3D;
-  --wh-chart-8: #909090;
-  --wh-shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
-  --wh-shadow-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -6px rgb(0 0 0 / 0.55);
-  --wh-shadow-3: 0 2px 6px rgb(0 0 0 / 0.4), 0 24px 64px -12px rgb(0 0 0 / 0.7);
-  --wh-edge: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  --wh-edge: inset 0 1px 0 rgb(255 255 255 / 0.03);
   --wh-accent-glow: 0 6px 20px -6px rgb(255 1 79 / 0.55);
-}
-[data-theme="light"] {
-  color-scheme: light;
-  --wh-color-canvas: #F5F5F5;
-  --wh-color-surface: #FFFFFF;
-  --wh-color-surface-raised: #FFFFFF;
-  --wh-color-surface-hover: #F0F0F0;
-  --wh-color-line: #E1E1E1;
-  --wh-color-line-strong: #C4C4C4;
-  --wh-color-line-control: #858585;
-  --wh-color-text: #151515;
-  --wh-color-text-strong: #0F0F0F;
-  --wh-color-text-muted: #5E5E5E;
-  --wh-color-text-on-accent: #0F0F0F;
-  --wh-color-accent: #FF014F;
-  --wh-color-accent-hover: #FF2D6C;
-  --wh-color-accent-pressed: #F8004B;
-  --wh-color-accent-text: #D6003F;
-  --wh-color-accent-subtle: #FFF0F4;
-  --wh-color-accent-subtle-text: #C8003C;
-  --wh-color-signal: #33B474;
-  --wh-color-signal-text: #1A472E;
-  --wh-color-signal-subtle: #E8F5EE;
-  --wh-color-signal-line: #B5E2C9;
-  --wh-color-warn-text: #704400;
-  --wh-color-warn-subtle: #FFF2D5;
-  --wh-color-selection: #FF014F;
-  --wh-color-selection-text: #0F0F0F;
-  --wh-color-focus: #FF014F;
-  --wh-color-scrim: rgb(15 15 15 / 0.4);
-  --wh-chart-1: #FF014F;
-  --wh-chart-2: #2DA067;
-  --wh-chart-3: #4B8AFA;
-  --wh-chart-4: #A8894A;
-  --wh-chart-5: #A575F0;
-  --wh-chart-6: #249BA9;
-  --wh-chart-7: #D67433;
-  --wh-chart-8: #8D8D8D;
-  --wh-shadow-1: 0 1px 2px rgb(15 15 15 / 0.06);
-  --wh-shadow-2: 0 1px 2px rgb(15 15 15 / 0.05), 0 8px 24px -8px rgb(15 15 15 / 0.14);
-  --wh-shadow-3: 0 2px 6px rgb(15 15 15 / 0.06), 0 24px 64px -16px rgb(15 15 15 / 0.24);
-  --wh-edge: inset 0 1px 0 rgb(255 255 255 / 0.6);
-  --wh-accent-glow: 0 6px 20px -8px rgb(255 1 79 / 0.45);
-}
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    color-scheme: light;
-    --wh-color-canvas: #F5F5F5;
-    --wh-color-surface: #FFFFFF;
-    --wh-color-surface-raised: #FFFFFF;
-    --wh-color-surface-hover: #F0F0F0;
-    --wh-color-line: #E1E1E1;
-    --wh-color-line-strong: #C4C4C4;
-    --wh-color-line-control: #858585;
-    --wh-color-text: #151515;
-    --wh-color-text-strong: #0F0F0F;
-    --wh-color-text-muted: #5E5E5E;
-    --wh-color-text-on-accent: #0F0F0F;
-    --wh-color-accent: #FF014F;
-    --wh-color-accent-hover: #FF2D6C;
-    --wh-color-accent-pressed: #F8004B;
-    --wh-color-accent-text: #D6003F;
-    --wh-color-accent-subtle: #FFF0F4;
-    --wh-color-accent-subtle-text: #C8003C;
-    --wh-color-signal: #33B474;
-    --wh-color-signal-text: #1A472E;
-    --wh-color-signal-subtle: #E8F5EE;
-    --wh-color-signal-line: #B5E2C9;
-    --wh-color-warn-text: #704400;
-    --wh-color-warn-subtle: #FFF2D5;
-    --wh-color-selection: #FF014F;
-    --wh-color-selection-text: #0F0F0F;
-    --wh-color-focus: #FF014F;
-    --wh-color-scrim: rgb(15 15 15 / 0.4);
-    --wh-chart-1: #FF014F;
-    --wh-chart-2: #2DA067;
-    --wh-chart-3: #4B8AFA;
-    --wh-chart-4: #A8894A;
-    --wh-chart-5: #A575F0;
-    --wh-chart-6: #249BA9;
-    --wh-chart-7: #D67433;
-    --wh-chart-8: #8D8D8D;
-    --wh-shadow-1: 0 1px 2px rgb(15 15 15 / 0.06);
-    --wh-shadow-2: 0 1px 2px rgb(15 15 15 / 0.05), 0 8px 24px -8px rgb(15 15 15 / 0.14);
-    --wh-shadow-3: 0 2px 6px rgb(15 15 15 / 0.06), 0 24px 64px -16px rgb(15 15 15 / 0.24);
-    --wh-edge: inset 0 1px 0 rgb(255 255 255 / 0.6);
-    --wh-accent-glow: 0 6px 20px -8px rgb(255 1 79 / 0.45);
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   :root { --wh-ease-spring: ease-out; --wh-ease-spring-bounce: ease-out; --wh-duration-page: 1ms; }
