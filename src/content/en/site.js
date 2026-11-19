@@ -7,7 +7,7 @@ export const meta = {
     htmlLang: 'en',
     ogLocale: 'en_US',
     title: `${person.name} (${person.aliasUpper}) · Software Engineer · Architecture & Cloud`,
-    description: `Software Engineer at ${picpay.name}. Backend, architecture and cloud in Java, Go, Python and SQL: AWS at work, GCP and Azure on my own platforms. Work experience, applications in production with their architecture, and public code.`,
+    description: `Software Engineer at ${picpay.name}. Backend, architecture and cloud in Java, Go, Python and SQL: AWS at work, GCP and Azure in my own projects. Work experience, applications in production with their architecture, and public code.`,
 };
 
 export const nav = {
@@ -45,7 +45,7 @@ export const notFound = {
 export const figma = {
     title: 'From my Figma',
     lead: 'The drawings I made while I designed these systems.',
-    open: 'Open the diagram large',
+    open: 'Open the diagram at full size',
     close: 'Close the diagram',
     items: {
         'consignado-aks': {
@@ -60,7 +60,7 @@ export const figma = {
         },
         'ruph-ship': {
             title: 'How Ruph ships',
-            caption: 'A change on GitHub triggers the automatic tests and a build. The build goes to QA and then to PROD. It signs in with no stored key (WIF), and a rollback is one click.',
+            caption: 'A change on GitHub triggers the automatic tests and a build. The build goes to QA and then to PROD. GitHub signs in with no stored key (WIF), and a rollback is one click.',
             alt: 'Flow diagram with the title "How we ship". GitHub triggers automatic tests, which lead to a build of the app in a container. The build is deployed to QA, where it is checked first, and then promoted to PROD. A dashed line from the build goes to a box "No stored keys: GitHub proves who it is (WIF)". A dashed line from PROD goes to "One-click rollback". A note says that nothing reaches PROD without passing tests and QA.',
         },
         'devops-challenge': {

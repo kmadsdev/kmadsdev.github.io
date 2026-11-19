@@ -5,13 +5,14 @@
 // It gives: the aspect ratio (no layout shift), role="img" with the label (or
 // `decorative` to hide it from screen readers), the shared defs, and a context:
 //   useArt() -> { playing, motion, paint, width, height }
-//     playing  true while the art is on screen and motion is allowed
+//     playing  true while the art is on screen, motion is allowed and the visitor did not pause it (Playback.jsx)
 //     motion   false when the visitor asked for less motion
 //     paint    url(#...) values: signal, dots, halftone, halftoneUp, halftoneRadial, arrow, arrowRed
 // SMIL animations (Packet) stop while the art is off screen.
 import { createContext, useContext, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useInView, useReducedMotion } from '../../../hooks.js';
 import ArtDefs from './ArtDefs.jsx';
+import { usePlaybackState } from './Playback.jsx';
 
 const ArtContext = createContext({ playing: false, motion: false, paint: {}, width: 0, height: 0 });
 
@@ -23,7 +24,8 @@ export default function Art({ label, width = 360, height = 240, decorative = fal
     const inView = useInView(ref, { threshold: 0.2 });
     const reduced = useReducedMotion();
     const motion = !reduced;
-    const playing = motion && inView;
+    const { paused } = usePlaybackState();
+    const playing = motion && inView && !paused;
 
     useEffect(() => {
         const svg = ref.current?.querySelector('svg');

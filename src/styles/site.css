@@ -305,14 +305,15 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: rgb(255 1 7
 }
 .hero-scroll { display: inline-flex; align-items: center; gap: var(--wh-space-2); justify-self: start; }
 
-/* Badge: the ring turns one way, the globe the other way. */
+/* Badge: the globe stays still, the ring of text turns around it. */
 .badge { position: relative; display: block; aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
 .badge:focus-visible { border-radius: 50%; }
 div.badge { cursor: default; }
-.badge img { position: absolute; pointer-events: none; inset: 0; width: 100%; height: 100%; animation: badge-turn 48s linear infinite; }
-.badge__ring { animation-direction: reverse; }
-.badge__globe { animation-duration: 72s; }
-.badge[data-spin="off"] img { animation-play-state: paused; }
+.badge img { position: absolute; pointer-events: none; inset: 0; width: 100%; height: 100%; }
+/* The globe stays still. Only the ring of text turns around it. Both pictures are the
+   owner's files at their own size (500 x 500), so the proportion is that of his badge. */
+.badge__ring { animation: badge-turn 48s linear infinite reverse; }
+.badge[data-spin="off"] .badge__ring { animation-play-state: paused; }
 @keyframes badge-turn {
     to { transform: rotate(360deg); }
 }
@@ -411,11 +412,18 @@ div.badge { cursor: default; }
         overflow-y: auto;
         border-bottom: 1px solid var(--c-line-strong);
         background: var(--c-ground);
+        /* The open panel stands clear of the page under it. */
+        box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.6);
     }
     .site-header[data-open] .site-nav { display: block; }
     .site-nav ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); height: auto; }
     .site-nav a { height: auto; min-height: 3rem; padding: 0; border-bottom: 1px solid var(--c-line); font-size: 1rem; }
     .site-nav a::after { left: 0; right: auto; bottom: -1px; width: 2rem; }
+}
+/* A narrow text column beside the badge: the four links stand two by two, not three and one. */
+@media (min-width: 720px) and (max-width: 1099.98px) {
+    .hero-links { display: grid; grid-template-columns: repeat(2, max-content); }
+    .hero-links .button { width: 100%; }
 }
 @media (max-width: 719.98px) {
     .hero { gap: var(--wh-space-5); padding-block: var(--wh-space-4) var(--wh-space-6); }

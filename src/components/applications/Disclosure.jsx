@@ -5,6 +5,7 @@
 // - A clip inside a closed disclosure does not load: it is not on screen.
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
+import ToggleSign from '../bento/ToggleSign.jsx';
 
 export default function Disclosure({ kind = 'details', className = '', children }) {
     const { t } = useLanguage();
@@ -28,12 +29,9 @@ export default function Disclosure({ kind = 'details', className = '', children 
     const label = kind === 'more' ? (open ? t.controls.readLess : t.controls.readMore) : open ? t.controls.hideDetails : t.controls.showDetails;
     return (
         <details ref={ref} className={`disclosure ${className}`.trim()} onToggle={(event) => setOpen(event.currentTarget.open)}>
-            <summary className="disclosure__summary">
+            <summary className="toggle">
                 <span>{label}</span>
-                <svg className="disclosure__icon" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true" focusable="false">
-                    <path d="M3 8h10" />
-                    <path className="disclosure__bar" d="M8 3v10" />
-                </svg>
+                <ToggleSign />
             </summary>
             <div className="disclosure__body">{children}</div>
         </details>

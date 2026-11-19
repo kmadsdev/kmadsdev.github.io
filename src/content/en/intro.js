@@ -30,9 +30,9 @@ export const intro = {
     opening: {
         label: 'Who I am',
         title: 'Who am I?',
-        photo: { alt: `${person.name}: a close portrait, with curly dark hair.` },
+        photo: { alt: `${person.name}: a close selfie, with curly dark hair and a cream lamp shade behind him.` },
         paragraphs: [
-            [`I am ${person.name}, and most people online call me ${person.alias}. I am a software engineer. My work is backend, architecture and cloud: the services, the data and the infrastructure that a product runs on.`],
+            [`I am ${person.name}, and most people online call me ${person.alias}. As a software engineer in ${person.city}, I work on backend, architecture and cloud: the services and the data that a product runs on, and the infrastructure under them.`],
             [
                 `I have ${person.yearsEngineering} years of engineering experience and ${person.yearsInTech} years in tech. I wrote my first code in ${person.codingSince}, for `,
                 link('Discord bots', '#exp-discord'),
@@ -48,7 +48,9 @@ export const intro = {
                 ' is my own platform on GCP: it deploys my apps, and an AI agent can plan a change there, but only I can approve it.',
             ],
             [
-                `Performance engineering is the part I like most. At work I made Oracle queries ${oracle.speedupMin} to ${oracle.speedupMax} times faster. On my own project I measured a cluster start in four parts. I advised ${earlier.reddit.people} people on `,
+                `Performance engineering is the part I like most. At work I made Oracle queries ${oracle.speedupMin} to ${oracle.speedupMax} times faster. On ${c.name} I `,
+                link('measured a cluster start in four parts', '#intro-cloud'),
+                `. I advised ${earlier.reddit.people} people on `,
                 link('PC builds', '#more-volunteering'),
                 ', and in my free time I study ',
                 link('the engine control units of old Honda Civics', '#more-hobbies'),
@@ -64,7 +66,7 @@ export const intro = {
             label: 'Architecture',
             poster: 'Trade-offs',
             headline: 'I ask what a design costs before I draw it.',
-            lead: 'Each design here started as a question about cost: how many services, how many hosts, how many calls to a model.',
+            lead: `On ${survey.name} the first question was how many services. On ${bodyshop.name} it was how many calls to a model, and on ${c.name} how many hosts.`,
             paragraphs: [
                 [
                     'On ',
@@ -74,11 +76,11 @@ export const intro = {
                 [
                     `I led ${bodyshop.engineersLed} engineers on `,
                     link(bodyshop.name, '#case-bodyshop'),
-                    `, which gives each customer a picture of their own car. We generate one image for each brand, model, year and color, keep it at a fixed S3 path, and ask a registry before we call any model. In the pilot, ${bodyshop.approvalRate} of the images passed approval at generation, in under ${bodyshop.endToEnd} from request to image. When staff replace a bad image, the new file takes the same path and the app needs no release.`,
+                    `, a platform in QA that shows each customer a picture of their own car. We generate one image for each brand, model, year and color, keep it at a fixed S3 path, and ask a registry before we call any model. In the pilot, ${bodyshop.approvalRate} of the images passed approval at generation, in under ${bodyshop.endToEnd} from request to image. When staff replace a bad image, the new file takes the same path and the app needs no release.`,
                 ],
                 [
                     link(c.name, '#app-consignado'),
-                    ' is my answer to a question I had about hosts: what does the same API cost on Kubernetes and on serverless? One build artifact runs as pods on AKS and inside an Azure Function. One Java gateway stands in front of both, checks each token and returns a trace of each call. The ',
+                    ' is my answer to a question I had about hosts: what does the same API cost on Kubernetes and on serverless? The same jar runs as pods on AKS and inside an Azure Function. One Java gateway stands in front of both, checks each token and returns a trace of each call. The ',
                     link('decision table', c.docs.decisions),
                     ' gives the trade-off of each choice and what a bank would do in its place, and ',
                     link(`${c.adrs} decision records`, c.docs.adrs),
@@ -154,8 +156,8 @@ export const intro = {
             id: 'cloud',
             label: 'Cloud',
             poster: coldStart,
-            headline: 'I know what each cloud service does and what it costs per hour.',
-            lead: `One real integration on each cloud: AWS at ${picpay.name} and in a startup MVP, GCP under my own platform, Azure under ${c.name}.`,
+            headline: 'I pick a cloud service by what it does and what it costs per hour.',
+            lead: `One real integration on each cloud: AWS at ${picpay.name} and in a startup MVP, GCP for my own platform, Azure for ${c.name}.`,
             paragraphs: [
                 [
                     'On AWS, ',
@@ -184,7 +186,7 @@ export const intro = {
                 ],
             ],
             tiles: [
-                tile('clouds', 'art', 'Three clouds, by service', `AWS at ${picpay.name} and in ${hivemind.name}. GCP under my own platform. Azure under ${c.name}.`, { art: 'clouds' }),
+                tile('clouds', 'art', 'Three clouds, by service', `AWS at ${picpay.name} and in ${hivemind.name}. GCP for Ruph, my own platform. Azure for ${c.name}.`, { art: 'clouds' }),
                 tile('cold-start', 'art', 'A cold start in four parts', `Control plane ${part.controlPlane}, node ${part.node}, Spring Boot and database ${part.app}, load balancer ${part.balancer}.`, { art: 'coldStart', value: coldStart, source: 'consignado-api README, measured on 2026-11-17' }),
                 tile('budget', 'stat', 'Monthly budget, with a guard', `At 100% the gateway pauses the engine and stops the cluster. One access window costs about ${c.window.cost}.`, { value: c.budget, source: 'consignado.kmads.dev, section on cost' }),
                 tile('builds', 'stat', 'People advised on PC builds', `Parts, budgets and repairs for gaming, workstation and server builds on Reddit, ${earlier.reddit.start} to ${earlier.reddit.end}.`, { value: earlier.reddit.people, source: 'My LinkedIn profile, volunteering' }),
@@ -291,7 +293,7 @@ export const intro = {
             label: 'Financial systems',
             poster: 'Margin',
             headline: 'I know how a card decision and a payroll loan work, rule by rule.',
-            lead: `Cards at ${picpay.name}, in words only. Payroll loans, a card engine and a payment gateway in my own study projects, with synthetic data.`,
+            lead: `Cards at ${picpay.name}, in words only. Payroll loans, a card engine and a payment gateway in my own projects, with synthetic data.`,
             paragraphs: [
                 [
                     'At ',
@@ -301,16 +303,16 @@ export const intro = {
                     `: the engines that decide, in real time, whether a client gets a card and which one. The same services answer customer requests that arrive through the central bank, and internal audits. I describe that work in words only, because the code and the numbers belong to ${picpay.name}.`,
                 ],
                 [
-                    'To show the same domain with public code, I built three study projects with synthetic data. ',
+                    'To show the same domain with public code, I built three projects of my own with synthetic data. ',
                     link('consignado-api', '#app-consignado'),
-                    ` is a payroll loan (crédito consignado). The installment leaves the paycheck, so the employer agreement caps the share of the net salary that installments can take. With a net salary of ${m.netSalary} and a cap of ${m.capPercent}, the margin is ${m.marginLimit}. A loan of ${m.principal} over ${m.termMonths} months at ${m.monthlyRate} a month has a fixed installment of ${m.installment} on a Price schedule. The API compares the largest installment, ${m.largestInstallment}, with the free margin, at simulation and again at approval.`,
+                    ` is a payroll loan API (crédito consignado). The installment leaves the paycheck, so the employer agreement caps the share of the net salary that installments can take. With a net salary of ${m.netSalary} and a cap of ${m.capPercent}, the margin is ${m.marginLimit}. A loan of ${m.principal} over ${m.termMonths} months at ${m.monthlyRate} a month has a fixed installment of ${m.installment} on a Price schedule. The API compares the largest installment, ${m.largestInstallment}, with the free margin, at simulation and again at approval.`,
                 ],
                 [
                     'The ',
                     link('credit card engine', '#app-credit-card-engine'),
                     ` has an acquisition flow for new clients and an upgrade flow for existing clients, ${card.variantCount} card variants, and one policy module that stores each decision with its reasons. The `,
                     link('payment gateway', '#app-payment-gateway'),
-                    ' in Go authorizes, captures and refunds with idempotency keys, a double-entry ledger and signed webhooks. None of the three has real customers or real money. The README of consignado-api lists what is not built, from IOF and CET to payroll integration.',
+                    ' in Go authorizes, captures and refunds with idempotency keys, a double-entry ledger and signed webhooks. None of the three has real customers or real money. The README of consignado-api lists what is not built, for example IOF, CET and payroll integration.',
                 ],
             ],
             tiles: [
@@ -345,7 +347,7 @@ export const intro = {
                     link('Ruph', '#app-ruph'),
                     ' has an MCP server next to its web dashboard, its REST API and its CLI. An agent can write a plan through it. Only a person approves a plan, and each apply goes to an append-only ledger.',
                 ],
-                ['I work with Claude Code and Codex under test-first rules: the test exists before the code. Since 2025 I also study the layer below the agent, from local models to quantization and fine-tuning.'],
+                ['I work with Claude Code and Codex under test-first rules: the test exists before the code. Since 2025 I also study the layer below the agent: local models, quantization and fine-tuning.'],
             ],
             tiles: [
                 tile('context', 'stat', 'People, one agent context', `Task, progress and knowledge files that each agent on the ${bodyshop.name} team read first.`, { value: `${bodyshop.teamSize}`, source: `${bodyshop.name} team at ${picpay.name}` }),
@@ -371,14 +373,14 @@ export const intro = {
                     ' and ',
                     link('Ruph', '#app-ruph'),
                     ' are the two largest. ',
-                    link('The applications in production', '#applications-live'),
-                    ' come first, then ',
-                    link('the study repositories', '#applications-study'),
-                    ' that are not hosted.',
+                    link(`${facts.appOrder.live.length} applications`, '#applications-live'),
+                    ' run in production today, and ',
+                    link(`${facts.appOrder.study.length} study repositories`, '#applications-study'),
+                    ' have public code.',
                 ],
             ],
             tiles: [
-                tile('live', 'link', 'In production', `${c.name}, my own platform and the public apps, each with its live address.`, { to: '#applications-live' }),
+                tile('live', 'link', 'In production', `${c.name}, my own platform and the public apps. Each runs at a live address, and only I can sign in to Ruph.`, { to: '#applications-live' }),
                 tile('study', 'link', 'Study repositories', 'A card engine, a payment gateway and two challenges, with public source code.', { to: '#applications-study' }),
             ],
             tools: facts.chapterTools.endtoend,
@@ -542,7 +544,7 @@ export const intro = {
             items: {
                 bots: { label: 'Discord bots', text: 'JavaScript on Glitch' },
                 sites: { label: 'Express sites', text: 'HTML and CSS pages next to the bots' },
-                trocatine: { label: `${trocatine.name}: MVP in React, landing page`, text: 'Plain HTML, CSS and JavaScript' },
+                trocatine: { label: `${trocatine.name} MVP and landing page`, text: 'React MVP, landing page in plain HTML, CSS and JavaScript' },
                 work: { label: `Apps at ${picpay.name}`, text: 'React curation app, Angular survey app' },
                 consignado: { label: `Site of ${c.name}`, text: 'Draws each request from its trace' },
             },

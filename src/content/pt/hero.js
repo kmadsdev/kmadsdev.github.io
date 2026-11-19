@@ -9,7 +9,7 @@ export const hero = {
     alias: person.aliasUpper,
     role: 'Engenheiro de Software',
     focus: 'Arquitetura & Cloud',
-    summary: `Projeto e construo sistemas de backend, a infraestrutura de cloud por baixo deles e os pipelines que fazem o deploy. Tenho ${person.yearsEngineering} anos de experiência em engenharia e ${person.yearsInTech} anos em tecnologia, e hoje trabalho nos motores de cartão de crédito do ${picpay.name}.`,
+    summary: `Meu foco é backend, arquitetura e cloud, e acima de tudo confiabilidade e performance. Tenho ${person.yearsEngineering} anos de experiência em engenharia e ${person.yearsInTech} anos em tecnologia, e hoje trabalho nos motores de cartão de crédito do ${picpay.name}.`,
     location: [`${person.city}, ${person.state}, Brasil`, 'Remoto', person.utc],
     localTime: 'Hora local',
     links: [

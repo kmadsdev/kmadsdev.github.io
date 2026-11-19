@@ -6,7 +6,8 @@
 .chapter-head { display: grid; gap: var(--wh-space-5); max-width: 46rem; margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
 .chapter-label { display: inline-flex; align-items: center; gap: 0.625rem; }
 .chapter-label::before { content: ""; width: 6px; height: 6px; background: var(--c-red); }
-.chapter-lead { max-width: 60ch; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); line-height: 1.65; color: var(--c-text-muted); }
+.chapter-lead { text-wrap: pretty; max-width: 60ch; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); line-height: 1.65; color: var(--c-text-muted); }
+.chapter-text p { text-wrap: pretty; }
 .chapter-text { display: grid; gap: var(--wh-space-5); max-width: 68ch; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); line-height: 1.7; color: var(--c-text); }
 .chapter-text a { color: var(--c-text-strong); text-decoration: underline; text-decoration-color: var(--c-line-control); text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-decoration-color var(--wh-duration-instant) linear; }
 .chapter-text a:hover { text-decoration-color: var(--c-red); }
@@ -200,6 +201,35 @@ a.tile:hover { border-color: var(--c-line-strong); background: var(--c-tile-2); 
 a.tile:hover .tile__arrow { border-color: var(--c-red); background: var(--c-red); color: var(--c-on-red); transform: translate(2px, -2px); }
 a.tile:focus-visible { outline: 0; border-radius: var(--r-tile); box-shadow: var(--wh-focus-ring); }
 
+/* ---------- Disclosure control ----------
+   One look for every "Read the full story" and "Show the details" on the page:
+   <summary class="toggle"> label <ToggleSign /> </summary>. The plus becomes a minus when open. */
+.toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.75rem;
+    font: var(--wh-weight-medium) 0.9375rem / 1.2 var(--wh-font-sans);
+    color: var(--c-text-strong);
+    list-style: none;
+    cursor: pointer;
+}
+.toggle::-webkit-details-marker { display: none; }
+.toggle__sign {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid var(--c-line-strong);
+    border-radius: 999px;
+    color: var(--c-text-strong);
+    transition: background-color var(--wh-duration-fast) linear, border-color var(--wh-duration-fast) linear, color var(--wh-duration-fast) linear;
+}
+.toggle__bar { transform-box: fill-box; transform-origin: center; transition: transform var(--wh-duration-base) var(--wh-ease-out); }
+details[open] > .toggle .toggle__bar { transform: scaleY(0); }
+.toggle:hover .toggle__sign { border-color: var(--c-red); background: var(--c-red); color: var(--c-on-red); }
+
 /* ---------- Entrance ----------
    Set by useReveal: [data-reveal] on the box, [data-in] on a child that was seen. */
 [data-reveal="on"] > * { opacity: 0; transform: translateY(12px); }
@@ -215,6 +245,6 @@ a.tile:focus-visible { outline: 0; border-radius: var(--r-tile); box-shadow: var
 @media (prefers-reduced-motion: reduce) {
     [data-reveal="on"] > * { transform: none; }
     [data-reveal="on"] > [data-in] { transition: opacity 300ms linear; }
-    .tile__arrow { transition: none; }
+    .tile__arrow, .toggle__sign, .toggle__bar { transition: none; }
     a.tile:hover .tile__arrow { transform: none; }
 }

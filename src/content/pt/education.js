@@ -36,7 +36,7 @@ export const education = {
     certificates: {
         anchor: 'edu-certs',
         title: 'Certificados',
-        note: 'As três provas cobrem algoritmos, REST APIs, engenharia de software, modelagem de dados, otimização de consultas e window functions. Resolvi em Python, C/C++ e MySQL.',
+        note: 'As três provas cobrem algoritmos, REST APIs, engenharia de software, modelagem de dados, otimização de consultas e window functions. Resolvi as provas em Python, C/C++ e MySQL.',
         items: edu.certificates.map((item) => ({
             id: item.id,
             title: titles[item.id],

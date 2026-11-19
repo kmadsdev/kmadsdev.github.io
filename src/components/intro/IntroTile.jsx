@@ -7,6 +7,7 @@
 import { useReducedMotion } from '../../hooks.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { Tile } from '../bento/index.js';
+import { ArtToggle, Playback, usePlayback } from '../art/kit/index.js';
 import { artA } from './artA.js';
 import { artB } from './artB.js';
 
@@ -26,6 +27,7 @@ function Source({ tile }) {
 export default function IntroTile({ tile, n, level = 4, ...size }) {
     const { t } = useLanguage();
     const reduced = useReducedMotion();
+    const playback = usePlayback();
     const Drawing = tile.art ? DRAWINGS[tile.art] : null;
     const text = tile.art ? t.intro.art[tile.art] : null;
     const Title = `h${level}`;
@@ -48,10 +50,11 @@ export default function IntroTile({ tile, n, level = 4, ...size }) {
             title={tile.title}
             level={level}
             href={tile.kind === 'link' ? tile.to : undefined}
-            figure={Drawing ? <Drawing /> : undefined}
+            figure={Drawing ? <Playback value={playback}><Drawing /></Playback> : undefined}
             {...label}
             {...size}
         >
+            {Drawing && tile.kind === 'art' ? <Playback value={playback}><ArtToggle className="intro-tile__toggle" /></Playback> : null}
             <p className="tile__text">{tile.text}</p>
             {/* With reduced motion the drawing is still: the same mechanism in words. */}
             {Drawing && reduced && tile.kind === 'art' ? <p className="tile__text intro-summary">{text.summary}</p> : null}

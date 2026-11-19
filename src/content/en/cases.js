@@ -39,7 +39,7 @@ export const cases = {
                 'I read an incident across the microservices until I find the defect. Then I write the test, and then the fix.',
                 'I built self-healing jobs that clean the database with no manual work.',
             ],
-            result: `I found and fixed bugs and hidden defects in ${cards.legacySystems} legacy Java systems and closed hundreds of client incidents. This entry has no diagram and no exact number, because the systems and their data belong to ${picpay.name}.`,
+            result: `I found and fixed bugs and hidden defects in ${cards.legacySystems} legacy Java systems and closed hundreds of client incidents.`,
             stats: [
                 { value: cards.microservices, label: 'microservices in the area' },
                 { value: `${cards.legacySystems}`, label: 'legacy Java systems with fixes' },
@@ -50,7 +50,7 @@ export const cases = {
             id: 'bodyshop',
             anchor: 'case-bodyshop',
             kicker: `${picpay.name} · internal platform · in QA`,
-            title: `${bodyshop.name}: every customer sees their own car`,
+            title: `${bodyshop.name}: a picture of each customer's own car`,
             problem: `${bodyshop.customers} customers opened the app and saw a car that was not theirs: a generic picture, or the wrong model, year or color. An internal study showed that satisfaction and retention can rise when the exact car appears.`,
             decisions: [
                 'Generate once. One image for each brand, model, year and color. A registry answers before any model is called.',
@@ -105,7 +105,7 @@ export const cases = {
             stats: [
                 { value: survey.employees, label: 'employees served' },
                 { value: `${survey.teamSize}`, label: 'people on the team' },
-                { value: '1', label: 'monolith, not a set of services' },
+                { value: '1', label: 'monolith in place of a microservices plan' },
             ],
             flow: {
                 title: 'One request, one service',
@@ -140,7 +140,7 @@ export const cases = {
             ],
             result: 'The index saved hundreds of hours of research for engineers and analysts, and HR got organized data for predictive models.',
             stats: [
-                { value: '100s', label: 'of databases mapped' },
+                { value: '100+', label: 'databases mapped' },
                 { value: `${oracle.speedupMin} to ${oracle.speedupMax}x`, label: 'faster queries' },
                 { value: oracle.viewLines, label: 'lines in one legacy view' },
                 { value: oracle.legacySince, label: 'oldest system, no documents' },

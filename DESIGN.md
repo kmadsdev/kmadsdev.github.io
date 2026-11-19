@@ -16,9 +16,11 @@ The page is a board of modules, like a motherboard or a gauge cluster. I tune ca
 | Light | One soft red light per view is allowed behind the main object (the badge, a featured tile), like the light of the sunset. No glass, no noise, no gradient text. |
 | Rulers | A fixed ruler on the left edge and one under the top bar, on every section. The red index shows scroll progress. Grey marks show the pointer position. Hidden below 1024px. |
 | Hero | Name, role, a short summary, four links, place and local time. The dot field exists only here. Two bodies bend it: the badge (the dots leave its disc and turn around it) and the pointer. |
-| Badge | My globe badge. The red ring of text turns one way and the globe the other way, only while it is on screen. A press on it stops the turn. |
+| Badge | My globe badge. The globe stays still and the red ring of text turns around it, only while it is on screen. The two parts keep the proportion of my original badge file. A press on it stops the turn. |
 | Drawings | SVG, drawn from zero, in one hand: 1.5px strokes that do not scale, round joins, halftone dots for tone. A drawing moves only to show a real mechanism (a request on its path, the cell an engine control unit reads) and only while it is on screen. A number on a drawing is real, or the drawing has no numbers. |
 | Flowcharts | SVG made from data. One step is active: its line is red and a packet moves on it. The step list next to the chart is the text form of the same data. |
+| Disclosure | One control look for every "Read the full story" and "Show the details": the label and a small round plus that becomes a minus (`.toggle` in `bento.css`, `ToggleSign.jsx`). A case file row uses the same sign, larger. |
+| Pause | A drawing that loops has a small pause button in its label row (`art/kit/Playback.jsx`). The flowcharts, the clips and the badge have their own. With reduced motion there is no button, because nothing moves. |
 | Motion | One entrance for tiles: a 420ms fade with a 12px rise, 40ms apart, once. The hero name has its own entrance. All other motion shows a state change. With reduced motion: no packet, no turn, a still dot field, fades only. Nothing is lost: each moving picture has its meaning in text. |
 | End of the page | The contact block, then my sunset. The sun keeps its proportions at every width and goes down behind the footer line. Red dots under the line are what is left of its light. |
 
@@ -31,6 +33,7 @@ The page is a board of modules, like a motherboard or a gauge cluster. I tune ca
 | `src/styles/site.css` | The page: top bar, hero, end of the page, and the older sections. |
 | `src/styles/bento.css` + `src/components/bento/` | Chapters, the grid and the tiles. |
 | `src/styles/art.css` + `src/components/art/kit/` | The frame and the parts of every drawing. |
+| `scripts/og.mjs` | Makes `public/og.png` (1200 x 630) from the hero of the built site: name, alias, role line and badge. Reads `PF_DIST`. |
 | `scripts/sunset.mjs` | Makes the sunset pictures from `scripts/sources/sunset.svg`. The SVG has 19 blur filters and needs a long paint, so the page loads a WebP made from it. |
 
 ## Checks

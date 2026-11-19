@@ -49,28 +49,10 @@
 
 /* "Show the details": the daily work, tools and stacks of one company, in place. */
 .xp-more { border-top: 1px solid var(--c-line); }
-.xp-more__summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    margin-top: var(--wh-space-2);
-    font: var(--wh-weight-medium) 0.9375rem / 1.2 var(--wh-font-sans);
-    color: var(--c-text-strong);
-    text-decoration: underline;
-    text-decoration-color: var(--c-line-control);
-    text-underline-offset: 5px;
-    list-style: none;
-    cursor: pointer;
-    transition: text-decoration-color var(--wh-duration-instant) linear;
-}
-.xp-more__summary::-webkit-details-marker { display: none; }
-.xp-more__summary:hover { text-decoration-color: var(--c-red); }
+.xp-more__summary { margin-top: var(--wh-space-2); }
 .xp-more__hide,
 .xp-more[open] .xp-more__show { display: none; }
 .xp-more[open] .xp-more__hide { display: inline; }
-.xp-more__chevron { transition: transform var(--wh-duration-base) var(--wh-ease-out); }
-.xp-more[open] .xp-more__chevron { transform: rotate(180deg); }
 .xp-more__body { display: grid; gap: var(--wh-space-6); padding-top: var(--wh-space-4); }
 .xp-more__body .xp-facts__group { padding-top: 0; border-top: 0; }
 
@@ -222,7 +204,7 @@
 
 @media (prefers-reduced-motion: reduce) {
     .xp-case::details-content { transition: none; }
-    .xp-case__toggle-bar, .xp-case__summary, .xp-case__toggle, .xp-case__mark-dot, .xp-more__chevron { transition: none; }
+    .xp-case__toggle-bar, .xp-case__summary, .xp-case__toggle, .xp-case__mark-dot { transition: none; }
 }
 
 /* One column (below 900px): the facts tile may be wider than the kit's 26rem media cap. */

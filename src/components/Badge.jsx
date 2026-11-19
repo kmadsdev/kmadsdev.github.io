@@ -1,4 +1,4 @@
-// The globe badge: the red ring of text turns one way, the globe the other way.
+// The globe badge: the globe stays still and the red ring of text turns around it.
 // It turns only while it is on screen. With reduced motion it does not turn.
 // It is a button: a press stops the turn, the next press starts it again.
 // The pictures are decoration: the name is in the heading next to it.

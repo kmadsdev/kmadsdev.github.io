@@ -7,7 +7,7 @@ export const meta = {
     htmlLang: 'pt-BR',
     ogLocale: 'pt_BR',
     title: `${person.name} (${person.aliasUpper}) · Engenheiro de Software · Arquitetura & Cloud`,
-    description: `Engenheiro de Software no ${picpay.name}. Backend, arquitetura e cloud com Java, Go, Python e SQL: AWS no trabalho, GCP e Azure nas minhas próprias plataformas. Experiência profissional, aplicações em produção com a arquitetura de cada uma e código público.`,
+    description: `Engenheiro de Software no ${picpay.name}. Backend, arquitetura e cloud com Java, Go, Python e SQL: AWS no trabalho, GCP e Azure nos meus próprios projetos. Experiência profissional, aplicações em produção com a arquitetura de cada uma e código público.`,
 };
 
 export const nav = {
@@ -45,7 +45,7 @@ export const notFound = {
 export const figma = {
     title: 'Do meu Figma',
     lead: 'Os desenhos que fiz enquanto projetava estes sistemas.',
-    open: 'Abrir o diagrama em tamanho grande',
+    open: 'Abrir o diagrama em tamanho original',
     close: 'Fechar o diagrama',
     items: {
         'consignado-aks': {
@@ -60,7 +60,7 @@ export const figma = {
         },
         'ruph-ship': {
             title: 'Como o Ruph faz deploy',
-            caption: 'Uma mudança no GitHub dispara os testes automáticos e um build. O build vai para QA e depois para PROD. Ele entra sem chave guardada (WIF), e o rollback é um clique.',
+            caption: 'Uma mudança no GitHub dispara os testes automáticos e um build. O build vai para QA e depois para PROD. O GitHub entra sem chave guardada (WIF), e o rollback é um clique.',
             alt: 'Fluxograma com o título "How we ship". O GitHub dispara os testes automáticos, que levam a um build do app em um container. O build vai para QA, onde é conferido primeiro, e depois é promovido para PROD. Uma linha tracejada sai do build para a caixa "No stored keys: GitHub proves who it is (WIF)". Uma linha tracejada sai de PROD para "One-click rollback". Uma nota diz que nada chega a PROD sem passar pelos testes e por QA.',
         },
         'devops-challenge': {

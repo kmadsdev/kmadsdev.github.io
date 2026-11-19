@@ -2,7 +2,7 @@
 // roles with their periods, the impact and the case rows can be read in a few
 // seconds. The daily work, tools and stacks open in place ("Show the details"),
 // and each case file opens in place too. All text stays in the DOM.
-import { ChapterGroup, Tile } from '../bento/index.js';
+import { ChapterGroup, Tile, ToggleSign } from '../bento/index.js';
 import { isAnchor } from '../../content/rich.js';
 import ExternalLink from '../ExternalLink.jsx';
 import CaseFile from './CaseFile.jsx';
@@ -63,13 +63,11 @@ export default function CompanyEntry({ item, labels, controls, cases, isOpen, on
                         </p>
                     ) : null}
                     <details className="xp-more">
-                        <summary className="xp-more__summary">
+                        <summary className="toggle xp-more__summary">
                             <span className="xp-more__show">{controls.showDetails}</span>
                             <span className="xp-more__hide">{controls.hideDetails}</span>
                             <span className="visually-hidden"> {item.company}</span>
-                            <svg className="xp-more__chevron" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                <path d="M3.5 6L8 10.5 12.5 6" />
-                            </svg>
+                            <ToggleSign />
                         </summary>
                         <div className="xp-more__body">
                             <div className="xp-block">

@@ -41,7 +41,7 @@ export const cases = {
                 'Sigo um incidente pelos microsserviços até achar o defeito. Depois escrevo o teste, e depois a correção.',
                 'Criei jobs de autocorreção que limpam o banco de dados sem trabalho manual.',
             ],
-            result: `Encontrei e corrigi bugs e defeitos escondidos em ${cards.legacySystems} sistemas legados em Java e resolvi centenas de incidentes de clientes. Este caso não tem diagrama nem número exato, porque os sistemas e os dados pertencem ao ${picpay.name}.`,
+            result: `Encontrei e corrigi bugs e defeitos escondidos em ${cards.legacySystems} sistemas legados em Java e resolvi centenas de incidentes de clientes.`,
             stats: [
                 { value: cards.microservices, label: 'microsserviços na área' },
                 { value: `${cards.legacySystems}`, label: 'sistemas legados em Java com correções' },
@@ -52,7 +52,7 @@ export const cases = {
             id: 'bodyshop',
             anchor: 'case-bodyshop',
             kicker: `${picpay.name} · plataforma interna · em QA`,
-            title: `${bodyshop.name}: cada cliente vê o próprio carro`,
+            title: `${bodyshop.name}: a imagem do carro de cada cliente`,
             problem: `${br(bodyshop.customers)} de clientes abriam o app e viam um carro que não era o deles: uma imagem genérica, ou o modelo, o ano ou a cor errados. Um estudo interno mostrou que satisfação e retenção podem subir quando o carro exato aparece.`,
             decisions: [
                 'Gerar uma vez só. Uma imagem para cada marca, modelo, ano e cor. Um registro responde antes de qualquer modelo ser chamado.',
@@ -107,7 +107,7 @@ export const cases = {
             stats: [
                 { value: br(survey.employees), label: 'funcionários atendidos' },
                 { value: `${survey.teamSize}`, label: 'pessoas no time' },
-                { value: '1', label: 'monólito, e não vários serviços' },
+                { value: '1', label: 'monólito no lugar de um plano de microsserviços' },
             ],
             flow: {
                 title: 'Uma requisição, um serviço',
@@ -138,7 +138,7 @@ export const cases = {
                 'Li os próprios dados para descobrir o que cada tabela e cada coluna significa, e registrei tudo em um índice.',
                 `Reescrevi consultas grandes em ${oracle.tables} tabelas e views. Elas foram de milhares de linhas para centenas e ficaram de ${oracle.speedupMin} a ${oracle.speedupMax} vezes mais rápidas.`,
                 'Escrevi automações em SQL e consultas de apoio à decisão em cima do índice.',
-                'Planejei uma modelagem de banco que substitui as views legadas.',
+                'Planejei uma modelagem de banco de dados que substitui as views legadas.',
             ],
             result: 'O índice economizou centenas de horas de pesquisa de engenheiros e analistas, e o RH recebeu dados organizados para modelos preditivos.',
             stats: [
@@ -158,7 +158,7 @@ export const cases = {
                     science: 'Modelos preditivos',
                 },
                 steps: [
-                    'Mapeio cada banco: tabelas, colunas e o que elas significam.',
+                    'Mapeio cada banco de dados: tabelas, colunas e o que elas significam.',
                     'As consultas e automações usam o índice, não um palpite.',
                     'A modelagem que substitui as views legadas sai do mesmo índice.',
                     'Os dados de RH organizados vão para o time de ciência de dados.',
@@ -216,7 +216,7 @@ export const cases = {
             stats: [
                 { value: br(facts.cases.ruph.tests), label: 'testes automatizados' },
                 { value: '4', label: 'entradas: web, REST, CLI, MCP' },
-                { value: '5', label: 'provedores de nuvem atrás de uma API' },
+                { value: '5', label: 'provedores de cloud atrás de uma API' },
             ],
             flow: {
                 title: 'Planejar, aprovar, aplicar, registrar',
@@ -225,14 +225,14 @@ export const cases = {
                     human: 'Eu',
                     api: 'API do Ruph (Hono)',
                     ledger: 'Ledger (PostgreSQL)',
-                    providers: 'Provedores de nuvem',
+                    providers: 'Provedores de cloud',
                     ci: 'GitHub Actions',
                 },
                 steps: [
                     'Um agente escreve um plano pelo servidor MCP ou pela CLI.',
                     'Eu leio o plano e aprovo. Um agente não pode aprovar.',
                     'A API grava o apply no ledger append-only.',
-                    'A API muda os recursos nos provedores de nuvem.',
+                    'A API muda os recursos nos provedores de cloud.',
                     'O GitHub Actions só publica uma versão nova depois que os testes e os health checks passam.',
                 ],
             },

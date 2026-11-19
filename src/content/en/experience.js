@@ -48,7 +48,7 @@ export const experience = {
             ],
             impact: [
                 `I found and fixed bugs and hidden defects in ${cards.legacySystems} legacy Java systems, closed hundreds of client incidents, and built self-healing jobs that clean the database with no manual work.`,
-                `I led ${bodyshop.engineersLed} engineers on ${bodyshop.name}: ${bodyshop.services} internal services that replace the wrong or generic car image shown to ${bodyshop.customers} customers. I made the stack and scope decisions and took it to QA with governance approval.`,
+                `I led ${bodyshop.engineersLed} engineers on ${bodyshop.name}: ${bodyshop.services} internal services, built to replace the wrong or generic car image that ${bodyshop.customers} customers see. I made the stack and scope decisions and took it to QA with governance approval.`,
                 `I wrote the ${bodyshop.name} Agentic Template before kickoff: shared task, progress and knowledge files, test-first rules, MCP servers and skills. The AI coding agents of all ${bodyshop.teamSize} people on the team worked from one context.`,
                 `On ${survey.name}, in a team of ${survey.teamSize}, I worked on the backend API, the MySQL design and indexes, and the infrastructure of a survey platform for about ${survey.employees} employees.`,
                 `In the Oracle HCM squad I made queries across ${oracle.tables} tables and views ${oracle.speedupMin} to ${oracle.speedupMax} times faster, and the work saved hundreds of hours of research for engineers and analysts.`,

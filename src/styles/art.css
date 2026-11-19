@@ -51,6 +51,31 @@
     .art * { animation: none !important; transition: none !important; }
 }
 
+/* Pause and play of a drawing that loops (kit/Playback.jsx). Same shape as the flowchart buttons, smaller. */
+.art-toggle {
+    position: relative;
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--c-text-muted);
+    cursor: pointer;
+    transition: background-color var(--wh-duration-instant) linear, border-color var(--wh-duration-instant) linear, color var(--wh-duration-instant) linear;
+}
+.art-toggle:hover { background: var(--c-tile-3); border-color: var(--c-line-strong); color: var(--c-text-strong); }
+.art-toggle:focus-visible { border-radius: 999px; }
+@media (max-width: 1023.98px), (pointer: coarse) {
+    .art-toggle { width: 2.75rem; height: 2.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .art-toggle { transition: none; }
+}
+
 /* Fuel map (src/components/art/FuelMap.jsx) */
 .fuel-cell { stroke: rgb(255 255 255 / 0.3); stroke-width: 1; }
 .fuel-point { transition: transform 430ms linear; }

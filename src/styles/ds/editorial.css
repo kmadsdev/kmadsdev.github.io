@@ -263,8 +263,8 @@
 .wh-flow__stage[data-more="right"] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 3.5rem), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 3.5rem), transparent); }
 .wh-flow__stage[data-more="left"] { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 3.5rem), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 3.5rem), transparent); }
 .wh-flow__stage[data-more="both"] { -webkit-mask-image: linear-gradient(to right, transparent, #000 3.5rem calc(100% - 3.5rem), transparent); mask-image: linear-gradient(to right, transparent, #000 3.5rem calc(100% - 3.5rem), transparent); }
-/* The chart never shrinks below about 92% of its drawn size: the frame scrolls instead. */
-.wh-flow__svg { display: block; width: 100%; min-width: calc(var(--flow-w, 34rem) * 0.92); height: auto; }
+/* The chart never shrinks below its drawn size (its smallest text is 11px there): the frame scrolls instead. */
+.wh-flow__svg { display: block; width: 100%; min-width: var(--flow-w, 34rem); height: auto; }
 .wh-flow__edge { fill: none; stroke: var(--c-line-control); stroke-width: 1; transition: stroke var(--wh-duration-base) var(--wh-ease-out); }
 .wh-flow__edge--link { stroke-dasharray: 2 5; }
 .wh-flow__edge[data-state="active"] { stroke: var(--c-red); stroke-width: 1.5; }

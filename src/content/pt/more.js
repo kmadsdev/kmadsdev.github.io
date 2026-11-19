@@ -1,5 +1,5 @@
 // Seção "Mais": voluntariado, idiomas, hobbies e projetos futuros.
-// Uma linha honesta para cada hobby. Nada de recorde, time ou detalhe sem fonte.
+// Uma menção curta para cada hobby, com os detalhes que o Kmads deu. Os números ficam em facts.hobbies.
 import { facts } from '../facts.js';
 import { years } from '../format.js';
 

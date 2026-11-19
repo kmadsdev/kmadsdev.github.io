@@ -32,7 +32,7 @@ export const applications = {
     live: {
         anchor: 'applications-live',
         title: 'In production',
-        lead: 'Each one has a live address that you can open now.',
+        lead: 'Each one runs at a live address now. Ruph is private: only I can sign in.',
         items: [
             app(
                 'consignado',
@@ -40,8 +40,8 @@ export const applications = {
                 `A payroll loan API in Java 21 and Spring Boot 3.5 that runs unchanged as pods on AKS and inside an Azure Function, behind one Java gateway and a Cloudflare edge. The site draws each request as a live diagram, with the measured time of each stage. It is a technical demo with synthetic data and no credit offer.`,
                 {
                     media: {
-                        preview: { caption: 'A guest runs the loan preview, and the diagram lights the path of that request.', alt: `Clip of the ${c.name} site: the loan preview form, then the request diagram with the time of each stage.` },
-                        lifecycle: { caption: 'A replay of one recorded AKS cluster start, at 8 times the real speed.', alt: `Clip of the ${c.name} site: the replay of an AKS cluster start, stage by stage, until the cluster is ready.` },
+                        preview: { caption: 'A guest sends one real loan preview to the serverless host. The trace replays that request stage by stage, and the Request Inspector opens on it.', alt: `Clip of the ${c.name} site: the loan preview form, then the request diagram with the time of each stage.` },
+                        lifecycle: { caption: 'A replay of one recorded AKS cluster start at 8 times the real speed. The slider jumps to 6 min 15 s, and the replay runs to the end.', alt: `Clip of the ${c.name} site: the replay of an AKS cluster start, stage by stage, until the cluster is ready.` },
                         api: { caption: 'The API alone, in a local run: an agreement, a customer and a loan of 84 months.', alt: 'Terminal recording: curl creates an agreement and a customer, then simulates a loan and prints the installment.' },
                         'still-1': { caption: 'The loan preview: the form with its result, and whether the installment fits the margin.', alt: `Screen of the ${c.name} site: the loan preview form with its result and the margin check.` },
                         'still-2': { caption: 'One warm preview as a trace, with the Request Inspector open on the same request.', alt: `Screen of the ${c.name} site: the trace of one request from the browser to the Spring Boot API, and the Request Inspector panel.` },
@@ -82,7 +82,7 @@ export const applications = {
             app(
                 'diabetes',
                 `A risk estimate from ${p.diabetes.inputs} answers`,
-                `A FastAPI service validates ${p.diabetes.inputs} inputs, loads the newest scikit-learn model and returns a risk estimate with its confidence. The model is a Random Forest trained on public Kaggle data. It was my CS50x final project. It is not a medical diagnosis.`,
+                `A FastAPI service validates ${p.diabetes.inputs} inputs, loads the newest scikit-learn model and returns a risk estimate with its confidence. The model is a Random Forest trained on public Kaggle data. It started as my CS50x final project. It is not a medical diagnosis.`,
                 {
                     architecture: [
                         `A static page sends the ${p.diabetes.inputs} answers to the API.`,
@@ -95,7 +95,7 @@ export const applications = {
                     ],
                 },
             ),
-            app('offmode', 'A Pomodoro timer that remembers', 'A focus timer for the web and the desktop. It tracks your focus time across sessions, with login and sync to a server.'),
+            app('offmode', 'A Pomodoro timer for deep focus', 'A focus timer for the web and the desktop. It tracks your focus time across sessions, with login and sync to a server.'),
             app('notes', 'A code editor in one HTML file', `A notepad that looks and works like VS Code, with no backend and no account. Monaco highlights ${p.notes.languages} languages. Files stay in the browser, or save straight to your disk in Chrome and Edge. It has ${p.notes.previews} live previews, from Markdown to Mermaid.`),
             app('doom', 'Doom in one file, with no server', `The 1993 game compiled from C to WebAssembly, packed with gzip into a single HTML file that unpacks itself in the browser. The packed game went from ${p.doom.sizeBefore} to ${p.doom.sizeAfter}. I built it to study compression.`),
             app('agentic', 'One context for every AI coding agent', 'A template for a repository that AI agents can work in: task, progress and knowledge files, test-first rules, and a fixed set of MCP servers and skills.'),
@@ -112,7 +112,7 @@ export const applications = {
             app('payment-gateway', 'Authorize, capture and refund, with no double charge', 'A simulated payment gateway for an online store, in Go and PostgreSQL, backend only. Card tokenization and Pix, a state machine for authorize, capture and refund, idempotency keys, a double-entry ledger, and signed webhooks through a transactional outbox. CI runs the tests with the race detector against a real PostgreSQL.'),
             app('devops-challenge', 'Four containers, one command', `A distributed system on Docker Compose with ${p['devops-challenge'].containers} containers: a Python writer, a Go reader, a Node.js web front end and Redis between them.`),
             app('incident-api', 'Alerts and incidents, with a terminal UI', 'An alert and incident service in PHP (Hyperf, Swoole) that ingests metrics and stores them in MySQL and Redis. It comes with a terminal interface in Python.'),
-            app('legacy', `Where I started, ${legacy.from} to ${legacy.to}`, `${legacy.folders} projects from my Glitch years: Discord bots in Node.js with Discord.js and SQLite, small Express and Fastify sites with HTML and CSS pages, and one Minecraft server setup. The repository gives the years ${legacy.from} to ${legacy.to}. It is the code I learned on.`),
+            app('legacy', `Where I started, ${legacy.from} to ${legacy.to}`, `${legacy.folders} projects from my Glitch years: Discord bots in Node.js with Discord.js and SQLite, small Express and Fastify sites with HTML and CSS pages, and one Minecraft server setup. It is the code I learned on.`),
             app('student-tools', 'Free tools for engineering students', 'A curated list of the free developer tools and credits in the GitHub Student Developer Pack. A contribution to the community, with no code.'),
         ],
     },

@@ -32,7 +32,7 @@ export const applications = {
     live: {
         anchor: 'applications-live',
         title: 'Em produção',
-        lead: 'Cada um tem um endereço no ar que você pode abrir agora.',
+        lead: 'Cada um roda em um endereço no ar. O Ruph é privado: só eu consigo entrar.',
         items: [
             app(
                 'consignado',
@@ -40,12 +40,12 @@ export const applications = {
                 'Uma API de crédito consignado em Java 21 e Spring Boot 3.5 que roda sem alteração como pods no AKS e dentro de uma Azure Function, atrás de um gateway em Java e de um edge na Cloudflare. O site desenha cada requisição como um diagrama ao vivo, com o tempo medido de cada etapa. É uma demonstração técnica com dados sintéticos, sem oferta de crédito.',
                 {
                     media: {
-                        preview: { caption: 'Um visitante roda a simulação, e o diagrama acende o caminho daquela requisição.', alt: `Clipe do site do ${c.name}: o formulário de simulação e depois o diagrama da requisição com o tempo de cada etapa.` },
-                        lifecycle: { caption: 'O replay de um start gravado do cluster AKS, a 8 vezes a velocidade real.', alt: `Clipe do site do ${c.name}: o replay do start de um cluster AKS, etapa por etapa, até o cluster ficar pronto.` },
+                        preview: { caption: 'Um visitante envia uma simulação real para o host serverless. O trace repete a requisição etapa por etapa, e o Request Inspector abre nela.', alt: `Clipe do site do ${c.name}: o formulário de simulação e depois o diagrama da requisição com o tempo de cada etapa.` },
+                        lifecycle: { caption: 'O replay de uma subida gravada do cluster AKS, a 8 vezes a velocidade real. O slider pula para 6 min 15 s, e o replay vai até o fim.', alt: `Clipe do site do ${c.name}: o replay da subida de um cluster AKS, etapa por etapa, até o cluster ficar pronto.` },
                         api: { caption: 'A API sozinha, em uma execução local: um convênio, um cliente e um empréstimo de 84 meses.', alt: 'Gravação de terminal: o curl cria um convênio e um cliente, depois simula um empréstimo e mostra a parcela.' },
-                        'still-1': { caption: 'A simulação rápida: o formulário com o resultado, e se a parcela cabe na margem.', alt: `Tela do site do ${c.name}: o formulário da simulação rápida com o resultado e a checagem da margem.` },
-                        'still-2': { caption: 'Uma simulação warm como trace, com o Request Inspector aberto na mesma requisição.', alt: `Tela do site do ${c.name}: o trace de uma requisição do navegador até a API Spring Boot, e o painel Request Inspector.` },
-                        'still-3': { caption: 'O replay de um start do cluster AKS, cada etapa com o tempo medido.', alt: `Tela do site do ${c.name}: o diagrama do start de um cluster AKS no fim do replay.` },
+                        'still-1': { caption: 'A simulação: o formulário com o resultado, e se a parcela cabe na margem.', alt: `Tela do site do ${c.name}: o formulário da simulação com o resultado e a checagem da margem.` },
+                        'still-2': { caption: 'Uma simulação com o host quente, em forma de trace, com o Request Inspector aberto na mesma requisição.', alt: `Tela do site do ${c.name}: o trace de uma requisição do navegador até a API Spring Boot, e o painel Request Inspector.` },
+                        'still-3': { caption: 'O replay de uma subida do cluster AKS, cada etapa com o tempo medido.', alt: `Tela do site do ${c.name}: o diagrama da subida de um cluster AKS no fim do replay.` },
                     },
                     architecture: [
                         `Edge: um Worker da Cloudflare com TLS, cache para arquivos estáticos e limite de ${c.rateLimit.requests} requisições a cada ${c.rateLimit.seconds} s por IP na API.`,
@@ -82,7 +82,7 @@ export const applications = {
             app(
                 'diabetes',
                 `Uma estimativa de risco a partir de ${p.diabetes.inputs} respostas`,
-                `Um serviço em FastAPI valida ${p.diabetes.inputs} entradas, carrega o modelo scikit-learn mais novo e devolve uma estimativa de risco com a confiança. O modelo é um Random Forest treinado com dados públicos do Kaggle. Foi meu projeto final do CS50x. Não é um diagnóstico médico.`,
+                `Um serviço em FastAPI valida ${p.diabetes.inputs} entradas, carrega o modelo scikit-learn mais novo e devolve uma estimativa de risco com a confiança. O modelo é um Random Forest treinado com dados públicos do Kaggle. Começou como meu projeto final do CS50x. Não é um diagnóstico médico.`,
                 {
                     architecture: [
                         `Uma página estática envia as ${p.diabetes.inputs} respostas para a API.`,
@@ -95,9 +95,9 @@ export const applications = {
                     ],
                 },
             ),
-            app('offmode', 'Um timer Pomodoro que lembra de você', 'Um timer de foco para web e desktop. Ele acompanha seu tempo de foco entre as sessões, com login e sincronização com o servidor.'),
-            app('notes', 'Um editor de código em um único arquivo HTML', `Um bloco de notas com a cara e o jeito do VS Code, sem backend e sem conta. O Monaco destaca ${p.notes.languages} linguagens. Os arquivos ficam no navegador, ou salvam direto no seu disco no Chrome e no Edge. Tem ${p.notes.previews} previews ao vivo, de Markdown a Mermaid.`),
-            app('doom', 'Doom em um arquivo, sem servidor', `O jogo de 1993 compilado de C para WebAssembly e compactado com gzip em um único arquivo HTML que se descompacta no navegador. O jogo compactado foi de ${p.doom.sizeBefore} para ${br(p.doom.sizeAfter)}. Construí para estudar compressão.`),
+            app('offmode', 'Um timer Pomodoro para foco profundo', 'Um timer de foco para web e desktop. Ele acompanha seu tempo de foco entre as sessões, com login e sincronização com o servidor.'),
+            app('notes', 'Um editor de código em um único arquivo HTML', `Um bloco de notas com a cara e o jeito do VS Code, sem backend e sem conta. O Monaco destaca ${p.notes.languages} linguagens. Os arquivos ficam no navegador, ou vão direto para o seu disco no Chrome e no Edge. Tem ${p.notes.previews} previews ao vivo, de Markdown a Mermaid.`),
+            app('doom', 'Doom em um arquivo, sem servidor', `O jogo de 1993 compilado de C para WebAssembly e compactado com gzip em um único arquivo HTML que se descompacta no navegador. O jogo compactado foi de ${p.doom.sizeBefore} para ${br(p.doom.sizeAfter)}. Fiz o projeto para estudar compressão.`),
             app('agentic', 'Um contexto para todos os agentes de IA', 'Um template de repositório em que agentes de IA conseguem trabalhar: arquivos de tarefas, progresso e conhecimento, regras de teste primeiro e um conjunto fixo de servidores MCP e skills.'),
             app('custom-square', 'Um playground de CSS', 'Mude propriedades de CSS, gradientes e cores e veja o resultado na hora. JavaScript puro, com o tema salvo no navegador.'),
             app('trocatine', 'A landing page do meu primeiro MVP de startup', `A página pública do ${startups.trocatine.name}, uma plataforma de troca de roupas e brinquedos infantis. Este endereço é só a landing page: HTML, CSS e JavaScript puros no GitHub Pages. O MVP do produto era uma aplicação separada, em React e Tailwind CSS.`),
@@ -112,7 +112,7 @@ export const applications = {
             app('payment-gateway', 'Authorize, capture e refund, sem cobrança em dobro', 'Um payment gateway simulado para uma loja online, em Go e PostgreSQL, só backend. Tokenização de cartão e Pix, uma state machine para authorize, capture e refund, idempotency keys, um ledger em partidas dobradas e webhooks assinados via transactional outbox. O CI roda os testes com race detector contra um PostgreSQL real.'),
             app('devops-challenge', 'Quatro containers, um comando', `Um sistema distribuído em Docker Compose com ${p['devops-challenge'].containers} containers: um writer em Python, um reader em Go, um front end web em Node.js e o Redis entre eles.`),
             app('incident-api', 'Alertas e incidentes, com interface de terminal', 'Um serviço de alertas e incidentes em PHP (Hyperf, Swoole) que recebe métricas e grava em MySQL e Redis. Vem com uma interface de terminal em Python.'),
-            app('legacy', `Onde eu comecei, de ${legacy.from} a ${legacy.to}`, `${legacy.folders} projetos dos meus anos de Glitch: bots de Discord em Node.js com Discord.js e SQLite, sites pequenos em Express e Fastify com páginas em HTML e CSS, e a configuração de um servidor de Minecraft. O repositório indica os anos de ${legacy.from} a ${legacy.to}. Foi nesse código que eu aprendi.`),
+            app('legacy', `Onde eu comecei, de ${legacy.from} a ${legacy.to}`, `${legacy.folders} projetos dos meus anos de Glitch: bots de Discord em Node.js com Discord.js e SQLite, sites pequenos em Express e Fastify com páginas em HTML e CSS, e a configuração de um servidor de Minecraft. Foi nesse código que eu aprendi.`),
             app('student-tools', 'Ferramentas gratuitas para estudantes de engenharia', 'Uma lista curada das ferramentas e dos créditos gratuitos do GitHub Student Developer Pack. Uma contribuição para a comunidade, sem código.'),
         ],
     },

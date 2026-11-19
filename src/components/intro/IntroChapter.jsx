@@ -12,9 +12,10 @@
 import { useState } from 'react';
 import { facts } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import { Reveal } from '../bento/index.js';
+import { Reveal, ToggleSign } from '../bento/index.js';
 import FigmaRow from '../FigmaRow.jsx';
 import Icon from '../Icon.jsx';
+import { ArtToggle, Playback, usePlayback } from '../art/kit/index.js';
 import { RichParagraphs } from '../Rich.jsx';
 import IntroTile, { DRAWINGS } from './IntroTile.jsx';
 
@@ -89,6 +90,7 @@ function Figures({ items }) {
 export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
     const { t } = useLanguage();
     const [open, setOpen] = useState(false);
+    const playback = usePlayback();
     const { main, figures, extras } = plan(chapter);
     const id = `intro-${chapter.id}`;
     const number = (tile) => numbers[`${chapter.id}/${tile.id}`];
@@ -121,11 +123,16 @@ export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
                 </div>
                 {Drawing ? (
                     <figure className="intro-figure">
-                        <p className="tile__label">
-                            <span aria-hidden="true">D{number(main)} · </span>
-                            {drawing.title}
-                        </p>
-                        <div className="intro-figure__frame"><Drawing /></div>
+                        <Playback value={playback}>
+                            <div className="intro-figure__bar">
+                                <p className="tile__label">
+                                    <span aria-hidden="true">D{number(main)} · </span>
+                                    {drawing.title}
+                                </p>
+                                <ArtToggle />
+                            </div>
+                            <div className="intro-figure__frame"><Drawing /></div>
+                        </Playback>
                     </figure>
                 ) : figures.length ? (
                     <Figures items={figures} />
@@ -134,9 +141,9 @@ export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
 
             {more ? (
                 <details className="intro-more" onToggle={(event) => setOpen(event.currentTarget.open)}>
-                    <summary>
+                    <summary className="toggle">
                         <span>{open ? t.controls.readLess : t.controls.readMore}</span>
-                        <Icon name="arrow-down" size={14} />
+                        <ToggleSign />
                     </summary>
                     <div className="intro-more__body" data-side={extras.length ? 'true' : undefined}>
                         <div className="intro-more__main">

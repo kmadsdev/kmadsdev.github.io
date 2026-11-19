@@ -154,6 +154,26 @@ describe('text rules (CONTRACT.md section 2)', () => {
         expect(joined('pt')).toContain('8 anos em tecnologia');
     });
 
+    // Copy review 2026-11-19: each rule below was broken more than once.
+    it('says "banco de dados" for a database in Portuguese, never "banco" alone', () => {
+        const pt = whole.filter(([p]) => p.startsWith('pt.'));
+        // Allowed: "Banco Central" and "um banco" (a bank, as a company).
+        const found = pt.filter(([, v]) => /\bbancos?\b(?! de dados)(?! Central)/i.test(v.replace(/\bum banco faria\b/g, '')));
+        expect(found.map(([p, v]) => `${p}: ${v}`)).toEqual([]);
+    });
+
+    it('says "cloud" in Portuguese, never "nuvem"', () => {
+        expect(hits(whole.filter(([p]) => p.startsWith('pt.')), /\bnuvens?\b/i)).toEqual([]);
+    });
+
+    it('says that Ruph is private wherever a text promises a live address for every application', () => {
+        for (const lang of LANGS) {
+            const t = content[lang];
+            const promises = [t.applications.live.lead, t.intro.chapters.find((c) => c.id === 'endtoend').tiles.find((tile) => tile.id === 'live').text];
+            for (const text of promises) expect(text, `${lang}: ${text}`).toContain('Ruph');
+        }
+    });
+
     it('calls Ruph "my own platform"', () => {
         expect(plain(content.en.intro.opening.paragraphs[2])).toContain('my own platform');
         expect(plain(content.pt.intro.opening.paragraphs[2])).toContain('minha própria plataforma');

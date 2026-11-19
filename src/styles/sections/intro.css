@@ -69,7 +69,9 @@
 }
 
 /* The main drawing, in a plain frame with the one soft red light of the view. */
-.intro-figure { display: grid; gap: 0.625rem; min-width: 0; margin: 0; }
+.intro-figure { display: grid; gap: 0.5rem; min-width: 0; margin: 0; }
+.intro-figure__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--wh-space-3); min-height: 1.75rem; }
+.intro-tile__toggle { justify-self: start; }
 .intro-figure__frame {
     display: grid;
     place-items: center;
@@ -127,23 +129,6 @@
 
 /* The disclosure: the full story of the chapter. */
 .intro-more { margin-top: var(--wh-space-2); }
-.intro-more > summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    font: var(--wh-weight-medium) var(--wh-text-xs) / var(--wh-leading-xs) var(--wh-font-mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--c-text-strong);
-    cursor: pointer;
-    list-style: none;
-}
-.intro-more > summary::-webkit-details-marker { display: none; }
-.intro-more > summary .icon { color: var(--c-red); transition: transform var(--wh-duration-base) var(--wh-ease-out); }
-.intro-more[open] > summary .icon { transform: rotate(180deg); }
-.intro-more > summary:hover span { text-decoration: underline; text-decoration-color: var(--c-red); text-underline-offset: 4px; }
-.intro-more > summary:focus-visible { outline: 0; border-radius: 4px; box-shadow: var(--wh-focus-ring); }
 .intro-more__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--wh-space-8) clamp(2rem, 1rem + 3vw, 3.5rem); padding-top: var(--wh-space-4); }
 .intro-more__main, .intro-more__side { display: grid; gap: var(--wh-space-8); align-content: start; min-width: 0; }
 .intro-more__body > .figma-row { grid-column: 1 / -1; margin-top: 0; }
@@ -165,6 +150,6 @@
     .intro-proof__link { min-height: 2.75rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-    .intro-proof__link .icon, .intro-fact--link .icon, .intro-more > summary .icon { transition: none; }
+    .intro-proof__link .icon, .intro-fact--link .icon { transition: none; }
     .intro-fact--link:hover .icon { transform: none; }
 }
