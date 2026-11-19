@@ -7,7 +7,7 @@
 import { facts } from '../../content/index.js';
 import { local } from '../../content/format.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import { Art, Halftone, Label, useArt, useStep } from './kit/index.js';
+import { Art, Label, useArt, useStep } from './kit/index.js';
 import { Fit, Lines, wrap } from './artAKit.jsx';
 
 const DATA = facts.art.trace;
@@ -56,7 +56,6 @@ function Scene({ text, layout, lang }) {
     const at = (share) => x0 + share * (x1 - x0);
     const done = now >= stages.length;
     const head = done ? x1 : at(stages[now].end);
-    const timed = stages.find((stage) => stage.ms != null);
 
     return (
         <>
@@ -67,11 +66,6 @@ function Scene({ text, layout, lang }) {
             </text>
             <Lines className="trace-note" x={layout.stacked ? layout.names : x0} y={layout.note} text={text[id].note} max={layout.noteMax} lead={13} />
 
-            {timed && !layout.stacked ? (
-                <Halftone fill="signal" fade="up" opacity={0.42}>
-                    <rect x={at(timed.start)} y={top} width={at(timed.end) - at(timed.start)} height={tall} />
-                </Halftone>
-            ) : null}
             {layout.stacked ? null : (
                 <>
                     <line className="art-line art-line--faint" x1={x0} y1={top - 4} x2={x0} y2={top + tall + 4} />

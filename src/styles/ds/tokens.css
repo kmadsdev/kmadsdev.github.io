@@ -1,18 +1,20 @@
-/* Design tokens of kmads.dev. One theme: dark.
-   The --c-* names are the palette. The --wh-* names are the older names of the
-   same values; the parts in editorial.css and the older sections still read them. */
+/* Design tokens of kmads.dev. One theme: dark. One system for type, space, shape and line.
+   Every rule in every stylesheet reads these names. A raw value in a rule has a comment that says why.
+   Guide: DESIGN.md. */
 :root {
   color-scheme: dark;
 
-  /* ---------- Palette ---------- */
+  /* ---------- Colour ----------
+     Grounds are solid. Red is the one accent. Violet and blue exist only inside drawings
+     (data on its way). Mint means "live now". */
   --c-ground: #0B0B10;
   --c-tile: #12121A;
   --c-tile-2: #191923;
   --c-tile-3: #21212D;
-  --c-line: rgb(255 255 255 / 0.08);
-  --c-line-soft: rgb(255 255 255 / 0.05);
-  --c-line-strong: rgb(255 255 255 / 0.18);
-  --c-line-control: #6E6A7C;
+  --c-paper: #ECECEF;                      /* the light plate under my original Figma diagrams */
+  --c-line: rgb(255 255 255 / 0.08);       /* hairline: tile edge, row rule */
+  --c-line-strong: rgb(255 255 255 / 0.18); /* control edge, hover, the horizon */
+  --c-line-control: #6E6A7C;               /* marks that must read as a shape: ticks, underlines */
   --c-text-strong: #F6F3EC;
   --c-text: #D5D1DA;
   --c-text-muted: #A39FAE;
@@ -21,127 +23,122 @@
   --c-red-hover: #FF2D6C;
   --c-red-pressed: #FF1A60;
   --c-red-text: #FF5C8A;
+  --c-red-line: rgb(255 1 79 / 0.62);      /* underline of a link to the proof */
+  --c-red-tap: rgb(255 1 79 / 0.18);       /* the flash of a tap on a phone */
   --c-on-red: #0B0B10;
   --c-violet: #B300FF;
   --c-blue: #009DFF;
-  --g-signal: linear-gradient(90deg, #B300FF, #009DFF);
   --c-mint: #00FFBB;
+  --c-scrim: rgb(5 5 8 / 0.82);
 
-  /* ---------- Shape ---------- */
-  --r-tile: 1.375rem;
-  --r-control: 0.625rem;
-  --r-chip: 0.375rem;
+  /* ---------- Type: families ---------- */
+  --font-sans: "Geist Variable", Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-display: "Archivo Variable", Archivo, var(--font-sans);
 
-  /* ---------- Layout ---------- */
+  /* ---------- Type: the scale ----------
+     11 steps. Each step is a size, a line height and a letter spacing.
+     Line heights are tight on purpose: 1.6 for prose at 16px on a 60ch line, 1.5 for small text.
+     Display steps (Archivo): hero, h2, h3, num-lg, num. Text steps (Geist): h4, lead, body, sm, xs.
+     Mono (Geist Mono): xs for facts, mark for board marks. */
+  --fs-hero: clamp(3rem, 1.4rem + 6.4vw, 6rem);              /* h1: my name */
+  --lh-hero: 0.92;
+  --ls-hero: -0.035em;
+  --fs-h2: clamp(1.875rem, 1.2rem + 2.3vw, 3.25rem);         /* section headline */
+  --lh-h2: 1.08;
+  --ls-h2: -0.03em;
+  --fs-h3: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);         /* chapter, company, group, application */
+  --lh-h3: 1.15;
+  --ls-h3: -0.02em;
+  --fs-h4: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);       /* tile title, case title, role */
+  --lh-h4: 1.3;
+  --ls-h4: -0.01em;
+  --fs-lead: clamp(1.0625rem, 1rem + 0.25vw, 1.125rem);      /* lead under a headline */
+  --lh-lead: 1.5;
+  --fs-body: 1rem;                                           /* prose */
+  --lh-body: 1.6;
+  --fs-sm: 0.9375rem;                                        /* tile text, controls, secondary text */
+  --lh-sm: 1.5;
+  --fs-xs: 0.8125rem;                                        /* captions, quiet labels, mono facts */
+  --lh-xs: 1.5;
+  --fs-mark: 0.75rem;                                        /* board mark (mono, uppercase) and a dense line of mono facts */
+  --lh-mark: 1.5;
+  --ls-mark: 0.06em;
+  --fs-num-lg: clamp(2.25rem, 1.8rem + 1.6vw, 3rem);         /* one large number */
+  --fs-num: 1.375rem;                                        /* a number in a row */
+  --lh-num: 1.1;
+  --ls-num: -0.02em;
+  --lh-flat: 1;                                              /* one line in a control */
+
+  /* Weights: 5. Widths of Archivo: 3. */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-display: 780;
+  --fw-black: 850;
+  --wd-display: 112%;
+  --wd-hero: 118%;
+  --wd-wide: 125%;
+
+  /* ---------- Space: one scale (4px base) ---------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-12: 3rem;
+  /* The steps by meaning: 7 vertical steps, from near to far. Related things are closer than
+     unrelated things, and "apart" is one calm step, never an empty band. */
+  --gap-pair: var(--sp-2);     /* 8px: a label and the thing it names, a title and its meta line */
+  --gap-group: var(--sp-3);    /* 12px: inside one group: paragraph to paragraph, headline to lead, text to its links */
+  --gap-stack: var(--sp-4);    /* 16px: between the groups of one block; the head of a chapter to its content */
+  --gap-block: clamp(1.5rem, 1.25rem + 1vw, 2.25rem);   /* 24 to 36px: block to block; the head of a section to its content */
+  --gap-chapter: clamp(2.5rem, 2rem + 2vw, 4rem);       /* 40 to 64px: chapter to chapter inside a section */
+  --gap-section: clamp(4rem, 3rem + 3.5vw, 6.5rem);     /* 64 to 104px: section to section */
+  --gap-col: clamp(1.5rem, 1rem + 2.5vw, 3.5rem);       /* between two columns */
+  --gap-grid: var(--sp-3);                              /* between tiles (1rem from 1280px) */
+  --pad-tile: clamp(1rem, 0.85rem + 0.6vw, 1.5rem);     /* inside a tile */
+  --pad-row: var(--sp-2);                               /* above and below a row on a hairline */
+
+  /* ---------- Widths ---------- */
   --gutter: clamp(1rem, 0.2rem + 3.4vw, 3.5rem);
-  --col: 72rem;
-  --col-wide: 84rem;
-  --section-gap: clamp(6rem, 3rem + 9vw, 13.5rem);
-  --tile-pad: clamp(1.125rem, 0.9rem + 0.8vw, 1.75rem);
+  --col: 72rem;            /* the centred column */
+  --w-head: 46rem;         /* a headline block: a section headline stands on two or three lines */
+  --measure: 50ch;         /* prose: 66 to 72 characters a line in Geist (1ch is the wide "0") */
+  --measure-lead: 46ch;    /* short text: tile text, the summary of the hero */
 
-  /* ---------- Older names ---------- */
-  --wh-space-0: 0;
-  --wh-space-1: 0.25rem;
-  --wh-space-2: 0.5rem;
-  --wh-space-3: 0.75rem;
-  --wh-space-4: 1rem;
-  --wh-space-5: 1.25rem;
-  --wh-space-6: 1.5rem;
-  --wh-space-8: 2rem;
-  --wh-space-10: 2.5rem;
-  --wh-space-12: 3rem;
-  --wh-space-16: 4rem;
-  --wh-radius-none: 0;
-  --wh-radius-xs: 2px;
-  --wh-radius-sm: var(--r-chip);
-  --wh-radius-md: var(--r-control);
-  --wh-radius-lg: var(--r-tile);
-  --wh-radius-full: 999px;
-  --wh-text-xs: 0.75rem;
-  --wh-leading-xs: 1rem;
-  --wh-tracking-xs: 0.01em;
-  --wh-text-sm: 0.8125rem;
-  --wh-leading-sm: 1.25rem;
-  --wh-tracking-sm: 0.005em;
-  --wh-text-md: 0.875rem;
-  --wh-leading-md: 1.375rem;
-  --wh-tracking-md: 0;
-  --wh-text-lg: 1rem;
-  --wh-leading-lg: 1.5rem;
-  --wh-tracking-lg: -0.005em;
-  --wh-text-xl: 1.25rem;
-  --wh-leading-xl: 1.75rem;
-  --wh-tracking-xl: -0.012em;
-  --wh-text-2xl: 1.5rem;
-  --wh-leading-2xl: 2rem;
-  --wh-tracking-2xl: -0.018em;
-  --wh-text-3xl: 2rem;
-  --wh-leading-3xl: 2.375rem;
-  --wh-tracking-3xl: -0.024em;
-  --wh-text-4xl: 2.75rem;
-  --wh-leading-4xl: 3rem;
-  --wh-tracking-4xl: -0.032em;
-  --wh-text-5xl: 4rem;
-  --wh-leading-5xl: 4rem;
-  --wh-tracking-5xl: -0.04em;
-  --wh-weight-regular: 400;
-  --wh-weight-medium: 500;
-  --wh-weight-semibold: 600;
-  --wh-weight-bold: 700;
-  --wh-duration-instant: 100ms;
-  --wh-duration-fast: 160ms;
-  --wh-duration-base: 220ms;
-  --wh-duration-slow: 320ms;
-  --wh-duration-page: 420ms;
-  --wh-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --wh-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --wh-ease-in: cubic-bezier(0.7, 0, 0.84, 0);
-  --wh-ease-spring: linear(0, 0.109, 0.309, 0.501, 0.656, 0.77, 0.849, 0.903, 0.938, 0.961, 0.976, 0.985, 0.991, 0.994, 0.997, 0.998, 1);
-  --wh-ease-spring-bounce: linear(0, 0.103, 0.311, 0.526, 0.705, 0.836, 0.922, 0.974, 1.001, 1.012, 1.015, 1.014, 1.01, 1.007, 1.004, 1.002, 1.001, 1, 1, 1, 1);
-  --wh-z-sticky: 10;
-  --wh-z-overlay: 40;
-  --wh-z-modal: 50;
-  --wh-z-toast: 60;
-  --wh-z-tooltip: 70;
-  --wh-control-sm: 1.75rem;
-  --wh-control-md: 2.25rem;
-  --wh-control-lg: 2.75rem;
-  --wh-control-touch: 2.75rem;
-  --wh-layout-topbar: 3.5rem;
-  --wh-layout-content: var(--col);
-  --wh-font-sans: "Geist Variable", Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --wh-font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --wh-focus-ring: 0 0 0 2px var(--c-ground), 0 0 0 4px var(--c-text-strong);
+  /* ---------- Shape: one radius scale ---------- */
+  --r-lg: 0.75rem;         /* tiles, frames, pictures, the dialog */
+  --r-md: 0.5rem;          /* controls, thumbnails */
+  --r-sm: 0.25rem;         /* tags, the focus ring of a text link */
+  --r-full: 999px;         /* round buttons, dots */
 
-  --wh-color-canvas: var(--c-ground);
-  --wh-color-surface: var(--c-tile);
-  --wh-color-surface-raised: var(--c-tile-2);
-  --wh-color-surface-hover: var(--c-tile-3);
-  --wh-color-line: var(--c-line);
-  --wh-color-line-strong: var(--c-line-strong);
-  --wh-color-line-control: var(--c-line-control);
-  --wh-color-text: var(--c-text);
-  --wh-color-text-strong: var(--c-text-strong);
-  --wh-color-text-muted: var(--c-text-muted);
-  --wh-color-text-on-accent: var(--c-on-red);
-  --wh-color-accent: var(--c-red);
-  --wh-color-accent-hover: var(--c-red-hover);
-  --wh-color-accent-pressed: var(--c-red-pressed);
-  --wh-color-accent-text: var(--c-red-text);
-  --wh-color-accent-subtle: #2A0A16;
-  --wh-color-accent-subtle-text: var(--c-red-text);
-  --wh-color-signal: var(--c-mint);
-  --wh-color-signal-text: var(--c-mint);
-  --wh-color-selection: var(--c-red);
-  --wh-color-selection-text: var(--c-on-red);
-  --wh-color-focus: var(--c-text-strong);
-  --wh-color-scrim: rgb(0 0 0 / 0.6);
-  --wh-edge: inset 0 1px 0 rgb(255 255 255 / 0.03);
-  --wh-accent-glow: 0 6px 20px -6px rgb(255 1 79 / 0.55);
+  /* ---------- Controls and layout ---------- */
+  --ctl-sm: 1.75rem;
+  --ctl-md: 2.25rem;
+  --ctl-lg: 2.75rem;       /* 44px: the touch size */
+  --header-h: 3.5rem;
+  --rail: 44px;            /* the left ruler. Pixels: the ruler measures the screen, it does not grow with the text. */
+  --rule-x: 10px;          /* the top ruler */
+  /* One stop point for every sticky part and every anchor. */
+  --sticky-top: calc(var(--header-h) + var(--rule-x) + var(--sp-6));
+  --z-sticky: 10;
+  --z-top: 70;
+  --focus-ring: 0 0 0 2px var(--c-ground), 0 0 0 4px var(--c-text-strong);
+
+  /* ---------- Motion ---------- */
+  --dur-instant: 100ms;
+  --dur-fast: 160ms;
+  --dur-base: 220ms;
+  --dur-slow: 320ms;
+  --dur-page: 420ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
-@media (prefers-reduced-motion: reduce) {
-  :root { --wh-ease-spring: ease-out; --wh-ease-spring-bounce: ease-out; --wh-duration-page: 1ms; }
+@media (min-width: 1280px) {
+  :root { --gap-grid: var(--sp-4); }
 }
 @media (pointer: coarse) {
-  :root { --wh-control-sm: 2.75rem; --wh-control-md: 2.75rem; }
+  :root { --ctl-sm: 2.75rem; --ctl-md: 2.75rem; }
 }

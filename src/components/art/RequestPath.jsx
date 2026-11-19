@@ -8,7 +8,7 @@
 // readout names the hop.
 import { facts } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import { Art, Halftone, Label, Packet, Wire, useStep } from './kit/index.js';
+import { Art, Label, Packet, Wire, useStep } from './kit/index.js';
 import { Box, Fit, Readout } from './artAKit.jsx';
 
 const DATA = facts.art.requestPath;
@@ -53,7 +53,6 @@ const WIDE = {
     azure: { x: 252, y: 30, width: 408, height: 268, label: { x: 264, y: 49, anchor: 'start' } },
     cloudflare: { x: 115, y: 112, width: 130, height: 66, label: { x: 116, y: 103, anchor: 'start' } },
     readout: { x: 8, y: 22, max: 26 },
-    glow: 84,
 };
 const NARROW = {
     width: 300,
@@ -83,7 +82,6 @@ const NARROW = {
     azure: { x: 2, y: 166, width: 296, height: 320, label: { x: 288, y: 476, anchor: 'end' } },
     cloudflare: { x: 2, y: 84, width: 144, height: 60, label: { x: 156, y: 102, anchor: 'start' } },
     readout: { x: 160, y: 20, max: 16 },
-    glow: 72,
 };
 
 function Scene({ text, layout }) {
@@ -94,15 +92,10 @@ function Scene({ text, layout }) {
     // Hops of this route that the request crossed before this one.
     const crossed = new Set(route.slice(0, step.hop).map((node, i) => `${node}>${route[i + 1]}`));
     const seen = new Set(route.slice(0, step.hop));
-    const gateway = layout.at.gateway;
     const size = (id) => ({ w: layout.at[id].w ?? layout.w, h: layout.h });
 
     return (
         <>
-            <Halftone fill="signal" fade="radial" opacity={0.5}>
-                <circle cx={gateway.x + layout.w / 2} cy={gateway.y + layout.h / 2} r={layout.glow} />
-            </Halftone>
-
             {/* Where each part runs. */}
             {Object.keys(DATA.groups).map((group) => {
                 const frame = layout[group];

@@ -1,65 +1,79 @@
-/* The board: chapters, the bento grid and its tiles.
-   Components: src/components/bento/. Guide: DESIGN.md. */
+/* The board: chapters, the grid and its tiles.
+   Components: src/components/bento/. Guide: DESIGN.md.
 
-/* ---------- Chapter ---------- */
-.chapter { padding-block: var(--section-gap) 0; }
-.chapter-head { display: grid; gap: var(--wh-space-5); max-width: 46rem; margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
-.chapter-label { display: inline-flex; align-items: center; gap: 0.625rem; }
-.chapter-label::before { content: ""; width: 6px; height: 6px; background: var(--c-red); }
-.chapter-lead { text-wrap: pretty; max-width: 60ch; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); line-height: 1.65; color: var(--c-text-muted); }
+   Vertical rhythm, from near to far (tokens.css):
+   pair 8px < group 12px < stack 16px < block 24 to 36px < chapter 40 to 64px < section 64 to 104px. */
+
+/* ---------- Chapter (one section of the page) ---------- */
+.chapter { padding-top: var(--gap-section); }
+.hero + .chapter { padding-top: var(--gap-chapter); } /* the hero ends with its own air */
+/* A head: [label, headline] then the lead. Used by a section, a chapter and the contact block. */
+.chapter-head { display: grid; gap: var(--gap-group); max-width: var(--w-head); margin-bottom: var(--gap-block); }
+.chapter-label { display: inline-flex; align-items: center; gap: var(--sp-2); }
+/* The red mark: the index of the board. Pixels: a mark, not a space step. */
+.chapter-label::before { content: ""; flex: none; width: 6px; height: 6px; background: var(--c-red); }
+/* The label stays with its headline: 8px, where the head has 12px between its other parts. */
+:is(.chapter-head, .outro-text) > .chapter-label { margin-bottom: calc(var(--gap-pair) - var(--gap-group)); }
+.chapter-lead { max-width: var(--measure); font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--c-text-muted); text-wrap: pretty; }
+
+/* Prose: one size, one line height, one measure, on every section. */
+.chapter-text { display: grid; gap: var(--gap-group); max-width: var(--measure); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--c-text); }
 .chapter-text p { text-wrap: pretty; }
-.chapter-text { display: grid; gap: var(--wh-space-5); max-width: 68ch; font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); line-height: 1.7; color: var(--c-text); }
-.chapter-text a { color: var(--c-text-strong); text-decoration: underline; text-decoration-color: var(--c-line-control); text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-decoration-color var(--wh-duration-instant) linear; }
+.chapter-text a { color: var(--c-text-strong); text-decoration: underline; text-decoration-color: var(--c-line-control); text-decoration-thickness: 1px; text-underline-offset: 0.25em; transition: text-decoration-color var(--dur-instant) linear; }
 .chapter-text a:hover { text-decoration-color: var(--c-red); }
-.chapter-group { margin-top: clamp(4rem, 2.5rem + 5vw, 7.5rem); }
-.chapter-group__head { display: grid; gap: var(--wh-space-4); max-width: 46rem; margin-bottom: var(--wh-space-10); }
+
+/* A named part of a chapter (one company, one group of applications). */
+.chapter-group { margin-top: var(--gap-chapter); }
+.chapter-head + .chapter-group { margin-top: 0; }
+.chapter-group__head { display: grid; gap: var(--gap-pair); max-width: var(--w-head); margin-bottom: var(--gap-stack); }
 .chapter > .bento + .bento,
 .chapter > .bento + .chapter-text,
 .chapter > .chapter-text + .bento,
 .chapter > .split + .bento,
-.chapter > .bento + .split { margin-top: clamp(2rem, 1.5rem + 2vw, 3.5rem); }
+.chapter > .bento + .split { margin-top: var(--gap-block); }
 
-/* Two columns: text on the left, the main object (a picture, a diagram) on the right.
-   One column below 900px.
+/* Two columns: text (7 parts) and the main object (5 parts). One column below 900px.
    .split--top     both columns start at the top
    .split--sticky  the object stays in view while the text scrolls (use with long text)
    .split--flip    the object on the left */
-.split { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--wh-space-10) clamp(2rem, 1rem + 4vw, 5rem); align-items: center; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-stack) var(--gap-col); align-items: center; }
 .split__media { min-width: 0; }
-.split__media > :is(img, video, picture) { display: block; width: 100%; height: auto; border: 1px solid var(--c-line); border-radius: var(--r-tile); }
+.split__media > :is(img, video, picture) { display: block; width: 100%; height: auto; border: 1px solid var(--c-line); border-radius: var(--r-lg); }
 @media (min-width: 900px) {
     .split { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
     .split--even { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
     .split--flip > :first-child { order: 2; }
     .split--top,
     .split--sticky { align-items: start; }
-    .split--sticky > .split__media { position: sticky; top: calc(var(--header-h) + var(--wh-rule-x) + 2rem); }
+    .split--sticky > .split__media { position: sticky; top: var(--sticky-top); }
 }
 @media (max-width: 899.98px) {
-    .split__media { max-width: 26rem; }
+    .split__media { max-width: 36rem; } /* one column: a facts tile or a picture does not span a tablet */
 }
 
 /* ---------- Grid ---------- */
 .bento {
     --bento-cols: 4;
-    --bento-gap: 0.75rem;
     --bento-row: auto;
     display: grid;
     grid-template-columns: repeat(var(--bento-cols), minmax(0, 1fr));
     grid-auto-rows: minmax(var(--bento-row), auto);
-    gap: var(--bento-gap);
+    gap: var(--gap-grid);
     margin: 0;
     padding: 0;
     list-style: none;
 }
 @media (min-width: 768px) {
+    /* The row unit of the board: it grows with the screen, and a tile grows past it with its text. */
     .bento { --bento-cols: 8; --bento-row: clamp(9rem, 5.5rem + 6vw, 12.5rem); }
 }
 @media (min-width: 1280px) {
-    .bento { --bento-cols: 12; --bento-gap: 1rem; }
+    .bento { --bento-cols: 12; }
 }
 
-/* ---------- Tile ---------- */
+/* ---------- Tile ----------
+   A solid surface one step above the ground, a hairline, one radius. No light, no shadow.
+   Inside: [figure] then [title, text]. */
 .tile {
     --w: var(--w-s, 4);
     --h: var(--h-s, 1);
@@ -68,12 +82,12 @@
     grid-row: span var(--h);
     display: flex;
     flex-direction: column;
-    gap: var(--wh-space-4);
+    gap: var(--gap-group);
     min-width: 0;
-    padding: var(--tile-pad);
+    padding: var(--pad-tile);
     overflow: hidden;
-    border: 1px solid var(--c-line-soft);
-    border-radius: var(--r-tile);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);
     background: var(--c-tile);
     color: var(--c-text);
     text-decoration: none;
@@ -84,122 +98,88 @@
 @media (min-width: 1280px) {
     .tile { --w: var(--w-l, 4); --h: var(--h-l, 1); }
 }
-@media (max-width: 767.98px) {
-    .tile { --r-tile: 0.875rem; }
-}
 
-/* One soft red light, for the main object of a view. */
-.tile[data-light]::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(70% 80% at 72% 0%, rgb(255 1 79 / 0.17), transparent 70%);
-    pointer-events: none;
-}
-.tile > * { position: relative; }
-
-/* Silk-screen label: small, mono. For art and diagram tiles. */
-.tile__label {
-    margin: 0;
-    font: var(--wh-weight-medium) 0.6875rem / 1rem var(--wh-font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--c-text-faint);
-}
-
-/* Figure: the picture or diagram, on top, in a plain inner frame. */
+/* Figure: the picture or diagram. A band of the ground from edge to edge of the tile,
+   not a second card inside the card. */
 .tile__figure {
     flex: 1 1 auto;
     display: grid;
     place-items: center;
     min-height: 0;
-    margin: calc(var(--tile-pad) * -0.5) calc(var(--tile-pad) * -0.5) 0;
-    padding: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+    margin-inline: calc(var(--pad-tile) * -1);
+    padding: var(--sp-4);
     overflow: hidden;
-    border-radius: calc(var(--r-tile) - var(--tile-pad) * 0.5);
+    border-block: 1px solid var(--c-line);
     background: var(--c-ground);
 }
-.tile__label + .tile__figure { margin-top: 0; }
+.tile__figure:first-child { margin-top: calc(var(--pad-tile) * -1); border-top: 0; }
 .tile--media .tile__figure { padding: 0; }
 .tile--media .tile__figure > :is(img, video, picture) { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-.tile__body { display: grid; gap: var(--wh-space-2); align-content: start; min-width: 0; }
+.tile__body { display: grid; gap: var(--gap-pair); align-content: start; min-width: 0; }
 .tile[data-figure] .tile__body { flex: none; }
-.tile:not([data-figure]) .tile__body { flex: 1 1 auto; align-content: end; }
+.tile:not([data-figure]) .tile__body { flex: 1 1 auto; }
 .tile__title {
     margin: 0;
-    font: var(--wh-weight-semibold) clamp(1.0625rem, 1rem + 0.35vw, 1.25rem) / 1.3 var(--wh-font-sans);
-    letter-spacing: -0.012em;
+    font: var(--fw-semibold) var(--fs-h4) / var(--lh-h4) var(--font-sans);
+    letter-spacing: var(--ls-h4);
     color: var(--c-text-strong);
     text-wrap: balance;
 }
-.tile__text { max-width: 52ch; margin: 0; font-size: 0.9375rem; line-height: 1.6; color: var(--c-text-muted); text-wrap: pretty; }
-.tile__text a { color: var(--c-text-strong); text-decoration: underline; text-decoration-color: var(--c-line-control); text-underline-offset: 3px; }
+.tile__text { max-width: var(--measure-lead); margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); text-wrap: pretty; }
+.tile__text a { color: var(--c-text-strong); text-decoration: underline; text-decoration-color: var(--c-line-control); text-underline-offset: 0.25em; }
 .tile__text a:hover { text-decoration-color: var(--c-red); }
 
-.tile__poster {
-    margin: 0;
-    font-family: var(--wh-font-display);
-    font-stretch: 125%;
-    font-weight: 900;
-    font-size: clamp(1.75rem, 1.2rem + 2vw, 3rem);
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--c-text-strong);
-    overflow-wrap: anywhere;
-}
-
 /* Stat: one number, its unit, its source. */
-.stat { display: grid; gap: var(--wh-space-2); }
-.stat__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5rem; margin: 0; }
+.stat { display: grid; gap: var(--gap-pair); }
+.stat__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--sp-2); margin: 0; }
 .stat__value {
-    font-family: var(--wh-font-display);
-    font-stretch: 125%;
-    font-weight: 800;
-    font-size: clamp(2.5rem, 1.8rem + 2.4vw, 4rem);
-    line-height: 1;
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-stretch: var(--wd-wide);
+    font-weight: var(--fw-display);
+    font-size: var(--fs-num-lg);
+    line-height: var(--lh-num);
+    letter-spacing: var(--ls-num);
     font-variant-numeric: tabular-nums;
     color: var(--c-text-strong);
 }
-.stat__unit { font: var(--wh-weight-medium) 0.8125rem / 1.2 var(--wh-font-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--c-text-muted); }
-.stat__source { max-width: 36ch; margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--c-text-muted); }
+.stat__unit { font: var(--fw-medium) var(--fs-xs) / var(--lh-xs) var(--font-sans); color: var(--c-text-muted); }
+.stat__source { max-width: var(--measure-lead); margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); }
 
-/* List: short rows of facts. */
+/* List: short rows of facts on hairlines. */
 .tile__list { display: grid; margin: 0; padding: 0; list-style: none; }
 .tile__list li {
     display: flex;
     justify-content: space-between;
-    gap: var(--wh-space-4);
-    padding: 0.5rem 0;
+    gap: var(--sp-4);
+    padding: var(--pad-row) 0;
     border-top: 1px solid var(--c-line);
-    font: 0.8125rem / 1.25rem var(--wh-font-mono);
+    font: var(--fs-xs) / var(--lh-xs) var(--font-mono);
     color: var(--c-text);
 }
 .tile__list li:first-child { border-top: 0; padding-top: 0; }
 .tile__list-value { color: var(--c-text-muted); text-align: right; }
 
 /* A tile that is a link shows it. A tile that is not a link has no hover. */
-a.tile { cursor: pointer; padding-right: calc(var(--tile-pad) + 2.25rem); }
-a.tile[data-figure] { padding-right: var(--tile-pad); }
+a.tile { cursor: pointer; padding-right: calc(var(--pad-tile) + var(--sp-8) + var(--sp-2)); } /* room for the arrow */
+a.tile[data-figure] { padding-right: var(--pad-tile); }
 .tile__arrow {
     position: absolute;
-    top: var(--tile-pad);
-    right: var(--tile-pad);
+    top: var(--pad-tile);
+    right: var(--pad-tile);
     display: grid;
     place-items: center;
-    width: 2rem;
-    height: 2rem;
+    width: var(--sp-8);
+    height: var(--sp-8);
     border: 1px solid var(--c-line-strong);
-    border-radius: 999px;
+    border-radius: var(--r-full);
     background: var(--c-tile);
     color: var(--c-text-strong);
-    transition: background-color var(--wh-duration-fast) linear, color var(--wh-duration-fast) linear, border-color var(--wh-duration-fast) linear, transform var(--wh-duration-base) var(--wh-ease-out);
+    transition: background-color var(--dur-fast) linear, color var(--dur-fast) linear, border-color var(--dur-fast) linear, transform var(--dur-base) var(--ease-out);
 }
 a.tile:hover { border-color: var(--c-line-strong); background: var(--c-tile-2); }
 a.tile:hover .tile__arrow { border-color: var(--c-red); background: var(--c-red); color: var(--c-on-red); transform: translate(2px, -2px); }
-a.tile:focus-visible { outline: 0; border-radius: var(--r-tile); box-shadow: var(--wh-focus-ring); }
+a.tile:focus-visible { outline: 0; border-radius: var(--r-lg); box-shadow: var(--focus-ring); }
 
 /* ---------- Disclosure control ----------
    One look for every "Read the full story" and "Show the details" on the page:
@@ -207,9 +187,9 @@ a.tile:focus-visible { outline: 0; border-radius: var(--r-tile); box-shadow: var
 .toggle {
     display: inline-flex;
     align-items: center;
-    gap: 0.625rem;
-    min-height: 2.75rem;
-    font: var(--wh-weight-medium) 0.9375rem / 1.2 var(--wh-font-sans);
+    gap: var(--sp-2);
+    min-height: var(--ctl-lg);
+    font: var(--fw-medium) var(--fs-sm) / var(--lh-flat) var(--font-sans);
     color: var(--c-text-strong);
     list-style: none;
     cursor: pointer;
@@ -219,32 +199,38 @@ a.tile:focus-visible { outline: 0; border-radius: var(--r-tile); box-shadow: var
     flex: none;
     display: grid;
     place-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--sp-6);
+    height: var(--sp-6);
     border: 1px solid var(--c-line-strong);
-    border-radius: 999px;
+    border-radius: var(--r-full);
     color: var(--c-text-strong);
-    transition: background-color var(--wh-duration-fast) linear, border-color var(--wh-duration-fast) linear, color var(--wh-duration-fast) linear;
+    transition: background-color var(--dur-fast) linear, border-color var(--dur-fast) linear, color var(--dur-fast) linear;
 }
-.toggle__bar { transform-box: fill-box; transform-origin: center; transition: transform var(--wh-duration-base) var(--wh-ease-out); }
+.toggle__bar { transform-box: fill-box; transform-origin: center; transition: transform var(--dur-base) var(--ease-out); }
 details[open] > .toggle .toggle__bar { transform: scaleY(0); }
 .toggle:hover .toggle__sign { border-color: var(--c-red); background: var(--c-red); color: var(--c-on-red); }
 
 /* ---------- Entrance ----------
-   Set by useReveal: [data-reveal] on the box, [data-in] on a child that was seen. */
-[data-reveal="on"] > * { opacity: 0; transform: translateY(12px); }
+   Set by useReveal: [data-reveal] on the box, [data-in] on a child that was seen.
+   One entrance for the page: a fade with a 12px rise, 40ms after the child before it. */
+[data-reveal="on"] > * { opacity: 0; transform: translateY(var(--sp-3)); }
 [data-reveal="on"] > [data-in] {
     opacity: 1;
     transform: none;
     transition:
-        opacity 420ms var(--wh-ease-out) calc(var(--i, 0) * 40ms),
-        transform 420ms var(--wh-ease-out) calc(var(--i, 0) * 40ms),
-        border-color var(--wh-duration-fast) linear,
-        background-color var(--wh-duration-fast) linear;
+        opacity var(--dur-page) var(--ease-out) calc(var(--i, 0) * 40ms),
+        transform var(--dur-page) var(--ease-out) calc(var(--i, 0) * 40ms),
+        border-color var(--dur-fast) linear,
+        background-color var(--dur-fast) linear;
+}
+
+/* A short screen: a part that stays in view would cover the text. It scrolls with the page. */
+@media (max-height: 640px) {
+    .split--sticky > .split__media { position: static; }
 }
 @media (prefers-reduced-motion: reduce) {
     [data-reveal="on"] > * { transform: none; }
-    [data-reveal="on"] > [data-in] { transition: opacity 300ms linear; }
+    [data-reveal="on"] > [data-in] { transition: opacity var(--dur-slow) linear; }
     .tile__arrow, .toggle__sign, .toggle__bar { transition: none; }
     a.tile:hover .tile__arrow { transform: none; }
 }

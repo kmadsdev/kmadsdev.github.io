@@ -9,6 +9,7 @@
 // A link to an anchor inside a closed disclosure opens the disclosure.
 import { useEffect } from 'react';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
+import { goTo } from '../smooth.js';
 import { Chapter } from './bento/index.js';
 import IntroChapter from './intro/IntroChapter.jsx';
 import Opening from './intro/Opening.jsx';
@@ -31,7 +32,7 @@ export default function Intro() {
             const closed = target?.closest('#intro details:not([open])');
             if (!closed) return;
             closed.open = true;
-            target.scrollIntoView();
+            goTo(target);
         };
         reveal();
         window.addEventListener('hashchange', reveal);

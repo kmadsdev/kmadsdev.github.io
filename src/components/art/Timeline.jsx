@@ -12,7 +12,7 @@ import { facts } from '../../content/index.js';
 import { isAnchor } from '../../content/rich.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import Icon from '../Icon.jsx';
-import { Art, Halftone, Wire, useStep } from './kit/index.js';
+import { Art, Wire, useStep } from './kit/index.js';
 import { Dot, TYPE, useUnits, wrap } from './artBKit.jsx';
 
 const ENTRIES = facts.art.timeline;
@@ -121,12 +121,8 @@ function buildTall(W, text) {
 function Scene({ layout }) {
     const { entries, hops, ticks } = layout;
     const step = useStep(entries.length, 1800, entries.length - 1);
-    const now = entries[step];
     return (
         <>
-            <Halftone fill="signal" fade="radial" opacity={0.5}>
-                <circle cx={now.cx} cy={now.cy} r="34" />
-            </Halftone>
             {hops.map((d, i) => (d ? <Wire key={i} d={d} tone={i === step ? 'signal' : i < step ? 'idle' : 'faint'} /> : null))}
             {ticks.map((d) => <path key={d} className="art-line art-line--faint" d={d} />)}
             {entries.map((e, i) => (

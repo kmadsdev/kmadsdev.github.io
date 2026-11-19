@@ -54,7 +54,7 @@ export default function Header() {
             <a className="wordmark" href={links.top} aria-label={t.nav.home} translate="no">
                 <span aria-hidden="true">{facts.person.wordmark[0]}<br />{facts.person.wordmark[1]}</span>
             </a>
-            <nav id="site-nav" className="site-nav" aria-label={t.nav.menu}>
+            <nav id="site-nav" className="site-nav" aria-label={t.nav.menu} data-lenis-prevent>
                 <ul>
                     {t.nav.items.map((item) => (
                         <li key={item.id}>

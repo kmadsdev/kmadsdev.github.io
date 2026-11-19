@@ -20,7 +20,7 @@ export default function Education() {
                         <span>{program.period}</span>
                         <span>{program.length}</span>
                     </p>
-                    <h3 className="tile__title edu-title">{program.title}</h3>
+                    <h3 className="tile__title">{program.title}</h3>
                     <p className="edu-place">{program.place}</p>
                     <p className="tile__text">{program.note}</p>
                     <div className="edu-subjects">

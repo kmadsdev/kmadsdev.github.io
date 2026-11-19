@@ -30,7 +30,6 @@ export default function Tile({
     level = 3,
     figure,
     href,
-    light = false,
     as,
     className = '',
     children,
@@ -50,7 +49,6 @@ export default function Tile({
         <Tag
             className={`tile tile--${kind} ${className}`.trim()}
             style={style}
-            data-light={light ? 'red' : undefined}
             data-figure={figure ? 'true' : undefined}
             {...link}
             {...rest}
@@ -87,11 +85,6 @@ export function Stat({ value, unit, children }) {
             {children ? <p className="stat__source">{children}</p> : null}
         </div>
     );
-}
-
-/** One to three uppercase words. At most one per chapter. */
-export function Poster({ as: Tag = 'p', children }) {
-    return <Tag className="tile__poster">{children}</Tag>;
 }
 
 /** Short rows of facts. An item is a string, or [name, value]. */

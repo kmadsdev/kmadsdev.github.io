@@ -6,7 +6,7 @@
 import { useRef } from 'react';
 import { facts } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import { Art, Halftone, Wire, useStep } from './kit/index.js';
+import { Art, Wire, useStep } from './kit/index.js';
 import { Dot, Lines, TYPE, elbow, useUnits, wrap } from './artBKit.jsx';
 
 // Who talks to whom: [from, to] pairs per cloud, in facts.art.clouds.edges.
@@ -88,11 +88,6 @@ function Scene({ layout, text }) {
                 <text className="artb-head" x={col.x} y={col.y0 + 15}>{text[col.cloud].name}</text>
                 <Lines className="art-text" lines={col.head} x={col.x} y={col.y0 + 36} type={TYPE.mono} />
                 <line className="art-line art-line--faint" x1={col.x} y1={col.ruleY} x2={col.x + col.w} y2={col.ruleY} />
-                {live ? (
-                    <Halftone fill="signal" fade="radial" opacity={0.55}>
-                        <circle cx={col.rail} cy={col.pads[live.to]} r="34" />
-                    </Halftone>
-                ) : null}
                 <line className="art-line art-line--faint" x1={col.rail} y1={col.rows[0].cy} x2={col.rail} y2={col.rows[col.rows.length - 1].cy} />
                 {col.traces.filter((t) => t !== hot).map((t) => (
                     <Wire key={`${t.from}-${t.to}`} d={t.d} tone="idle" arrow />

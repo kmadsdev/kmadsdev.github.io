@@ -1,68 +1,63 @@
 /* More: src/components/More.jsx. An honourable mention at the end of the page:
-   four quiet tiles, no drawing. The grid and the tiles come from bento.css. */
+   four quiet tiles, no drawing. The grid and the tiles come from bento.css.
+   Inside a tile: the title, then 12px, then the content. */
 
-#more [id^="more-"] { scroll-margin-top: calc(var(--header-h) + var(--wh-rule-x) + 1.5rem); }
-
-/* Content starts at the top (the kit puts a tile with no figure at the bottom). */
-.tile.more-tile .tile__body { gap: var(--wh-space-3); align-content: start; }
+.tile.more-tile .tile__body { gap: var(--gap-group); }
 
 /* Volunteering: the number, the role, the text. */
-.more-volunteer__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--wh-space-2) var(--wh-space-5); }
-.more-volunteer__value { margin: 0; font-size: clamp(2.25rem, 1.9rem + 1.2vw, 3rem); }
-.more-volunteer__role { display: grid; gap: 0.125rem; min-width: 0; flex: 1 1 9rem; }
-.more-volunteer__role .tile__title { font-size: 1rem; }
-.more-meta { margin: 0; font: var(--wh-weight-medium) 0.8125rem / 1.25rem var(--wh-font-mono); letter-spacing: 0.04em; color: var(--c-text-muted); }
-.more-volunteer__text { max-width: 62ch; }
+.more-volunteer__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4); }
+.more-volunteer__value { margin: 0; }
+.more-volunteer__role { display: grid; gap: var(--sp-1); min-width: 0; flex: 1 1 9rem; } /* wraps under the number below this width */
+.more-role { font-size: var(--fs-sm); line-height: var(--lh-h4); font-weight: var(--fw-medium); color: var(--c-text-strong); }
+/* Place and period: facts, in mono. */
+.more-meta { margin: 0; font: var(--fs-xs) / var(--lh-xs) var(--font-mono); color: var(--c-text-muted); }
 
 /* Rows: a name and its value, with a hairline between rows. */
 .more-rows { display: grid; margin: 0; }
-.more-rows__row { display: grid; gap: 0.125rem var(--wh-space-5); padding-block: 0.5rem; border-top: 1px solid var(--c-line); }
+.more-rows__row { display: grid; gap: var(--sp-1) var(--sp-4); padding-block: var(--pad-row); border-top: 1px solid var(--c-line); }
 .more-rows__row:first-child { border-top: 0; padding-top: 0; }
+.more-rows__row:last-child { padding-bottom: 0; }
 .more-rows dt { min-width: 0; color: var(--c-text-strong); }
 .more-rows dd { margin: 0; min-width: 0; }
 
-/* Languages: name left, level right. */
-.more-languages__row { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; padding-block: 0.375rem; }
-.more-languages__row dt { display: flex; align-items: baseline; gap: var(--wh-space-3); font-size: 1rem; color: var(--c-text); }
-.more-languages__code { font: var(--wh-weight-medium) 0.75rem / 1 var(--wh-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-text-faint); }
+/* Languages: name left, level right. The code (PT, EN, ES) is a code: mono capitals. */
+.more-languages__row { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; }
+.more-languages__row dt { display: flex; align-items: baseline; gap: var(--sp-3); font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text); }
+.more-languages__code { font: var(--fw-medium) var(--fs-mark) / var(--lh-flat) var(--font-mono); letter-spacing: var(--ls-mark); text-transform: uppercase; color: var(--c-text-faint); }
 .more-languages__level {
-    font-family: var(--wh-font-display);
-    font-stretch: 125%;
-    font-weight: 800;
-    font-size: clamp(1.0625rem, 0.95rem + 0.4vw, 1.3125rem);
-    line-height: 1;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-stretch: var(--wd-wide);
+    font-weight: var(--fw-display);
+    font-size: var(--fs-h4);
+    line-height: var(--lh-num);
+    letter-spacing: var(--ls-num);
     color: var(--c-text-strong);
     text-align: right;
 }
 
-/* Hobbies: a short list. The name is a run-in head of its line. */
-.more-hobbies .more-rows { gap: var(--wh-space-3); }
-.more-hobbies__row { display: block; padding: 0; border: 0; font-size: 0.875rem; line-height: 1.55; }
-.more-hobbies__row dt { display: inline; margin-right: 0.45em; font-weight: var(--wh-weight-semibold); color: var(--c-text-strong); }
+/* Hobbies: a short list. The name starts its line, a step stronger than the text. */
+/* No hairlines here: the rows are sentences. */
+.more-hobbies .more-rows { gap: var(--sp-2); }
+.more-hobbies__row { display: block; padding: 0; border: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); }
+.more-hobbies__row dt { display: inline; margin-right: 0.4em; font-weight: var(--fw-medium); color: var(--c-text-strong); } /* em: one word space */
 .more-hobbies__row dd { display: inline; color: var(--c-text-muted); }
-.more-hobbies__row .link { font-size: 0.8125rem; }
 
 /* Future projects: a link and its line. */
-.more-future__list { display: grid; gap: var(--wh-space-1); margin: 0; padding: 0; list-style: none; }
-.more-future__list li { display: grid; gap: var(--wh-space-2); }
-.more-future__list p { margin: 0; font-size: 0.875rem; line-height: 1.55; color: var(--c-text-muted); }
-.more-future__name { font-weight: var(--wh-weight-semibold); color: var(--c-text-strong); }
-.more-future__note { color: var(--c-text-faint); font-size: 0.75rem; line-height: 1.2rem; }
-.more-future__details { display: grid; gap: var(--wh-space-3); margin: 0; }
-.more-future__details dt { font-weight: var(--wh-weight-semibold); font-size: 0.875rem; color: var(--c-text-strong); }
-.more-future__details dd { margin: 0; font-size: 0.875rem; line-height: 1.55; color: var(--c-text-muted); }
+.more-future__list { display: grid; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.more-future__list li { display: grid; gap: var(--sp-1); font-size: var(--fs-sm); line-height: var(--lh-sm); }
+.more-future__list p { margin: 0; color: var(--c-text-muted); }
+.more-future__name { font-weight: var(--fw-medium); color: var(--c-text-strong); }
+.more-future__note { font-family: var(--font-sans); color: var(--c-text-faint); }
+.more-future__details { display: grid; gap: var(--sp-3); margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); }
+.more-future__details dt { font-weight: var(--fw-medium); color: var(--c-text-strong); }
+.more-future__details dd { margin: 0; color: var(--c-text-muted); }
 
-/* One band at 12 columns: volunteering | hobbies | languages over future. */
+/* One band at 12 columns: volunteering | hobbies | languages over future.
+   The right column: two short tiles, each at its own height. */
 @media (min-width: 1280px) {
     .more-grid { grid-auto-rows: auto; }
     .more-grid .more-volunteer { grid-column: 1 / span 4; grid-row: 1 / span 2; }
     .more-grid .more-hobbies { grid-column: 5 / span 5; grid-row: 1 / span 2; }
-    .more-grid .more-languages { grid-column: 10 / span 3; grid-row: 1; }
-    .more-grid .more-future { grid-column: 10 / span 3; grid-row: 2; }
-}
-
-/* The right column: two short tiles, each at its own height. */
-@media (min-width: 1280px) {
-    .more-grid .more-languages, .more-grid .more-future { align-self: start; }
+    .more-grid .more-languages { grid-column: 10 / span 3; grid-row: 1; align-self: start; }
+    .more-grid .more-future { grid-column: 10 / span 3; grid-row: 2; align-self: start; }
 }

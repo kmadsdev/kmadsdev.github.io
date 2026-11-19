@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { facts } from '../content/index.js';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
+import { holdScroll } from '../smooth.js';
 
 export default function FigmaRow({ ids = [], level = 4, compact = false }) {
     const { t } = useLanguage();
@@ -15,8 +16,11 @@ export default function FigmaRow({ ids = [], level = 4, compact = false }) {
     const opener = useRef(null);
     const [open, setOpen] = useState(null);
     // Open the dialog after its content is in the page, so the close button gets the focus.
+    // The page behind does not scroll while the dialog is open.
     useEffect(() => {
-        if (open && dialog.current && !dialog.current.open) dialog.current.showModal();
+        if (!open) return undefined;
+        if (dialog.current && !dialog.current.open) dialog.current.showModal();
+        return holdScroll();
     }, [open]);
     const list = ids.filter((id) => facts.figma[id] && t.figma.items[id]);
     if (!list.length) return null;
@@ -63,6 +67,7 @@ export default function FigmaRow({ ids = [], level = 4, compact = false }) {
             <dialog
                 ref={dialog}
                 className="figma-dialog"
+                data-lenis-prevent
                 aria-labelledby={titleId}
                 onClose={closed}
                 onClick={(event) => {

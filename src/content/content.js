@@ -1765,12 +1765,12 @@ const en = {
                 current: true,
                 roles: [
                     {
-                        title: 'Software Engineer (Full-time)',
+                        title: 'Software Engineer, Finance',
                         period: period(picpay.fullTime, 'en'),
                         note: 'Cards area, credit acquisition. Also the Vehicle Hub in the bills area and the engineering team of the HR area.',
                     },
                     {
-                        title: 'Software Engineer (Part-time)',
+                        title: 'Software Engineer, HR',
                         period: period(picpay.partTime, 'en'),
                         note: 'Corporate IT, Oracle HCM squad. Close contact with HR, Legal and Compliance.',
                     },
@@ -3397,12 +3397,12 @@ const pt = {
                 current: true,
                 roles: [
                     {
-                        title: 'Engenheiro de Software (tempo integral)',
+                        title: 'Engenheiro de Software, Financeiro',
                         period: period(picpay.fullTime, 'pt'),
                         note: 'Área de cartões, aquisição de crédito. Também o Hub de Veículos na área de contas e o time de engenharia da área de RH.',
                     },
                     {
-                        title: 'Engenheiro de Software (meio período)',
+                        title: 'Engenheiro de Software, RH',
                         period: period(picpay.partTime, 'pt'),
                         note: 'TI corporativa, squad de Oracle HCM. Contato próximo com RH, Jurídico e Compliance.',
                     },

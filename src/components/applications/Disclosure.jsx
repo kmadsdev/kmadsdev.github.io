@@ -6,6 +6,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import ToggleSign from '../bento/ToggleSign.jsx';
+import { goTo } from '../../smooth.js';
 
 export default function Disclosure({ kind = 'details', className = '', children }) {
     const { t } = useLanguage();
@@ -19,7 +20,7 @@ export default function Disclosure({ kind = 'details', className = '', children 
             const box = ref.current;
             if (!box || !target || box.open || !box.contains(target) || box === target) return;
             box.open = true;
-            requestAnimationFrame(() => target.scrollIntoView());
+            requestAnimationFrame(() => goTo(target));
         };
         reveal();
         window.addEventListener('hashchange', reveal);

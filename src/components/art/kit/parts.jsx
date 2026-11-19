@@ -61,13 +61,12 @@ export function Label({ x, y, anchor = 'start', tone = 'muted', children, ...res
 }
 
 /**
- * Tone as dots. The children are shapes; they are filled and cut into the halftone.
- * fill: 'signal', 'red' or 'ink'. fade: 'none', 'up' (strong at the bottom) or 'radial' (strong at the centre).
+ * Tone as dots, for an area that carries meaning (a zone, the filled part of a bar).
+ * The children are shapes; they are filled and cut into the halftone. Flat: it has no fade, it is not a light.
+ * fill: 'signal', 'red' or 'ink'.
  */
-export function Halftone({ fill = 'ink', fade = 'none', opacity = 1, children }) {
+export function Halftone({ fill = 'ink', opacity = 1, children }) {
     const { paint } = useArt();
     const colour = fill === 'signal' ? paint.signal : fill === 'red' ? INK.red : 'rgb(255 255 255 / 0.5)';
-    const inner = <g mask={paint.halftone} fill={colour} stroke="none">{children}</g>;
-    if (fade === 'none') return <g opacity={opacity}>{inner}</g>;
-    return <g opacity={opacity} mask={fade === 'up' ? paint.halftoneUp : paint.halftoneRadial}>{inner}</g>;
+    return <g opacity={opacity} mask={paint.halftone} fill={colour} stroke="none">{children}</g>;
 }

@@ -9,7 +9,7 @@
 import { useRef } from 'react';
 import { facts } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import { Art, Halftone, Wire, useStep } from './kit/index.js';
+import { Art, Wire, useStep } from './kit/index.js';
 import { Dot, Lines, TYPE, elbow, useUnits, wrap } from './artBKit.jsx';
 
 const R = 7; // station radius
@@ -78,14 +78,8 @@ function Scene({ layout, rest }) {
     // Steps 0 to count - 1: that stage runs. Step `count`: all stages are done.
     const step = useStep(count + 1, 1500, rest);
     const done = step === count;
-    const now = layout.stations[step];
     return (
         <>
-            {now ? (
-                <Halftone fill="signal" fade="radial" opacity={0.55}>
-                    <circle cx={now.x} cy={now.y} r="32" />
-                </Halftone>
-            ) : null}
             {layout.wires.map((d, i) => (
                 <Wire key={i} d={d} tone={i === step ? 'active' : i < step ? 'idle' : 'faint'} dashed={i > step} arrow={i <= step} />
             ))}

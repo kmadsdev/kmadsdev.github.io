@@ -1,5 +1,7 @@
-/* Illustrations. Components: src/components/art/kit/. One hand for every drawing:
-   1.5px strokes that do not scale, round joins, the palette of the tokens. */
+/* Drawings. Components: src/components/art/kit/. One hand for every drawing:
+   1.5px strokes that do not scale, round joins, the palette of the tokens.
+   Sizes inside an SVG are drawing units (1 unit = 1px at the drawn size): 11 for mono text,
+   12 for a name. They are not steps of the page scale, and they stay as numbers. */
 .art {
     --art-ink: rgb(255 255 255 / 0.46);
     --art-ink-faint: rgb(255 255 255 / 0.16);
@@ -9,7 +11,7 @@
     margin: 0;
 }
 /* A tall drawing (the phone layout of a wide one) keeps a readable width. */
-.art--narrow { max-width: 17rem; margin-inline: auto; }
+.art--narrow { max-width: 17rem; margin-inline: auto; } /* the drawn width of a tall drawing */
 .art > svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
 .art-line {
@@ -25,7 +27,7 @@
 .art-line--red { stroke: var(--c-red); }
 .art-fill { fill: var(--c-tile-2); }
 
-.art-wire { transition: stroke var(--wh-duration-base) var(--wh-ease-out); }
+.art-wire { transition: stroke var(--dur-base) var(--ease-out); }
 .art-wire[data-tone="faint"] { stroke: var(--art-ink-faint); }
 .art-wire[data-tone="active"] { stroke: var(--c-red); }
 
@@ -34,14 +36,15 @@
     stroke: var(--art-ink-faint);
     stroke-width: 1.5;
     vector-effect: non-scaling-stroke;
-    transition: stroke var(--wh-duration-base) var(--wh-ease-out), fill var(--wh-duration-base) var(--wh-ease-out);
+    transition: stroke var(--dur-base) var(--ease-out), fill var(--dur-base) var(--ease-out);
 }
 .art-node[data-state="active"] rect { fill: var(--c-tile-3); stroke: var(--c-text-strong); }
 .art-pin { fill: var(--art-ink-faint); }
 .art-pin[data-pin="live"] { fill: var(--c-mint); }
-.art-name { font: 500 12px var(--wh-font-sans); fill: var(--c-text); }
+.art-name { font: var(--fw-medium) 12px var(--font-sans); fill: var(--c-text); }
 .art-node[data-state="active"] .art-name { fill: var(--c-text-strong); }
-.art-text { font: 500 11px var(--wh-font-mono); letter-spacing: 0.06em; text-transform: uppercase; fill: var(--c-text-faint); }
+/* Mono capitals on a drawing: the names of its axes and parts, as the mark of the board. */
+.art-text { font: var(--fw-medium) 11px var(--font-mono); letter-spacing: var(--ls-mark); text-transform: uppercase; fill: var(--c-text-faint); }
 .art-text[data-tone="strong"] { fill: var(--c-text-strong); }
 .art-text[data-tone="red"] { fill: var(--c-red-text); }
 
@@ -57,25 +60,25 @@
     flex: none;
     display: inline-grid;
     place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
+    width: var(--ctl-sm);
+    height: var(--ctl-sm);
     padding: 0;
     border: 1px solid var(--c-line);
-    border-radius: 999px;
+    border-radius: var(--r-full);
     background: transparent;
     color: var(--c-text-muted);
     cursor: pointer;
-    transition: background-color var(--wh-duration-instant) linear, border-color var(--wh-duration-instant) linear, color var(--wh-duration-instant) linear;
+    transition: background-color var(--dur-instant) linear, border-color var(--dur-instant) linear, color var(--dur-instant) linear;
 }
 .art-toggle:hover { background: var(--c-tile-3); border-color: var(--c-line-strong); color: var(--c-text-strong); }
-.art-toggle:focus-visible { border-radius: 999px; }
+.art-toggle:focus-visible { border-radius: var(--r-full); }
 @media (max-width: 1023.98px), (pointer: coarse) {
-    .art-toggle { width: 2.75rem; height: 2.75rem; }
+    .art-toggle { width: var(--ctl-lg); height: var(--ctl-lg); }
 }
 @media (prefers-reduced-motion: reduce) {
     .art-toggle { transition: none; }
 }
 
 /* Fuel map (src/components/art/FuelMap.jsx) */
-.fuel-cell { stroke: rgb(255 255 255 / 0.3); stroke-width: 1; }
-.fuel-point { transition: transform 430ms linear; }
+.fuel-cell { stroke: var(--c-line-strong); stroke-width: 1; }
+.fuel-point { transition: transform 430ms linear; } /* the time of one step of the drawing */

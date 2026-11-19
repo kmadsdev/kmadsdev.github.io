@@ -60,7 +60,6 @@ export default function Hero() {
 
             <div className="hero-main">
                 <div className="hero-figure">
-                    <div className="hero-light" aria-hidden="true" />
                     <Badge ref={badgeRef} className="hero-badge" />
                 </div>
                 <div className="hero-text">

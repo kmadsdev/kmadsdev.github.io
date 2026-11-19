@@ -20,11 +20,11 @@ function Volunteering({ v }) {
     const [first, rest] = split(v.text);
     return (
         <Tile kind="stat" id={v.anchor} lg="4x2" md="8x1" className="more-tile more-volunteer" aria-labelledby={`${v.anchor}-title`}>
-            <h3 id={`${v.anchor}-title`} className="wh-label">{v.title}</h3>
+            <h3 id={`${v.anchor}-title`} className="tile__title">{v.title}</h3>
             <div className="more-volunteer__head">
                 <p className="stat__value more-volunteer__value">{facts.earlier.reddit.people}</p>
                 <div className="more-volunteer__role">
-                    <p className="tile__title">{v.role}</p>
+                    <p className="more-role">{v.role}</p>
                     <p className="more-meta">{v.place} · {v.period}</p>
                 </div>
             </div>
@@ -44,7 +44,7 @@ function Volunteering({ v }) {
 function Languages({ l }) {
     return (
         <Tile kind="list" id={l.anchor} lg="3x1" md="4x1" className="more-tile more-languages" aria-labelledby={`${l.anchor}-title`}>
-            <h3 id={`${l.anchor}-title`} className="wh-label">{l.title}</h3>
+            <h3 id={`${l.anchor}-title`} className="tile__title">{l.title}</h3>
             <dl className="more-rows">
                 {l.items.map((item) => (
                     <div key={item.id} className="more-rows__row more-languages__row">
@@ -63,7 +63,7 @@ function Languages({ l }) {
 function Hobbies({ h }) {
     return (
         <Tile kind="list" id={h.anchor} lg="5x2" md="8x1" className="more-tile more-hobbies" aria-labelledby={`${h.anchor}-title`}>
-            <h3 id={`${h.anchor}-title`} className="wh-label">{h.title}</h3>
+            <h3 id={`${h.anchor}-title`} className="tile__title">{h.title}</h3>
             <dl className="more-rows">
                 {h.items.map((item) => (
                     <div key={item.id} className="more-rows__row more-hobbies__row">
@@ -83,7 +83,7 @@ function Future({ f }) {
     const items = f.items.map((item) => ({ ...item, to: facts.future.find((x) => x.id === item.id)?.to }));
     return (
         <Tile kind="list" id={f.anchor} lg="3x1" md="4x1" className="more-tile more-future" aria-labelledby={`${f.anchor}-title`}>
-            <h3 id={`${f.anchor}-title`} className="wh-label">{f.title}</h3>
+            <h3 id={`${f.anchor}-title`} className="tile__title">{f.title}</h3>
             <ul className="more-future__list">
                 {items.map((item) => (
                     <li key={item.id}>
