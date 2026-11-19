@@ -3,14 +3,14 @@
 //
 //   section head            label, headline, lead
 //   Opening                 "Who am I?": text left, the photo right
-//   index                   "What I do": the eight claims as links to the chapters
 //   IntroChapter x 8        ids intro-<chapter id> (facts.anchors.intro)
 //
-// The chapters with a drawing alternate the side of their rail, one after the other.
+// The chapters alternate the side of their main object, one after the other.
+// A link to an anchor inside a closed disclosure opens the disclosure.
+import { useEffect } from 'react';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import { Chapter } from './bento/index.js';
-import Icon from './Icon.jsx';
-import IntroChapter, { plan } from './intro/IntroChapter.jsx';
+import IntroChapter from './intro/IntroChapter.jsx';
 import Opening from './intro/Opening.jsx';
 
 // Label numbers of the drawings: the intro range starts at 10 (DESIGN-KIT.md section 3).
@@ -24,30 +24,26 @@ export default function Intro() {
     for (const chapter of intro.chapters) {
         for (const tile of chapter.tiles) if (tile.kind === 'art') numbers[`${chapter.id}/${tile.id}`] = String(next++);
     }
-    let boards = 0;
-    const chapters = intro.chapters.map((chapter) => ({ chapter, flip: plan(chapter).main ? boards++ % 2 === 1 : false }));
+    useEffect(() => {
+        const reveal = () => {
+            const id = decodeURIComponent(window.location.hash.slice(1));
+            const target = id ? document.getElementById(id) : null;
+            const closed = target?.closest('#intro details:not([open])');
+            if (!closed) return;
+            closed.open = true;
+            target.scrollIntoView();
+        };
+        reveal();
+        window.addEventListener('hashchange', reveal);
+        return () => window.removeEventListener('hashchange', reveal);
+    }, []);
 
     return (
         <Chapter id="intro" className="intro" label={intro.label} title={intro.title} lead={intro.lead}>
             <Opening />
 
-            <nav className="intro-index" aria-labelledby="intro-index-title">
-                <h3 id="intro-index-title" className="wh-headline wh-headline--item">{intro.chaptersLabel}</h3>
-                <ol>
-                    {intro.chapters.map((chapter) => (
-                        <li key={chapter.id}>
-                            <a href={`#intro-${chapter.id}`}>
-                                <span className="intro-index__label">{chapter.label}</span>
-                                <span className="intro-index__claim">{chapter.headline}</span>
-                                <Icon name="arrow-down" size={14} />
-                            </a>
-                        </li>
-                    ))}
-                </ol>
-            </nav>
-
-            {chapters.map(({ chapter, flip }) => (
-                <IntroChapter key={chapter.id} chapter={chapter} flip={flip} numbers={numbers} />
+            {intro.chapters.map((chapter, i) => (
+                <IntroChapter key={chapter.id} chapter={chapter} flip={i % 2 === 1} numbers={numbers} />
             ))}
         </Chapter>
     );

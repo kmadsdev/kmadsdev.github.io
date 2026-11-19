@@ -159,7 +159,7 @@ export default function Margin() {
     const { t, lang } = useLanguage();
     const text = t.intro.art.margin;
     return (
-        <Fit>
+        <Fit limit={520}>
             {(narrow) => {
                 const layout = narrow ? NARROW : WIDE;
                 return (

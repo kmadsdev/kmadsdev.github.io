@@ -6,7 +6,7 @@
 //   - sideways scroll of the page
 //   - an element that leaves the screen (outside a frame that scrolls on purpose)
 //   - text that is cut off
-//   - a control smaller than 44px on a touch screen (40px for the older sections)
+//   - a control smaller than 44px on a touch screen
 //   - text smaller than 11px (text inside a drawing is not counted: it scales with the drawing)
 //   - the hero badge on top of the hero text
 import { mkdir } from 'node:fs/promises';
@@ -41,7 +41,6 @@ try {
                 if (sideways > 0) out.push(`page scrolls sideways by ${sideways}px`);
                 const name = (el) => `${el.tagName.toLowerCase()}.${String(el.getAttribute('class') || '').split(' ')[0]}`;
                 const inScroller = (el) => el.closest('.wh-flow__stage, .outro-sun, [aria-hidden="true"]');
-                const legacy = (el) => el.closest('.section');
                 for (const el of document.querySelectorAll('body *')) {
                     const style = getComputedStyle(el);
                     if (style.display === 'none' || style.visibility === 'hidden') continue;
@@ -53,8 +52,7 @@ try {
                         if (el.scrollWidth > el.clientWidth + 1 && style.overflow !== 'visible' && !el.matches('.wh-flow__title')) out.push(`${name(el)} text is cut off`);
                         if (parseFloat(style.fontSize) < 11 && !el.closest('.art')) out.push(`${name(el)} text is ${style.fontSize}`);
                     }
-                    const min = legacy(el) ? 40 : 44;
-                    if (isTouch && el.matches('button, a.button, .site-nav a, a.tile') && (box.height < min || box.width < min)) out.push(`${name(el)} target is ${Math.round(box.width)}x${Math.round(box.height)}${legacy(el) ? ' (older section)' : ''}`);
+                    if (isTouch && el.matches('button, a.button, .site-nav a, a.tile') && (box.height < 44 || box.width < 44)) out.push(`${name(el)} target is ${Math.round(box.width)}x${Math.round(box.height)}`);
                 }
                 const badge = document.querySelector('.hero-badge')?.getBoundingClientRect();
                 const text = document.querySelector('.hero-text')?.getBoundingClientRect();

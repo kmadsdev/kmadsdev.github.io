@@ -1,7 +1,8 @@
 // Section 5, id "applications": what runs today, then what I built to study.
-// List 1 "In production" in the order of facts.appOrder.live: the featured ids
-// are large blocks, the others a bento of media tiles. List 2 "Study projects"
-// in compact rows. Text: t.applications. Data: facts.projects.
+// List 1 "In production" in the order of facts.appOrder.live: Consignado Cloud
+// is the flagship, the other featured ids are compact rows, the rest a bento
+// of media tiles. List 2 "Study projects" in a compact grid. Details open in place.
+// Text: t.applications. Data: facts.projects.
 import { facts } from '../content/index.js';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import AppTile from './applications/AppTile.jsx';
@@ -9,10 +10,6 @@ import Featured from './applications/Featured.jsx';
 import StudyList from './applications/StudyList.jsx';
 import { Bento, Chapter, ChapterGroup } from './bento/index.js';
 import ExternalLink from './ExternalLink.jsx';
-
-// Two equal tiles per row: the clips are 16:9 with captions burnt in, so a
-// narrower tile next to a wider one would crop its clip.
-const SIZE = '6x1';
 
 export default function Applications() {
     const { applications: a } = useLanguage().t;
@@ -24,10 +21,10 @@ export default function Applications() {
         <Chapter id="applications" label={a.label} title={a.title} lead={a.lead} className="apps">
             <ChapterGroup id={a.live.anchor} title={a.live.title} lead={a.live.lead}>
                 <div className="app-features">
-                    {big.map((item) => <Featured key={item.id} item={item} labels={a.labels} />)}
+                    {big.map((item, i) => <Featured key={item.id} item={item} labels={a.labels} flagship={i === 0} flip={i === 2} />)}
                 </div>
                 <Bento className="app-bento">
-                    {rest.map((item) => <AppTile key={item.id} item={item} labels={a.labels} lg={SIZE} />)}
+                    {rest.map((item) => <AppTile key={item.id} item={item} labels={a.labels} />)}
                 </Bento>
             </ChapterGroup>
 

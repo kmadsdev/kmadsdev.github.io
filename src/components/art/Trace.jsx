@@ -145,7 +145,7 @@ export default function Trace() {
     const { t, lang } = useLanguage();
     const text = t.intro.art.trace;
     return (
-        <Fit>
+        <Fit limit={520}>
             {(narrow) => {
                 const layout = narrow ? NARROW : WIDE;
                 return (

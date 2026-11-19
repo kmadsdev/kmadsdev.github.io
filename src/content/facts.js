@@ -556,6 +556,18 @@ export const facts = {
             aws: ['cloudfront', 's3', 'sqs', 'ec2', 'rds'],
             gcp: ['cloudRun', 'cloudSql', 'secretManager', 'iam', 'terraform', 'actions'],
             azure: ['aks', 'functions', 'blob', 'keyVault', 'postgres', 'entra', 'registry', 'tables'],
+            // Services that talk: [from, to] node ids. Each pair is a sentence of the content:
+            // aws    "S3 behind CloudFront", "a FastAPI service on EC2 that loads the newest model from S3"
+            // gcp    "GitHub Actions deploys", "Secret Manager for the secrets", "Cloud Run for the API,
+            //        Cloud SQL for the PostgreSQL ledger", "IAM: access rules, managed by Terraform"
+            // azure  the edges of requestPath (gateway -> pods, both hosts -> database), plus
+            //        "Secrets, mounted by the CSI driver", "Images tagged with the commit" and
+            //        "Users, sessions and engine state of the gateway"
+            edges: {
+                aws: [['cloudfront', 's3'], ['s3', 'ec2']],
+                gcp: [['actions', 'cloudRun'], ['secretManager', 'cloudRun'], ['cloudRun', 'cloudSql'], ['terraform', 'iam']],
+                azure: [['functions', 'aks'], ['keyVault', 'aks'], ['registry', 'aks'], ['aks', 'postgres'], ['functions', 'postgres'], ['functions', 'tables']],
+            },
         },
 
         // cloud: the measured start of the stopped AKS cluster (consignado-api README).

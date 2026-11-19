@@ -7,7 +7,7 @@ export const meta = {
     htmlLang: 'en',
     ogLocale: 'en_US',
     title: `${person.name} (${person.aliasUpper}) · Software Engineer · Architecture & Cloud`,
-    description: `Software Engineer at ${picpay.name}. Backend, architecture and cloud on AWS, GCP and Azure, in Java, Go, Python and SQL. Work experience, applications in production with their architecture, and public code.`,
+    description: `Software Engineer at ${picpay.name}. Backend, architecture and cloud in Java, Go, Python and SQL: AWS at work, GCP and Azure on my own platforms. Work experience, applications in production with their architecture, and public code.`,
 };
 
 export const nav = {

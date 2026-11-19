@@ -10,7 +10,7 @@ import { Tile } from '../bento/index.js';
 import { artA } from './artA.js';
 import { artB } from './artB.js';
 
-const DRAWINGS = { ...artA, ...artB };
+export const DRAWINGS = { ...artA, ...artB };
 const KIND = { art: 'art', stat: 'stat', link: 'link', note: 'claim' };
 
 function Source({ tile }) {

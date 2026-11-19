@@ -125,7 +125,7 @@ function Scene({ text, layout }) {
 export default function ContractStates() {
     const text = useLanguage().t.intro.art.contractStates;
     return (
-        <Fit>
+        <Fit limit={520}>
             {(narrow) => {
                 const layout = narrow ? NARROW : WIDE;
                 return (

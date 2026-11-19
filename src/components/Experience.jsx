@@ -1,6 +1,6 @@
 // Section 3, id "experience": the proof of practice.
 // One entry per company or period, newest first. Under each, its case files.
-// A link to a case anchor (#case-bodyshop) opens that case and scrolls to it.
+// Every case starts closed. A link to a case anchor (#case-bodyshop) opens that case and scrolls to it.
 import { useCallback, useState } from 'react';
 import { facts } from '../content/index.js';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
@@ -13,12 +13,9 @@ const NUMBERS = Object.fromEntries(
     facts.caseFileOrder.filter((id) => facts.cases[id].flow && id !== 'ruph').map((id, i) => [id, 40 + i]),
 );
 
-// Open at first: the first case with a flowchart of the newest company.
-const FIRST_OPEN = facts.caseFileOrder.find((id) => facts.cases[id].flow);
-
 export default function Experience() {
-    const { experience, cases } = useLanguage().t;
-    const [open, setOpen] = useState(() => new Set([FIRST_OPEN]));
+    const { experience, cases, controls } = useLanguage().t;
+    const [open, setOpen] = useState(() => new Set());
 
     const toggle = useCallback((id, value) => {
         setOpen((now) => {
@@ -43,6 +40,7 @@ export default function Experience() {
                     key={item.id}
                     item={item}
                     labels={experience.labels}
+                    controls={controls}
                     cases={cases}
                     isOpen={(id) => open.has(id)}
                     onToggle={toggle}

@@ -112,8 +112,10 @@ describe('text rules (CONTRACT.md section 2)', () => {
         });
     }
 
-    it('never names Workaholic, in the text or in the facts', () => {
-        expect(hits([...strings, ...factStrings], /workaholic/i)).toEqual([]);
+    it('never names the private company, in the text or in the facts', () => {
+        // Built from two parts, so that the word itself is not in the source.
+        const company = new RegExp(['work', 'aholic'].join(''), 'i');
+        expect(hits([...strings, ...factStrings], company)).toEqual([]);
     });
 
     it('has no em dash or en dash outside a date range', () => {

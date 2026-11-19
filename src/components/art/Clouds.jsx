@@ -9,18 +9,8 @@ import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { Art, Halftone, Wire, useStep } from './kit/index.js';
 import { Dot, Lines, TYPE, elbow, useUnits, wrap } from './artBKit.jsx';
 
-// Who talks to whom: [from, to]. Each pair is a sentence of the content:
-// aws    "S3 behind CloudFront", "a FastAPI service on EC2 that loads the newest model from S3"
-// gcp    "GitHub Actions deploys", "Secret Manager for the secrets", "Cloud Run for the API,
-//        Cloud SQL for the PostgreSQL ledger", "IAM: access rules, managed by Terraform"
-// azure  the edges of facts.art.requestPath (gateway -> pods, both hosts -> database), plus
-//        "Secrets, mounted by the CSI driver", "Images tagged with the commit" and
-//        "Users, sessions and engine state of the gateway"
-const TRACES = {
-    aws: [['cloudfront', 's3'], ['s3', 'ec2']],
-    gcp: [['actions', 'cloudRun'], ['secretManager', 'cloudRun'], ['cloudRun', 'cloudSql'], ['terraform', 'iam']],
-    azure: [['functions', 'aks'], ['keyVault', 'aks'], ['registry', 'aks'], ['aks', 'postgres'], ['functions', 'postgres'], ['functions', 'tables']],
-};
+// Who talks to whom: [from, to] pairs per cloud, in facts.art.clouds.edges.
+const TRACES = facts.art.clouds.edges;
 const ORDER = facts.art.clouds.order;
 const STEPS = ORDER.flatMap((cloud) => TRACES[cloud].map(([from, to]) => ({ cloud, from, to })));
 // Still picture: the gateway on Azure Functions forwards to the pods on AKS.

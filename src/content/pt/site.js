@@ -7,7 +7,7 @@ export const meta = {
     htmlLang: 'pt-BR',
     ogLocale: 'pt_BR',
     title: `${person.name} (${person.aliasUpper}) · Engenheiro de Software · Arquitetura & Cloud`,
-    description: `Engenheiro de Software no ${picpay.name}. Backend, arquitetura e cloud em AWS, GCP e Azure, com Java, Go, Python e SQL. Experiência profissional, aplicações em produção com a arquitetura de cada uma e código público.`,
+    description: `Engenheiro de Software no ${picpay.name}. Backend, arquitetura e cloud com Java, Go, Python e SQL: AWS no trabalho, GCP e Azure nas minhas próprias plataformas. Experiência profissional, aplicações em produção com a arquitetura de cada uma e código público.`,
 };
 
 export const nav = {

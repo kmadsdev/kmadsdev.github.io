@@ -6,7 +6,7 @@
 //
 // The chart keeps a readable size: on a narrow screen its frame scrolls
 // sideways, and the frame follows the active step.
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { GRID, LAYOUTS, buildLines, center, segment, size, splitLabel } from './flowGeometry.js';
 import { useReducedMotion } from '../hooks.js';
 import Icon from './Icon.jsx';
@@ -38,6 +38,33 @@ function useFollow(stageRef, line, width, step) {
 }
 
 /**
+ * Which edges of the stage hide more of the chart: 'none', 'left', 'right' or 'both'.
+ * The CSS fades that edge, so a visitor on a phone sees that the chart goes on.
+ */
+function useEdges(stageRef) {
+    const [edges, setEdges] = useState('none');
+    useEffect(() => {
+        const stage = stageRef.current;
+        if (!stage) return undefined;
+        const update = () => {
+            const max = stage.scrollWidth - stage.clientWidth;
+            const left = max > 2 && stage.scrollLeft > 2;
+            const right = max > 2 && stage.scrollLeft < max - 2;
+            setEdges(left && right ? 'both' : left ? 'left' : right ? 'right' : 'none');
+        };
+        update();
+        stage.addEventListener('scroll', update, { passive: true });
+        const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+        observer?.observe(stage);
+        return () => {
+            stage.removeEventListener('scroll', update);
+            observer?.disconnect();
+        };
+    }, [stageRef]);
+    return edges;
+}
+
+/**
  * caseId     key of LAYOUTS and of facts.cases
  * structure  facts.cases[caseId].flow ({ nodes, edges })
  * text       the language file's flow ({ title, nodes, steps })
@@ -54,6 +81,7 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
     const stageRef = useRef(null);
     const signal = `flow-signal-${useId().replace(/:/g, '')}`;
     useFollow(stageRef, activeLine, width, player.active);
+    const edges = useEdges(stageRef);
 
     return (
         <figure
@@ -81,7 +109,7 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
                 </div>
             </div>
 
-            <div className="wh-flow__stage" ref={stageRef}>
+            <div className="wh-flow__stage" ref={stageRef} data-more={edges}>
                 <svg
                     className="wh-flow__svg"
                     viewBox={`0 0 ${width} ${height}`}

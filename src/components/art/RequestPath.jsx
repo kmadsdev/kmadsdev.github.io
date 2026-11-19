@@ -141,7 +141,7 @@ function Scene({ text, layout }) {
 export default function RequestPath() {
     const text = useLanguage().t.intro.art.requestPath;
     return (
-        <Fit>
+        <Fit limit={520}>
             {(narrow) => {
                 const layout = narrow ? NARROW : WIDE;
                 return (

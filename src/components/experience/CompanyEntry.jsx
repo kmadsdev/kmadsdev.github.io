@@ -1,6 +1,7 @@
-// One company or period. Short on purpose: company, context, roles with their
-// periods and the impact can be read in a few seconds. The case files under it
-// open in place for the reader who wants the detail.
+// One company or period. The first view is short on purpose: company, context,
+// roles with their periods, the impact and the case rows can be read in a few
+// seconds. The daily work, tools and stacks open in place ("Show the details"),
+// and each case file opens in place too. All text stays in the DOM.
 import { ChapterGroup, Tile } from '../bento/index.js';
 import { isAnchor } from '../../content/rich.js';
 import ExternalLink from '../ExternalLink.jsx';
@@ -34,13 +35,11 @@ function Roles({ item, labels }) {
                     </li>
                 ))}
             </ol>
-            {item.tools.length ? <Tags label={labels.tools} items={item.tools} /> : null}
-            {item.stacks.map((stack) => <Tags key={stack.label} label={stack.label} items={stack.items} />)}
         </Tile>
     );
 }
 
-export default function CompanyEntry({ item, labels, cases, isOpen, onToggle, numbers }) {
+export default function CompanyEntry({ item, labels, controls, cases, isOpen, onToggle, numbers }) {
     return (
         <ChapterGroup id={item.anchor} title={item.company} lead={item.context}>
             <div className="split split--flip split--sticky xp-entry">
@@ -54,12 +53,6 @@ export default function CompanyEntry({ item, labels, cases, isOpen, onToggle, nu
                             {item.impact.map((text) => <li key={text}>{text}</li>)}
                         </ul>
                     </div>
-                    <div className="xp-block">
-                        <h4 className="wh-label">{labels.responsibilities}</h4>
-                        <ul className="xp-list">
-                            {item.responsibilities.map((text) => <li key={text}>{text}</li>)}
-                        </ul>
-                    </div>
                     {item.links.length ? (
                         <p className="xp-links">
                             {item.links.map((link) => (isAnchor(link.to) ? (
@@ -69,6 +62,26 @@ export default function CompanyEntry({ item, labels, cases, isOpen, onToggle, nu
                             )))}
                         </p>
                     ) : null}
+                    <details className="xp-more">
+                        <summary className="xp-more__summary">
+                            <span className="xp-more__show">{controls.showDetails}</span>
+                            <span className="xp-more__hide">{controls.hideDetails}</span>
+                            <span className="visually-hidden"> {item.company}</span>
+                            <svg className="xp-more__chevron" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <path d="M3.5 6L8 10.5 12.5 6" />
+                            </svg>
+                        </summary>
+                        <div className="xp-more__body">
+                            <div className="xp-block">
+                                <h4 className="wh-label">{labels.responsibilities}</h4>
+                                <ul className="xp-list">
+                                    {item.responsibilities.map((text) => <li key={text}>{text}</li>)}
+                                </ul>
+                            </div>
+                            {item.tools.length ? <Tags label={labels.tools} items={item.tools} /> : null}
+                            {item.stacks.map((stack) => <Tags key={stack.label} label={stack.label} items={stack.items} />)}
+                        </div>
+                    </details>
                 </div>
             </div>
 

@@ -22,9 +22,22 @@ function CaseFlow({ id, text, labels, n }) {
     );
 }
 
+/** The mark of a case with a running flowchart: two nodes, the line in use, a packet. */
+function FlowMark() {
+    return (
+        <svg className="xp-case__mark" viewBox="0 0 30 12" width="30" height="12" fill="none" aria-hidden="true">
+            <rect x="0.75" y="2.75" width="7.5" height="6.5" rx="1.5" />
+            <rect x="21.75" y="2.75" width="7.5" height="6.5" rx="1.5" />
+            <path className="xp-case__mark-line" d="M9.5 6h11" />
+            <circle className="xp-case__mark-dot" cx="12" cy="6" r="1.75" />
+        </svg>
+    );
+}
+
 export default function CaseFile({ item, labels, open, onToggle, n }) {
     const data = facts.cases[item.id];
     const [first] = item.stats;
+    const hasFlow = Boolean(item.flow && data.flow);
 
     return (
         <details
@@ -36,7 +49,10 @@ export default function CaseFile({ item, labels, open, onToggle, n }) {
             <summary className="xp-case__summary">
                 <span className="xp-case__head">
                     <h4 className="xp-case__title">{item.title}</h4>
-                    <span className="xp-case__kicker">{item.kicker}</span>
+                    <span className="xp-case__meta">
+                        {hasFlow ? <FlowMark /> : null}
+                        <span className="xp-case__kicker">{item.kicker}</span>
+                    </span>
                 </span>
                 {first ? (
                     <span className="xp-case__peek">
@@ -67,7 +83,7 @@ export default function CaseFile({ item, labels, open, onToggle, n }) {
                     <p>{item.problem}</p>
                 </div>
 
-                {item.flow && data.flow ? (
+                {hasFlow ? (
                     <CaseFlow id={item.id} text={item.flow} labels={labels} n={n} />
                 ) : (
                     <p className="xp-case__words">{labels.wordsOnly}</p>
