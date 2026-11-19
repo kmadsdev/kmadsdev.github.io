@@ -9,9 +9,10 @@
 // With `href` the whole tile is one link and shows an arrow.
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import Icon from '../Icon.jsx';
+import { facts } from '../../content/index.js';
 
-// Reference letters, as on a circuit board.
-const REF = { claim: 'U', art: 'D', stat: 'TP', media: 'DS', list: 'RN', link: 'J' };
+// Reference letters, as on a circuit board: facts.boardMarks in content.js.
+const REF = facts.boardMarks;
 
 function size(value) {
     const [w, h] = String(value).split('x').map(Number);

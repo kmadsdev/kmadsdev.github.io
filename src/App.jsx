@@ -9,6 +9,7 @@ import Applications from './components/Applications.jsx';
 import More from './components/More.jsx';
 import { Contact, Footer } from './components/Outro.jsx';
 import { useProjectsPath } from './routes.js';
+import { links } from './content/index.js';
 
 
 function Page() {
@@ -16,7 +17,7 @@ function Page() {
     useProjectsPath();
     return (
         <>
-            <a className="skip-link" href="#main">{t.nav.skip}</a>
+            <a className="skip-link" href={links.main}>{t.nav.skip}</a>
             <Rulers />
             <Header />
             <div className="page">

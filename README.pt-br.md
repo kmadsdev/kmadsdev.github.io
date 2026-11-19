@@ -54,20 +54,26 @@ Duas variáveis de ambiente mudam o que os scripts usam:
 
 ## Como mudar um texto
 
-Todo o texto fica em `src/content/`. Nenhuma frase fica em componente.
+Todo o texto e todos os endereços do site ficam em um arquivo: `src/content/content.js`. Nenhuma frase e nenhum endereço fica em componente. O arquivo começa com uma nota curta de "como editar" e um sumário.
 
 ```
+src/content/content.js
+  PART 1  links    todos os endereços: perfis, aplicações no ar, repositórios, documentos,
+                   imagens, clipes, /projects e a seção que ele abre
+  PART 2  facts    números, datas, nomes, stacks, ordem das listas, ids de âncora e a
+                   estrutura de cada desenho. Os dois idiomas leem esta parte.
+  PART 3  en       texto em inglês, na ordem da página
+  PART 4  pt       texto em português, as mesmas chaves na mesma ordem
 src/content/
-  facts.js     números, datas, nomes, links, ids de âncora e a estrutura de cada desenho.
-               Os dois idiomas leem este arquivo.
-  en/          frases em inglês, um arquivo por seção
-  pt/          frases em português, mesmos arquivos e mesmas chaves
-  rich.js      parágrafos com links
-  format.js    formatos de data e de número
+  index.js     exporta content, facts e links (componentes e testes importam daqui)
+  rich.js      parágrafos com links: link(texto, destino)
+  format.js    formatos de data, tempo e número: period(), duration(), ptNumber()
 ```
 
-- Para mudar um número, uma data ou um link: edite o `facts.js`. Os dois idiomas mudam.
-- Para mudar uma frase: edite a mesma chave em `en/` e em `pt/`.
+- Para mudar para onde um botão ou um link vai: edite o endereço na PART 1.
+- Para mudar um número, uma data ou um nome: edite a PART 2. Os dois idiomas mudam.
+- Para mudar uma frase, um rótulo ou o texto de um botão: edite a mesma chave na PART 3 e na PART 4. Busque no arquivo as palavras que você vê na página.
+- O `index.html` não tem texto próprio: o Vite escreve o título, a descrição, as tags de prévia de link e o texto do `<noscript>` a partir do `content.js` (`scripts/index-html.mjs`). A página 404 vem de `notFound` (`scripts/build-404.mjs`). O `public/sitemap.xml` e o `public/robots.txt` têm o endereço do site escrito à mão.
 - Um parágrafo com links é uma lista de partes: uma string, ou um link `{ text, to }`. `to` é um id de âncora de `facts.anchors` (`'#app-consignado'`) ou um endereço `https://`.
 
 O `npm test` falha quando os dois idiomas não têm as mesmas chaves, quando um link aponta para uma âncora que não existe, quando um fluxograma tem um nó sem rótulo ou quando um texto quebra uma regra de conteúdo (por exemplo, travessão usado como pontuação).
@@ -81,9 +87,9 @@ O `npm test` falha quando os dois idiomas não têm as mesmas chaves, quando um 
    ```
 
    Ele grava `public/assets/projects/<nome>.mp4` (1280 de largura, 24 fps, sem som) e `<nome>.jpg`.
-2. Adicione a aplicação em `facts.projects` no `facts.js`: `name`, `status` (`'live'` ou `'study'`), `stack`, os endereços `live` e `source`, `image: '/assets/projects/<nome>.jpg'` e `video: '/assets/projects/<nome>.mp4'`.
+2. No `src/content/content.js`, adicione os endereços na PART 1 (`<nome>Live`, `<nome>Repo`, `<nome>Image`, `<nome>Video`). Depois adicione a aplicação em `facts.projects` na PART 2: `name`, `status` (`'live'` ou `'study'`), `stack`, e `live`, `source`, `image` e `video` lendo esses endereços (`live: links.<nome>Live`).
 3. Adicione o id em `facts.appOrder.live` ou `facts.appOrder.study`. A âncora `#app-<id>` vem desta lista.
-4. Adicione um item com o mesmo id em `live.items` ou `study.items` no `en/applications.js` e no `pt/applications.js` (uma tagline e de duas a quatro frases).
+4. Adicione um item com o mesmo id em `applications.live.items` ou `applications.study.items` na PART 3 e na PART 4 (uma tagline, de duas a quatro frases e as outras chaves `null`, como nos itens ao lado).
 5. Rode `npm test`.
 
 Um clipe fica sem som, em loop, e só carrega e toca enquanto está na tela. Com movimento reduzido ou Save-Data, só o pôster aparece. O botão de tocar e pausar sempre existe.

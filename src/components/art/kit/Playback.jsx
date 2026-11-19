@@ -29,9 +29,9 @@ export function ArtToggle({ className = '' }) {
     const { paused, toggle } = usePlaybackState();
     const reduced = useReducedMotion();
     // The names of the flowchart control: the same action on the same kind of picture.
-    const labels = useLanguage().t.cases.labels;
+    const { controls } = useLanguage().t;
     if (reduced || !toggle) return null;
-    const name = paused ? labels.play : labels.pause;
+    const name = paused ? controls.playDrawing : controls.pauseDrawing;
     return (
         <button type="button" className={`art-toggle ${className}`.trim()} onClick={toggle} aria-label={name} title={name}>
             <Icon name={paused ? 'play' : 'pause'} size={12} />

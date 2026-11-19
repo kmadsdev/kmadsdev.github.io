@@ -4,7 +4,7 @@
 // GitHub Pages serves this file for every address that does not exist.
 import { copyFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { content } from '../src/content/index.js';
+import { content, links } from '../src/content/index.js';
 
 const text = { en: content.en.notFound, pt: content.pt.notFound };
 const dist = process.env.PF_DIST || 'dist';
@@ -14,8 +14,8 @@ const html = `<!doctype html>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex" />
-<title>404 · kmads.dev</title>
-<link rel="icon" type="image/png" href="/assets/favicon.png" />
+<title>404 · ${links.domain}</title>
+<link rel="icon" type="image/png" href="${links.favicon}" />
 <style>
 :root { color-scheme: dark; --canvas: #0b0b10; --tile: #12121a; --line: #2c2c36; --text: #d5d1da; --strong: #f6f3ec; --muted: #a39fae; --accent: #ff014f; --on-accent: #0b0b10; }
 * { box-sizing: border-box; }
@@ -34,7 +34,7 @@ a:focus-visible { outline: 2px solid var(--strong); outline-offset: 2px; }
 <p class="code"><b>404</b> · <span id="path"></span></p>
 <h1 id="title">${text.en.title}</h1>
 <p id="text">${text.en.text}</p>
-<a id="cta" href="/">${text.en.cta}</a>
+<a id="cta" href="${links.home}">${text.en.cta}</a>
 </main>
 <script>
 (function () {
@@ -58,5 +58,6 @@ await writeFile(resolve(dist, '404.html'), html);
 console.log(`${dist}/404.html written`);
 
 // kmads.dev/projects is this page at the "Applications" section (src/routes.js).
-await copyFile(resolve(dist, 'index.html'), resolve(dist, 'projects.html'));
-console.log(`${dist}/projects.html written`);
+const projectsFile = `${links.projectsPath.replace(/^\//, '')}.html`;
+await copyFile(resolve(dist, 'index.html'), resolve(dist, projectsFile));
+console.log(`${dist}/${projectsFile} written`);

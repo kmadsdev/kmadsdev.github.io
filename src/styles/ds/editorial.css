@@ -248,23 +248,17 @@
 .wh-flow__button:active { transform: scale(0.96); }
 .wh-flow__button:focus-visible { outline: 0; border-radius: 999px; box-shadow: var(--wh-focus-ring); }
 .wh-flow__stage {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: thin;
-    scrollbar-color: var(--c-line-control) transparent;
+    overflow: hidden;
     border-radius: calc(var(--r-tile) - 0.5rem);
     background-color: var(--c-ground);
     background-image: radial-gradient(circle, rgb(255 255 255 / 0.07) 1px, transparent 1.2px);
     background-size: 16px 16px;
     background-position: 8px 8px;
 }
-.wh-flow__stage:focus-visible { box-shadow: var(--wh-focus-ring); }
-/* More chart beyond an edge (set by Flow.jsx while the frame can scroll that way): that edge fades. */
-.wh-flow__stage[data-more="right"] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 3.5rem), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 3.5rem), transparent); }
-.wh-flow__stage[data-more="left"] { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 3.5rem), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 3.5rem), transparent); }
-.wh-flow__stage[data-more="both"] { -webkit-mask-image: linear-gradient(to right, transparent, #000 3.5rem calc(100% - 3.5rem), transparent); mask-image: linear-gradient(to right, transparent, #000 3.5rem calc(100% - 3.5rem), transparent); }
-/* The chart never shrinks below its drawn size (its smallest text is 11px there): the frame scrolls instead. */
+/* Wide chart: never below its drawn size (Flow.jsx switches to the tall chart first).
+   Tall chart: whole in the frame, 270 units drawn at 1:1 on a 320px phone, a little larger on wider phones. */
 .wh-flow__svg { display: block; width: 100%; min-width: var(--flow-w, 34rem); height: auto; }
+.wh-flow__svg[data-layout="narrow"] { min-width: 0; max-width: 20rem; margin-inline: auto; }
 .wh-flow__edge { fill: none; stroke: var(--c-line-control); stroke-width: 1; transition: stroke var(--wh-duration-base) var(--wh-ease-out); }
 .wh-flow__edge--link { stroke-dasharray: 2 5; }
 .wh-flow__edge[data-state="active"] { stroke: var(--c-red); stroke-width: 1.5; }

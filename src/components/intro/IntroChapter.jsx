@@ -126,7 +126,7 @@ export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
                         <Playback value={playback}>
                             <div className="intro-figure__bar">
                                 <p className="tile__label">
-                                    <span aria-hidden="true">D{number(main)} · </span>
+                                    <span aria-hidden="true">{facts.boardMarks.art}{number(main)} · </span>
                                     {drawing.title}
                                 </p>
                                 <ArtToggle />

@@ -1,12 +1,5 @@
-// Entry point of the text layer.
+// Entry point of the text layer. All the text and all the addresses of the site
+// are in content.js: links (PART 1), facts (PART 2), English (PART 3), Portuguese (PART 4).
 //
-//   facts.js   numbers, dates, names, links (both languages read it)
-//   en/*.js    English sentences
-//   pt/*.js    Portuguese sentences, same keys as en/
-//
-// `npm test` fails when en/ and pt/ do not have the same keys.
-import * as en from './en/index.js';
-import * as pt from './pt/index.js';
-
-export { facts } from './facts.js';
-export const content = { en: { ...en }, pt: { ...pt } };
+// `npm test` fails when content.en and content.pt do not have the same keys.
+export { content, facts, links } from './content.js';

@@ -4,14 +4,17 @@
 // gives the nodes and edges, the language file gives the labels and one
 // sentence per edge. One step is active at a time.
 //
-// The chart keeps a readable size: on a narrow screen its frame scrolls
-// sideways, and the frame follows the active step.
-import { useEffect, useId, useRef, useState } from 'react';
-import { GRID, LAYOUTS, buildLines, center, segment, size, splitLabel } from './flowGeometry.js';
-import { useReducedMotion } from '../hooks.js';
+// Two layouts (flowGeometry.js): the wide one, and a tall one with at most two
+// nodes side by side. The frame width chooses: a frame narrower than the wide
+// chart (a phone, a narrow column) gets the tall chart, whole and at full size.
+// No sideways scroll.
+import { useId, useLayoutEffect, useRef, useState } from 'react';
+import { LAYOUTS, MAX_CHARS, buildLines, center, layoutFor, segment, size, splitLabel, wrapLabel } from './flowGeometry.js';
 import Icon from './Icon.jsx';
+import { facts } from '../content/index.js';
 
 const two = (n) => String(n).padStart(2, '0');
+const LINE = 15; // px between two lines of one node name
 
 function Arrow({ line, state }) {
     return (
@@ -24,44 +27,44 @@ function Arrow({ line, state }) {
     );
 }
 
-/** Keeps the active line in view when the stage is narrower than the chart. */
-function useFollow(stageRef, line, width, step) {
-    const reduced = useReducedMotion();
-    // Runs when the step changes, not on every render: a visitor who scrolls the frame keeps the place.
-    useEffect(() => {
-        const stage = stageRef.current;
-        if (!stage || !line || stage.scrollWidth <= stage.clientWidth + 1) return;
-        const scale = stage.scrollWidth / width;
-        const middle = ((line.x1 + line.x2) / 2) * scale;
-        stage.scrollTo({ left: Math.max(0, middle - stage.clientWidth / 2), behavior: reduced ? 'auto' : 'smooth' });
-    }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
-}
-
-/**
- * Which edges of the stage hide more of the chart: 'none', 'left', 'right' or 'both'.
- * The CSS fades that edge, so a visitor on a phone sees that the chart goes on.
- */
-function useEdges(stageRef) {
-    const [edges, setEdges] = useState('none');
-    useEffect(() => {
-        const stage = stageRef.current;
-        if (!stage) return undefined;
+/** True while the frame is narrower than the wide chart. Measured before paint, and again on resize. */
+function useNarrow(ref, wideWidth) {
+    const [narrow, setNarrow] = useState(false);
+    useLayoutEffect(() => {
+        const el = ref.current;
+        if (!el) return undefined;
         const update = () => {
-            const max = stage.scrollWidth - stage.clientWidth;
-            const left = max > 2 && stage.scrollLeft > 2;
-            const right = max > 2 && stage.scrollLeft < max - 2;
-            setEdges(left && right ? 'both' : left ? 'left' : right ? 'right' : 'none');
+            const w = el.clientWidth;
+            if (w > 0) setNarrow(w < wideWidth);
         };
         update();
-        stage.addEventListener('scroll', update, { passive: true });
-        const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
-        observer?.observe(stage);
-        return () => {
-            stage.removeEventListener('scroll', update);
-            observer?.disconnect();
-        };
-    }, [stageRef]);
-    return edges;
+        if (typeof ResizeObserver === 'undefined') return undefined;
+        const observer = new ResizeObserver(update);
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, [ref, wideWidth]);
+    return narrow;
+}
+
+/** One node: a box, a pin, its name on one or two lines, and the detail under it. */
+function Node({ id, cell, grid, label, active, max }) {
+    const c = center(cell, grid);
+    const { name, sub } = splitLabel(label);
+    const lines = wrapLabel(name, max);
+    const total = (lines.length - 1) * LINE + (sub ? 16 : 0);
+    const first = c.y - total / 2 + (sub ? 5 : 4);
+    const x = c.x - grid.nodeW / 2;
+    const y = c.y - grid.nodeH / 2;
+    return (
+        <g className="wh-flow__node" data-state={active ? 'active' : 'idle'} data-node={id}>
+            <rect x={x} y={y} width={grid.nodeW} height={grid.nodeH} rx="8" />
+            <circle className="wh-flow__pin" cx={x + grid.nodeW - 10} cy={y + 10} r="2" />
+            <text className="wh-flow__node-name" x={x + 12} y={first}>
+                {lines.map((line, i) => <tspan key={line} x={x + 12} dy={i ? LINE : 0}>{line}</tspan>)}
+            </text>
+            {sub ? <text className="wh-flow__node-sub" x={x + 12} y={first + (lines.length - 1) * LINE + 16}>{sub}</text> : null}
+        </g>
+    );
 }
 
 /**
@@ -73,15 +76,16 @@ function useEdges(stageRef) {
  * n          optional silk-screen number of the board label (D<n> · title)
  */
 export function FlowChart({ caseId, structure, text, player, labels, n }) {
-    const layout = LAYOUTS[caseId];
-    const { width, height } = size(layout.cells);
-    const lines = buildLines(structure.edges, layout.cells);
+    const stageRef = useRef(null);
+    const wide = size(LAYOUTS[caseId].cells);
+    const narrow = useNarrow(stageRef, wide.width);
+    const { cells, links, grid } = layoutFor(caseId, narrow);
+    const { width, height } = size(cells, grid);
+    const lines = buildLines(structure.edges, cells, grid);
     const [from, to] = structure.edges[player.active];
     const activeLine = lines.find((line) => line.steps.includes(player.active));
-    const stageRef = useRef(null);
     const signal = `flow-signal-${useId().replace(/:/g, '')}`;
-    useFollow(stageRef, activeLine, width, player.active);
-    const edges = useEdges(stageRef);
+    const max = narrow ? MAX_CHARS.narrow : MAX_CHARS.wide;
 
     return (
         <figure
@@ -94,7 +98,7 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
         >
             <div className="wh-flow__bar">
                 <figcaption className="wh-label wh-flow__title">
-                    {n ? <span aria-hidden="true">D{n} · </span> : null}
+                    {n ? <span aria-hidden="true">{facts.boardMarks.art}{n} · </span> : null}
                     {text.title}
                 </figcaption>
                 <div className="wh-flow__controls">
@@ -109,11 +113,12 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
                 </div>
             </div>
 
-            <div className="wh-flow__stage" ref={stageRef} data-more={edges}>
+            <div className="wh-flow__stage" ref={stageRef}>
                 <svg
                     className="wh-flow__svg"
                     viewBox={`0 0 ${width} ${height}`}
                     style={{ '--flow-w': `${width}px` }}
+                    data-layout={narrow ? 'narrow' : 'wide'}
                     role="img"
                     aria-label={`${text.title}. ${Object.values(text.nodes).join(', ')}.`}
                 >
@@ -123,8 +128,8 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
                             <stop offset="1" stopColor="#009DFF" />
                         </linearGradient>
                     </defs>
-                    {(layout.links ?? []).map(([a, b]) => {
-                        const link = segment(center(layout.cells[a]), center(layout.cells[b]));
+                    {links.map(([a, b]) => {
+                        const link = segment(center(cells[a], grid), center(cells[b], grid), 0, grid);
                         return <line key={`${a}-${b}`} className="wh-flow__edge wh-flow__edge--link" x1={link.x1} y1={link.y1} x2={link.x2} y2={link.y2} />;
                     })}
                     {lines.map((line) => {
@@ -137,25 +142,14 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
                         );
                     })}
                     {activeLine ? (
-                        <circle key={player.active} className="wh-flow__packet" r="4" cx={activeLine.x1} cy={activeLine.y1} fill={`url(#${signal})`}>
+                        <circle key={`${player.active}-${narrow}`} className="wh-flow__packet" r="4" cx={activeLine.x1} cy={activeLine.y1} fill={`url(#${signal})`}>
                             <animate attributeName="cx" from={activeLine.x1} to={activeLine.x2} dur="1.1s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.65 0 0.35 1" />
                             <animate attributeName="cy" from={activeLine.y1} to={activeLine.y2} dur="1.1s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.65 0 0.35 1" />
                         </circle>
                     ) : null}
-                    {structure.nodes.map((id) => {
-                        const c = center(layout.cells[id]);
-                        const { name, sub } = splitLabel(text.nodes[id]);
-                        const x = c.x - GRID.nodeW / 2;
-                        const y = c.y - GRID.nodeH / 2;
-                        return (
-                            <g key={id} className="wh-flow__node" data-state={id === from || id === to ? 'active' : 'idle'}>
-                                <rect x={x} y={y} width={GRID.nodeW} height={GRID.nodeH} rx="8" />
-                                <circle className="wh-flow__pin" cx={x + GRID.nodeW - 10} cy={y + 10} r="2" />
-                                <text className="wh-flow__node-name" x={x + 12} y={sub ? c.y - 3 : c.y + 4}>{name}</text>
-                                {sub ? <text className="wh-flow__node-sub" x={x + 12} y={c.y + 13}>{sub}</text> : null}
-                            </g>
-                        );
-                    })}
+                    {structure.nodes.map((id) => (
+                        <Node key={id} id={id} cell={cells[id]} grid={grid} label={text.nodes[id]} active={id === from || id === to} max={max} />
+                    ))}
                 </svg>
             </div>
 

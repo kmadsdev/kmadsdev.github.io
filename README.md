@@ -54,20 +54,26 @@ Two environment variables change what the scripts use:
 
 ## Change a text
 
-All the text is in `src/content/`. No sentence is in a component.
+All the text and all the addresses of the site are in one file: `src/content/content.js`. No sentence and no address is in a component. The file starts with a short "how to edit" note and a table of contents.
 
 ```
+src/content/content.js
+  PART 1  links    every address: profiles, live applications, repositories, documents,
+                   pictures, clips, /projects and the section it opens
+  PART 2  facts    numbers, dates, names, stacks, list orders, anchor ids and the
+                   structure of each drawing. Both languages read it.
+  PART 3  en       English text, in the order of the page
+  PART 4  pt       Portuguese text, the same keys in the same order
 src/content/
-  facts.js     numbers, dates, names, links, anchor ids and the structure of each drawing.
-               Both languages read this file.
-  en/          English sentences, one file per section
-  pt/          Portuguese sentences, same files and same keys
-  rich.js      paragraphs with links
-  format.js    date and number formats
+  index.js     exports content, facts and links (components and tests import this)
+  rich.js      paragraphs with links: link(text, to)
+  format.js    date, time and number formats: period(), duration(), ptNumber()
 ```
 
-- To change a number, a date or a link: edit `facts.js`. Both languages change.
-- To change a sentence: edit the same key in `en/` and in `pt/`.
+- To change where a button or a link goes: edit its address in PART 1.
+- To change a number, a date or a name: edit PART 2. Both languages change.
+- To change a sentence, a label or a button text: edit the same key in PART 3 and in PART 4. Search the file for words that you see on the page.
+- `index.html` has no text of its own: Vite writes its title, description, link preview tags and `<noscript>` text from `content.js` (`scripts/index-html.mjs`). The 404 page comes from `notFound` (`scripts/build-404.mjs`). `public/sitemap.xml` and `public/robots.txt` hold the site address by hand.
 - A paragraph with links is a list of parts: a string, or a link `{ text, to }`. `to` is an anchor id of `facts.anchors` (`'#app-consignado'`) or an `https://` address.
 
 `npm test` fails when the two languages do not have the same keys, when a link points to an anchor that does not exist, when a flowchart has a node with no label, or when a text breaks a content rule (for example, a dash used as punctuation).
@@ -81,9 +87,9 @@ src/content/
    ```
 
    It writes `public/assets/projects/<name>.mp4` (1280 wide, 24 fps, no sound) and `<name>.jpg`.
-2. Add the application to `facts.projects` in `facts.js`: `name`, `status` (`'live'` or `'study'`), `stack`, `live` and `source` addresses, `image: '/assets/projects/<name>.jpg'` and `video: '/assets/projects/<name>.mp4'`.
+2. In `src/content/content.js`, add its addresses to PART 1 (`<name>Live`, `<name>Repo`, `<name>Image`, `<name>Video`). Then add the application to `facts.projects` in PART 2: `name`, `status` (`'live'` or `'study'`), `stack`, and `live`, `source`, `image` and `video` that read those addresses (`live: links.<name>Live`).
 3. Add its id to `facts.appOrder.live` or `facts.appOrder.study`. The anchor `#app-<id>` comes from this list.
-4. Add one item with the same id to `live.items` or `study.items` in `en/applications.js` and `pt/applications.js` (a tagline and two to four sentences).
+4. Add one item with the same id to `applications.live.items` or `applications.study.items` in PART 3 and in PART 4 (a tagline and two to four sentences, and the other keys `null`, as in the items next to it).
 5. Run `npm test`.
 
 A clip is muted, loops, and loads and plays only while it is on screen. With reduced motion or Save-Data, only the poster shows. The play and pause button is always there.

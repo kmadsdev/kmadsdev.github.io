@@ -104,8 +104,13 @@ describe('the page in each language', () => {
 });
 
 describe('index.html', () => {
-    it('has the English title and description of content.en.meta before the script runs', () => {
-        const html = readFileSync(resolve(process.cwd(), 'index.html'), 'utf8'); // vitest runs from the repository root
+    it('has the English title and description of content.en.meta before the script runs', async () => {
+        // index.html holds placeholders. The Vite plugin of scripts/index-html.mjs fills them
+        // from the content file in `npm run dev` and `npm run build`: check its output.
+        const { fillIndexHtml } = await import('../scripts/index-html.mjs');
+        const template = readFileSync(resolve(process.cwd(), 'index.html'), 'utf8'); // vitest runs from the repository root
+        const html = fillIndexHtml(template, await import('../src/content/index.js'));
+        expect(html).not.toMatch(/\{\{/);
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const meta = (selector) => doc.querySelector(selector)?.getAttribute('content');
         const { title, description, ogLocale } = content.en.meta;

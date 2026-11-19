@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import { LANGS } from '../i18n/language.js';
 import { useActiveSection } from '../hooks.js';
-import { PROJECTS_PATH, openProjects } from '../routes.js';
+import { PROJECTS_PATH, PROJECTS_SECTION, openProjects } from '../routes.js';
+import { facts, links } from '../content/index.js';
 
 export function LanguageToggle() {
     const { lang, setLang, t } = useLanguage();
@@ -18,7 +19,7 @@ export function LanguageToggle() {
                     title={t.nav.languages[code]}
                     onClick={() => setLang(code)}
                 >
-                    {code.toUpperCase()}
+                    {t.nav.codes[code]}
                 </button>
             ))}
         </div>
@@ -50,19 +51,19 @@ export default function Header() {
 
     return (
         <header className="site-header" data-open={open ? 'true' : undefined}>
-            <a className="wordmark" href="#top" aria-label={t.nav.home} translate="no">
-                <span aria-hidden="true">KMA<br />DS</span>
+            <a className="wordmark" href={links.top} aria-label={t.nav.home} translate="no">
+                <span aria-hidden="true">{facts.person.wordmark[0]}<br />{facts.person.wordmark[1]}</span>
             </a>
             <nav id="site-nav" className="site-nav" aria-label={t.nav.menu}>
                 <ul>
                     {t.nav.items.map((item) => (
                         <li key={item.id}>
                             <a
-                                href={item.id === 'applications' ? PROJECTS_PATH : `#${item.id}`}
+                                href={item.id === PROJECTS_SECTION ? PROJECTS_PATH : `#${item.id}`}
                                 aria-current={active === item.id ? 'true' : undefined}
                                 onClick={(event) => {
                                     setOpen(false);
-                                    if (item.id === 'applications') openProjects(event);
+                                    if (item.id === PROJECTS_SECTION) openProjects(event);
                                 }}
                             >
                                 {item.label}

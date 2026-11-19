@@ -5,9 +5,10 @@ import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import Badge from './Badge.jsx';
 import DotField from './DotField.jsx';
 import Icon from './Icon.jsx';
-import { PROJECTS_PATH, openProjects } from '../routes.js';
+import { PROJECTS_PATH, PROJECTS_SECTION, openProjects } from '../routes.js';
+import { facts } from '../content/index.js';
 
-const clock = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' });
+const clock = new Intl.DateTimeFormat('en-GB', { timeZone: facts.person.timeZone, hour: '2-digit', minute: '2-digit' });
 
 /** The time in São Paulo (UTC-3), refreshed each 20 seconds. */
 function useLocalTime() {
@@ -25,7 +26,7 @@ function HeroLink({ link, external }) {
     const outside = /^https:/.test(link.href);
     return (
         <a
-            className={`button ${link.id === 'applications' ? 'button-primary' : ''}`.trim()}
+            className={`button ${link.id === PROJECTS_SECTION ? 'button-primary' : ''}`.trim()}
             href={link.href}
             onClick={link.href === PROJECTS_PATH ? openProjects : undefined}
             {...(outside ? { target: '_blank', rel: 'noopener noreferrer' } : {})}

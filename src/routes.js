@@ -1,11 +1,14 @@
 // One extra address: /projects shows this page at the "Applications" section.
 // A click on a link to /projects moves there with no reload.
+// The address and the section: links.projectsPath and links.projectsSection in content.js.
 import { useEffect } from 'react';
+import { links } from './content/index.js';
 
-export const PROJECTS_PATH = '/projects';
-const TARGET = 'applications';
+export const PROJECTS_PATH = links.projectsPath;
+export const PROJECTS_SECTION = links.projectsSection;
+const TARGET = PROJECTS_SECTION;
 
-const isProjectsPath = (pathname) => /^\/projects(\.html|\/)?$/.test(pathname);
+const isProjectsPath = (pathname) => [PROJECTS_PATH, `${PROJECTS_PATH}.html`, `${PROJECTS_PATH}/`].includes(pathname);
 
 function showApplications() {
     document.getElementById(TARGET)?.scrollIntoView();

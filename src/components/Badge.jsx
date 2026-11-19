@@ -5,6 +5,7 @@
 import { forwardRef, useRef, useState } from 'react';
 import { useInView, useReducedMotion } from '../hooks.js';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
+import { links } from '../content/index.js';
 
 const Badge = forwardRef(function Badge({ className = '' }, ref) {
     const { controls } = useLanguage().t;
@@ -15,8 +16,8 @@ const Badge = forwardRef(function Badge({ className = '' }, ref) {
     const [stopped, setStopped] = useState(false);
     const pictures = (
         <>
-            <img className="badge__ring" src="/assets/kmads-badge-ring.svg" alt="" width="500" height="500" decoding="async" fetchpriority="high" />
-            <img className="badge__globe" src="/assets/kmads-badge-globe.svg" alt="" width="500" height="500" decoding="async" />
+            <img className="badge__ring" src={links.badgeRing} alt="" width="500" height="500" decoding="async" fetchpriority="high" />
+            <img className="badge__globe" src={links.badgeGlobe} alt="" width="500" height="500" decoding="async" />
         </>
     );
     if (reduced) {
