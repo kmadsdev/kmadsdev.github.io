@@ -6,11 +6,11 @@ import { cases, content } from '../src/content/index.js';
 const FLOWS = Object.keys(cases).filter((id) => cases[id].flow);
 
 describe('flowchart layouts', () => {
-    it('has a wide and a narrow layout for each flowchart, and Ruph has one actor, "Me"', () => {
+    it('has a wide and a narrow layout for each flowchart, and Ruph has no agent node', () => {
         expect(Object.keys(LAYOUTS).sort()).toEqual([...FLOWS].sort());
         expect(Object.keys(NARROW).sort()).toEqual([...FLOWS].sort());
         expect(Object.keys(LAYOUTS.ruph.cells)).not.toContain('agent');
-        expect(cases.ruph.flow.nodes).toContain('human');
+        expect(cases.ruph.flow.nodes).toContain('edge');
     });
 
     it('places every node of every case in its own cell', () => {

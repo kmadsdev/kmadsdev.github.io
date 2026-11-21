@@ -30,16 +30,38 @@
     .intro-opening {
         /* 8 and 4 parts: a portrait needs less width than a diagram (7 and 5 in every other split). */
         grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-        grid-template-areas: "head photo" "text photo";
-        grid-template-rows: auto 1fr;
+        /* The photo and the card stand in one column. The text column is as high as both. */
+        grid-template-areas: "head photo" "text photo" "text latest";
+        grid-template-rows: auto auto 1fr;
     }
     .intro-opening__title { grid-area: head; }
-    .intro-opening__text { grid-area: text; }
-    .intro-opening__photo { grid-area: photo; width: 100%; align-self: start; position: sticky; top: var(--sticky-top); }
+    .intro-opening__text { grid-area: text; align-self: start; }
+    .intro-opening__photo { grid-area: photo; width: 100%; align-self: start; }
+    .intro-opening__latest { grid-area: latest; align-self: start; }
 }
-@media (max-height: 640px) {
-    .intro-opening__photo { position: static; }
-}
+
+/* The card "My latest work": a tile with a label, a name, one line, a small diagram and a paragraph. */
+.latest-work { display: grid; gap: var(--gap-pair); padding: var(--sp-4); border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-tile); }
+.latest-work__title { margin: 0; font: var(--fw-semibold) var(--fs-h4) / 1.2 var(--font-display); color: var(--c-text-strong); }
+.latest-work__subtitle { margin: 0; font-size: var(--fs-sm); line-height: 1.45; color: var(--c-text-muted); }
+.latest-work__map { margin: var(--sp-2) 0; border: 1px solid #1E2C40; border-radius: var(--r-md); background: #0F1B2A; overflow: hidden; }
+.latest-work__text { margin: 0; font-size: var(--fs-sm); line-height: 1.55; color: var(--c-text); }
+.latest-work__text strong { color: var(--c-text-strong); }
+/* The diagram keeps the colours of consignado.kmads.dev: they are part of the picture, not of this page. */
+.latest-map { display: block; width: 100%; height: auto; font-family: var(--font-sans); }
+.latest-map text { text-anchor: middle; }
+.latest-map__dot { fill: #22344B; }
+.latest-map__edge { fill: none; stroke: #2BD9A0; stroke-width: 1.4; }
+.latest-map__head { fill: #2BD9A0; }
+.latest-map__gap { fill: #0F1B2A; }
+.latest-map__edge-name { fill: #2BD9A0; font-size: 11px; }
+.latest-map__name { fill: #EEF3F9; font-size: 12px; font-weight: 700; }
+.latest-map__sub { fill: #A3B3C6; font-size: 11px; }
+.latest-map__pill { fill: #0C2622; stroke: #2BD9A0; stroke-width: 1; }
+.latest-map__tick { fill: none; stroke: #2BD9A0; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.latest-map__time { fill: #E6FFF6; font: 11px var(--font-mono); text-anchor: start !important; }
+.latest-map__frame { fill: none; stroke: #7C8CFF; stroke-width: 1; stroke-dasharray: 4 3; }
+.latest-map__frame-name { fill: #9AA7FF; font-size: 11px; font-weight: 700; text-anchor: start !important; }
 
 /* ---------- One chapter ----------
    [label, headline, lead]  then  [paragraphs, numbers, full story, proof, tools] beside the

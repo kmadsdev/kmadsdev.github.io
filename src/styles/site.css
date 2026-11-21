@@ -177,7 +177,12 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
 .site-nav a[aria-current] { color: var(--c-text-strong); }
 .site-nav a[aria-current]::after { transform: scaleX(1); }
 .site-nav a:focus-visible { box-shadow: inset 0 0 0 2px var(--c-text-strong); }
-.site-controls { display: flex; align-items: center; gap: var(--sp-2); margin-left: auto; }
+/* The music line in the bar: between the links and the controls, in the middle of the free room.
+   It is its own container: the line drops parts when the room is small (player.css). */
+.site-player { container-type: inline-size; flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; padding-inline: var(--sp-4); }
+.site-controls { flex: none; display: flex; align-items: center; gap: var(--sp-2); margin-left: auto; }
+/* "Hire me": the one red control of the bar. It is as high as the language switch. */
+.site-hire { min-height: var(--ctl-md); padding-inline: var(--sp-4); }
 .menu-button {
     display: none;
     place-items: center;
@@ -389,8 +394,8 @@ div.badge__globe { cursor: default; }
    Below 720px: the hero is one column, the badge first. */
 @media (max-width: 1023.98px) {
     :root { --rail: 0px; --rule-x: 0px; }
-    /* The bar holds two controls: the language at the left edge of the column, the menu at the right edge. */
-    .site-controls { flex: 1; justify-content: space-between; margin-left: 0; }
+    /* The bar holds the music line at the left edge of the column, then "Hire me", the language and the menu. */
+    .site-player { justify-content: flex-start; padding-inline: 0 var(--sp-2); }
     .menu-button { display: inline-grid; }
     .site-nav {
         position: absolute;

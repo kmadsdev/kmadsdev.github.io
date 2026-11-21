@@ -25,9 +25,9 @@ export const LAYOUTS = {
     hivemind: {
         cells: { train: [0, 0], bucket: [1, 0], api: [2, 0], client: [2, 1] },
     },
-    // One actor, "Me" (node `human`): the plan and the approval both go from me to the API.
+    // The control plane (`api`) in the middle: the edge above it, what it uses and manages around it.
     ruph: {
-        cells: { ci: [1, 0], ledger: [2, 0], human: [0, 1], api: [1, 1], providers: [2, 1] },
+        cells: { clients: [0, 0], edge: [1, 0], qa: [2, 0], identity: [0, 1], api: [1, 1], store: [2, 1], providers: [1, 2], apps: [2, 2] },
     },
 };
 
@@ -55,7 +55,7 @@ export const NARROW = {
         cells: { train: [0, 0], bucket: [1, 0], client: [0, 1], api: [1, 1] },
     },
     ruph: {
-        cells: { human: [0, 0], ci: [1, 0], api: [0, 1], ledger: [1, 1], providers: [0, 2] },
+        cells: { qa: [0, 0], clients: [1, 0], identity: [0, 1], edge: [1, 1], api: [0, 2], store: [1, 2], providers: [0, 3], apps: [1, 3] },
     },
 };
 
