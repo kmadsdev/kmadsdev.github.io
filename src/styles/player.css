@@ -93,6 +93,21 @@
 .player-line__volume:focus-visible::-webkit-slider-runnable-track { box-shadow: var(--focus-ring); }
 .player-line__volume:focus-visible::-moz-range-track { box-shadow: var(--focus-ring); }
 
+/* ---------- The line in the top bar ----------
+   The same line, with a play and pause button at its left. It comes in when the hero line
+   goes out of view. Its room is the free part of the bar (.site-player, a container):
+   with less room it drops, in this order, the volume bar, the restart button, the song
+   name, the speaker. The play button and the album cover stay at any width. */
+.player-line--bar { min-width: 0; max-width: 100%; justify-content: flex-start; animation: player-bar-in var(--dur-base) var(--ease-out); }
+.player-line--bar .player-line__source { min-width: 0; }
+.player-line--bar .player-line__song { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+@keyframes player-bar-in { from { opacity: 0; transform: translateY(-4px); } }
+@container (max-width: 20.5rem) { .player-line--bar .player-line__volume { display: none; } }
+@container (max-width: 15.5rem) { .player-line--bar .player-line__restart { display: none; } }
+@container (max-width: 10rem) { .player-line--bar .player-line__song { display: none; } }
+@container (max-width: 5.5rem) { .player-line--bar .player-line__group { display: none; } }
+@container (max-width: 3.5rem) { .player-line--bar .player-line__source { display: none; } }
+
 /* A finger needs 44px on the controls. The line stays one line of text: only the boxes grow. */
 @media (pointer: coarse) {
     .player-line { --hit: var(--ctl-lg); }
@@ -104,4 +119,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
     .player-line__control, .player-line__source { transition: none; }
+    .player-line--bar { animation: none; }
 }

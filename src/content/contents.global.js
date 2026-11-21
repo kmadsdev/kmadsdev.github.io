@@ -228,7 +228,32 @@ export const music = {
         text: '"may" by Birocratic, from the album "beets 3" (2015)',
         url: 'https://birocratic.com',
     },
-    volume: 0.35,
+    // The loudness at the start: 20% (order of 2026-11-21).
+    volume: 0.2,
+    // The song starts by itself. A browser gives no sound before the first action of the
+    // visitor, so it starts with the first click, tap or key. A pause is kept for the visit.
+    autoplay: true,
+};
+
+// =============================================================================
+// LATEST WORK · the small diagram of the card under the photo
+// A cut of the request path that consignado.kmads.dev shows. The names are the
+// names on that site (English). `time` is the time of the stage in the recorded
+// replay of the Kubernetes host (screen of the site, 2026-11-21).
+// =============================================================================
+export const latestWork = {
+    project: 'consignado',
+    source: 'consignado-api',
+    nodes: [
+        { id: 'user', name: 'User', sub: 'browser', time: '342 ms' },
+        { id: 'edge', name: 'Cloudflare edge', sub: 'TLS, cache', time: '31 ms' },
+        { id: 'gateway', name: 'Gateway', sub: 'token, routing', time: '221 ms' },
+        { id: 'balancer', name: 'Load balancer', sub: 'internal', time: '7.7 s' },
+        { id: 'pod', name: 'Pod ×2', sub: 'Spring Boot', time: '17.4 s' },
+        { id: 'database', name: 'PostgreSQL', sub: 'Azure', time: '2.9 s' },
+    ],
+    edges: { edge: 'HTTPS', gateway: '/api/*', balancer: 'API call', database: 'JDBC' },
+    frame: 'AKS cluster',
 };
 
 // =============================================================================
@@ -667,17 +692,21 @@ export const cases = {
         links: [{ label: 'hivemind-ml-api', url: `${GITHUB}/hivemind-ml-api` }],
     },
     // Shown in the applications section (app-ruph), with the same chart component.
-    // The one actor is `human` ("Me"). An agent cannot do these actions yet.
+    // The chart follows the drawing "Ruph Architecture", layer 1: clients, one edge,
+    // the control plane in production with what it uses and manages, and a separate QA instance.
     ruph: {
         stack: ['TypeScript', 'Hono', 'React', 'PostgreSQL', 'Cloud Run', 'Cloud SQL', 'Secret Manager', 'Terraform', 'GitHub Actions'],
         flow: {
-            nodes: ['human', 'api', 'ledger', 'providers', 'ci'],
+            nodes: ['clients', 'edge', 'api', 'identity', 'store', 'providers', 'apps', 'qa'],
             edges: [
-                ['human', 'api'],
-                ['human', 'api'],
-                ['api', 'ledger'],
+                ['clients', 'edge'],
+                ['edge', 'api'],
+                ['api', 'identity'],
+                ['api', 'store'],
+                ['api', 'store'],
                 ['api', 'providers'],
-                ['ci', 'api'],
+                ['api', 'apps'],
+                ['edge', 'qa'],
             ],
         },
         links: [{ label: 'ruph.kmads.dev', url: 'https://ruph.kmads.dev/' }],
@@ -868,12 +897,12 @@ export const figma = [
         anchors: ['app-consignado'],
     },
     {
-        // The picture "How Ruph ships" of the CI/CD chapter.
+        // The picture "GCP Continuous Delivery Pipeline" of the CI/CD chapter and of Ruph.
         id: 'ruph-ship',
-        src: '/assets/figma/ruph-how-we-ship.webp',
-        thumb: '/assets/figma/ruph-how-we-ship-thumb.webp',
-        width: 2040,
-        height: 1400,
+        src: '/assets/figma/ruph-cd-pipeline.webp',
+        thumb: '/assets/figma/ruph-cd-pipeline-thumb.webp',
+        width: 2560,
+        height: 986,
         chapters: ['cicd'],
         anchors: ['app-ruph'],
     },
