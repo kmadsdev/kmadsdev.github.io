@@ -1,8 +1,8 @@
 /* education: styles of this part only.
-   Component: src/components/Education.jsx. Two tiles: the program, the certificates.
+   Component: src/components/Education.jsx ("Formation"). Two tiles: the program, the certificates.
    Inside a tile the parts are 8px apart (bento.css); a new group starts after a hairline. */
 
-/* Period and length: facts, in mono. */
+/* The period and its length: facts, in mono. */
 .edu-meta,
 .edu-cert__meta {
     display: flex;

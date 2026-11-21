@@ -1,58 +1,56 @@
-// One company or period. The first view is short on purpose: company, context,
-// roles with their periods, the impact and the case rows can be read in a few
-// seconds. The daily work, tools and stacks open in place ("Show the details"),
-// and each case file opens in place too. All text stays in the DOM.
-import { ChapterGroup, Tile, ToggleSign } from '../bento/index.js';
+// One company or period, in the order of the owner's text:
+//   company (h3) and its context line (rich)
+//   text column: Impact, then (PicPay) Current and Previous responsibilities, then the links
+//   side column: the experience timeline (period, title, note). It stays in view while the
+//                text scrolls. "Current" is a word on the present role, with no dot.
+//   then the case files of the company, each closed, each opens in place.
 import { isAnchor } from '../../content/rich.js';
+import { ChapterGroup } from '../bento/index.js';
 import ExternalLink from '../ExternalLink.jsx';
+import Rich from '../Rich.jsx';
 import CaseFile from './CaseFile.jsx';
 
-function Tags({ label, items }) {
+function List({ title, items, impact = false }) {
+    if (!items?.length) return null;
     return (
-        <div className="xp-facts__group">
-            <p className="wh-label">{label}</p>
-            <ul className="wh-tags" aria-label={label}>
-                {items.map((name) => <li key={name}>{name}</li>)}
+        <div className="xp-block">
+            <h4 className="wh-label xp-block__title">{title}</h4>
+            <ul className={`xp-list${impact ? ' xp-list--impact' : ''}`}>
+                {items.map((text) => <li key={text}>{text}</li>)}
             </ul>
         </div>
     );
 }
 
-function Roles({ item, labels }) {
+function Timeline({ item, labels }) {
     return (
-        <Tile kind="list" as="div" className="xp-facts">
+        <div className="xp-facts">
+            <h4 className="wh-label xp-block__title">{labels.timeline}</h4>
             <ol className="xp-roles">
-                {item.roles.map((role, i) => (
-                    <li className="xp-role" key={role.title}>
+                {item.timeline.map((role) => (
+                    <li className="xp-role" key={`${role.period}${role.title}`}>
                         <p className="xp-role__period">
                             <span>{role.period}</span>
-                            {item.current && i === 0 ? (
-                                <span className="status xp-role__now"><span className="status-dot" aria-hidden="true" />{labels.current}</span>
-                            ) : null}
+                            {role.current ? <span className="xp-role__now">{labels.current}</span> : null}
                         </p>
                         <p className="xp-role__title">{role.title}</p>
                         <p className="xp-role__note">{role.note}</p>
                     </li>
                 ))}
             </ol>
-        </Tile>
+        </div>
     );
 }
 
-export default function CompanyEntry({ item, labels, controls, cases, isOpen, onToggle, numbers }) {
+export default function CompanyEntry({ item, labels, cases, caseIds, isOpen, onToggle, numbers }) {
+    const entries = caseIds.map((id) => cases.items.find((c) => c.id === id)).filter(Boolean);
     return (
-        <ChapterGroup id={item.anchor} title={item.company} lead={item.context}>
-            <div className="split split--flip split--sticky xp-entry">
-                <div className="split__media">
-                    <Roles item={item} labels={labels} />
-                </div>
+        <ChapterGroup id={item.anchor} title={item.company} lead={<Rich text={item.context} />}>
+            <div className="split split--sticky xp-entry">
                 <div className="chapter-text xp-text">
-                    <div className="xp-block">
-                        <h4 className="wh-label">{labels.impact}</h4>
-                        <ul className="xp-list xp-list--impact">
-                            {item.impact.map((text) => <li key={text}>{text}</li>)}
-                        </ul>
-                    </div>
+                    <List title={labels.impact} items={item.impact} impact />
+                    <List title={labels.currentResponsibilities} items={item.currentResponsibilities} />
+                    <List title={labels.previousResponsibilities} items={item.previousResponsibilities} />
                     {item.links.length ? (
                         <p className="xp-links">
                             {item.links.map((link) => (isAnchor(link.to) ? (
@@ -62,44 +60,26 @@ export default function CompanyEntry({ item, labels, controls, cases, isOpen, on
                             )))}
                         </p>
                     ) : null}
-                    <details className="xp-more">
-                        <summary className="toggle xp-more__summary">
-                            <span className="xp-more__show">{controls.showDetails}</span>
-                            <span className="xp-more__hide">{controls.hideDetails}</span>
-                            <span className="visually-hidden"> {item.company}</span>
-                            <ToggleSign />
-                        </summary>
-                        <div className="xp-more__body">
-                            <div className="xp-block">
-                                <h4 className="wh-label">{labels.responsibilities}</h4>
-                                <ul className="xp-list">
-                                    {item.responsibilities.map((text) => <li key={text}>{text}</li>)}
-                                </ul>
-                            </div>
-                            {item.tools.length ? <Tags label={labels.tools} items={item.tools} /> : null}
-                            {item.stacks.map((stack) => <Tags key={stack.label} label={stack.label} items={stack.items} />)}
-                        </div>
-                    </details>
+                </div>
+                <div className="split__media">
+                    <Timeline item={item} labels={labels} />
                 </div>
             </div>
 
-            {item.projects.length ? (
+            {entries.length ? (
                 <div className="xp-cases">
-                    <h4 className="wh-label xp-cases__label">{labels.projects}</h4>
+                    <p className="wh-label xp-cases__label">{labels.projects}</p>
                     <div className="xp-case-list">
-                        {item.projects.map((id) => {
-                            const entry = cases.items.find((c) => c.id === id);
-                            return entry ? (
-                                <CaseFile
-                                    key={id}
-                                    item={entry}
-                                    labels={cases.labels}
-                                    open={isOpen(id)}
-                                    onToggle={onToggle}
-                                    n={numbers[id]}
-                                />
-                            ) : null;
-                        })}
+                        {entries.map((entry) => (
+                            <CaseFile
+                                key={entry.id}
+                                item={entry}
+                                labels={cases.labels}
+                                open={isOpen(entry.id)}
+                                onToggle={onToggle}
+                                n={numbers[entry.id]}
+                            />
+                        ))}
                     </div>
                 </div>
             ) : null}

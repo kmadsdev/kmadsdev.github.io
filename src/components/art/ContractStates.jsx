@@ -1,14 +1,14 @@
-// The contract state machine of consignado-api, from facts.art.contractStates.
+// The contract state machine of consignado-api, from art.contractStates.
 // One contract moves through the states: to the end of a paid loan, then to a
 // rejection, then to a cancellation after approval. The transition in use is red,
 // the way the contract came keeps the signal colour, and the readout names the
 // transition. A final state has a double border. The dot is the start.
-import { facts } from '../../content/index.js';
+import { art } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { Art, Packet, Wire, useStep } from './kit/index.js';
 import { Box, Fit, Readout } from './artAKit.jsx';
 
-const DATA = facts.art.contractStates;
+const DATA = art.contractStates;
 const FINAL = new Set(DATA.terminal);
 const find = (from, target) => DATA.transitions.find((t) => t.from === from && t.target === target);
 // The lives of one contract, as lists of states. Each move is a transition of the data.
@@ -105,7 +105,6 @@ function Scene({ text, layout }) {
                     h={layout.h}
                     name={text.states[state]}
                     state={state === here ? 'active' : seen.has(state) ? 'seen' : 'idle'}
-                    pin="off"
                     final={FINAL.has(state)}
                 />
             ))}

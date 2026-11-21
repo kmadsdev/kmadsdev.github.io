@@ -39,8 +39,6 @@
     transition: stroke var(--dur-base) var(--ease-out), fill var(--dur-base) var(--ease-out);
 }
 .art-node[data-state="active"] rect { fill: var(--c-tile-3); stroke: var(--c-text-strong); }
-.art-pin { fill: var(--art-ink-faint); }
-.art-pin[data-pin="live"] { fill: var(--c-mint); }
 .art-name { font: var(--fw-medium) 12px var(--font-sans); fill: var(--c-text); }
 .art-node[data-state="active"] .art-name { fill: var(--c-text-strong); }
 /* Mono capitals on a drawing: the names of its axes and parts, as the mark of the board. */

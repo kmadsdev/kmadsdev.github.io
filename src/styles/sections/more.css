@@ -1,16 +1,25 @@
-/* More: src/components/More.jsx. An honourable mention at the end of the page:
-   four quiet tiles, no drawing. The grid and the tiles come from bento.css.
+/* Hobbies (section id "more"): src/components/More.jsx. An honourable mention at the end of
+   the page: four quiet tiles, no drawing. The grid and the tiles come from bento.css.
    Inside a tile: the title, then 12px, then the content. */
 
 .tile.more-tile .tile__body { gap: var(--gap-group); }
 
-/* Volunteering: the number, the role, the text. */
-.more-volunteer__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4); }
+/* Volunteering: the number and its line, the role, the text, the communities, the peek. */
+.more-volunteer__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3); }
 .more-volunteer__value { margin: 0; }
-.more-volunteer__role { display: grid; gap: var(--sp-1); min-width: 0; flex: 1 1 9rem; } /* wraps under the number below this width */
-.more-role { font-size: var(--fs-sm); line-height: var(--lh-h4); font-weight: var(--fw-medium); color: var(--c-text-strong); }
-/* Place and period: facts, in mono. */
+.more-volunteer__line { margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); font-weight: var(--fw-medium); color: var(--c-text-strong); }
+/* The role and its years: a fact, in mono. */
 .more-meta { margin: 0; font: var(--fs-xs) / var(--lh-xs) var(--font-mono); color: var(--c-text-muted); }
+/* The communities: names of places, in one mono line (the dots between them come from CSS). */
+.more-tags { display: flex; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; font: var(--fs-mark) / var(--lh-mark) var(--font-mono); color: var(--c-text-muted); }
+.more-tags li:not(:last-child)::after { content: "·"; margin-inline: 0.5em; color: var(--c-text-faint); } /* em: one character of the mono line */
+.more-peek .toggle { min-height: var(--ctl-md); }
+
+/* Hobbies and future projects: short paragraphs, the name in bold at the start. */
+.more-hobbies__list { display: grid; gap: var(--gap-group); margin: 0; padding: 0; list-style: none; font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); }
+.more-hobbies__list li { max-width: var(--measure); text-wrap: pretty; }
+.more-hobbies__list strong { font-weight: var(--fw-semibold); color: var(--c-text-strong); }
+.more-hobbies__list a { color: var(--c-text-strong); }
 
 /* Rows: a name and its value, with a hairline between rows. */
 .more-rows { display: grid; margin: 0; }
@@ -20,10 +29,12 @@
 .more-rows dt { min-width: 0; color: var(--c-text-strong); }
 .more-rows dd { margin: 0; min-width: 0; }
 
-/* Languages: name left, level right. The code (PT, EN, ES) is a code: mono capitals. */
+/* Languages: code, name and study note on the left, level on the right. The code is a code: mono capitals. */
 .more-languages__row { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; }
 .more-languages__row dt { display: flex; align-items: baseline; gap: var(--sp-3); font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text); }
-.more-languages__code { font: var(--fw-medium) var(--fs-mark) / var(--lh-flat) var(--font-mono); letter-spacing: var(--ls-mark); text-transform: uppercase; color: var(--c-text-faint); }
+.more-languages__code { flex: none; width: 2ch; font: var(--fw-medium) var(--fs-mark) / var(--lh-flat) var(--font-mono); letter-spacing: var(--ls-mark); text-transform: uppercase; color: var(--c-text-faint); } /* 2ch: one column for the two letters */
+.more-languages__name { display: grid; color: var(--c-text-strong); }
+.more-languages__study { font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--c-text-muted); }
 .more-languages__level {
     font-family: var(--font-display);
     font-stretch: var(--wd-wide);
@@ -35,29 +46,8 @@
     text-align: right;
 }
 
-/* Hobbies: a short list. The name starts its line, a step stronger than the text. */
-/* No hairlines here: the rows are sentences. */
-.more-hobbies .more-rows { gap: var(--sp-2); }
-.more-hobbies__row { display: block; padding: 0; border: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); }
-.more-hobbies__row dt { display: inline; margin-right: 0.4em; font-weight: var(--fw-medium); color: var(--c-text-strong); } /* em: one word space */
-.more-hobbies__row dd { display: inline; color: var(--c-text-muted); }
-
-/* Future projects: a link and its line. */
-.more-future__list { display: grid; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
-.more-future__list li { display: grid; gap: var(--sp-1); font-size: var(--fs-sm); line-height: var(--lh-sm); }
-.more-future__list p { margin: 0; color: var(--c-text-muted); }
-.more-future__name { font-weight: var(--fw-medium); color: var(--c-text-strong); }
-.more-future__note { font-family: var(--font-sans); color: var(--c-text-faint); }
-.more-future__details { display: grid; gap: var(--sp-3); margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); }
-.more-future__details dt { font-weight: var(--fw-medium); color: var(--c-text-strong); }
-.more-future__details dd { margin: 0; color: var(--c-text-muted); }
-
-/* One band at 12 columns: volunteering | hobbies | languages over future.
-   The right column: two short tiles, each at its own height. */
-@media (min-width: 1280px) {
-    .more-grid { grid-auto-rows: auto; }
-    .more-grid .more-volunteer { grid-column: 1 / span 4; grid-row: 1 / span 2; }
-    .more-grid .more-hobbies { grid-column: 5 / span 5; grid-row: 1 / span 2; }
-    .more-grid .more-languages { grid-column: 10 / span 3; grid-row: 1; align-self: start; }
-    .more-grid .more-future { grid-column: 10 / span 3; grid-row: 2; align-self: start; }
-}
+/* Two bands of the grid, each tile at the height of its text: volunteering and hobbies, then
+   languages and the future projects (5 and 7 parts at 12 columns, 4 and 4 at 8 columns). */
+.more-grid { grid-auto-rows: auto; }
+/* "Car ECU tuning: I study ...": the name and its text, as the owner wrote them. */
+.more-hobbies__list strong::after { content: ":"; }

@@ -1,37 +1,34 @@
-// One chapter of "What I do", from its data. The same component renders all eight.
-// A chapter is ONE compact block (CONTRACT.md section 9, the height budget):
+// One chapter of "What I do", from its data (CONTENT-SHAPE.md section 5).
+// The same component renders all eight.
 //
-//   head      label, headline, lead
-//   block     text side: the first paragraph, the proof links, the numbers
-//             object side: the main drawing, large (or the numbers and links
-//             when the chapter has no drawing). `flip` changes the sides.
-//   more      a native <details>: the other paragraphs, the text form of the
-//             drawing and of each number, the tools, the other tiles (a second
-//             drawing, a note) and the row "From my Figma". Closed, it stays
-//             in the page: nothing is lost with JavaScript off.
+//   head      label, headline (h3), lead (optional, plain or rich)
+//   block     text side: the paragraphs (always shown), "Read the full story" (only when
+//             `story` exists), the number rows (only when `stats` has items).
+//             other side: the drawings that fit a column, one under the other, then the row
+//             "From my Figma". The proof links and the tool names stand in the shorter of the
+//             two columns (TEXT_PER_DRAWING), so that no half of the column is empty.
+//             `flip` changes the sides.
+//   wide      a drawing that needs the full column (WIDE): under the block.
 import { useState } from 'react';
-import { facts } from '../../content/index.js';
+import { boardMarks, chapterTools, figma as figmaPictures } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { Reveal, ToggleSign } from '../bento/index.js';
 import FigmaRow from '../FigmaRow.jsx';
 import Icon from '../Icon.jsx';
 import { ArtToggle, Playback, usePlayback } from '../art/kit/index.js';
-import { RichParagraphs } from '../Rich.jsx';
-import IntroTile, { DRAWINGS } from './IntroTile.jsx';
+import Rich, { RichParagraphs } from '../Rich.jsx';
+import { plain } from '../../content/rich.js';
+import { artA } from './artA.js';
+import { artB } from './artB.js';
 
-// A drawing that is taller than one screen in the block. The next drawing of the
-// chapter takes its place, and the tall one moves into the disclosure.
-const TALL = new Set(['clouds']);
+export const DRAWINGS = { ...artA, ...artB };
+// Drawings that need the width of the column: a layout of many columns (the request path,
+// the two flows of the default workflow) or a time axis.
+export const WIDE = new Set(['requestPath', 'clouds', 'defaultWorkflow', 'timeline']);
 
-/** How a chapter splits its tiles: the main drawing, the numbers and plain links, the rest. */
-export function plan(chapter) {
-    const drawn = chapter.tiles.filter((tile) => tile.kind === 'art');
-    let main = drawn[0] ?? null;
-    if (main && TALL.has(main.art) && drawn[1]) main = drawn[1];
-    const figures = chapter.tiles.filter((tile) => tile.kind === 'stat' || (tile.kind === 'link' && !tile.art));
-    const extras = chapter.tiles.filter((tile) => tile !== main && !figures.includes(tile));
-    return { main, figures, extras };
-}
+// About the characters of prose that stand as high as one drawing at the side of the text.
+// A chapter with more text than that puts its proof links and tools under the drawings.
+const TEXT_PER_DRAWING = 900;
 
 const outside = (to) => /^https?:/.test(to);
 const linkProps = (to) => (outside(to) ? { href: to, target: '_blank', rel: 'noopener noreferrer' } : { href: to });
@@ -58,131 +55,112 @@ function Proof({ items }) {
     );
 }
 
-/** The numbers of a chapter as slim rows: value, short name, source. A plain link tile is a row too. */
-function Figures({ items }) {
-    const { t } = useLanguage();
+/** The number rows of a chapter: value, title, source. */
+function Stats({ items }) {
+    const { sourceLabel } = useLanguage().t.intro;
     return (
         <ul className="intro-facts">
-            {items.map((tile) =>
-                tile.kind === 'link' ? (
-                    <li key={tile.id}>
-                        <a className="intro-fact intro-fact--link" {...linkProps(tile.to)}>
-                            <span className="intro-fact__title">
-                                {tile.title}
-                                {outside(tile.to) ? <span className="visually-hidden"> ({t.controls.external})</span> : null}
-                            </span>
-                            <span className="intro-fact__text">{tile.text}</span>
-                            <Icon name={outside(tile.to) ? 'arrow-up-right' : 'arrow-down'} size={14} />
-                        </a>
-                    </li>
-                ) : (
-                    <li key={tile.id} className="intro-fact">
-                        <span className="intro-fact__value">{tile.value}</span>
-                        <span className="intro-fact__title">{tile.title}</span>
-                        {tile.source ? <span className="intro-fact__source">{t.intro.sourceLabel} / {tile.source}</span> : null}
-                    </li>
-                ),
-            )}
+            {items.map((stat) => (
+                <li key={stat.id} className="intro-fact">
+                    <span className="intro-fact__value">{stat.value}</span>
+                    <span className="intro-fact__title">{stat.title}</span>
+                    <span className="intro-fact__source">{sourceLabel} / {stat.source}</span>
+                </li>
+            ))}
         </ul>
     );
 }
 
-export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
-    const { t } = useLanguage();
+function Tools({ items }) {
+    const { toolsLabel } = useLanguage().t.intro;
+    if (!items?.length) return null;
+    return (
+        <div className="intro-tools">
+            <p className="wh-label">{toolsLabel}</p>
+            <ul className="intro-tools__list" aria-label={toolsLabel}>
+                {items.map((tool) => <li key={tool}>{tool}</li>)}
+            </ul>
+        </div>
+    );
+}
+
+function Story({ items }) {
+    const { controls } = useLanguage().t;
     const [open, setOpen] = useState(false);
+    return (
+        <details className="intro-story" onToggle={(event) => setOpen(event.currentTarget.open)}>
+            <summary className="toggle">
+                <span>{open ? controls.readLess : controls.readMore}</span>
+                <ToggleSign />
+            </summary>
+            <div className="chapter-text intro-story__body">
+                <RichParagraphs items={items} />
+            </div>
+        </details>
+    );
+}
+
+/** One drawing: its board mark (h4) and pause button, a plain frame, one line of text. */
+function Figure({ drawing, n, wide = false }) {
     const playback = usePlayback();
-    const { main, figures, extras } = plan(chapter);
+    const Drawing = DRAWINGS[drawing.art];
+    return (
+        <figure className="intro-figure" data-wide={wide ? 'true' : undefined}>
+            <Playback value={playback}>
+                <div className="intro-figure__bar">
+                    <h4 className="tile__label intro-figure__title">
+                        <span aria-hidden="true">{boardMarks.art}{n} · </span>
+                        {drawing.title}
+                    </h4>
+                    <ArtToggle />
+                </div>
+                <div className="intro-figure__frame">{Drawing ? <Drawing /> : null}</div>
+                <figcaption className="intro-figure__text">{drawing.text}</figcaption>
+            </Playback>
+        </figure>
+    );
+}
+
+export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
     const id = `intro-${chapter.id}`;
-    const number = (tile) => numbers[`${chapter.id}/${tile.id}`];
-    const Drawing = main ? DRAWINGS[main.art] : null;
-    const drawing = main ? t.intro.art[main.art] : null;
-    const [first, ...rest] = chapter.paragraphs;
-    // A proof link that a link row of this chapter already gives is not shown twice.
-    const given = new Set(figures.filter((tile) => tile.kind === 'link').map((tile) => tile.to));
-    const proof = chapter.proof.filter((item) => !given.has(item.to));
-    const figma = facts.figmaOrder.filter((key) => facts.figma[key].chapters.includes(chapter.id));
-    // The text form of the drawing and of each number.
-    const notes = [main, ...figures.filter((tile) => tile.kind === 'stat')].filter(Boolean);
-    const more = rest.length || notes.length || chapter.tools.length || extras.length || figma.length;
+    const number = (drawing) => numbers[`${chapter.id}/${drawing.id}`];
+    const side = chapter.drawings.filter((drawing) => !WIDE.has(drawing.art));
+    const wide = chapter.drawings.filter((drawing) => WIDE.has(drawing.art));
+    const figma = figmaPictures.filter((picture) => picture.chapters.includes(chapter.id)).map((picture) => picture.id);
+    const textLength = chapter.paragraphs.reduce((sum, paragraph) => sum + plain(paragraph).length, 0);
+    const metaAside = !side.length || textLength > TEXT_PER_DRAWING * side.length;
+    const meta = (
+        <>
+            {chapter.proof.length ? <Proof items={chapter.proof} /> : null}
+            <Tools items={chapterTools[chapter.id]} />
+        </>
+    );
 
     return (
         <article id={id} className="intro-chapter" data-flip={flip ? 'true' : undefined} aria-labelledby={`${id}-title`}>
             <header className="intro-chapter__head">
                 <p className="wh-label chapter-label">{chapter.label}</p>
                 <h3 id={`${id}-title`} className="wh-headline wh-headline--item">{chapter.headline}</h3>
-                <p className="chapter-lead">{chapter.lead}</p>
+                {chapter.lead ? <p className="chapter-lead"><Rich text={chapter.lead} /></p> : null}
             </header>
 
-            <Reveal className="intro-block" data-object={Drawing ? 'drawing' : figures.length ? 'figures' : undefined}>
+            <Reveal className="intro-block" data-object={side.length ? 'drawing' : 'meta'}>
                 <div className="intro-text">
                     <div className="chapter-text">
-                        <RichParagraphs items={[first]} />
+                        <RichParagraphs items={chapter.paragraphs} />
                     </div>
-                    {proof.length ? <Proof items={proof} /> : null}
-                    {Drawing && figures.length ? <Figures items={figures} /> : null}
+                    {chapter.story?.length ? <Story items={chapter.story} /> : null}
+                    {chapter.stats.length ? <Stats items={chapter.stats} /> : null}
+                    {metaAside ? null : meta}
                 </div>
-                {Drawing ? (
-                    <figure className="intro-figure">
-                        <Playback value={playback}>
-                            <div className="intro-figure__bar">
-                                <p className="tile__label">
-                                    <span aria-hidden="true">{facts.boardMarks.art}{number(main)} · </span>
-                                    {drawing.title}
-                                </p>
-                                <ArtToggle />
-                            </div>
-                            <div className="intro-figure__frame"><Drawing /></div>
-                        </Playback>
-                    </figure>
-                ) : figures.length ? (
-                    <Figures items={figures} />
-                ) : null}
+                <div className="intro-side">
+                    {side.map((drawing) => <Figure key={drawing.id} drawing={drawing} n={number(drawing)} />)}
+                    {metaAside ? meta : null}
+                    <FigmaRow ids={figma} compact />
+                </div>
             </Reveal>
 
-            {more ? (
-                <details className="intro-more" onToggle={(event) => setOpen(event.currentTarget.open)}>
-                    <summary className="toggle">
-                        <span>{open ? t.controls.readLess : t.controls.readMore}</span>
-                        <ToggleSign />
-                    </summary>
-                    <div className="intro-more__body" data-side={extras.length ? 'true' : undefined}>
-                        <div className="intro-more__main">
-                            {rest.length ? (
-                                <div className="chapter-text">
-                                    <RichParagraphs items={rest} />
-                                </div>
-                            ) : null}
-                            {notes.length ? (
-                                <dl className="intro-notes">
-                                    {notes.map((tile) => (
-                                        <div key={tile.id}>
-                                            <dt>{tile.kind === 'stat' ? `${tile.value} · ${tile.title}` : tile.title}</dt>
-                                            <dd>{tile.text}</dd>
-                                            {tile === main && Drawing ? <dd>{drawing.summary}</dd> : null}
-                                        </div>
-                                    ))}
-                                </dl>
-                            ) : null}
-                            {chapter.tools.length ? (
-                                <div className="intro-tools">
-                                    <p className="wh-label">{t.intro.toolsLabel}</p>
-                                    <ul className="wh-tags">
-                                        {chapter.tools.map((tool) => <li key={tool}>{tool}</li>)}
-                                    </ul>
-                                </div>
-                            ) : null}
-                        </div>
-                        {extras.length ? (
-                            <div className="intro-more__side">
-                                {extras.map((tile) => (
-                                    <IntroTile key={tile.id} tile={tile} n={number(tile)} />
-                                ))}
-                            </div>
-                        ) : null}
-                        <FigmaRow ids={figma} />
-                    </div>
-                </details>
-            ) : null}
+            {wide.map((drawing) => <Figure key={drawing.id} drawing={drawing} n={number(drawing)} wide />)}
         </article>
     );
 }

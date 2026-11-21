@@ -10,19 +10,20 @@
 .intro .chapter-text a.link:hover { text-decoration-color: var(--c-red); text-decoration-thickness: 2px; } /* 2px: the state change of a 1px line */
 .intro .chapter-text a.link:focus-visible { outline: 0; border-radius: var(--r-sm); box-shadow: var(--focus-ring); }
 
-/* ---------- Opening: "Who am I?" ----------
-   Text on the left, my photo on the right. The photo stays in view while the text scrolls. */
-.intro-opening { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-group) var(--gap-col); }
-.intro-opening__head { display: grid; gap: var(--gap-pair); }
-.intro-opening__photo { width: min(100%, 17rem); margin: 0; } /* one column: the portrait is a small picture over the text */
+/* Bold first words of a paragraph (rich `strong`): the semibold step, the strong text colour. */
+.intro .chapter-text strong { font-weight: var(--fw-semibold); color: var(--c-text-strong); }
+
+/* ---------- Opening: "👋 Hello," ----------
+   The heading, then the text on the left and my photo on the right. The photo stays in
+   view while the text scrolls. No label above the heading. */
+.intro-opening { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-stack) var(--gap-col); }
+.intro-opening__photo { width: min(100%, 15rem); margin: 0; } /* one column: the portrait is a small picture over the text */
 .intro-opening__photo img {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 1;
     object-fit: cover;
-    /*border: 1px solid var(--c-line);
-    border-radius: var(--r-lg);*/
     background: var(--c-tile);
 }
 @media (min-width: 900px) {
@@ -32,7 +33,7 @@
         grid-template-areas: "head photo" "text photo";
         grid-template-rows: auto 1fr;
     }
-    .intro-opening__head { grid-area: head; }
+    .intro-opening__title { grid-area: head; }
     .intro-opening__text { grid-area: text; }
     .intro-opening__photo { grid-area: photo; width: 100%; align-self: start; position: sticky; top: var(--sticky-top); }
 }
@@ -41,29 +42,33 @@
 }
 
 /* ---------- One chapter ----------
-   [label, headline, lead]  then  [paragraph, proof links] [numbers] beside the drawing  then  the full story. */
+   [label, headline, lead]  then  [paragraphs, numbers, full story, proof, tools] beside the
+   drawings  then  a wide drawing  then  the Figma row. */
 .intro-chapter { margin-top: var(--gap-chapter); }
-.intro-chapter__head { display: grid; gap: var(--gap-pair); margin-bottom: var(--gap-stack); }
+.intro-chapter__head { display: grid; gap: var(--gap-pair); max-width: var(--w-head); margin-bottom: var(--gap-stack); }
+.intro-chapter__head > .chapter-lead { margin-top: calc(var(--gap-group) - var(--gap-pair)); } /* label and headline 8px apart, headline and lead 12px */
 
-.intro-block { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-stack) var(--gap-col); align-items: start; }
-.intro-text { display: grid; gap: var(--gap-group); align-content: start; min-width: 0; }
-.intro-text > .intro-facts { margin-top: var(--sp-1); } /* the numbers are a second group: 16px from the links */
-/* Below the two columns the drawing comes first, in every chapter. */
-.intro-block[data-object="drawing"] > .intro-figure { order: -1; }
+.intro-block { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-block) var(--gap-col); align-items: start; }
+.intro-text { display: grid; gap: var(--gap-stack); align-content: start; min-width: 0; }
+.intro-side { display: grid; gap: var(--gap-block); align-content: start; min-width: 0; }
+.intro-side:empty { display: none; }
+.intro-block[data-object="meta"] .intro-side { gap: var(--gap-stack); }
 @media (min-width: 1180px) {
-    /* The drawing takes the 7 parts: it needs the width. */
-    .intro-block[data-object] { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
-    .intro-block[data-object="drawing"] > .intro-figure { order: 0; }
-    .intro-chapter[data-flip] .intro-block[data-object] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-    .intro-chapter[data-flip] .intro-block[data-object] > :last-child { order: -1; }
-    .intro-block[data-object="figures"] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-    .intro-chapter[data-flip] .intro-block[data-object="figures"] { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    /* Drawings take the 7 parts: they need the width. Links and tools take the 5 parts. */
+    .intro-block[data-object="drawing"] { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .intro-block[data-object="meta"] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .intro-chapter[data-flip] .intro-block[data-object="drawing"] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .intro-chapter[data-flip] .intro-block[data-object="drawing"] > .intro-side { order: -1; }
 }
+@media (min-width: 900px) and (max-width: 1179.98px) {
+    .intro-block[data-object="meta"] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+}
+/* A wide drawing follows the block. */
+.intro-chapter > .intro-figure { margin-top: var(--gap-block); }
 
-/* The main drawing: its mark and its pause button, then a plain solid frame. */
+/* One drawing: its mark (h4) and its pause button, a plain solid frame, one line of text. */
 .intro-figure { display: grid; gap: var(--gap-pair); min-width: 0; margin: 0; }
 .intro-figure__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-height: var(--ctl-sm); }
-.intro-tile__toggle { justify-self: start; }
 .intro-figure__frame {
     display: grid;
     place-items: center;
@@ -73,7 +78,9 @@
     border-radius: var(--r-lg);
     background: var(--c-tile);
 }
-.intro-figure__frame .art, .intro-more .art { max-width: 46rem; } /* the largest drawn width of a drawing */
+.intro-figure__frame > * { width: 100%; max-width: 46rem; } /* the largest drawn width of a drawing in a column */
+.intro-figure[data-wide] .intro-figure__frame > * { max-width: 66rem; } /* a wide drawing: the box that measures it is the box that holds it */
+.intro-figure__text { max-width: var(--measure); font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--c-text-muted); text-wrap: pretty; }
 
 /* Proof: one compact row of links. */
 .intro-proof { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--sp-4); }
@@ -114,32 +121,18 @@
 }
 .intro-fact__title { font-size: var(--fs-sm); font-weight: var(--fw-medium); line-height: var(--lh-h4); color: var(--c-text-strong); }
 .intro-fact__source { grid-column: 2; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--c-text-faint); }
-.intro-fact--link { grid-template-columns: minmax(0, 1fr) auto; min-height: var(--ctl-lg); color: inherit; text-decoration: none; }
-.intro-fact--link .intro-fact__text { grid-column: 1; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--c-text-muted); }
-.intro-fact--link .icon { grid-column: 2; grid-row: 1 / span 2; color: var(--c-text-faint); transition: color var(--dur-fast) linear, transform var(--dur-base) var(--ease-out); }
-.intro-fact--link:hover .icon { color: var(--c-red); transform: translate(1px, 1px); }
-.intro-fact--link:focus-visible { outline: 0; border-radius: var(--r-sm); box-shadow: var(--focus-ring); }
 
-/* The disclosure: the full story of the chapter. */
-.intro-more { margin-top: var(--gap-pair); }
-.intro-more__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-block) var(--gap-col); padding-top: var(--gap-group); }
-.intro-more__main, .intro-more__side { display: grid; gap: var(--gap-stack); align-content: start; min-width: 0; }
-.intro-more__body > .figma-row { grid-column: 1 / -1; }
-.intro-notes { display: grid; gap: var(--gap-group); max-width: var(--measure); margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); }
-.intro-notes dt { font-weight: var(--fw-medium); color: var(--c-text-strong); }
-.intro-notes dd { margin: 0; color: var(--c-text-muted); }
+/* Tools: one short mono line of names. */
 .intro-tools { display: grid; gap: var(--gap-pair); max-width: var(--measure); }
-.intro-value { margin: 0; font: var(--fw-medium) var(--fs-xs) / var(--lh-xs) var(--font-mono); font-variant-numeric: tabular-nums; color: var(--c-text-strong); }
-.intro-source { margin: 0; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--c-text-faint); }
-.intro-source span::after { content: " /"; }
-.intro-stat__value { margin: 0; font-family: var(--font-display); font-stretch: var(--wd-wide); font-weight: var(--fw-display); font-size: var(--fs-num-lg); line-height: var(--lh-num); letter-spacing: var(--ls-num); color: var(--c-text-strong); }
-@media (min-width: 1180px) {
-    .intro-more__body[data-side] { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-}
+.intro-tools__list { display: flex; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; font: var(--fs-mark) / var(--lh-mark) var(--font-mono); color: var(--c-text-muted); }
+.intro-tools__list li:not(:last-child)::after { content: "·"; margin-inline: 0.5em; color: var(--c-text-faint); } /* em: one character of the mono line */
+
+/* "Read the full story": the story of the chapter, in place. */
+.intro-story__body { padding-top: var(--gap-pair); }
+
 @media (max-width: 1023.98px), (pointer: coarse) {
     .intro-proof__link { min-height: var(--ctl-lg); }
 }
 @media (prefers-reduced-motion: reduce) {
-    .intro-proof__link .icon, .intro-fact--link .icon { transition: none; }
-    .intro-fact--link:hover .icon { transform: none; }
+    .intro-proof__link .icon { transition: none; }
 }

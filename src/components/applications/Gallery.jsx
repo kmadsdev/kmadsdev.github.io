@@ -1,5 +1,5 @@
 // The media of the flagship: one large view and a row of thumbnails.
-// Data: facts.projects.<id>.media (files), text: item.media.<mediaId> (caption, alt).
+// Data: projects.<id>.media (files, contents.global.js), text: item.media.<mediaId> (caption, alt).
 // A file that does not load is taken out of the row, so an absent clip or still
 // never leaves a hole. Keyboard: Tab to a thumbnail, Enter or Space shows it,
 // the arrow keys move along the row.

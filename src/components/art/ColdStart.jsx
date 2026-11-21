@@ -3,19 +3,21 @@
 // Under it, each part is a bar that starts where the part before it ends, so
 // the longest part is the longest bar. While the drawing is on screen the start
 // runs at a constant speed: the part that runs now is red, a finished part is
-// dotted, and the end of the line turns mint at the first answer.
+// dotted, and the end of the line fills at the first answer (no status colour).
 // Still picture: all parts finished, the longest one in red.
 import { useRef } from 'react';
-import { facts } from '../../content/index.js';
+import { art } from '../../content/index.js';
 import { duration } from '../../content/format.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { Art, Halftone, useArt, useStep } from './kit/index.js';
 import { Lines, TYPE, measure, useUnits, wrap } from './artBKit.jsx';
 
-const DATA = facts.art.coldStart;
-const TOTAL = DATA.totalSeconds;
-// Each part with the second at which it starts.
-const PARTS = DATA.parts.reduce((list, part) => [...list, { ...part, start: list.length ? list[list.length - 1].start + list[list.length - 1].seconds : 0 }], []);
+const DATA = art.coldStart;
+const TOTAL = DATA.seconds.total;
+// Each part with its seconds and the second at which it starts.
+const PARTS = DATA.parts
+    .map((id) => ({ id, seconds: DATA.seconds[id] }))
+    .reduce((list, part) => [...list, { ...part, start: list.length ? list[list.length - 1].start + list[list.length - 1].seconds : 0 }], []);
 const LONGEST = PARTS.reduce((a, b) => (b.seconds > a.seconds ? b : a)).id;
 const MS_PER_SECOND = 18; // one measured second is 18 ms on the drawing
 const RUN = TOTAL * MS_PER_SECOND;

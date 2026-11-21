@@ -25,8 +25,9 @@ export const LAYOUTS = {
     hivemind: {
         cells: { train: [0, 0], bucket: [1, 0], api: [2, 0], client: [2, 1] },
     },
+    // One actor, "Me" (node `human`): the plan and the approval both go from me to the API.
     ruph: {
-        cells: { agent: [0, 0], ledger: [2, 0], api: [1, 1], human: [0, 2], ci: [1, 2], providers: [2, 2] },
+        cells: { ci: [1, 0], ledger: [2, 0], human: [0, 1], api: [1, 1], providers: [2, 1] },
     },
 };
 
@@ -54,7 +55,7 @@ export const NARROW = {
         cells: { train: [0, 0], bucket: [1, 0], client: [0, 1], api: [1, 1] },
     },
     ruph: {
-        cells: { agent: [0, 0], human: [1, 0], api: [0, 1], ledger: [1, 1], providers: [0, 2], ci: [1, 2] },
+        cells: { human: [0, 0], ci: [1, 0], api: [0, 1], ledger: [1, 1], providers: [0, 2] },
     },
 };
 

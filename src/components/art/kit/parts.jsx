@@ -42,13 +42,12 @@ export function Packet({ d, dur = 1.2, delay = 0, tone = 'signal', r = 3.2, repe
 
 /**
  * A box with a name: a service, a host, a stage.
- * state: 'idle' or 'active'. pin: 'off', 'on' (grey) or 'live' (mint: it is healthy).
+ * state: 'idle' or 'active'. A box has no corner dot: an old `pin` prop is ignored.
  */
-export function Node({ x, y, w = 88, h = 44, name, sub, state = 'idle', pin = 'on' }) {
+export function Node({ x, y, w = 88, h = 44, name, sub, state = 'idle' }) {
     return (
         <g className="art-node" data-state={state}>
             <rect x={x} y={y} width={w} height={h} rx="9" />
-            {pin !== 'off' ? <circle className="art-pin" data-pin={pin} cx={x + w - 10} cy={y + 10} r="2" /> : null}
             <text className="art-name" x={x + 11} y={sub ? y + h / 2 - 1 : y + h / 2 + 4}>{name}</text>
             {sub ? <text className="art-text" x={x + 11} y={y + h / 2 + 13}>{sub}</text> : null}
         </g>

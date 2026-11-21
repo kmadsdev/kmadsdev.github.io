@@ -44,6 +44,17 @@ export function goTo(element, { instant = false } = {}) {
     else element.scrollIntoView({ block: 'start', behavior: instant ? 'instant' : 'auto' });
 }
 
+/**
+ * Move the page to a scroll position in pixels (the ruler that is the scroll bar).
+ * `instant`: the page follows a hand (a drag of the index). Else the move is eased as a wheel move is.
+ */
+export function scrollToY(y, { instant = false } = {}) {
+    const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const top = Math.max(0, Math.min(max, y));
+    if (lenis) lenis.scrollTo(top, { immediate: instant, force: true });
+    else window.scrollTo({ top, behavior: instant ? 'instant' : 'auto' });
+}
+
 /** Stop the page scroll while a modal part is open (the large view of a diagram). Returns the undo. */
 export function holdScroll() {
     const held = lenis;

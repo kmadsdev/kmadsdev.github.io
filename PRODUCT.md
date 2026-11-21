@@ -8,7 +8,7 @@
 
 **What is true about it:**
 - One page, two languages (English and Brazilian Portuguese), one dark theme.
-- All text and all addresses live in one file, `src/content/content.js`. A fact (number, date, link) is written once.
+- All text and all addresses live in three files in `src/content/`: `contents.global.js` (what is equal in both languages), `contents.en.js` and `contents.pt.js`. A fact (number, date, link) is written once.
 - No claim without a source. Internal work of an employer is shown at the level the employer's public material allows.
 - No tracking, no cookies, no request to another site for fonts or scripts.
 

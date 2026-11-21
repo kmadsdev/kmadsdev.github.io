@@ -119,8 +119,8 @@
   --ctl-md: 2.25rem;
   --ctl-lg: 2.75rem;       /* 44px: the touch size */
   --header-h: 3.5rem;
-  --rail: 44px;            /* the left ruler. Pixels: the ruler measures the screen, it does not grow with the text. */
-  --rule-x: 10px;          /* the top ruler */
+  --rail: 11px;            /* the right ruler, which is the scroll bar. Pixels: the ruler measures the screen, it does not grow with the text. */
+  --rule-x: 6px;           /* the top ruler: as high as the longest tick of the right ruler */
   /* One stop point for every sticky part and every anchor. */
   --sticky-top: calc(var(--header-h) + var(--rule-x) + var(--sp-6));
   --z-sticky: 10;

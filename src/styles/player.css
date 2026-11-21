@@ -1,0 +1,66 @@
+/* The music player: the status line at the bottom of the screen.
+   The badge (the globe and the disc) is in site.css, with the hero.
+   One thin line, the size of small text. No light, no gradient: a hairline and the ground. */
+:root {
+    --player-h: 0px;                                    /* no song: no line, and no room kept for it */
+    --player-line: calc(var(--sp-6) + var(--sp-1));     /* 28px: one line of small text and its air */
+}
+/* The line exists only when the page has a song. Then the page keeps room for it at its end,
+   The line ends where the scroll ruler starts. */
+:root:has(.player-line) { --player-h: calc(var(--player-line) + env(safe-area-inset-bottom, 0px)); }
+.page { padding-bottom: var(--player-h); }
+
+.player-line {
+    position: fixed;
+    inset: auto var(--rail) 0 0;
+    z-index: calc(var(--z-sticky) + 2);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    height: var(--player-h);
+    padding: 0 var(--edge) env(safe-area-inset-bottom, 0px);
+    border-top: 1px solid var(--c-line);
+    background: var(--c-ground);
+    font: var(--fw-medium) var(--fs-xs) / var(--lh-flat) var(--font-mono);
+    color: var(--c-text-muted);
+    white-space: nowrap;
+}
+.player-line__song { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--c-text); }
+.player-line__rule { flex: none; width: 1px; height: 1em; background: var(--c-line-control); }
+.player-line__control {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    /* The box is as high as the line; the picture inside is as high as the text. */
+    width: var(--player-line);
+    height: var(--player-line);
+    margin-inline: calc(var(--sp-2) * -1); /* the icon stands on the 12px rhythm of the line, the box is larger */
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-sm);
+    background: none;
+    color: var(--c-text-muted);
+    cursor: pointer;
+    transition: color var(--dur-instant) linear, transform var(--dur-instant) var(--ease-out);
+}
+.player-line__control:hover { color: var(--c-text-strong); }
+.player-line__control:active { transform: scale(0.92); }
+.player-line__control:focus-visible { box-shadow: inset 0 0 0 2px var(--c-text-strong); }
+.player-line__control svg { display: block; }
+
+/* A finger needs 44px. The line stays thin: the box of a control grows up, over the page. */
+@media (pointer: coarse) {
+    .player-line { align-items: flex-end; }
+    .player-line__song,
+    .player-line__rule { align-self: center; }
+    .player-line__control {
+        width: var(--ctl-lg);
+        height: var(--ctl-lg);
+        margin-inline: calc((var(--ctl-lg) - 1em) / -2 + var(--sp-1));
+        place-items: end center;
+        padding-bottom: calc((var(--player-line) - 1em) / 2);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .player-line__control { transition: none; }
+}

@@ -61,16 +61,16 @@ export function Lines({ x, y, text, max = 40, lead = 14, anchor = 'start', tone 
 
 /**
  * A box with a name that can take two lines. `final` draws the double border
- * of a final state. state: 'idle', 'seen' or 'active'. pin: 'off', 'on', 'live'.
+ * of a final state. state: 'idle', 'seen' or 'active'. A box has no corner dot
+ * (order of 2026-11-20): an old `pin` prop is ignored.
  */
-export function Box({ x, y, w = 112, h = 46, name, state = 'idle', pin = 'on', final = false }) {
+export function Box({ x, y, w = 112, h = 46, name, state = 'idle', final = false }) {
     const lines = wrap(name, Math.max(6, Math.floor((w - 22) / 6.6)));
     const first = y + h / 2 + 4 - (lines.length - 1) * 7;
     return (
         <g className="art-node" data-state={state}>
             <rect x={x} y={y} width={w} height={h} rx="9" />
             {final ? <rect className="art-node__inner" x={x + 3.5} y={y + 3.5} width={w - 7} height={h - 7} rx="6" /> : null}
-            {pin !== 'off' ? <circle className="art-pin" data-pin={pin} cx={x + w - 10} cy={y + 10} r="2" /> : null}
             <text className="art-name" x={x + 11} y={first}>
                 {lines.map((line, i) => (
                     <tspan key={i} x={x + 11} dy={i ? 14 : 0}>{line}</tspan>

@@ -3,8 +3,9 @@
    Chapters, the grid and the tiles are in bento.css. Drawings are in art.css. */
 
 :root {
-    /* The centred column. The rulers are at the screen edges; the column is centred on the SCREEN. */
-    --edge: max(calc(var(--rail) + var(--gutter)), calc((100% - var(--col)) / 2));
+    /* The centred column. Its box ends where the right ruler starts (--rail), so nothing is under the ruler.
+       The column is centred in that box: 5.5px left of the middle of the screen, as with a native scroll bar. */
+    --edge: max(var(--gutter), calc((100% - var(--col)) / 2));
 }
 
 /* ---------- Base ---------- */
@@ -17,10 +18,18 @@ html {
        Pixels on purpose: this is the one place that sets the size of 1rem. */
     font-size: clamp(16px, 0.42vw + 9px, 24px);
     scroll-padding-top: var(--sticky-top);
+    /* Below 1024px the browser draws its own bar, thin. From 1024px the right ruler is the bar (see below). */
+    scrollbar-width: thin;
     scrollbar-color: var(--c-tile-3) var(--c-ground);
     scrollbar-gutter: stable; /* no sideways jump when the large view of a diagram stops the page scroll */
     overflow-x: clip;
     -webkit-text-size-adjust: 100%;
+}
+/* Where the right ruler shows, it is the scroll bar (Rulers.jsx) and the native bar is not drawn.
+   The page scrolls as before: wheel, touch, keyboard, find-in-page and anchors. */
+@media (min-width: 1024px) {
+    html { scrollbar-width: none; }
+    html::-webkit-scrollbar { display: none; }
 }
 /* Anchor jumps move smoothly. With Lenis (src/smooth.js) the class .lenis is on <html> and Lenis does it. */
 @media (prefers-reduced-motion: no-preference) {
@@ -119,22 +128,15 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
 .button-primary:hover { border-color: var(--c-red-hover); background: var(--c-red-hover); }
 .button-primary:active { background: var(--c-red-pressed); }
 
-/* Alive state: the mint dot. It means "live now" and nothing else. It does not pulse. */
+/* A quiet state line: an icon or a word beside its text. It has no dot (order of 2026-11-20). */
 .status { display: inline-flex; align-items: center; gap: var(--sp-2); color: var(--c-text-muted); }
-.status-dot {
-    flex: none;
-    width: 7px; /* a dot: a mark, not a space step */
-    height: 7px;
-    border-radius: var(--r-full);
-    background: var(--c-mint);
-}
 
 /* ---------- Header ----------
-   A solid bar. The wordmark is in the corner of the rulers. The links and the controls
-   stand on the centred column. */
+   A solid bar. The links and the controls stand on the centred column.
+   It has no wordmark (order of 2026-11-20): the name is the headline of the hero. */
 .site-header {
     position: fixed;
-    inset: 0 0 auto 0;
+    inset: 0 var(--rail) auto 0; /* the bar ends where the scroll ruler starts */
     z-index: calc(var(--z-sticky) + 1);
     display: flex;
     align-items: stretch;
@@ -144,23 +146,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
     border-bottom: 1px solid var(--c-line);
     background: var(--c-ground);
 }
-.wordmark {
-    position: absolute;
-    inset: 0 auto 0 0;
-    display: grid;
-    place-items: center;
-    width: var(--rail);
-    border-right: 1px solid var(--c-line);
-    font-family: var(--font-display);
-    font-stretch: var(--wd-wide);
-    font-weight: var(--fw-black);
-    font-size: 12px; /* fits the 44px rail; pixels as the rail */
-    line-height: 0.9; /* two stacked rows of capitals that touch: a mark, not text */
-    letter-spacing: 0.02em;
-    color: var(--c-text-strong);
-    text-decoration: none;
-}
-.wordmark:hover { color: var(--c-red-text); }
 .site-nav { min-width: 0; margin-left: calc(var(--sp-3) * -1); } /* the first link text starts on the column edge */
 .site-nav ul { display: flex; height: 100%; }
 .site-nav a {
@@ -192,7 +177,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
 .site-nav a[aria-current] { color: var(--c-text-strong); }
 .site-nav a[aria-current]::after { transform: scaleX(1); }
 .site-nav a:focus-visible { box-shadow: inset 0 0 0 2px var(--c-text-strong); }
-.site-controls { display: flex; align-items: center; gap: var(--sp-2); }
+.site-controls { display: flex; align-items: center; gap: var(--sp-2); margin-left: auto; }
 .menu-button {
     display: none;
     place-items: center;
@@ -212,7 +197,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
 .menu-button[aria-expanded="true"] .menu-button__b { transform: translateY(-2.5px) rotate(-45deg); }
 
 /* ---------- Page frame ---------- */
-.page { position: relative; padding-top: calc(var(--header-h) + var(--rule-x)); }
+.page { position: relative; margin-right: var(--rail); padding-top: calc(var(--header-h) + var(--rule-x)); } /* the page ends where the scroll ruler starts */
 /* Grounds run edge to edge; the content stands on the centred column. */
 #main > *,
 .site-footer { padding-inline: var(--edge); }
@@ -291,22 +276,28 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
 .hero-scroll { display: inline-flex; align-items: center; gap: var(--sp-2); justify-self: start; }
 
 /* Badge: the globe stays still, the ring of text turns around it. Both pictures are
-   my files at their own size (500 x 500), so the proportion is that of my badge. */
-.badge { position: relative; display: block; aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
-.badge:focus-visible { border-radius: 50%; }
-div.badge { cursor: default; }
-.badge img { position: absolute; pointer-events: none; inset: 0; width: 100%; height: 100%; }
-.badge__ring { animation: badge-turn 48s linear infinite reverse; }
-.badge[data-spin="off"] .badge__ring { animation-play-state: paused; }
-@keyframes badge-turn {
-    to { transform: rotate(360deg); }
-}
+   my files at their own size (500 x 500), so the proportion is that of my badge.
+   The badge is the music player (Badge.jsx): the globe is the play button, the ring is the disc.
+   Badge.jsx writes the turn of the ring and the size of the globe each frame: a hand can
+   catch both at any moment, which a CSS animation does not allow. */
+.badge { position: relative; display: block; aspect-ratio: 1; border-radius: 50%; isolation: isolate; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.badge img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; }
+/* The disc: a hand turns it, so a finger on it does not scroll the page. */
+.badge__ring { position: absolute; inset: 0; border-radius: 50%; cursor: grab; touch-action: none; will-change: transform; }
+.badge__ring[data-held] { cursor: grabbing; }
+.badge__ring:focus-visible { border-radius: 50%; }
+/* The globe is 65% of the badge (325 of 500 units). Its picture keeps the size of the badge:
+   100 / 0.65 = 153.85% of the button, moved back by (153.85 - 100) / 2. Numbers of the picture, not of the scale. */
+.badge__globe { position: absolute; inset: 17.5%; z-index: 1; display: block; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; will-change: transform; }
+div.badge__globe { cursor: default; }
+.badge__globe:focus-visible { border-radius: 50%; }
+.badge__globe img { inset: -26.923%; width: 153.846%; height: 153.846%; }
 
 /* ---------- Outro: contact and the sunset ----------
    The sun keeps the proportions of the picture at every width. Its size comes
    from the smaller of the screen width and the screen height. The footer line
    is the horizon: the sun goes down behind it. No light is added around it.
-   Order of the text: [label, headline, lead] [address, actions] [channels]. */
+   Order of the text: [label, headline, two lead lines] [address, actions] [LinkedIn, back to the top, GitHub]. */
 .outro {
     --sun-w: min(max(125vw, 26rem), 108svh, 70rem);
     position: relative;
@@ -321,7 +312,7 @@ div.badge { cursor: default; }
     text-align: center;
 }
 .outro-text { position: relative; z-index: 1; display: grid; justify-items: center; gap: var(--gap-group); max-width: 52rem; } /* 52rem: the address stands on one line at its largest size */
-.outro-lead { max-width: var(--measure); font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--c-text-muted); text-wrap: pretty; }
+.outro-lead { display: grid; gap: var(--sp-1); max-width: var(--measure); font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--c-text-muted); text-wrap: pretty; }
 .outro-address { margin-top: var(--sp-3); }
 .outro-email {
     display: inline-block;
@@ -336,8 +327,9 @@ div.badge { cursor: default; }
 .outro-email:hover { color: var(--c-red-text); }
 .outro-email:focus-visible { border-radius: var(--r-md); }
 .outro-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); }
-.outro-channels { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 var(--sp-8); margin-top: var(--sp-2); }
-.outro-channels li { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: var(--ctl-lg); font-size: var(--fs-sm); }
+.outro-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0 var(--sp-8); margin-top: var(--sp-2); }
+.outro-row li { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: var(--ctl-lg); font-size: var(--fs-sm); }
+.outro-row .link { min-height: var(--ctl-lg); }
 .outro-sun {
     position: absolute;
     left: 50%;
@@ -353,23 +345,39 @@ div.badge { cursor: default; }
     user-select: none;
 }
 
-/* ---------- Footer: the horizon ---------- */
+/* ---------- Footer: the horizon ----------
+   Three parts: the credit at the left, "Back to the top" in the centre, the source code at the right.
+   Its last line stays above the status line of the music: the page keeps that room (player.css, --player-h). */
 .site-footer {
     position: relative;
     padding-block: var(--sp-6);
     border-top: 1px solid var(--c-line-strong);
     background: var(--c-ground);
 }
+/* What is left of the sun on the ground: red dots, strong under the sun, fading out (as on the live site). */
+.site-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: min(100%, 9rem); /* 9rem: the depth of the dots on a tall footer */
+    /* The red at 55%: a dot of 1px in a cell of 6px, so the field reads as a tone, not as a light. */
+    background: radial-gradient(circle, rgb(255 1 79 / 0.55) 1px, transparent 1.3px) center top / 6px 6px;
+    -webkit-mask-image: radial-gradient(ellipse min(46vw, 24rem) 100% at 50% 0, #000, transparent);
+    mask-image: radial-gradient(ellipse min(46vw, 24rem) 100% at 50% 0, #000, transparent);
+    pointer-events: none;
+}
 .footer-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: var(--sp-3) var(--sp-8);
     font-size: var(--fs-xs);
     line-height: var(--lh-xs);
     color: var(--c-text-muted);
 }
+.footer-row__top { justify-self: center; }
+.footer-row__source { justify-self: end; text-align: right; }
 .footer-row .link { min-height: var(--ctl-sm); }
 
 /* ---------- Smaller screens ----------
@@ -377,8 +385,8 @@ div.badge { cursor: default; }
    Below 720px: the hero is one column, the badge first. */
 @media (max-width: 1023.98px) {
     :root { --rail: 0px; --rule-x: 0px; }
-    .wordmark { position: static; width: auto; padding-right: var(--sp-4); border-right: 0; font-size: 13px; } /* no rail to fit: one pixel larger */
-    .wordmark:focus-visible { box-shadow: inset 0 0 0 2px var(--c-text-strong); }
+    /* The bar holds two controls: the language at the left edge of the column, the menu at the right edge. */
+    .site-controls { flex: 1; justify-content: space-between; margin-left: 0; }
     .menu-button { display: inline-grid; }
     .site-nav {
         position: absolute;
@@ -414,7 +422,8 @@ div.badge { cursor: default; }
     .hero-top { flex-direction: column; }
     .hero-scroll { display: none; }
     .outro-actions .button { flex: 1 1 100%; }
-    .footer-row { flex-direction: column; align-items: flex-start; }
+    .footer-row { grid-template-columns: minmax(0, 1fr); justify-items: start; row-gap: 0; } /* each link has its own 44px row */
+    .footer-row__top, .footer-row__source { justify-self: start; text-align: left; }
 }
 /* A short and wide screen (a phone on its side, a small laptop): a smaller name. */
 @media (min-width: 720px) and (max-height: 760px) {
@@ -431,7 +440,6 @@ div.badge { cursor: default; }
 
 @media (prefers-reduced-motion: reduce) {
     .hero-word { animation: word-fade 300ms linear both; }
-    .badge img { animation: none; }
     .link .icon, .menu-button path { transition: none; }
 }
 @keyframes word-fade {

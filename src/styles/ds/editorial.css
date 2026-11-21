@@ -42,41 +42,52 @@
 }
 
 /* ---------- Rulers ----------
-   A fixed rail on the left and a strip under the top bar. The red index shows
-   scroll progress; the grey marks follow the pointer. Hidden below 1024px.
-   The gradients draw the tick marks. All sizes are pixels: a ruler measures the screen. */
+   A thin rail on the right edge and a thin strip under the top bar. Hidden below 1024px.
+   The rail is the scroll bar of the page (Rulers.jsx): it stands where the native bar
+   stands, from the top of the screen to the bottom, and its red index is the thumb.
+   The page, the top bar and the status line end where the rail starts (site.css):
+   nothing is under it. The strip ends on the rail: the two meet in a T.
+   Both have the same ticks (6px each 40px, 3px each 8px), so they read as one instrument.
+   The grey marks follow the pointer. All sizes are pixels: a ruler measures the screen. */
 .wh-rule {
     position: fixed;
     z-index: var(--z-sticky);
     pointer-events: none;
-    font: 10px/1 var(--font-mono); /* the numbers of the ruler: part of the instrument, not page text */
+    font: 10px/1 var(--font-mono); /* the number of the index: part of the instrument, not page text */
     font-variant-numeric: tabular-nums;
     color: var(--c-text-muted);
     background-color: var(--c-ground);
+    -webkit-user-select: none;
+    user-select: none;
 }
 .wh-rule--y {
-    left: 0;
-    top: var(--header-h);
+    right: 0;
+    top: 0;
     bottom: 0;
+    z-index: calc(var(--z-sticky) + 3);
     width: var(--rail);
-    border-right: 1px solid var(--c-line);
+    border-left: 1px solid var(--c-line);
+    pointer-events: auto;
+    touch-action: none;
+    cursor: default;
     background-image:
         repeating-linear-gradient(to bottom, var(--c-line-control) 0 1px, transparent 1px 40px),
         repeating-linear-gradient(to bottom, var(--c-line-strong) 0 1px, transparent 1px 8px);
-    background-size: 12px 100%, 5px 100%;
-    background-position: right top, right top;
+    background-size: 6px 100%, 3px 100%;
+    background-position: left top, left top;
     background-repeat: no-repeat;
 }
+.wh-rule--y:focus-visible { border-radius: 0; box-shadow: inset 0 0 0 2px var(--c-text-strong); }
 .wh-rule--x {
-    left: var(--rail);
-    right: 0;
+    left: 0;
+    right: var(--rail);
     top: var(--header-h);
     height: var(--rule-x);
     background-color: transparent;
     background-image:
         repeating-linear-gradient(to right, var(--c-line-control) 0 1px, transparent 1px 40px),
         repeating-linear-gradient(to right, var(--c-line-strong) 0 1px, transparent 1px 8px);
-    background-size: 100% 10px, 100% 4px;
+    background-size: 100% 6px, 100% 3px;
     background-repeat: no-repeat;
 }
 .wh-rule__index,
@@ -86,19 +97,37 @@
     left: 0;
     will-change: transform;
 }
-.wh-rule--y .wh-rule__index,
 .wh-rule--y .wh-rule__cursor { right: 0; height: 1px; }
 .wh-rule--x .wh-rule__cursor { bottom: 0; width: 1px; }
-.wh-rule__index { background: var(--c-red); }
 .wh-rule__cursor { background: var(--c-text-faint); opacity: 0; transition: opacity var(--dur-fast) linear; }
 .wh-rule[data-pointer="on"] .wh-rule__cursor { opacity: 1; }
-.wh-rule__value { position: absolute; left: 5px; top: 5px; white-space: nowrap; }
-.wh-rule__index .wh-rule__value { color: var(--c-red-text); }
-.wh-rule--x .wh-rule__value { left: 5px; top: 1px; }
+/* The index is the thumb: 24px high (INDEX in Rulers.jsx), with a red bar as its top edge. */
+.wh-rule--y .wh-rule__index { right: 0; height: 24px; border-top: 2px solid var(--c-red); }
+/* The rail is too thin for a number. The number of the index shows beside the rail, in the gutter
+   of the page, only while the pointer is on the rail, while a hand drags the index, or with keyboard focus. */
+.wh-rule__value {
+    position: absolute;
+    right: calc(100% + 5px);
+    top: 3px; /* under the bar, inside the height of the index: it is never cut at an end of the rail */
+    padding: 1px 3px;
+    border-radius: var(--r-sm);
+    background: var(--c-ground);
+    color: var(--c-red-text);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity var(--dur-fast) linear;
+}
+.wh-rule--y:hover .wh-rule__value,
+.wh-rule--y:focus-visible .wh-rule__value,
+.wh-rule--y[data-drag] .wh-rule__value { opacity: 1; }
+/* A finger does not drag an 11px rail: there the rail shows the position and the page scrolls by touch. */
+@media (pointer: coarse) {
+    .wh-rule--y { pointer-events: none; }
+}
 
 /* ---------- Dot field ----------
    A canvas inside one box (the hero). Dots near the pointer grow and take the
-   accent. The box needs position: relative. The mask is the lower edge of the field. */
+   accent. The box needs position: relative. The canvas fades its own lower edge (DotField.jsx). */
 .wh-field {
     position: absolute;
     inset: 0;
@@ -106,8 +135,6 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    -webkit-mask-image: linear-gradient(to bottom, #000 0 72%, transparent);
-    mask-image: linear-gradient(to bottom, #000 0 72%, transparent);
 }
 
 /* ---------- Readout strip ----------
@@ -248,8 +275,6 @@
 .wh-flow__node-name { font: var(--fw-medium) 13px var(--font-sans); fill: var(--c-text); }
 .wh-flow__node[data-state="active"] .wh-flow__node-name { fill: var(--c-text-strong); }
 .wh-flow__node-sub { font: 11px var(--font-mono); fill: var(--c-text-muted); }
-.wh-flow__pin { fill: var(--c-line-strong); transition: fill var(--dur-base) var(--ease-out); }
-.wh-flow__node[data-state="active"] .wh-flow__pin { fill: var(--c-red); }
 .wh-flow__caption {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);

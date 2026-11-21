@@ -6,7 +6,7 @@
   "homepage": "https://kmads.dev",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/build-404.mjs",
+    "build": "node scripts/seo-files.mjs && vite build && node scripts/build-404.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",

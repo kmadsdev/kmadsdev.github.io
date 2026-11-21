@@ -3,7 +3,6 @@ import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import { LANGS } from '../i18n/language.js';
 import { useActiveSection } from '../hooks.js';
 import { PROJECTS_PATH, PROJECTS_SECTION, openProjects } from '../routes.js';
-import { facts, links } from '../content/index.js';
 
 export function LanguageToggle() {
     const { lang, setLang, t } = useLanguage();
@@ -27,7 +26,7 @@ export function LanguageToggle() {
 }
 
 /**
- * Top bar: wordmark, section links, language.
+ * Top bar: section links, language.
  * Below 1024px the links are in a panel that the menu button opens.
  * Escape closes the panel and gives the focus back to the button.
  */
@@ -51,9 +50,6 @@ export default function Header() {
 
     return (
         <header className="site-header" data-open={open ? 'true' : undefined}>
-            <a className="wordmark" href={links.top} aria-label={t.nav.home} translate="no">
-                <span aria-hidden="true">{facts.person.wordmark[0]}<br />{facts.person.wordmark[1]}</span>
-            </a>
             <nav id="site-nav" className="site-nav" aria-label={t.nav.menu} data-lenis-prevent>
                 <ul>
                     {t.nav.items.map((item) => (

@@ -54,27 +54,25 @@ Two environment variables change what the scripts use:
 
 ## Change a text
 
-All the text and all the addresses of the site are in one file: `src/content/content.js`. No sentence and no address is in a component. The file starts with a short "how to edit" note and a table of contents.
+All the text and all the addresses of the site are in three files. No sentence and no address is in a component. Each file starts with a short "how to edit" note and a table of contents.
 
 ```
-src/content/content.js
-  PART 1  links    every address: profiles, live applications, repositories, documents,
-                   pictures, clips, /projects and the section it opens
-  PART 2  facts    numbers, dates, names, stacks, list orders, anchor ids and the
-                   structure of each drawing. Both languages read it.
-  PART 3  en       English text, in the order of the page
-  PART 4  pt       Portuguese text, the same keys in the same order
 src/content/
-  index.js     exports content, facts and links (components and tests import this)
-  rich.js      paragraphs with links: link(text, to)
-  format.js    date, time and number formats: period(), duration(), ptNumber()
+  contents.global.js   all that is equal in both languages: addresses, numbers, dates, names,
+                       stacks, list orders, anchor ids, the data of each drawing, the page
+                       metadata (`meta`, English only) and the music (`music`)
+  contents.en.js       English text, in the order of the page
+  contents.pt.js       Portuguese text, the same keys in the same order
+  index.js             exports `content` ({ en, pt }) and every named export of contents.global.js
+  rich.js              paragraphs with links and bold text: link(text, to), strong(text)
+  format.js            date, time and number formats: period(), duration(), ptNumber(), local()
 ```
 
-- To change where a button or a link goes: edit its address in PART 1.
-- To change a number, a date or a name: edit PART 2. Both languages change.
-- To change a sentence, a label or a button text: edit the same key in PART 3 and in PART 4. Search the file for words that you see on the page.
-- `index.html` has no text of its own: Vite writes its title, description, link preview tags and `<noscript>` text from `content.js` (`scripts/index-html.mjs`). The 404 page comes from `notFound` (`scripts/build-404.mjs`). `public/sitemap.xml` and `public/robots.txt` hold the site address by hand.
-- A paragraph with links is a list of parts: a string, or a link `{ text, to }`. `to` is an anchor id of `facts.anchors` (`'#app-consignado'`) or an `https://` address.
+- To change where a button or a link goes: edit its address in `contents.global.js` (`links`, or `projects` for an application).
+- To change a number, a date or a name: edit `contents.global.js`. Both languages change.
+- To change a sentence, a label or a button text: edit the same key in `contents.en.js` and in `contents.pt.js`. Search the file for words that you see on the page.
+- `index.html` has no text of its own: Vite writes its title, description, link preview tags and JSON-LD from `meta` and its `<noscript>` text from the two language files (`scripts/index-html.mjs`). The 404 page comes from `notFound` (`scripts/build-404.mjs`). `node scripts/seo-files.mjs` writes `public/robots.txt`, `public/sitemap.xml` and `public/llms.txt` from `contents.global.js`.
+- A paragraph with links is a list of parts: a string, a link `{ text, to }` or a bold part `{ text, strong: true }`. `to` is an id of `anchors` with `#` (`'#app-consignado'`) or an `https://` address.
 
 `npm test` fails when the two languages do not have the same keys, when a link points to an anchor that does not exist, when a flowchart has a node with no label, or when a text breaks a content rule (for example, a dash used as punctuation).
 
@@ -87,9 +85,9 @@ src/content/
    ```
 
    It writes `public/assets/projects/<name>.mp4` (1280 wide, 24 fps, no sound) and `<name>.jpg`.
-2. In `src/content/content.js`, add its addresses to PART 1 (`<name>Live`, `<name>Repo`, `<name>Image`, `<name>Video`). Then add the application to `facts.projects` in PART 2: `name`, `status` (`'live'` or `'study'`), `stack`, and `live`, `source`, `image` and `video` that read those addresses (`live: links.<name>Live`).
-3. Add its id to `facts.appOrder.live` or `facts.appOrder.study`. The anchor `#app-<id>` comes from this list.
-4. Add one item with the same id to `applications.live.items` or `applications.study.items` in PART 3 and in PART 4 (a tagline and two to four sentences, and the other keys `null`, as in the items next to it).
+2. In `src/content/contents.global.js`, add the application to `projects`: `name`, `stack`, and `live`, `repo`, `image` and `video` (the addresses). A study project has `repoName` and `repo`, and no picture.
+3. Add its id to `order.apps.production`, `order.apps.other` or `order.apps.study`, and its anchor `app-<id>` to `anchors.applications`.
+4. Add one item with the same id and anchor to `applications.production.items`, `applications.other.items` or `applications.study.items` in `contents.en.js` and in `contents.pt.js`, with the keys of the items next to it.
 5. Run `npm test`.
 
 A clip is muted, loops, and loads and plays only while it is on screen. With reduced motion or Save-Data, only the poster shows. The play and pause button is always there.
@@ -106,7 +104,7 @@ src/styles/
   sections/          one file per section
 ```
 
-The drawings are SVG made from data: `facts.art.<key>` holds the structure, `t.intro.art.<key>` the labels, and `src/components/art/` the drawing. The flowcharts work the same way: `facts.cases[id].flow` has the nodes and the edges, `src/components/flowGeometry.js` the position of each node. [`DESIGN.md`](DESIGN.md) records the design decisions.
+The drawings are SVG made from data: `art.<key>` in `contents.global.js` holds the structure, `t.intro.art.<key>` the labels, and `src/components/art/` the drawing. The flowcharts work the same way: `cases[id].flow` has the nodes and the edges, `src/components/flowGeometry.js` the position of each node. [`DESIGN.md`](DESIGN.md) records the design decisions.
 
 ## Deploy
 
@@ -117,3 +115,7 @@ To go back to an older version, revert the commit on `main` and push. The workfl
 ## License
 
 The code is under the [MIT license](LICENSE). The texts and the images are not: they belong to Kaique Souza.
+
+## Credits
+
+Music: "may" by [Birocratic](https://birocratic.com), from the album [beets 3](https://birocratic.bandcamp.com/album/beets-3) (2015). All rights belong to the artist. The song is not under the MIT license. It is used here with credit, as the artist asks for free projects.

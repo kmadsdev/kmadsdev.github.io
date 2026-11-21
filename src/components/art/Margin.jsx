@@ -1,17 +1,17 @@
-// The margin check of a payroll loan, from facts.art.margin (the worked example
+// The margin check of a payroll loan, from art.margin (the worked example
 // of the consignado-api README, synthetic numbers).
 // Each gauge is one net salary. The cap of the agreement is a share of the
 // salary, so the cap line stands at the same place on both gauges. The bar is the
 // largest installment as a share of that salary. With a salary of R$ 4,200.00 the
 // bar stays far inside the margin. With an income of R$ 1,000.00 the same loan
 // crosses the line by a little, and the API refuses it.
-import { facts } from '../../content/index.js';
+import { art } from '../../content/index.js';
 import { local } from '../../content/format.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { Art, Halftone, Label, Packet, Wire, useArt, useStep } from './kit/index.js';
 import { Fit, Lines } from './artAKit.jsx';
 
-const DATA = facts.art.margin;
+const DATA = art.margin;
 // 'R$ 4,200.00' -> 4200, '35%' -> 35
 const number = (value) => Number(String(value).replace(/[^0-9.]/g, ''));
 const CAP = number(DATA.capPercent) / 100;

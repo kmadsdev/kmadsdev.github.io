@@ -1,0 +1,56 @@
+# Kaique Souza (Kmads)
+
+> Kaique Souza (Kmads) is a Software Engineer in São Paulo, Brazil. He builds backend systems in Java, Go and Python and operates them on AWS, GCP and Azure.
+
+This file is a summary of kmads.dev for language models and agents. The page is in English and in Portuguese (https://kmads.dev/?lang=pt).
+
+## Who he is
+
+- Role: Software Engineer, Architecture & Cloud. He works at PicPay.
+- Location: São Paulo, SP, Brazil (UTC-3).
+- My focus is on backend development, on the architecture of scalable, reliable and performant systems, and on cloud. I have 3 years of engineering experience, but I've been in tech since 2018, and today I work on credit engines at PicPay, impacting over 70 million account holders in Brazil.
+- Languages: Portuguese (Native), English (C1), Spanish (Basic).
+
+## Sections of the page
+
+- [Introduction](https://kmads.dev/#intro)
+- [Experience](https://kmads.dev/#experience)
+- [Education](https://kmads.dev/#education)
+- [Applications](https://kmads.dev/#applications)
+- [Hobbies](https://kmads.dev/#more)
+- [Contact](https://kmads.dev/#contact)
+
+## Curriculum and profiles
+
+- [Curriculum (CV), latest version](https://kmads.dev/cv/latest)
+- [GitHub](https://github.com/kmadsdev)
+- [LinkedIn](https://linkedin.com/in/kaique-souza-kmads)
+- [E-mail](mailto:contact@kmads.dev)
+
+## Applications in production
+
+- [Consignado Cloud](https://consignado.kmads.dev): One API on two Azure hosts, with each request drawn.
+- [Ruph](https://ruph.kmads.dev/): One control plane for every app I run.
+- [Diabetes Indicator](https://kmads.dev/diabetes-indicator): Predicts and estimates your risk of diabetes from 17 answers.
+- [OffMode](https://kmads.dev/offmode): A Pomodoro timer for deep focus.
+- [Notes](https://kmads.dev/notes): A code editor in one HTML file.
+- [Doom Offline](https://kmads.dev/doom): Doom in one file, with no server.
+- [Agentic Template](https://kmads.dev/agentic): One context for every AI coding agent.
+- [Custom Square](https://kmads.dev/custom-square): A CSS playground.
+- [TrocaTine Landing Page](https://kmads.dev/trocatine): The landing page of my first startup MVP.
+
+## Study and other projects (source code)
+
+- [Consignado Cloud](https://github.com/kmadsdev/consignado-api): The payroll loan API behind Consignado Cloud: margin check, Price schedule, contract states, optimistic concurrency and a transactional outbox.
+- [Simple Payment Gateway](https://github.com/kmadsdev/simple-payment-gateway): A simulated payment gateway for an online store, backend only: authorize, capture and refund with idempotency keys, a double-entry ledger and signed webhooks.
+- [Credit Card Engine](https://github.com/kmadsdev/credit-card-engine): A card engine with an acquisition flow for new clients and an upgrade flow for existing clients. One policy module stores each decision with its reasons.
+- [DevOps Challenge](https://github.com/kmadsdev/devops-challenge): A distributed system on Docker Compose with 4 containers: a Python writer, a Go reader, a Node.js web front end and Redis between them.
+- [Incident Alert API](https://github.com/kmadsdev/software-engineer-challenge-1): A REST API that manages alerts and incidents and exposes the metrics and the health of the application, with MySQL.
+- [Engineer Student Tool](https://github.com/kmadsdev/engineer-student-tools): A curated list of the free developer tools and credits in the GitHub Student Developer Pack. A contribution to the community, with no code.
+- [Client Potential, HiveMind](https://github.com/kmadsdev/hivemind-client-potential): The page of the HiveMind model: you answer 10 questions, and the model predicts whether the company is a potential client.
+- [Legacy Projects, Glitch.com](https://github.com/kmadsdev/glitch-legacy-projects): 24 projects from my Glitch years: Discord bots in Node.js with Discord.js and SQLite, small Express sites with HTML and CSS, and one Minecraft server setup.
+
+## Optional
+
+- [Source code of this website](https://github.com/kmadsdev/kmadsdev.github.io)
+- [Sitemap](https://kmads.dev/sitemap.xml)

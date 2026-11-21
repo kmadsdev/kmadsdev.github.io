@@ -11,6 +11,8 @@ import { Contact, Footer } from './components/Outro.jsx';
 import { useProjectsPath } from './routes.js';
 import { useSmoothScroll } from './smooth.js';
 import { links } from './content/index.js';
+import { PlayerProvider } from './components/player/PlayerProvider.jsx';
+import StatusLine from './components/player/StatusLine.jsx';
 
 
 function Page() {
@@ -20,7 +22,6 @@ function Page() {
     return (
         <>
             <a className="skip-link" href={links.main}>{t.nav.skip}</a>
-            <Rulers />
             <Header />
             <div className="page">
                 <main id="main">
@@ -34,6 +35,9 @@ function Page() {
                 </main>
                 <Footer />
             </div>
+            {/* After the page in the tab order: the scroll ruler, then the status line of the music. */}
+            <Rulers />
+            <StatusLine />
         </>
     );
 }
@@ -41,7 +45,9 @@ function Page() {
 export default function App() {
     return (
         <LanguageProvider>
-            <Page />
+            <PlayerProvider>
+                <Page />
+            </PlayerProvider>
         </LanguageProvider>
     );
 }

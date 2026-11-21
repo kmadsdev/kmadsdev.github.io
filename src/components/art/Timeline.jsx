@@ -1,30 +1,34 @@
 // Full-stack chapter: 2018 to 2026 on one axis, one tick per year.
-// Wide box: the axis goes left to right and each entry stands at its year, on
-// a stem above or below the axis. Narrow box: the axis goes top to bottom, and
-// a year with no entry is a small tick between two entries.
-// The entries are links to the proof. So this drawing is HTML on top of an SVG:
-// the SVG (axis, ticks, stems, the packet) is decorative and hidden from screen
-// readers, and the entries are a real ordered list of links.
+// An entry is one year or a range of years (`from`, `to` in art.timeline). A range is a
+// strong segment of the axis. Wide box: the axis goes left to right and each entry stands
+// at its first year, on a stem above or below the axis. Narrow box: the axis goes top to
+// bottom, and a year with no entry is a small tick between two entries.
+// The label of an entry is rich text with links to the proof. So this drawing is HTML on
+// top of an SVG: the SVG (axis, ticks, stems, the packet) is decorative and hidden from
+// screen readers, and the entries are a real ordered list.
 // Motion: a packet goes along the axis from one entry to the next. The entry
 // that it reached is red. Still picture: the last entry.
 import { useRef } from 'react';
-import { facts } from '../../content/index.js';
-import { isAnchor } from '../../content/rich.js';
+import { art } from '../../content/index.js';
+import { plain } from '../../content/rich.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import Icon from '../Icon.jsx';
+import Rich from '../Rich.jsx';
 import { Art, Wire, useStep } from './kit/index.js';
 import { Dot, TYPE, useUnits, wrap } from './artBKit.jsx';
 
-const ENTRIES = facts.art.timeline;
-const FIRST = Math.min(...ENTRIES.map((e) => e.year));
-const LAST = Math.max(...ENTRIES.map((e) => e.year));
+// `year` is where the entry stands on the axis: its first year.
+const ENTRIES = art.timeline.map((entry) => ({ ...entry, year: entry.from }));
+const FIRST = Math.min(...ENTRIES.map((e) => e.from));
+const LAST = Math.max(...ENTRIES.map((e) => e.to));
+/** '2018–2020' for a range, '2024' for one year. */
+const yearsOf = (entry) => (entry.from === entry.to ? `${entry.from}` : `${entry.from}–${entry.to}`);
 const YEARS = Array.from({ length: LAST - FIRST + 1 }, (_, i) => FIRST + i);
 const YEAR_H = 26; // the line of the year number
 const STEM = 14; // from the axis to the first block
 const ICON = 20; // room for the arrow after the name
 
 function block(entry, text, width) {
-    const label = wrap(text.items[entry.id].label, width - ICON, TYPE.name);
+    const label = wrap(plain(text.items[entry.id].label), width - ICON, TYPE.name);
     const note = wrap(text.items[entry.id].text, width, TYPE.note);
     return { ...entry, label, note, w: width, h: YEAR_H + label.length * TYPE.name.lead + note.length * TYPE.note.lead };
 }
@@ -89,6 +93,7 @@ function buildWide(W, text) {
         height,
         entries,
         ticks: YEARS.map((year) => `M${xOf(year)} ${axis - 4}V${axis + 4}`),
+        spans: ENTRIES.filter((e) => e.to > e.from).map((e) => `M${xOf(e.from)} ${axis}H${xOf(e.to)}`),
         hops: entries.map((e, i) => (i ? `M${entries[i - 1].cx} ${axis}H${e.cx}` : null)),
     };
 }
@@ -104,8 +109,8 @@ function buildTall(W, text) {
         y += b.h + 18;
         const next = ENTRIES[i + 1];
         // Years with no entry: one small tick each.
-        if (next) for (let year = entry.year + 1; year < next.year; year += 1) { ticks.push(`M${ax - 3} ${y}H${ax + 3}`); y += 14; }
-        if (next && next.year - entry.year > 1) y += 4;
+        if (next) for (let year = entry.to + 1; year < next.from; year += 1) { ticks.push(`M${ax - 3} ${y}H${ax + 3}`); y += 14; }
+        if (next && next.from - entry.to > 1) y += 4;
         return e;
     });
     return {
@@ -114,17 +119,19 @@ function buildTall(W, text) {
         height: y - 18 + 2,
         entries,
         ticks,
+        spans: [],
         hops: entries.map((e, i) => (i ? `M${ax} ${entries[i - 1].cy}V${e.cy}` : null)),
     };
 }
 
 function Scene({ layout }) {
-    const { entries, hops, ticks } = layout;
+    const { entries, hops, ticks, spans } = layout;
     const step = useStep(entries.length, 1800, entries.length - 1);
     return (
         <>
             {hops.map((d, i) => (d ? <Wire key={i} d={d} tone={i === step ? 'signal' : i < step ? 'idle' : 'faint'} /> : null))}
             {ticks.map((d) => <path key={d} className="art-line art-line--faint" d={d} />)}
+            {spans.map((d) => <path key={d} className="art-line art-line--strong artb-tl__span" d={d} />)}
             {entries.map((e, i) => (
                 <path key={e.id} className={`art-line ${i === step ? 'art-line--strong' : 'art-line--faint'}`} d={e.stem} />
             ))}
@@ -136,36 +143,19 @@ function Scene({ layout }) {
     );
 }
 
-function Entry({ entry, text, external }) {
-    const body = (
-        <>
-            <span className="artb-tl__year">{entry.year} </span>
-            <span className="artb-tl__label">
-                {entry.label.map((line, i) => (
-                    <span key={i} className="artb-tl__line">
-                        {`${line} `}
-                        {entry.to && i === entry.label.length - 1 ? <Icon name={isAnchor(entry.to) ? 'arrow-down' : 'arrow-up-right'} size={12} /> : null}
-                    </span>
-                ))}
-            </span>
-            <span className="artb-tl__note">
-                {entry.note.map((line, i) => <span key={i} className="artb-tl__line">{`${line} `}</span>)}
-            </span>
-        </>
-    );
-    if (!entry.to) return <div className="artb-tl__entry">{body}</div>;
-    if (isAnchor(entry.to)) return <a className="artb-tl__entry" href={entry.to}>{body}</a>;
+/** One entry: the year or the range, the label (its links go to the proof), the note. */
+function Entry({ entry, text }) {
     return (
-        <a className="artb-tl__entry" href={entry.to} target="_blank" rel="noopener noreferrer">
-            {body}
-            <span className="visually-hidden"> ({external})</span>
-        </a>
+        <div className="artb-tl__entry">
+            <span className="artb-tl__year">{yearsOf(entry)}</span>
+            <span className="artb-tl__label"><Rich text={text.items[entry.id].label} linkClassName="artb-tl__link" /></span>
+            <span className="artb-tl__note">{text.items[entry.id].text}</span>
+        </div>
     );
 }
 
 export default function Timeline() {
-    const { t } = useLanguage();
-    const text = t.intro.art.timeline;
+    const text = useLanguage().t.intro.art.timeline;
     const box = useRef(null);
     const W = useUnits(box, { min: 232, max: 1400 });
     const layout = W >= 600 ? buildWide(W, text) : buildTall(W, text);
@@ -182,7 +172,7 @@ export default function Timeline() {
                         data-align={entry.align}
                         style={{ left: pct(entry.left, layout.width), top: pct(entry.top, layout.height), width: pct(entry.w, layout.width) }}
                     >
-                        <Entry entry={entry} text={text} external={t.controls.external} />
+                        <Entry entry={entry} text={text} />
                     </li>
                 ))}
             </ol>

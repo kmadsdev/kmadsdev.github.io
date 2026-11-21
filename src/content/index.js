@@ -1,5 +1,15 @@
-// Entry point of the text layer. All the text and all the addresses of the site
-// are in content.js: links (PART 1), facts (PART 2), English (PART 3), Portuguese (PART 4).
+// Entry point of the text layer. Three files hold all the text and all the addresses:
+//   contents.global.js   all that is equal in both languages: addresses, numbers, dates,
+//                        names, stacks, list orders, drawing data, `meta`, `music`
+//   contents.en.js       the English text
+//   contents.pt.js       the Portuguese text (same keys in the same order)
 //
-// `npm test` fails when content.en and content.pt do not have the same keys.
-export { content, facts, links } from './content.js';
+// The language provider gives `t` = content.en or content.pt. A component that needs a fact
+// imports its named export from here: `import { projects, art } from '../content/index.js'`.
+// Check: npx vitest run tests/contents.test.js
+import { en } from './contents.en.js';
+import { pt } from './contents.pt.js';
+
+export * from './contents.global.js';
+export const content = { en, pt };
+

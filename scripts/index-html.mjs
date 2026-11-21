@@ -1,5 +1,6 @@
-// index.html has no text of its own. Its title, description, link preview tags,
-// JSON-LD and <noscript> text come from src/content/content.js.
+// index.html has no text of its own. Its title, description, link preview tags and
+// JSON-LD come from `meta` in src/content/contents.global.js (English only). Its <noscript>
+// text comes from contents.en.js and contents.pt.js.
 //
 // index.html holds placeholders: {{name}}. fillIndexHtml() writes the values of
 // indexHtmlValues() in their place. An unknown name stops the build.
@@ -10,46 +11,32 @@ import { resolve } from 'node:path';
 
 const escapeHtml = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-/** The first-screen line of one language, for <noscript>. */
-function noscriptLine(t) {
-    const { hero, meta } = t;
-    return `${hero.role} · ${hero.focus}. ${hero.status}. ${hero.location[0]} · ${hero.location[2]}. ${meta.noscript}`;
-}
-
-/** Every placeholder of index.html with its value (plain text, not escaped yet). */
-export function indexHtmlValues({ content, facts, links }) {
-    const { en, pt } = content;
-    const { person } = facts;
-    const page = `${links.site}/`;
-    const label = (id) => en.hero.links.find((item) => item.id === id).label;
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'Person',
-        name: person.name,
-        alternateName: person.aliasUpper,
-        url: page,
-        email: `mailto:${links.email}`,
-        jobTitle: en.hero.role,
-        worksFor: { '@type': 'Organization', name: facts.picpay.name },
-        sameAs: [links.github, links.linkedin],
-    };
+/**
+ * Every placeholder of index.html with its value (plain text, not escaped yet).
+ * `data` is the three new content files: { global, en, pt } (contents.global.js, contents.en.js,
+ * contents.pt.js). The metadata is `global.meta`, in English only.
+ */
+export function indexHtmlValues(data) {
+    const { meta, person, links } = data.global;
+    const line = (t) => `${t.hero.role} · ${t.hero.focus}. ${t.hero.location[0]} · ${t.hero.location[2]}. ${t.noscript}`;
+    const label = (id) => data.en.hero.links.find((item) => item.id === id).label;
     return {
-        lang: en.meta.htmlLang,
-        title: en.meta.title,
-        description: en.meta.description,
-        author: person.name,
-        page,
-        pageEn: `${page}?lang=en`,
-        pagePt: `${page}?lang=pt`,
+        lang: meta.lang,
+        title: meta.title,
+        description: meta.description,
+        author: meta.author,
+        page: meta.canonical,
+        pageEn: meta.alternates.en,
+        pagePt: meta.alternates['pt-BR'],
         favicon: links.favicon,
-        siteName: links.domain,
-        ogLocale: en.meta.ogLocale,
-        ogLocaleAlternate: pt.meta.ogLocale,
-        ogImage: facts.site.ogImage,
-        jsonLd,
+        siteName: meta.openGraph.siteName,
+        ogLocale: meta.openGraph.locale,
+        ogLocaleAlternate: meta.openGraph.localeAlternate,
+        ogImage: meta.openGraph.image,
+        jsonLd: meta.jsonLd,
         noscriptTitle: `${person.name} (${person.aliasUpper})`,
-        noscriptEn: noscriptLine(en),
-        noscriptPt: noscriptLine(pt),
+        noscriptEn: line(data.en),
+        noscriptPt: line(data.pt),
         email: links.email,
         emailHref: `mailto:${links.email}`,
         github: links.github,
@@ -81,9 +68,13 @@ export function indexHtmlFromContent() {
             order: 'pre',
             async handler(html, ctx) {
                 // The dev server loads the content fresh on each request, so an edit shows on reload.
-                const data = ctx.server
-                    ? await ctx.server.ssrLoadModule('/src/content/index.js')
-                    : await import(pathToFileURL(resolve(root, 'src/content/index.js')).href);
+                const load = async (name) =>
+                    ctx.server ? ctx.server.ssrLoadModule(`/src/content/${name}`) : import(pathToFileURL(resolve(root, 'src/content', name)).href);
+                const data = {
+                    global: await load('contents.global.js'),
+                    en: (await load('contents.en.js')).en,
+                    pt: (await load('contents.pt.js')).pt,
+                };
                 return fillIndexHtml(html, data);
             },
         },

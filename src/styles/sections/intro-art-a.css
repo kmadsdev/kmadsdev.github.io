@@ -1,6 +1,6 @@
 /* Text sizes and durations in this file belong to the drawings: sizes are drawing units
    (1 unit = 1px at the drawn size), durations are the step times of a mechanism.
-   intro-art-a: the drawings of intro part A (request path, trace, contract states,
+   intro-art-a: the drawings of intro part A (request path D10, trace, contract states,
    margin check). Components: src/components/art/RequestPath.jsx, Trace.jsx,
    ContractStates.jsx, Margin.jsx, artAKit.jsx. */
 
@@ -13,6 +13,11 @@
 .art-node[data-state="seen"] .art-name { fill: var(--c-text-strong); }
 .art-node rect.art-node__inner { fill: none; stroke-width: 1; }
 .art-frame { stroke-dasharray: 2 5; }
+
+/* Request path (D10): the name of a frame is cut into its top line, as in the owner's drawing.
+   The tag has the colour of the drawing frame behind it (.intro-figure__frame). */
+.rp-frame__tag { fill: var(--c-tile); }
+.rp-readout__note { fill: var(--c-text-muted); }
 
 /* A number with its unit keeps its case: 644 ms. */
 .art-num { letter-spacing: 0; text-transform: none; }

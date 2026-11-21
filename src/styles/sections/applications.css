@@ -1,6 +1,6 @@
 /* Applications: src/components/Applications.jsx and src/components/applications/.
    The grid, the tiles and the chapter come from bento.css. This file holds the
-   clip frame, the featured blocks, the gallery and the study rows.
+   clip frame, the featured blocks, the gallery and the study cards. No status mark anywhere.
    The distance between groups and between featured applications is the chapter gap of bento.css. */
 
 /* ---------- Clip: a picture of a working app ----------
@@ -50,29 +50,27 @@
 .tile--media .tile__figure > .clip { height: 100%; }
 .app-tile .tile__figure { place-items: stretch; }
 
-/* ---------- Disclosure: "Show the details" (native <details>) ---------- */
+/* ---------- Disclosure: "Read the full story" (native <details>) ---------- */
 .disclosure { min-width: 0; }
 .disclosure__body { display: grid; gap: var(--gap-block); padding-top: var(--gap-group); }
 /* Inside a tile or a row: the text stays close to its control. */
 .app-tile__more .disclosure__body,
-.study__more .disclosure__body,
 .more-tile .disclosure__body { gap: var(--gap-group); padding-top: var(--sp-2); }
 
 /* ---------- Featured applications ----------
-   [state, name, tagline]  then  the main object beside [summary, stack, links]  then  the details. */
+   [name, tagline]  then  the main object beside [paragraphs, stack, links]  then  the details. */
 .app-features { display: grid; gap: var(--gap-chapter); }
 .app-features + .app-bento { margin-top: var(--gap-chapter); }
 
 .app-feature { display: grid; gap: var(--gap-stack); }
 .app-feature__head { display: grid; justify-items: start; gap: var(--gap-pair); max-width: var(--w-head); }
 .app-feature__tagline { margin: 0; max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--c-text-muted); text-wrap: balance; }
-/* The state of an application: a fact. Mono, no capitals. */
-.app-status { font: var(--fw-medium) var(--fs-xs) / var(--lh-xs) var(--font-mono); }
 
 .app-feature__grid { display: grid; gap: var(--gap-stack) var(--gap-col); align-items: start; }
 .app-feature__main { min-width: 0; }
 .app-feature__text { display: grid; align-content: start; gap: var(--gap-group); min-width: 0; }
-.app-feature__summary { margin: 0; max-width: var(--measure); text-wrap: pretty; }
+.app-feature__summary { display: grid; gap: var(--gap-group); max-width: var(--measure); }
+.app-feature__summary p { margin: 0; text-wrap: pretty; }
 /* Two columns from 1200px. Below it the chart or the clip needs the full width (at 1024px the chart was cut). */
 @media (min-width: 1200px) {
     .app-feature__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
@@ -107,7 +105,6 @@
 .app-links .link { min-height: var(--sp-8); }
 .app-links__label { flex-basis: 100%; }
 .app-links__live + .app-links__label { margin-top: var(--sp-2); }
-.app-links__private { padding: var(--sp-1) var(--sp-2); border: 1px dashed var(--c-line-control); border-radius: var(--r-sm); }
 .app-feature__text .app-links { margin-top: var(--sp-2); }
 
 /* ---------- Gallery of the flagship ---------- */
@@ -187,24 +184,33 @@
 .app-tile__tagline { margin: 0; }
 .app-tile__foot { display: grid; margin-top: auto; padding-top: var(--sp-2); }
 
-/* ---------- Study projects: rows on hairlines, two columns ---------- */
-.study { display: grid; gap: 0 var(--gap-col); margin: 0; padding: 0; list-style: none; }
-@media (min-width: 900px) {
+/* ---------- Study and other projects: cards with no picture ----------
+   3 per row like the tiles above them (2 on a tablet, 1 on a phone): the same breakpoints as the grid. */
+.study { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-grid); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) {
     .study { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-.study__item { display: grid; align-content: start; gap: var(--gap-pair); min-width: 0; padding-block: var(--sp-4) var(--sp-2); border-top: 1px solid var(--c-line); }
+@media (min-width: 1280px) {
+    .study { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.study__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-pair);
+    min-width: 0;
+    padding: var(--pad-tile);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);
+    background: var(--c-tile);
+}
+.study__name { margin: 0; font: var(--fw-semibold) var(--fs-h4) / var(--lh-h4) var(--font-sans); letter-spacing: var(--ls-h4); color: var(--c-text-strong); text-wrap: balance; }
 /* The name of a repository is a code: mono. */
-.study__name { margin: 0; font: var(--fw-medium) var(--fs-body) / var(--lh-h4) var(--font-mono); color: var(--c-text-strong); overflow-wrap: anywhere; }
-.study__tagline { margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text); }
-.study__foot { display: grid; margin-top: var(--sp-1); }
-.study__text { margin: 0; max-width: var(--measure); font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); }
-.study__media { max-width: 32rem; } /* a clip in a half column: not wider than its source */
-.study__media > .clip { border: 1px solid var(--c-line); border-radius: var(--r-lg); }
+.study__repo { margin: 0; }
+.study__repo-link { min-height: var(--sp-6); font: var(--fs-xs) / var(--lh-xs) var(--font-mono); color: var(--c-text); overflow-wrap: anywhere; }
+.study__line { flex: 1 1 auto; margin: 0; font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); text-wrap: pretty; }
 
-/* ---------- End of the section ---------- */
-.apps-foot { display: grid; gap: var(--gap-pair); max-width: var(--measure); margin-top: var(--gap-block); }
-.apps-foot p { margin: 0; }
-.apps-foot__note { font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); }
+/* ---------- End of the section: the closing line ---------- */
+.apps-foot { max-width: var(--measure); margin: var(--gap-block) 0 0; }
 
 @media (prefers-reduced-motion: reduce) {
     .clip__video, .clip__button, .gallery__thumb { transition: none; }

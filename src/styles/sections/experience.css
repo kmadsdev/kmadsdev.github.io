@@ -1,12 +1,19 @@
 /* experience: styles of this part only.
    Components: src/components/Experience.jsx and src/components/experience/.
-   Company entry = .split (text column + a sticky facts tile). Case file = a native
+   Company entry = .split (text column + the sticky experience timeline). Case file = a native
    <details> on a hairline row; the flowchart inside is the one framed object.
    The distance between companies, and from a company head to its content, come from bento.css. */
 
 /* ---------- Company entry ---------- */
-/* The facts tile: roles with their periods, then the tools. No hover: it is not a link. */
-.xp-facts .tile__body { gap: var(--sp-4); }
+/* The experience timeline: a solid surface with a hairline, as a tile. No hover: it is not a link. */
+.xp-facts {
+    display: grid;
+    gap: var(--gap-group);
+    padding: var(--pad-tile);
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);
+    background: var(--c-tile);
+}
 .xp-roles { display: grid; gap: var(--gap-group); }
 .xp-role { display: grid; gap: var(--sp-1); }
 .xp-role + .xp-role { padding-top: var(--gap-group); border-top: 1px solid var(--c-line); }
@@ -21,12 +28,12 @@
     font-variant-numeric: tabular-nums;
     color: var(--c-text-muted);
 }
-.xp-role__now { font: var(--fw-medium) var(--fs-xs) / var(--lh-xs) var(--font-sans); }
+/* "Current": a quiet word on the present role. No dot, no status colour. */
+.xp-role__now { font: var(--fw-medium) var(--fs-xs) / var(--lh-xs) var(--font-sans); color: var(--c-text); }
 .xp-role__title { font: var(--fw-semibold) var(--fs-h4) / var(--lh-h4) var(--font-sans); letter-spacing: var(--ls-h4); color: var(--c-text-strong); }
 .xp-role__note { font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); text-wrap: pretty; }
-.xp-facts__group { display: grid; gap: var(--gap-pair); padding-top: var(--gap-group); border-top: 1px solid var(--c-line); }
 
-/* The text column: impact first (what changed), then the links, then the daily work. */
+/* The text column: impact first (what changed), then the responsibilities, then the links. */
 .xp-text { gap: var(--gap-stack); }
 .xp-block { display: grid; gap: var(--gap-pair); }
 .xp-list { display: grid; gap: var(--sp-2); }
@@ -43,14 +50,6 @@
 .xp-list--impact li { color: var(--c-text); }
 .xp-links { display: flex; flex-wrap: wrap; gap: 0 var(--sp-6); }
 .xp-links .link { min-height: var(--ctl-lg); }
-
-/* "Show the details": the daily work, tools and stacks of one company, in place. */
-.xp-more { border-top: 1px solid var(--c-line); }
-.xp-more__hide,
-.xp-more[open] .xp-more__show { display: none; }
-.xp-more[open] .xp-more__hide { display: inline; }
-.xp-more__body { display: grid; gap: var(--gap-stack); padding-top: var(--sp-2); }
-.xp-more__body .xp-facts__group { padding-top: 0; border-top: 0; }
 
 /* ---------- Case files ---------- */
 .xp-cases { margin-top: var(--gap-block); }
