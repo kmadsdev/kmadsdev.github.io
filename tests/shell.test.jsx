@@ -70,11 +70,11 @@ function stubEngine(options) {
 }
 
 /** The player with a song (`src`) or with no song. */
-function player(src = '/song.mp3') {
+function player(src = '/song.mp3', autoplay = false) {
     engines = [];
     return render(
         <LanguageProvider>
-            <PlayerProvider src={src} engine={stubEngine}>
+            <PlayerProvider src={src} engine={stubEngine} autoplay={autoplay}>
                 <Badge />
                 <StatusLine />
             </PlayerProvider>
@@ -223,6 +223,57 @@ describe('music player (the controller against a stub of the sound engine)', () 
         expect(engine.calls).toEqual(['play', 'pause', 'play']);
     });
 
+    it('starts the song by itself with the first click on the page, and not again after a pause by the visitor', async () => {
+        const text = en();
+        window.sessionStorage.removeItem('kmads.autoplay');
+        player('/song.mp3', true);
+        expect(engines.length).toBe(0); // no sound before an action of the visitor
+        fireEvent.keyDown(document.body, { key: 'Tab' });
+        expect(engines.length).toBe(0);
+        fireEvent.click(document.body);
+        expect(engines[0].calls).toEqual(['play']);
+        expect(engines[0].options.volume).toBe(0.2);
+        fireEvent.click(document.body);
+        expect(engines[0].calls).toEqual(['play']);
+        // A pause by the visitor is kept for the visit.
+        await new Promise((done) => { setTimeout(done, 0); }); // the next click is a new action
+        fireEvent.click(screen.getByRole('button', { name: text.pause }));
+        expect(engines[0].calls).toEqual(['play', 'pause']);
+        expect(window.sessionStorage.getItem('kmads.autoplay')).toBe('off');
+        cleanup();
+        player('/song.mp3', true);
+        fireEvent.click(document.body);
+        expect(engines.length).toBe(0);
+        window.sessionStorage.removeItem('kmads.autoplay');
+    });
+
+    it('does not pause the song with the same click on the globe that started it', async () => {
+        const text = en();
+        window.sessionStorage.removeItem('kmads.autoplay');
+        player('/song.mp3', true);
+        fireEvent.click(screen.getByRole('button', { name: text.play }));
+        expect(engines[0].calls).toEqual(['play']);
+        expect(screen.getByRole('button', { name: text.pause })).toBeTruthy();
+        window.sessionStorage.removeItem('kmads.autoplay');
+    });
+
+    it('shows a play and pause button at the left of the line in the top bar', () => {
+        const text = en();
+        engines = [];
+        const { container } = render(
+            <LanguageProvider>
+                <PlayerProvider src="/song.mp3" engine={stubEngine} autoplay={false}>
+                    <StatusLine bar />
+                </PlayerProvider>
+            </LanguageProvider>,
+        );
+        const line = container.querySelector('.player-line--bar');
+        expect(line.firstElementChild.getAttribute('aria-label')).toBe(text.play);
+        fireEvent.click(line.firstElementChild);
+        expect(engines[0].calls).toEqual(['play']);
+        expect(line.firstElementChild.getAttribute('aria-label')).toBe(text.pause);
+    });
+
     it('plays the song again from 0:00 when it ends', () => {
         const text = en();
         player();
@@ -246,7 +297,7 @@ describe('music player (the controller against a stub of the sound engine)', () 
         const slider = screen.getByRole('slider', { name: text.volume });
         expect(slider.tagName).toBe('INPUT');
         expect(Number(slider.value)).toBeCloseTo(music.volume);
-        expect(slider.getAttribute('aria-valuetext')).toBe('35%');
+        expect(slider.getAttribute('aria-valuetext')).toBe('20%');
         fireEvent.click(screen.getByRole('button', { name: text.play }));
         const [engine] = engines;
         expect(engine.options.volume).toBe(music.volume);
@@ -415,7 +466,7 @@ describe('music player (the controller against a stub of the sound engine)', () 
         for (const key of ['title', 'artist', 'album', 'spotifyUrl', 'file', 'src', 'credit', 'volume']) expect(music, key).toHaveProperty(key);
         expect(music.file).toBe('/assets/audio/may-birocratic.mp3');
         expect(music.spotifyUrl).toMatch(/^https:\/\/open\.spotify\.com\/track\//);
-        expect(music.volume).toBe(0.35);
+        expect(music.volume).toBe(0.2);
     });
 });
 

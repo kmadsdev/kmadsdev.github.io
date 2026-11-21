@@ -189,12 +189,21 @@ describe('the page in each language', () => {
             expect(stops).toEqual([]);
         });
 
-        it(`shows the opening with no label, seven paragraphs and their bold first words in ${lang}`, () => {
+        it(`shows the opening with no label, six paragraphs and their bold first words in ${lang}`, () => {
             const { container } = open(`/?lang=${lang}`);
             const heading = within(container.querySelector('#intro')).getByRole('heading', { level: 3, name: t.intro.opening.title });
             expect(heading.previousElementSibling).toBeNull();
             const paragraphs = container.querySelectorAll('.intro-opening__text p');
-            expect(paragraphs.length).toBe(7);
+            expect(paragraphs.length).toBe(6);
+            // The card "My latest work" stands in the opening, with its diagram and the link to the source.
+            const card = container.querySelector('.intro-opening .latest-work');
+            expect(within(card).getByRole('heading', { level: 4, name: t.intro.opening.latest.title })).toBeTruthy();
+            expect(within(card).getByRole('img', { name: t.intro.opening.latest.diagramAlt })).toBeTruthy();
+            expect(card.querySelector('a[href="https://github.com/kmadsdev/consignado-api"]')).toBeTruthy();
+            // "Hire me" in the top bar goes to LinkedIn.
+            const hire = container.querySelector('.site-header .site-hire');
+            expect(hire.textContent).toContain(t.nav.hire);
+            expect(hire.getAttribute('href')).toMatch(/linkedin\.com\/in\//);
             paragraphs.forEach((p, i) => expect(p.querySelector('strong')?.textContent, `paragraph ${i}`).toBe(t.intro.opening.paragraphs[i][0].text));
         });
 
