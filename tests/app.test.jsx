@@ -196,7 +196,7 @@ describe('the page in each language', () => {
             const paragraphs = container.querySelectorAll('.intro-opening__text p');
             expect(paragraphs.length).toBe(6);
             // The card "My latest work" stands in the opening, with its diagram and the link to the source.
-            const card = container.querySelector('.intro-opening .latest-work');
+            const card = container.querySelector('#intro .intro-top .latest-work');
             expect(within(card).getByRole('heading', { level: 4, name: t.intro.opening.latest.title })).toBeTruthy();
             expect(within(card).getByRole('img', { name: t.intro.opening.latest.diagramAlt })).toBeTruthy();
             expect(card.querySelector('a[href="https://github.com/kmadsdev/consignado-api"]')).toBeTruthy();

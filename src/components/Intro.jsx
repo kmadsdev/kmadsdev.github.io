@@ -1,8 +1,8 @@
 // Section 2, id "intro": the introduction. It makes the claims. The proof is
 // lower on the page, and each claim links to it.
 //
-//   section head            label, headline (h2), lead
-//   Opening                 "👋 Hello,": text left, the portrait right
+//   Opening                 two columns. Left: the section head (label, headline, lead), then
+//                           "👋 Hello," and its paragraphs. Right: the portrait, then "My latest work".
 //   IntroChapter x 8        ids intro-<chapter id> (anchors.intro), in the order of t.intro.chapters
 //
 // The chapters alternate the side of their drawings, one after the other.
@@ -32,7 +32,7 @@ export default function Intro() {
     }, []);
 
     return (
-        <Chapter id="intro" className="intro" label={intro.label} title={intro.title} lead={intro.lead}>
+        <Chapter id="intro" className="intro">
             <Opening />
             {intro.chapters.map((chapter, i) => (
                 <IntroChapter key={chapter.id} chapter={chapter} flip={i % 2 === 1} />
