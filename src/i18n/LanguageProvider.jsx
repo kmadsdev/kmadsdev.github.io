@@ -5,9 +5,9 @@ import { STORAGE_KEY, resolveLanguage } from './language.js';
 
 const LanguageContext = createContext(null);
 
-function setMeta(selector, value) {
-    document.querySelector(selector)?.setAttribute('content', value);
-}
+// The language of the page text. The title, the description and the link preview tags stay in
+// English (`meta` in contents.global.js, written into index.html at build): they do not change here.
+const HTML_LANG = { en: 'en', pt: 'pt-BR' };
 
 export function LanguageProvider({ children }) {
     const [lang, setLangState] = useState(() =>
@@ -19,17 +19,9 @@ export function LanguageProvider({ children }) {
     );
     const t = content[lang];
 
-    // The document head follows the language.
     useEffect(() => {
-        document.documentElement.lang = t.meta.htmlLang;
-        document.title = t.meta.title;
-        setMeta('meta[name="description"]', t.meta.description);
-        setMeta('meta[property="og:title"]', t.meta.title);
-        setMeta('meta[property="og:description"]', t.meta.description);
-        setMeta('meta[property="og:locale"]', t.meta.ogLocale);
-        setMeta('meta[name="twitter:title"]', t.meta.title);
-        setMeta('meta[name="twitter:description"]', t.meta.description);
-    }, [t]);
+        document.documentElement.lang = HTML_LANG[lang];
+    }, [lang]);
 
     const setLang = useCallback((next) => {
         setLangState(next);

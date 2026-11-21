@@ -7,7 +7,7 @@
 //   useArt() -> { playing, motion, paint, width, height }
 //     playing  true while the art is on screen, motion is allowed and the visitor did not pause it (Playback.jsx)
 //     motion   false when the visitor asked for less motion
-//     paint    url(#...) values: signal, dots, halftone, halftoneUp, halftoneRadial, arrow, arrowRed
+//     paint    url(#...) values: signal, dots, halftone, arrow, arrowRed
 // SMIL animations (Packet) stop while the art is off screen.
 import { createContext, useContext, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useInView, useReducedMotion } from '../../../hooks.js';
@@ -45,8 +45,6 @@ export default function Art({ label, width = 360, height = 240, decorative = fal
                 signal: url('signal'),
                 dots: url('dots'),
                 halftone: url('halftone'),
-                halftoneUp: url('halftone-up'),
-                halftoneRadial: url('halftone-radial'),
                 arrow: url('arrow'),
                 arrowRed: url('arrow-red'),
             },

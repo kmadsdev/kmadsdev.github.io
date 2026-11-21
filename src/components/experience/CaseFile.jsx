@@ -3,17 +3,17 @@
 // Open: the numbers, the problem, the flowchart with its steps as text, the
 // decisions, the result, the stack and the links.
 // Native <details>: Enter and Space open it, and find-in-page opens it too.
-import { facts } from '../../content/index.js';
+import { cases } from '../../content/index.js';
 import ExternalLink from '../ExternalLink.jsx';
 import { FlowChart, FlowSteps } from '../Flow.jsx';
 import { useFlowPlayer } from '../useFlowPlayer.js';
 
-function CaseFlow({ id, text, labels, n }) {
-    const structure = facts.cases[id].flow;
+function CaseFlow({ id, text, labels }) {
+    const structure = cases[id].flow;
     const player = useFlowPlayer(structure.edges.length);
     return (
         <div className="xp-case__flow">
-            <FlowChart caseId={id} structure={structure} text={text} player={player} labels={labels} n={n} />
+            <FlowChart caseId={id} structure={structure} text={text} player={player} labels={labels} />
             <div className="xp-case__steps">
                 <h5 className="wh-label">{labels.flow}</h5>
                 <FlowSteps structure={structure} text={text} player={player} stepLabel={labels.step} />
@@ -34,8 +34,8 @@ function FlowMark() {
     );
 }
 
-export default function CaseFile({ item, labels, open, onToggle, n }) {
-    const data = facts.cases[item.id];
+export default function CaseFile({ item, labels, open, onToggle }) {
+    const data = cases[item.id];
     const [first] = item.stats;
     const hasFlow = Boolean(item.flow && data.flow);
 
@@ -69,14 +69,16 @@ export default function CaseFile({ item, labels, open, onToggle, n }) {
             </summary>
 
             <div className="xp-case__body">
-                <dl className="wh-readout xp-case__readout">
-                    {item.stats.map((stat) => (
-                        <div className="wh-readout__cell" key={stat.label}>
-                            <dt className="wh-readout__label">{stat.label}</dt>
-                            <dd className="wh-readout__value">{stat.value}</dd>
-                        </div>
-                    ))}
-                </dl>
+                {item.stats.length ? (
+                    <dl className="wh-readout xp-case__readout">
+                        {item.stats.map((stat) => (
+                            <div className="wh-readout__cell" key={stat.label}>
+                                <dt className="wh-readout__label">{stat.label}</dt>
+                                <dd className="wh-readout__value">{stat.value}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                ) : null}
 
                 <div className="xp-case__problem">
                     <h5 className="wh-label">{labels.problem}</h5>
@@ -84,7 +86,7 @@ export default function CaseFile({ item, labels, open, onToggle, n }) {
                 </div>
 
                 {hasFlow ? (
-                    <CaseFlow id={item.id} text={item.flow} labels={labels} n={n} />
+                    <CaseFlow id={item.id} text={item.flow} labels={labels} />
                 ) : (
                     <p className="xp-case__words">{labels.wordsOnly}</p>
                 )}
@@ -92,9 +94,9 @@ export default function CaseFile({ item, labels, open, onToggle, n }) {
                 <div className="xp-case__story">
                     <div>
                         <h5 className="wh-label">{labels.decisions}</h5>
-                        <ol className="xp-case__decisions">
+                        <ul className="xp-case__decisions">
                             {item.decisions.map((text) => <li key={text}>{text}</li>)}
-                        </ol>
+                        </ul>
                     </div>
                     <div>
                         <h5 className="wh-label">{labels.result}</h5>

@@ -1,13 +1,11 @@
 // The media of the flagship: one large view and a row of thumbnails.
-// Data: facts.projects.<id>.media (files), text: item.media.<mediaId> (caption, alt).
+// Data: projects.<id>.media (files, contents.global.js), text: item.media.<mediaId> (caption, alt).
 // A file that does not load is taken out of the row, so an absent clip or still
 // never leaves a hole. Keyboard: Tab to a thumbnail, Enter or Space shows it,
 // the arrow keys move along the row.
 import { useRef, useState } from 'react';
 import Icon from '../Icon.jsx';
 import Clip from './Clip.jsx';
-
-const two = (n) => String(n).padStart(2, '0');
 
 function Still({ media, text, onMissing }) {
     return (
@@ -51,10 +49,7 @@ export default function Gallery({ name, media, text, labels }) {
                     <div className="clip" data-empty="true" style={{ '--clip-ratio': '1280 / 720' }}><div className="clip__frame" /></div>
                 )}
                 {current && text[current.id] ? (
-                    <figcaption className="gallery__caption" aria-live="polite">
-                        <span className="gallery__count" aria-hidden="true">{two(position + 1)} / {two(shown.length)}</span>
-                        <span>{text[current.id].caption}</span>
-                    </figcaption>
+                    <figcaption className="gallery__caption" aria-live="polite">{text[current.id].caption}</figcaption>
                 ) : null}
             </figure>
 

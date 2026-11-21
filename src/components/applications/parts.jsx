@@ -1,20 +1,7 @@
-// Small parts that every application block shares: status, stack, links.
+// Small parts that every application block shares: stack and links. No status mark.
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import ExternalLink from '../ExternalLink.jsx';
 import Icon from '../Icon.jsx';
-
-/** "Live" with the mint dot (live now), or the quiet study label. */
-export function Status({ data, labels }) {
-    if (data.status === 'live') {
-        return (
-            <span className="status app-status">
-                <span className="status-dot" aria-hidden="true" />
-                {labels.statusLive}
-            </span>
-        );
-    }
-    return <span className="wh-label app-status">{labels.statusStudy}</span>;
-}
 
 /** The stack as one short mono line (the dots between the names come from CSS). */
 export function Stack({ items, labels }) {
@@ -25,16 +12,22 @@ export function Stack({ items, labels }) {
     );
 }
 
+/** The source code of an application: one link per repository (`repos`), or one link (`repo`). */
+export function sourcesOf(data, labels) {
+    if (data.repos?.length) return data.repos;
+    return data.repo ? [{ label: labels.source, url: data.repo }] : [];
+}
+
 /**
- * The links of one application: the live address, then the source code
- * (one link, or one per repository), or the note that the source is private.
- * An app with `access: 'private'` (Ruph: sign-in only) shows no live link.
+ * The links of one application: the live address, then the source code.
+ * A project with a private source (Ruph: sign-in only) simply has no "Open live" button.
  * `primary` makes the live link the one red button of the view.
  */
 export function AppLinks({ data, labels, primary = false }) {
     const { t } = useLanguage();
-    const sources = data.sources ?? (data.source ? [{ label: labels.source, url: data.source }] : []);
-    const live = data.access === 'private' ? null : data.live;
+    const sources = sourcesOf(data, labels);
+    const live = data.privateSource ? null : data.live;
+    if (!live && !sources.length) return null;
     return (
         <div className="app-links">
             {live ? (
@@ -48,11 +41,10 @@ export function AppLinks({ data, labels, primary = false }) {
                     <ExternalLink href={live}>{labels.live}</ExternalLink>
                 )
             ) : null}
-            {data.sources ? <span className="wh-label app-links__label">{labels.source}</span> : null}
+            {data.repos?.length ? <span className="wh-label app-links__label">{labels.source}</span> : null}
             {sources.map((source) => (
                 <ExternalLink key={source.url} href={source.url}>{source.label}</ExternalLink>
             ))}
-            {data.access === 'private' && !sources.length ? <span className="wh-label app-links__private">{labels.privateSource}</span> : null}
         </div>
     );
 }

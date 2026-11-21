@@ -34,7 +34,7 @@ a:focus-visible { outline: 2px solid var(--strong); outline-offset: 2px; }
 <p class="code"><b>404</b> · <span id="path"></span></p>
 <h1 id="title">${text.en.title}</h1>
 <p id="text">${text.en.text}</p>
-<a id="cta" href="${links.home}">${text.en.cta}</a>
+<a id="cta" href="/">${text.en.cta}</a>
 </main>
 <script>
 (function () {

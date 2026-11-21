@@ -1,10 +1,12 @@
-/* intro-art-a: the drawings of intro part A (request path, trace, contract states,
+/* Text sizes and durations in this file belong to the drawings: sizes are drawing units
+   (1 unit = 1px at the drawn size), durations are the step times of a mechanism.
+   intro-art-a: the drawings of intro part A (request path D10, trace, contract states,
    margin check). Components: src/components/art/RequestPath.jsx, Trace.jsx,
    ContractStates.jsx, Margin.jsx, artAKit.jsx. */
 
 /* The box that chooses the layout of a drawing. */
 .art-fit { width: 100%; min-width: 0; }
-.art--narrow.art-a--narrow { max-width: 22rem; }
+.art--narrow.art-a--narrow { max-width: 22rem; } /* the drawn width of these tall drawings */
 
 /* A node that the request or the contract already crossed, and a final state. */
 .art-node[data-state="seen"] rect { stroke: var(--art-ink); }
@@ -12,14 +14,19 @@
 .art-node rect.art-node__inner { fill: none; stroke-width: 1; }
 .art-frame { stroke-dasharray: 2 5; }
 
+/* Request path (D10): the name of a frame is cut into its top line, as in the owner's drawing.
+   The tag has the colour of the drawing frame behind it (.intro-figure__frame). */
+.rp-frame__tag { fill: var(--c-tile); }
+.rp-readout__note { fill: var(--c-text-muted); }
+
 /* A number with its unit keeps its case: 644 ms. */
-.art-num { letter-spacing: 0.02em; text-transform: none; }
+.art-num { letter-spacing: 0; text-transform: none; }
 
 /* Trace */
 .trace-call { letter-spacing: 0; text-transform: none; fill: var(--c-text); }
 .trace-status { fill: var(--c-text-faint); }
-.trace-note { font: 400 11.5px var(--wh-font-sans); fill: var(--c-text-muted); }
-.trace-row { transition: opacity var(--wh-duration-base) linear; }
+.trace-note { font: var(--fw-regular) 11.5px var(--font-sans); fill: var(--c-text-muted); } /* 11.5: the drawn size of the note of a call */
+.trace-row { transition: opacity var(--dur-base) linear; }
 .trace-row .art-name { fill: var(--c-text-muted); }
 .trace-row[data-state="next"] { opacity: 0.4; }
 .trace-row[data-state="now"] .art-name { fill: var(--c-text-strong); }
@@ -28,19 +35,16 @@
 .trace-row[data-state="next"] .trace-bar { opacity: 0.35; }
 .trace-row[data-state="now"] .trace-bar { transform-box: fill-box; transform-origin: left center; animation: trace-fill 650ms linear both; }
 .trace-head { transition: transform 650ms linear; }
-.trace-total[data-lit="false"] .trace-bar { fill: rgb(255 255 255 / 0.3); }
+.trace-total[data-lit="false"] .trace-bar { fill: var(--c-line-strong); }
 .trace-total[data-lit="false"] .art-name { fill: var(--c-text-muted); }
 @keyframes trace-fill {
     from { transform: scaleX(0); }
     to { transform: scaleX(1); }
 }
 
-/* Contract states */
-.states-glow { transition: transform 700ms var(--wh-ease-out); }
-
 /* Margin check */
-.margin-value { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; fill: var(--c-text-strong); }
+.margin-value { font-size: 14px; font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; fill: var(--c-text-strong); }
 .margin-part { transition: opacity 400ms linear; }
 .margin-part[data-lit="false"] { opacity: 0.32; }
-.margin-bar rect { transform-box: fill-box; transform-origin: left center; transition: transform 900ms var(--wh-ease-out); }
+.margin-bar rect { transform-box: fill-box; transform-origin: left center; transition: transform 900ms var(--ease-out); }
 .margin-bar[data-grown="false"] rect { transform: scaleX(0); }

@@ -1,25 +1,23 @@
-// The opening block of the introduction: "Who am I?".
+// The opening block of the introduction: "👋 Hello,".
+// No label above the heading. Seven paragraphs, each starts with a bold part.
 // Text on the left, the one photo of the owner on the right. On a wide screen the
 // photo stays in view while the paragraphs scroll. Below 900px the photo stands
-// between the title and the first paragraph, at a smaller size.
-import { facts } from '../../content/index.js';
+// between the heading and the first paragraph, at a smaller size.
+import { person } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { RichParagraphs } from '../Rich.jsx';
 
 export default function Opening() {
     const { opening } = useLanguage().t.intro;
-    const { photo } = facts.person;
+    const { photo } = person;
     return (
         <div className="intro-opening">
-            <header className="intro-opening__head">
-                <p className="wh-label chapter-label">{opening.label}</p>
-                <h3 className="wh-headline wh-headline--item">{opening.title}</h3>
-            </header>
+            <h3 className="wh-headline wh-headline--item intro-opening__title">{opening.title}</h3>
             <figure className="intro-opening__photo">
                 <img
                     src={photo.src}
                     srcSet={`${photo.small} 640w, ${photo.src} ${photo.width}w`}
-                    sizes="(min-width: 900px) min(36vw, 30rem), 17rem"
+                    sizes="(min-width: 900px) min(30vw, 24rem), 15rem"
                     width={photo.width}
                     height={photo.height}
                     loading="lazy"

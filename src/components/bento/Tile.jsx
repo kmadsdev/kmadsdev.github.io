@@ -9,10 +9,7 @@
 // With `href` the whole tile is one link and shows an arrow.
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import Icon from '../Icon.jsx';
-import { facts } from '../../content/index.js';
 
-// Reference letters, as on a circuit board: facts.boardMarks in content.js.
-const REF = facts.boardMarks;
 
 function size(value) {
     const [w, h] = String(value).split('x').map(Number);
@@ -24,13 +21,11 @@ export default function Tile({
     lg = '4x1',
     md,
     sm,
-    n,
     name,
     title,
     level = 3,
     figure,
     href,
-    light = false,
     as,
     className = '',
     children,
@@ -50,16 +45,12 @@ export default function Tile({
         <Tag
             className={`tile tile--${kind} ${className}`.trim()}
             style={style}
-            data-light={light ? 'red' : undefined}
             data-figure={figure ? 'true' : undefined}
             {...link}
             {...rest}
         >
             {name ? (
-                <p className="tile__label">
-                    {n ? <span aria-hidden="true">{REF[kind] ?? 'U'}{n} · </span> : null}
-                    {name}
-                </p>
+                <p className="tile__label">{name}</p>
             ) : null}
             {figure ? <div className="tile__figure">{figure}</div> : null}
             <div className="tile__body">
@@ -87,11 +78,6 @@ export function Stat({ value, unit, children }) {
             {children ? <p className="stat__source">{children}</p> : null}
         </div>
     );
-}
-
-/** One to three uppercase words. At most one per chapter. */
-export function Poster({ as: Tag = 'p', children }) {
-    return <Tag className="tile__poster">{children}</Tag>;
 }
 
 /** Short rows of facts. An item is a string, or [name, value]. */
