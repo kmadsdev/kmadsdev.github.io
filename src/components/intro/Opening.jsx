@@ -1,11 +1,11 @@
 // The opening block of the introduction: "👋 Hello,".
-// No label above the heading. Seven paragraphs, each starts with a bold part.
-// Text on the left, the one photo of the owner on the right. On a wide screen the
-// photo stays in view while the paragraphs scroll. Below 900px the photo stands
-// between the heading and the first paragraph, at a smaller size.
+// No label above the heading. Six paragraphs, each starts with a bold part.
+// Text on the left; on the right the one photo of the owner and, under it, the card
+// "My latest work". Below 900px the order is: heading, photo (smaller), paragraphs, card.
 import { person } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { RichParagraphs } from '../Rich.jsx';
+import LatestWork from './LatestWork.jsx';
 
 export default function Opening() {
     const { opening } = useLanguage().t.intro;
@@ -28,6 +28,7 @@ export default function Opening() {
             <div className="chapter-text intro-opening__text">
                 <RichParagraphs items={opening.paragraphs} linkClassName="link link--inline intro-ref" />
             </div>
+            <div className="intro-opening__latest"><LatestWork /></div>
         </div>
     );
 }

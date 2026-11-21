@@ -2,6 +2,8 @@
 // Left to right, and nothing else: the album cover and the song name (one link to the song on Spotify),
 // the speaker with the volume slider, the button that starts the song again.
 // No time, no progress bar, no hint, no divider. With no song it does not render.
+// The same line shows in the top bar after the hero is out of view (`bar`): there it has a
+// play and pause button at its left, because the globe is not on the screen.
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { usePlayer } from './PlayerProvider.jsx';
 import { music, usePlayerText } from './playerText.js';
@@ -28,14 +30,22 @@ const RestartIcon = () => (
     </svg>
 );
 
-export default function StatusLine() {
+const PlayIcon = () => <svg {...svg}><path d="M4.5 3l8 5l-8 5z" fill="currentColor" /></svg>;
+const PauseIcon = () => <svg {...svg}><path d="M5 3.25v9.5M11 3.25v9.5" strokeWidth="2.6" /></svg>;
+
+export default function StatusLine({ bar = false }) {
     const player = usePlayer();
     const text = usePlayerText();
     const external = useLanguage().t.controls?.external;
     if (!player.enabled) return null;
     const percent = Math.round(player.volume * 100);
     return (
-        <div className="player-line" role="group" aria-label={text.nowPlaying}>
+        <div className={bar ? 'player-line player-line--bar' : 'player-line'} role="group" aria-label={text.nowPlaying}>
+            {bar ? (
+                <button type="button" className="player-line__control player-line__play" aria-label={player.playing ? text.pause : text.play} aria-pressed={player.playing} onClick={player.toggle}>
+                    {player.playing ? <PauseIcon /> : <PlayIcon />}
+                </button>
+            ) : null}
             {/* One link: the album cover and the song name go to the song on Spotify. Its name for a screen reader is the label. */}
             <a className="player-line__source" href={music.spotifyUrl} target="_blank" rel="noopener noreferrer" aria-label={`${text.openOnSpotify}${external ? ` (${external})` : ''}`}>
                 {/* The cover of the album (96 x 96 file, shown at the height of the line). */}
@@ -59,7 +69,7 @@ export default function StatusLine() {
                     onChange={(event) => player.setVolume(event.target.value)}
                 />
             </div>
-            <button type="button" className="player-line__control" aria-label={text.restart} onClick={player.restart}>
+            <button type="button" className="player-line__control player-line__restart" aria-label={text.restart} onClick={player.restart}>
                 <RestartIcon />
             </button>
         </div>

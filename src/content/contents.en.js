@@ -55,6 +55,7 @@ export const en = {
         language: 'Language',
         languages: { en: 'English', pt: 'Portuguese' },
         codes: { en: 'EN', pt: 'PT' },
+        hire: 'Hire me',
     },
 
     // ─── en.hero ────────────────────────────────────────────────────────────
@@ -94,6 +95,22 @@ export const en = {
             title: '👋 Hello,',
             // The owner's own joke. He asked to keep it (2026-11-20).
             photo: { alt: 'Nice ass photo here, you should hire this guy.' },
+            // The card under the photo: "My latest work". The owner's text of 2026-11-21.
+            latest: {
+                label: 'My latest work',
+                title: 'Consignado Cloud',
+                subtitle: 'Cloud architecture and SDLC flowcharts from a cloud that runs in real time, on AKS and Azure Functions',
+                diagramAlt: 'A cut of the request diagram of Consignado Cloud, each stage with its measured time. The user, 342 ms. HTTPS to the Cloudflare edge, 31 ms. The path /api/* to the gateway, 221 ms. An API call to the internal load balancer, 7.7 s. Two Spring Boot pods in the AKS cluster, 17.4 s. JDBC to PostgreSQL, 2.9 s.',
+                paragraph: [
+                    { text: 'Recently, to learn more about Kubernetes and Azure', strong: true },
+                    ' and to help others learn too, I created ',
+                    { text: 'Consignado Cloud', to: projects.consignado.live },
+                    ', a platform where you can watch a ',
+                    { text: 'Spring Boot payroll-loan calculator', strong: true },
+                    ' run end to end in real time, from the request at Azure Blob Storage and the Cloudflare edge to the pod selection and the database query. The target system runs on AKS or Azure Functions, with real-time visual diagrams of the infrastructure of all the services involved on my Azure account. ',
+                    { text: 'Source code', to: projects['consignado-api'].repo },
+                ],
+            },
             paragraphs: [
                 [
                     { text: `My name is ${person.name}`, strong: true },
@@ -121,13 +138,6 @@ export const en = {
                     ', I build and run my own systems, because I want to learn how a platform infrastructure works, down to its finest details. I created ',
                     { text: 'Ruph', to: projects.ruph.live },
                     ', which is my own platform running on GCP. It deploys my apps, runs CD pipelines and IaC, sets budget and FinOps rules, and provisions resources (compute, storage, auth, CI/CD and more) across multiple providers (GCP, AWS, Azure, Vercel) in one unified visual interface.',
-                ],
-                [
-                    { text: 'Recently, to learn more about Kubernetes and Azure', strong: true },
-                    ', I created ',
-                    { text: 'Consignado Cloud', to: projects.consignado.live },
-                    ', which is a Spring Boot payroll-loan calculator. It runs on AKS or Azure Functions, with a real-time visual diagram of the infrastructure of my Azure account. ',
-                    { text: 'Source', to: projects['consignado-api'].repo },
                 ],
                 [
                     { text: "I'm also very passionate about performance engineering", strong: true },
@@ -988,20 +998,26 @@ export const en = {
                 result: 'Ruph deploys and provisions my own apps in QA and in production. GitHub Actions runs the test suite and the PostgreSQL migration tests, and deploys only after the health checks pass. It is a private platform: I am its only operator.',
                 stats: [],
                 flow: {
-                    title: 'Plan, approve, apply, record',
+                    title: 'Ruph architecture, the overall picture',
                     nodes: {
-                        human: 'Me',
-                        api: 'Ruph API (Hono)',
-                        ledger: 'Ledger (PostgreSQL)',
-                        providers: 'Cloud providers',
-                        ci: 'GitHub Actions',
+                        clients: 'Clients (web, app, CLI)',
+                        edge: 'Edge (Cloudflare)',
+                        api: 'Ruph PROD (Cloud Run)',
+                        identity: 'Identity (SSO, IAM, 2FA)',
+                        store: 'Database and vault',
+                        providers: 'Providers (connectors)',
+                        apps: 'Applications (my own apps)',
+                        qa: 'Ruph QA (Cloud Run)',
                     },
                     steps: [
-                        'I write a plan in the dashboard or the CLI.',
-                        'I read the plan and approve it.',
-                        'The API writes the apply to the append-only ledger.',
-                        'The API changes the resources at the cloud providers.',
-                        'GitHub Actions deploys a new version only after tests and health checks pass.',
+                        'The web dashboard, the Android app and the CLI all call one edge.',
+                        'The edge routes by host and adds an origin secret. A direct call to the origin gets a 403.',
+                        'The control plane checks who I am: Cloud Identity SSO, IAM roles and a second factor.',
+                        'It reads the secrets and the access tokens from Secret Manager.',
+                        'It keeps its records in PostgreSQL on Cloud SQL.',
+                        'Connectors manage the providers. Alerts go out by mail and by mobile push.',
+                        'It deploys and tracks my public and my internal applications.',
+                        'The QA address goes to a separate QA instance. Its provider calls and keys are fake, and it never connects to a production provider.',
                     ],
                 },
             },
@@ -1334,9 +1350,9 @@ export const en = {
                 alt: 'Diagram of seven steps in a line. 1: AKS schedules the pod on the node. 2: the kubelet pulls the image from ACR. 3: the service account token becomes an Azure token at Entra ID, by workload identity. 4: the CSI driver reads the database password from Key Vault. 5: the Spring Boot container starts with the password. 6: Flyway migrates Azure PostgreSQL over TLS and readiness is up. 7: the pod is ready and the Service sends traffic to it.',
             },
             'ruph-ship': {
-                title: 'How Ruph ships',
-                caption: 'A change on GitHub triggers the automatic tests and a build. The build goes to QA and then to PROD. GitHub signs in with no stored key (WIF), and a rollback is one click.',
-                alt: 'Flow diagram with the title "How we ship". GitHub triggers automatic tests, which lead to a build of the app in a container. The build is deployed to QA, where it is checked first, and then promoted to PROD. A dashed line from the build goes to a box "No stored keys: GitHub proves who it is (WIF)". A dashed line from PROD goes to "One-click rollback". A note says that nothing reaches PROD without passing tests and QA.',
+                title: 'How Ruph ships: the delivery pipeline',
+                caption: 'A feature goes from local tests to a pull request to the branch qa. When the CI checks pass, the image goes to Artifact Registry, the QA database migrates, Cloud Run deploys QA, and the edge verifies it. After QA testing, a pull request to main runs the same path for production. The result comes by mail and by mobile push.',
+                alt: 'Flow diagram with the title "GCP Continuous Delivery Pipeline", in two rows. Row 1, QA: feature, code, local tests, a new GitHub branch "feat/*", a pull request to the branch "qa", and the GitHub Actions CI checks. If the checks fail, the flow goes back to the pull request. If they pass, the Docker image goes to Artifact Registry, a job migrates the QA database, Cloud Run deploys QA, and the Cloudflare Worker edge verifies it: the health address answers 200 and a direct call to the origin answers 403. Then the QA testing phase starts. Row 2, production: if QA testing passes, a pull request to "main" runs the CI checks again, then Artifact Registry, the migration of the production database, the Cloud Run deploy and the live check at the edge. At the end, the build facts go out by Resend e-mail to a Google Workspace inbox and by Firebase Cloud Messaging to the Ruph mobile app. A legend shows three colours: shared, quality assurance and production.',
             },
         },
     },
