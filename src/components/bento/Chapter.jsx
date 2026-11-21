@@ -6,14 +6,23 @@
 //   <div className="chapter-text"> long prose (never inside a tile)
 //   <div className="split">        text column on one side, the main object on the other
 //   <ChapterGroup title>           a named part of a chapter (h3)
+/** The head of a chapter: the label, the headline (h2, id "<id>-title") and the lead. */
+export function ChapterHead({ id, label, title, lead }) {
+    return (
+        <header className="chapter-head">
+            {label ? <p className="wh-label chapter-label">{label}</p> : null}
+            <h2 id={`${id}-title`} className="wh-headline wh-headline--section">{title}</h2>
+            {lead ? <p className="chapter-lead">{lead}</p> : null}
+        </header>
+    );
+}
+
+// With no `title`, the chapter does not render its head: the content places a <ChapterHead> itself
+// (the introduction, where the head stands in the left column beside the photo).
 export default function Chapter({ id, label, title, lead, className = '', children }) {
     return (
         <section id={id} className={`chapter ${className}`.trim()} aria-labelledby={`${id}-title`}>
-            <header className="chapter-head">
-                {label ? <p className="wh-label chapter-label">{label}</p> : null}
-                <h2 id={`${id}-title`} className="wh-headline wh-headline--section">{title}</h2>
-                {lead ? <p className="chapter-lead">{lead}</p> : null}
-            </header>
+            {title ? <ChapterHead id={id} label={label} title={title} lead={lead} /> : null}
             {children}
         </section>
     );

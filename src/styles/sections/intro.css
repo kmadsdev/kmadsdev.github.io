@@ -13,11 +13,18 @@
 /* Bold first words of a paragraph (rich `strong`): the semibold step, the strong text colour. */
 .intro .chapter-text strong { font-weight: var(--fw-semibold); color: var(--c-text-strong); }
 
-/* ---------- Opening: "👋 Hello," ----------
-   The heading, then the text on the left and my photo on the right. The photo stays in
-   view while the text scrolls. No label above the heading. */
-.intro-opening { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-stack) var(--gap-col); }
-.intro-opening__photo { width: min(100%, 15rem); margin: 0; } /* one column: the portrait is a small picture over the text */
+/* ---------- The top of the introduction ----------
+   One column on a phone: head, "Hello,", photo, paragraphs, card. The two wrappers have no box
+   there, so their parts are items of one grid and `order` puts the photo over the paragraphs.
+   From 900px: two columns. Left, the head of the section and the text. Right, the photo at the
+   top and the card at the bottom: the card ends on the line where the text ends. */
+.intro-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap-stack); }
+.intro-top__main, .intro-top__side, .intro-opening { display: contents; }
+.intro-top .chapter-head { order: 1; margin-bottom: calc(var(--gap-block) - var(--gap-stack)); }
+.intro-opening__title { order: 2; }
+.intro-opening__photo { order: 3; width: min(100%, 15rem); margin: 0; } /* one column: the portrait is a small picture over the text */
+.intro-opening__text { order: 4; }
+.intro-opening__latest { order: 5; }
 .intro-opening__photo img {
     display: block;
     width: 100%;
@@ -27,17 +34,22 @@
     background: var(--c-tile);
 }
 @media (min-width: 900px) {
-    .intro-opening {
-        /* 8 and 4 parts: a portrait needs less width than a diagram (7 and 5 in every other split). */
-        grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-        /* The photo and the card stand in one column. The text column is as high as both. */
-        grid-template-areas: "head photo" "text photo" "text latest";
-        grid-template-rows: auto auto 1fr;
+    /* 7 and 5 parts, as in every other split of the page: the headline keeps its four lines,
+       and the card with its diagram has the width of a phone screen and more. */
+    .intro-top { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gap-col); }
+    .intro-top__main { display: block; min-width: 0; }
+    .intro-top .chapter-head { margin-bottom: var(--gap-block); }
+    .intro-opening { display: grid; gap: var(--gap-stack); }
+    /* The right column is as high as the left one: the photo at its top, the card at its bottom. */
+    .intro-top__side { display: flex; flex-direction: column; justify-content: space-between; gap: var(--gap-chapter); min-width: 0; }
+    .intro-opening__photo {
+        /* The photo is narrower than the card and stands on the right edge of the column.
+           Its top is on the top of the headline, under the line of the label. */
+        width: min(72%, 26rem);
+        margin: calc(var(--fs-xs) * var(--lh-xs) + var(--gap-pair)) 0 0 auto;
     }
-    .intro-opening__title { grid-area: head; }
-    .intro-opening__text { grid-area: text; align-self: start; }
-    .intro-opening__photo { grid-area: photo; width: 100%; align-self: start; }
-    .intro-opening__latest { grid-area: latest; align-self: start; }
+    /* More room in the card than in a small tile: it is the main object of the right column. */
+    .intro-top .latest-work { padding: var(--sp-6); }
 }
 
 /* The card "My latest work": a tile with a label, a name, one line, a small diagram and a paragraph. */
