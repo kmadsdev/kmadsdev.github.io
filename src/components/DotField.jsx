@@ -13,6 +13,7 @@
 //     box at its edge: nothing comes back.
 // One canvas and one frame loop. The loop runs only while a wave or a charge is
 // alive. Else the field draws once when something changed.
+// No dot is drawn behind the label under the badge (the status line of the music).
 // A press on a link, a button or the badge is theirs: no wave.
 // Touch: a tap gives a wave, a long press charges. The page scroll is never
 // blocked: when the browser takes the touch for a scroll, the charge is dropped.
@@ -49,6 +50,7 @@ export default function DotField({ bodyRef }) {
 
         const pointer = { x: 0, y: 0, on: false };
         const body = { x: 0, y: 0, r: 0 };
+        const clear = { l: 0, t: 0, r: 0, b: 0 }; // no dot is drawn here: the label under the badge must stay readable
         const waves = []; // { x, y, born, push, speed, width }
         let press = null; // { id, at, touch }
         let charge = 0;   // 0 to 1: how far the dots near the pointer are drawn in
@@ -85,6 +87,14 @@ export default function DotField({ bodyRef }) {
                 body.y = b.top - rect.top + body.r;
             } else {
                 body.r = 0;
+            }
+            const label = box.querySelector('.player-line');
+            if (label) {
+                const b = label.getBoundingClientRect();
+                const air = spacing * 0.4;
+                Object.assign(clear, { l: b.left - rect.left - air, t: b.top - rect.top - air, r: b.right - rect.left + air, b: b.bottom - rect.top + air });
+            } else {
+                Object.assign(clear, { l: 0, t: 0, r: 0, b: 0 });
             }
         };
 
@@ -181,6 +191,7 @@ export default function DotField({ bodyRef }) {
                         }
                     }
 
+                    if (x > clear.l && x < clear.r && y > clear.t && y < clear.b) continue;
                     if (radius === 0) {
                         paths[tone].rect(x - 0.5, y - 0.5, 1, 1);
                     } else {
@@ -301,6 +312,7 @@ export default function DotField({ bodyRef }) {
         const watch = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(refit);
         watch?.observe(box);
         if (bodyRef?.current) watch?.observe(bodyRef.current);
+        if (bodyRef?.current?.parentElement) watch?.observe(bodyRef.current.parentElement);
         document.fonts?.ready?.then(refit).catch(() => {});
 
         return () => {

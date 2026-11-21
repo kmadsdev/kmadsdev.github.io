@@ -10,7 +10,8 @@
 //                                      gain: 1, 0, or 'coast' (as loud as the disc still turns)
 //   { type: 'hand', pos, rate }        a hand holds the disc: be at `pos` (s), moving at `rate`
 //   { type: 'seek', pos }              jump to `pos` (s) with a short fade
-// Messages out: { pos, rate, time } each few blocks: the playhead. { ended: true } at the end of the song.
+// Messages out: { pos, rate, time, laps } each few blocks: the playhead, and how many times the song started again.
+// In play the song loops: after its last sample comes its first one. A hand stops at the two ends.
 const HAND_TAU = 0.03;  // s: the rate follows the hand with this time constant, so it does not zip
 const PULL_TAU = 0.08;  // s: the playhead goes to the exact place of the hand with this time constant
 const GAIN_TAU = 0.002; // s: every change of loudness is a ramp of about 8 ms (4 time constants): no click
@@ -35,6 +36,7 @@ class Disc extends AudioWorkletProcessor {
         this.coast = false;
         this.seekTo = null;
         this.blocks = 0;
+        this.laps = 0;
         this.port.onmessage = (event) => this.on(event.data);
     }
 
@@ -71,7 +73,6 @@ class Disc extends AudioWorkletProcessor {
         const kGain = 1 - Math.exp(-1 / (GAIN_TAU * sampleRate));
         const left = this.channels[0];
         const right = this.channels[1] ?? left;
-        let ended = false;
 
         for (let i = 0; i < frames; i += 1) {
             // A jump: fade out, move, fade in.
@@ -91,14 +92,12 @@ class Disc extends AudioWorkletProcessor {
                 this.pos += (this.goalPos - this.pos) * kPull;
             }
             if (this.pos >= last) {
-                this.pos = last;
-                if (this.goalPos === null && this.rate > 0) {
-                    // The end of the song: the motor stops.
-                    this.rate = 0;
-                    this.goalRate = 0;
-                    this.gainGoal = 0;
-                    this.coast = false;
-                    ended = true;
+                if (this.goalPos === null && this.goalRate > 0) {
+                    // The end of the song in play (the motor runs forward): it starts again, with no stop. `laps` counts the turns of the whole song.
+                    this.pos -= last;
+                    this.laps += 1;
+                } else {
+                    this.pos = last; // a hand does not fall off the record: it stops at the last groove
                 }
             } else if (this.pos <= 0) {
                 this.pos = 0; // the start of the song: the disc is at its first groove and makes no sound there
@@ -114,8 +113,8 @@ class Disc extends AudioWorkletProcessor {
         }
 
         this.blocks += 1;
-        if (ended || this.blocks % REPORT === 0) {
-            this.port.postMessage({ pos: this.pos / this.pcmRate, rate: this.rate, time: currentTime, ended });
+        if (this.blocks % REPORT === 0) {
+            this.port.postMessage({ pos: this.pos / this.pcmRate, rate: this.rate, time: currentTime, laps: this.laps });
         }
         return true;
     }

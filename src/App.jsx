@@ -12,7 +12,6 @@ import { useProjectsPath } from './routes.js';
 import { useSmoothScroll } from './smooth.js';
 import { links } from './content/index.js';
 import { PlayerProvider } from './components/player/PlayerProvider.jsx';
-import StatusLine from './components/player/StatusLine.jsx';
 
 
 function Page() {
@@ -35,9 +34,8 @@ function Page() {
                 </main>
                 <Footer />
             </div>
-            {/* After the page in the tab order: the scroll ruler, then the status line of the music. */}
+            {/* After the page in the tab order: the scroll ruler. */}
             <Rulers />
-            <StatusLine />
         </>
     );
 }

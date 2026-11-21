@@ -26,6 +26,9 @@ export const player = {
     restart: 'Start the music again',
     openOnSpotify: 'Open the song on Spotify',
     nowPlaying: 'Now playing',
+    volume: 'Volume',
+    mute: 'Mute',
+    unmute: 'Unmute',
 };
 
 // Name of the ruler at the right side, which is in step with the scroll bar.

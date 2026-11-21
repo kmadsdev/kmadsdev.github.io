@@ -7,9 +7,11 @@
 //   hand(seconds, rate) the hand is at this place of the song and turns at this rate (1 = play speed)
 //   release(playing)   the hand lets go: the disc goes back to the play speed, or it stops
 //   position()         the playhead in seconds: the ONE source of truth for the ring of the badge
+//   travel()           the playhead plus the full songs already played (the song loops): the ring angle comes from this, so it never turns back at the loop
+//   setVolume(0..1)    the loudness, changed with a short ramp
 //   duration()         seconds, 0 while the song is not loaded
 //   destroy()
-// Callbacks: onEnd() at the end of the song, onChange() when the playhead or the length changed by a jump.
+// Callbacks: onEnd() only from an engine that cannot loop by itself, onChange() when the playhead or the length changed by a jump.
 //
 // Two engines have this interface:
 //   - createDiscEngine: Web Audio. The song is decoded once and an AudioWorklet (discWorklet.js)
@@ -37,7 +39,7 @@ export function toInt16(samples) {
     return out;
 }
 
-export function createDiscEngine({ src, volume, onEnd = () => {}, onChange = () => {} }) {
+export function createDiscEngine({ src, volume, onChange = () => {} }) {
     let context = null;
     let node = null;
     let pcm = null;       // { channels: [Int16Array], rate, seconds } until it is given to the worklet
@@ -46,7 +48,9 @@ export function createDiscEngine({ src, volume, onEnd = () => {}, onChange = () 
     let wired = null;
     let dead = false;
     let want = { type: 'run', rate: 0, tau: START_TAU, gain: 0 }; // the last order, sent when the worklet is ready
-    let head = { pos: 0, rate: 0, time: 0 };
+    let head = { pos: 0, rate: 0, time: 0, laps: 0 };
+    let gain = null;
+    let level = volume;
     let pendingSeek = null;
 
     const post = (message) => {
@@ -80,12 +84,11 @@ export function createDiscEngine({ src, volume, onEnd = () => {}, onChange = () 
             await Promise.all([context.audioWorklet.addModule(workletUrl), warm()]);
             if (dead) return;
             node = new window.AudioWorkletNode(context, 'disc', { numberOfInputs: 0, numberOfOutputs: 1, outputChannelCount: [2] });
-            const gain = context.createGain();
-            gain.gain.value = volume; // the volume of the data, also where an <audio> volume is ignored (iOS)
+            gain = context.createGain();
+            gain.gain.value = level; // a gain node: it also works where an <audio> volume is ignored (iOS)
             node.connect(gain).connect(context.destination);
             node.port.onmessage = ({ data }) => {
                 head = data;
-                if (data.ended) onEnd();
             };
             const buffers = pcm.channels.map((channel) => channel.buffer);
             node.port.postMessage({ type: 'pcm', channels: buffers, rate: pcm.rate }, buffers); // moved, not copied
@@ -143,6 +146,12 @@ export function createDiscEngine({ src, volume, onEnd = () => {}, onChange = () 
             post({ type: 'run', rate: playing ? 1 : 0, tau: PLATTER_TAU, gain: playing ? 1 : 'coast' });
         },
         position,
+        travel: () => position() + (head.laps || 0) * seconds,
+        setVolume(value) {
+            level = Math.max(0, Math.min(1, value));
+            // A ramp of some tens of milliseconds: a moving slider makes no zipper noise.
+            if (gain) gain.gain.setTargetAtTime(level, context.currentTime, 0.02);
+        },
         duration: () => seconds,
         destroy() {
             dead = true;
@@ -154,6 +163,7 @@ export function createDiscEngine({ src, volume, onEnd = () => {}, onChange = () 
 
 export function createElementEngine({ src, volume, onEnd = () => {}, onChange = () => {} }) {
     let audio = null;
+    let level = volume;
     let lastSeek = 0;
     let resume = false;
     const ensure = (preload = 'none') => {
@@ -161,7 +171,8 @@ export function createElementEngine({ src, volume, onEnd = () => {}, onChange = 
         audio = document.createElement('audio');
         audio.preload = preload;
         audio.src = src;
-        audio.volume = volume;
+        audio.volume = level;
+        audio.loop = true;
         audio.addEventListener('ended', onEnd);
         for (const type of ['seeked', 'durationchange']) audio.addEventListener(type, onChange);
         return audio;
@@ -193,6 +204,11 @@ export function createElementEngine({ src, volume, onEnd = () => {}, onChange = 
             onChange();
         },
         position: () => audio?.currentTime ?? 0,
+        travel: () => audio?.currentTime ?? 0,
+        setVolume(value) {
+            level = Math.max(0, Math.min(1, value));
+            if (audio) audio.volume = level;
+        },
         duration: length,
         destroy() {
             audio?.pause();

@@ -6,6 +6,7 @@ import Badge from './Badge.jsx';
 import DotField from './DotField.jsx';
 import Icon from './Icon.jsx';
 import Rich from './Rich.jsx';
+import StatusLine from './player/StatusLine.jsx';
 import { PROJECTS_PATH, openProjects } from '../routes.js';
 import { person } from '../content/index.js';
 
@@ -64,6 +65,8 @@ export default function Hero() {
             <div className="hero-main">
                 <div className="hero-figure">
                     <Badge ref={badgeRef} className="hero-badge" />
+                    {/* The label of the disc: one line under the badge. Only when the page has a song. */}
+                    <StatusLine />
                 </div>
                 <div className="hero-text">
                     <div className="hero-id">

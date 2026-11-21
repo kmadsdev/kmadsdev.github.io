@@ -10,6 +10,8 @@
 //   of the badge reads it each frame, so "the ring turns" and "the song plays"
 //   cannot disagree.
 // - The badge holds the disc with its hand: holdDisc(), moveDisc(), dropDisc().
+// - The song loops: after its end it plays again from 0:00.
+// - The loudness is one number, 0 to 1 (`volume`). It is kept for the visit (sessionStorage).
 // - The system media keys work through the Media Session.
 // With an empty address (`music.src`) the player is off: `enabled` is false and
 // every action does nothing.
@@ -28,10 +30,26 @@ const OFF = {
     moveDisc: noop,
     dropDisc: noop,
     position: () => 0,
+    travel: () => 0,
     duration: () => 0,
     onTime: () => noop,
+    volume: 0,
+    muted: false,
+    setVolume: noop,
+    toggleMute: noop,
 };
 const PlayerContext = createContext(OFF);
+
+const VOLUME_KEY = 'kmads.volume';
+function storedVolume() {
+    try {
+        const raw = window.sessionStorage.getItem(VOLUME_KEY);
+        const value = raw === null ? NaN : Number(raw);
+        return value >= 0 && value <= 1 ? value : null;
+    } catch {
+        return null;
+    }
+}
 
 /** The player of the page. Outside a PlayerProvider it is the player with no song. */
 export const usePlayer = () => useContext(PlayerContext);
@@ -39,7 +57,9 @@ export const usePlayer = () => useContext(PlayerContext);
 export function PlayerProvider({ children, src = music.src, engine: makeEngine = createEngine }) {
     const enabled = Boolean(src);
     const [playing, setPlaying] = useState(false);
-    const live = useRef({ playing: false });
+    // The loudness: the level of the data at first, then what the visitor chose in this visit (not kept after it).
+    const [volume, setVolumeState] = useState(() => storedVolume() ?? music.volume);
+    const live = useRef({ playing: false, volume, last: volume || music.volume });
     const engineRef = useRef(null);
     const listeners = useRef(new Set());
 
@@ -56,7 +76,17 @@ export function PlayerProvider({ children, src = music.src, engine: makeEngine =
     /** The one engine. It is made on first need and it makes no request and no sound by being made. */
     const engine = useCallback(() => {
         if (!enabled) return null;
-        engineRef.current ??= makeEngine({ src, volume: music.volume, onEnd: () => setPlay(false), onChange: tell });
+        engineRef.current ??= makeEngine({
+            src,
+            volume: live.current.volume,
+            // The song plays again when it ends. The record engine loops by itself; this is for an engine that cannot.
+            onEnd: () => {
+                if (!live.current.playing) return;
+                engineRef.current?.seek(0);
+                Promise.resolve(engineRef.current?.play()).catch(() => setPlay(false));
+            },
+            onChange: tell,
+        });
         return engineRef.current;
     }, [enabled, src, makeEngine, setPlay, tell]);
 
@@ -109,7 +139,19 @@ export function PlayerProvider({ children, src = music.src, engine: makeEngine =
         tell();
     }, [tell]);
 
+    const setVolume = useCallback((value) => {
+        const level = Math.max(0, Math.min(1, Number(value) || 0));
+        if (level > 0) live.current.last = level;
+        live.current.volume = level;
+        setVolumeState(level);
+        engineRef.current?.setVolume(level);
+        try { window.sessionStorage.setItem(VOLUME_KEY, String(level)); } catch { /* no storage: the level lives as long as the page */ }
+    }, []);
+    /** Sound off, or back to the last level that was not zero. */
+    const toggleMute = useCallback(() => setVolume(live.current.volume > 0 ? 0 : live.current.last), [setVolume]);
+
     const position = useCallback(() => engineRef.current?.position() ?? 0, []);
+    const travel = useCallback(() => engineRef.current?.travel?.() ?? engineRef.current?.position() ?? 0, []);
     const duration = useCallback(() => engineRef.current?.duration() ?? 0, []);
     const onTime = useCallback((listener) => {
         listeners.current.add(listener);
@@ -177,9 +219,9 @@ export function PlayerProvider({ children, src = music.src, engine: makeEngine =
 
     const value = useMemo(
         () => (enabled
-            ? { enabled, playing, toggle, restart, seekBy, holdDisc, moveDisc, dropDisc, position, duration, onTime }
+            ? { enabled, playing, toggle, restart, seekBy, holdDisc, moveDisc, dropDisc, position, travel, duration, onTime, volume, muted: volume === 0, setVolume, toggleMute }
             : OFF),
-        [enabled, playing, toggle, restart, seekBy, holdDisc, moveDisc, dropDisc, position, duration, onTime],
+        [enabled, playing, toggle, restart, seekBy, holdDisc, moveDisc, dropDisc, position, travel, duration, onTime, volume, setVolume, toggleMute],
     );
     return <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>;
 }

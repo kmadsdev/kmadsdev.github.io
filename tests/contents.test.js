@@ -267,7 +267,7 @@ describe('music and controls', () => {
         expect(music.volume).toBeLessThanOrEqual(1);
     });
     it('names every control of the player and of the ruler in both languages', () => {
-        const keys = ['play', 'pause', 'restart', 'openOnSpotify', 'nowPlaying'];
+        const keys = ['play', 'pause', 'restart', 'openOnSpotify', 'nowPlaying', 'volume', 'mute', 'unmute'];
         for (const table of [playerEn, playerPt, en.player, pt.player]) {
             expect(Object.keys(table)).toEqual(keys);
             for (const key of keys) expect(table[key].trim().length).toBeGreaterThan(0);

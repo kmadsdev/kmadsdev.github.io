@@ -10,7 +10,10 @@ export const DISC = {
     catchUp: 0.1,         // s: time constant with which the ring comes back to the playhead after a jump or a grab
     keyStep: 5,           // s for an arrow key
     pageStep: 20,         // s for a Page key: one turn
-    globePaused: 0.84,    // size of the globe while the song is paused
+    // The size of the globe picture, times its size in my badge file. Only the picture changes: the ring and the button keep their size.
+    globePlaying: 0.92,   // while the song plays: a little smaller than in the file (order of 2026-11-21)
+    globePaused: 0.78,    // while the song is paused: clearly smaller
+    globeIdle: 1,         // with no song the badge is not a player: the size of the file
     globePressed: 0.96,   // times the size while a finger is down on it
     springResponse: 0.35, // s
     springDamping: 0.8,   // a little overshoot: the globe is pressed by a hand

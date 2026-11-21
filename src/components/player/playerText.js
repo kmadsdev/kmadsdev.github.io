@@ -18,7 +18,7 @@ export const music = {
     src: import.meta.env?.VITE_MUSIC_SRC || (available ? song.src : ''),
 };
 
-/** { play, pause, restart, openOnSpotify, nowPlaying } in the current language. */
+/** { play, pause, restart, openOnSpotify, nowPlaying, volume, mute, unmute } in the current language. */
 export function usePlayerText() {
     const language = useLanguage();
     return language?.t?.player;

@@ -45,7 +45,7 @@
    A thin rail on the right edge and a thin strip under the top bar. Hidden below 1024px.
    The rail is the scroll bar of the page (Rulers.jsx): it stands where the native bar
    stands, from the top of the screen to the bottom, and its red index is the thumb.
-   The page, the top bar and the status line end where the rail starts (site.css):
+   The page and the top bar end where the rail starts (site.css):
    nothing is under it. The strip ends on the rail: the two meet in a T.
    Both have the same ticks (6px each 40px, 3px each 8px), so they read as one instrument.
    The grey marks follow the pointer. All sizes are pixels: a ruler measures the screen. */

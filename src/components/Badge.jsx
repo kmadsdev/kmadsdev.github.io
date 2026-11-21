@@ -40,7 +40,8 @@ const Badge = forwardRef(function Badge({ className = '' }, ref) {
     const [held, setHeld] = useState(false);
 
     const on = player.enabled ? player.playing : !stopped;
-    const globeSize = player.enabled && !player.playing ? DISC.globePaused : 1;
+    let globeSize = DISC.globeIdle;
+    if (player.enabled) globeSize = player.playing ? DISC.globePlaying : DISC.globePaused;
 
     // The motion of the two parts. One loop, and it sleeps when nothing moves.
     const live = useRef(null);
@@ -79,9 +80,10 @@ const Badge = forwardRef(function Badge({ className = '' }, ref) {
                     const at = handNow(now);
                     hand.current.time = at.time;
                     p.moveDisc(at.time, at.rate);
-                    base = angleOf(at.time);
+                    base = angleOf(hand.current.laps + at.time);
                 } else {
-                    base = angleOf(p.position());
+                    // travel(): the playhead plus the songs already played, so the ring does not turn back when the song loops.
+                    base = angleOf(p.travel());
                 }
                 const step = base - motion.base;
                 if (Math.abs(step) > JUMP) motion.offset += Math.max(-360, Math.min(360, -step)); // a seek: no jump on the screen
@@ -131,8 +133,9 @@ const Badge = forwardRef(function Badge({ className = '' }, ref) {
         if (p.enabled) {
             h.fromTime = p.holdDisc();
             h.time = h.fromTime;
+            h.laps = p.travel() - p.position(); // the songs already played: the ring angle counts them
             // The ring stays where it is on the screen and comes under the hand in some frames (the few degrees before the grab).
-            motion.offset = motion.angle - angleOf(handNow(performance.now()).time);
+            motion.offset = motion.angle - angleOf(h.laps + handNow(performance.now()).time);
             motion.base = motion.angle - motion.offset;
         }
         motion.held = true;
@@ -150,7 +153,7 @@ const Badge = forwardRef(function Badge({ className = '' }, ref) {
         const now = performance.now();
         ring.setPointerCapture?.(event.pointerId);
         hand.current = {
-            id: event.pointerId, cx, cy, turn: 0, holds: false, fromTime: 0, time: 0, fromAngle: 0,
+            id: event.pointerId, cx, cy, turn: 0, holds: false, fromTime: 0, time: 0, fromAngle: 0, laps: 0,
             radius: Math.hypot(event.clientX - cx, event.clientY - cy),
             angle: angleAt(event.clientX, event.clientY, cx, cy),
             samples: [{ t: now, a: 0 }],
@@ -184,7 +187,7 @@ const Badge = forwardRef(function Badge({ className = '' }, ref) {
         if (p.enabled) {
             // The engine takes the disc from the speed of the hand back to the play speed. The ring reads the playhead.
             p.dropDisc(h.time);
-            motion.offset = motion.angle - angleOf(p.position());
+            motion.offset = motion.angle - angleOf(p.travel());
             motion.base = motion.angle - motion.offset;
         } else {
             motion.speed = cancelled || still ? 0 : handSpeed(h.samples, performance.now());

@@ -118,4 +118,4 @@ O código está sob a [licença MIT](LICENSE). Os textos e as imagens não: eles
 
 ## Créditos
 
-Música: "may", de [Birocratic](https://birocratic.com), do álbum [beets 3](https://birocratic.bandcamp.com/album/beets-3) (2015). Todos os direitos pertencem ao artista. A música não está sob a licença MIT. Ela é usada aqui com crédito, como o artista pede para projetos gratuitos.
+Música: "may", de [Birocratic](https://birocratic.com), do álbum [beets 3](https://birocratic.bandcamp.com/album/beets-3) (2015). Todos os direitos pertencem ao artista. A música não está sob a licença MIT. Ela é usada aqui com crédito, como o artista pede para projetos gratuitos. Capa do álbum: fotografia, design gráfico e arte de Brian Ecklund.

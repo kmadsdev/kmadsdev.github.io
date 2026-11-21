@@ -223,6 +223,8 @@ export const music = {
     album: 'Beets 3',
     spotifyUrl: 'https://open.spotify.com/track/2DGWfQ3dl9afw25URyU3TX',
     src: '/assets/audio/may-birocratic.mp3',
+    // The album cover, shown small beside the song name. 96 x 96 pixels.
+    cover: '/assets/audio/beets-3-cover-96.jpg',
     credit: {
         text: '"may" by Birocratic, from the album "beets 3" (2015)',
         url: 'https://birocratic.com',

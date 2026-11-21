@@ -33,6 +33,7 @@ let made = [];
 const realCreate = document.createElement.bind(document);
 beforeEach(() => {
     window.localStorage.clear();
+    window.sessionStorage.clear();
     window.history.replaceState(null, '', '/');
     made = [];
     vi.spyOn(document, 'createElement').mockImplementation((tag, ...rest) => {
@@ -59,6 +60,8 @@ function stubEngine(options) {
         hand(time, rate) { this.at = time; this.calls.push(`hand ${time} ${rate}`); },
         release(playing, time) { this.calls.push(`release ${playing ? 'playing' : 'paused'} at ${time}`); },
         position() { return this.at; },
+        travel() { return this.at; },
+        setVolume(value) { this.volume = value; this.calls.push(`volume ${value}`); },
         duration: () => 100,
         destroy() {},
     };
@@ -134,7 +137,6 @@ describe('scroll ruler', () => {
         const site = css('site.css');
         expect(rule(site, '.page')).toMatch(/margin-right:\s*var\(--rail\)/);
         expect(rule(site, '.site-header')).toMatch(/inset:\s*0 var\(--rail\) auto 0/);
-        expect(rule(css('player.css'), '.player-line')).toMatch(/inset:\s*auto var\(--rail\) 0 0/);
     });
 
     it('moves the page with the keyboard', () => {
@@ -190,6 +192,8 @@ describe('badge with no song (the repository has no audio file)', () => {
         expect(music.src).toBe(present ? music.file : '');
         const { container } = render(<App />);
         expect(container.querySelectorAll('.player-line').length).toBe(present ? 1 : 0);
+        // Under the badge, inside the hero: the next element after the badge in the same block.
+        expect(container.querySelectorAll('#top .hero-figure > .badge + .player-line').length).toBe(present ? 1 : 0);
         expect(made.length).toBe(0);
     });
 });
@@ -219,38 +223,112 @@ describe('music player (the controller against a stub of the sound engine)', () 
         expect(engine.calls).toEqual(['play', 'pause', 'play']);
     });
 
-    it('goes back to the paused state when the song ends, and when the browser refuses the sound', async () => {
+    it('plays the song again from 0:00 when it ends', () => {
         const text = en();
         player();
         fireEvent.click(screen.getByRole('button', { name: text.play }));
-        act(() => engines[0].options.onEnd());
-        expect(screen.getByRole('button', { name: text.play })).toBeTruthy();
+        const [engine] = engines;
+        engine.at = 100;
+        act(() => engine.options.onEnd());
+        expect(engine.at).toBe(0);
+        expect(engine.calls.slice(-2)).toEqual(['seek 0', 'play']);
+        expect(screen.getByRole('button', { name: text.pause })).toBeTruthy(); // it still plays
+        // An end that comes after a pause does not start the sound again.
+        fireEvent.click(screen.getByRole('button', { name: text.pause }));
+        const calls = engine.calls.length;
+        act(() => engine.options.onEnd());
+        expect(engine.calls.length).toBe(calls);
+    });
+
+    it('sets the loudness with the slider, shows it as a percent, and keeps it for the visit', () => {
+        const text = en();
+        player();
+        const slider = screen.getByRole('slider', { name: text.volume });
+        expect(slider.tagName).toBe('INPUT');
+        expect(Number(slider.value)).toBeCloseTo(music.volume);
+        expect(slider.getAttribute('aria-valuetext')).toBe('35%');
+        fireEvent.click(screen.getByRole('button', { name: text.play }));
+        const [engine] = engines;
+        expect(engine.options.volume).toBe(music.volume);
+        fireEvent.change(slider, { target: { value: '0.8' } });
+        expect(engine.volume).toBe(0.8);
+        expect(slider.getAttribute('aria-valuetext')).toBe('80%');
+        expect(slider.style.getPropertyValue('--fill')).toBe('80%');
+        expect(window.sessionStorage.getItem('kmads.volume')).toBe('0.8');
+        cleanup();
+        player();
+        expect(Number(screen.getByRole('slider', { name: text.volume }).value)).toBe(0.8); // the same visit: the level is back
+    });
+
+    it('turns the sound off and on with the speaker, and comes back to the last level', () => {
+        const text = en();
+        player();
+        fireEvent.click(screen.getByRole('button', { name: text.play }));
+        const [engine] = engines;
+        const slider = screen.getByRole('slider', { name: text.volume });
+        fireEvent.change(slider, { target: { value: '0.6' } });
+        fireEvent.click(screen.getByRole('button', { name: text.mute }));
+        expect(engine.volume).toBe(0);
+        expect(Number(slider.value)).toBe(0);
+        fireEvent.click(screen.getByRole('button', { name: text.unmute }));
+        expect(engine.volume).toBe(0.6);
+        // The slider at zero is the muted state too: the speaker then gives the last level back.
+        fireEvent.change(slider, { target: { value: '0' } });
+        fireEvent.click(screen.getByRole('button', { name: text.unmute }));
+        expect(engine.volume).toBe(0.6);
+        expect(engine.calls.filter((call) => call === 'pause').length).toBe(0); // mute does not pause
+    });
+
+    it('goes back to the paused state when the browser refuses the sound', async () => {
+        const text = en();
+        player();
+        fireEvent.click(screen.getByRole('button', { name: text.play }));
         engines[0].refuse = true;
+        fireEvent.click(screen.getByRole('button', { name: text.pause }));
         fireEvent.click(screen.getByRole('button', { name: text.play }));
         await act(async () => {});
         expect(screen.getByRole('button', { name: text.play })).toBeTruthy();
     });
 
-    it('shows the status line only with a song: the song, the Spotify link and the restart button', () => {
+    it('shows the status line only with a song: the cover, the song, the volume and the restart button', () => {
         const text = en();
         const { container } = player();
         const line = container.querySelector('.player-line');
         expect(line).toBeTruthy();
         expect(line.getAttribute('aria-label')).toBe(text.nowPlaying);
+        // It is the label of the disc, in the flow of the page: not a bar fixed to the screen.
+        const sheet = css('player.css');
+        expect(sheet).not.toMatch(/position:\s*fixed/);
+        expect(sheet).not.toMatch(/--player-h/);
+        expect(css('site.css')).not.toMatch(/--player-h/);
         expect(line.querySelector('.player-line__song').textContent).toBe(`${music.title} - ${music.artist}`);
-        const links = [...line.querySelectorAll('a')];
-        expect(links.length).toBe(2);
-        for (const a of links) {
-            expect(a.getAttribute('href')).toBe(music.spotifyUrl);
-            expect(a.getAttribute('target')).toBe('_blank');
-            expect(a.getAttribute('rel')).toContain('noopener');
-        }
-        expect(within(line).getAllByRole('link').length).toBe(1); // the album icon is the same link, hidden from screen readers
-        expect(within(line).getByRole('link').textContent).toContain(text.openOnSpotify);
-        expect(within(line).getAllByRole('button').length).toBe(1);
-        // Only what the owner listed: no time, no progress, no volume, no hint.
-        expect(line.textContent.replace(text.openOnSpotify, '').replace(/\([^)]*\)/, '').trim()).toBe(`${music.title} - ${music.artist}`);
-        expect(line.querySelector('progress, input, [role="progressbar"], img, time')).toBeNull();
+        // One link holds the album cover and the song name: to the song on Spotify, in a new tab, with a name.
+        const links = within(line).getAllByRole('link');
+        expect(links.length).toBe(1);
+        expect(links[0].contains(line.querySelector('img'))).toBe(true);
+        expect(links[0].contains(line.querySelector('.player-line__song'))).toBe(true);
+        expect(links[0].getAttribute('href')).toBe(music.spotifyUrl);
+        expect(links[0].getAttribute('target')).toBe('_blank');
+        expect(links[0].getAttribute('rel')).toContain('noopener');
+        expect(links[0].getAttribute('aria-label')).toContain(text.openOnSpotify);
+        const pictures = line.querySelectorAll('img');
+        expect(pictures.length).toBe(1);
+        expect(pictures[0].getAttribute('src')).toBe(music.cover);
+        expect(pictures[0].getAttribute('alt')).toBe('');
+        expect(pictures[0].getAttribute('width')).toBe(pictures[0].getAttribute('height'));
+        expect(existsSync(resolve(process.cwd(), 'public', `.${music.cover}`))).toBe(true);
+        // In order: cover, song, speaker, slider, restart. No Spotify mark, no divider, no time, no progress.
+        const order = [...line.querySelectorAll('a, button, input')].map((el) => (el.tagName === 'A' ? 'source' : el.getAttribute('aria-label')));
+        expect(order).toEqual(['source', text.mute, text.volume, text.restart]);
+        // The volume is a bar that fills: it has no thumb. The whole line has one weight.
+        expect(sheet).toMatch(/::-webkit-slider-thumb \{[^}]*width: 0/);
+        expect(sheet).toMatch(/::-moz-range-thumb \{[^}]*width: 0/);
+        expect(rule(sheet, '.player-line')).toMatch(/font:\s*var\(--fw-semibold\)/);
+        for (const icon of line.querySelectorAll('svg')) expect(icon.getAttribute('stroke-width')).toBe('2');
+        expect(line.querySelector('.player-line__rule, hr, [role="separator"], progress, [role="progressbar"], time')).toBeNull();
+        expect(line.querySelectorAll('svg').length).toBe(2); // the speaker and the restart arrow
+        expect(sheet).not.toMatch(/player-line__rule/);
+        expect(line.textContent.trim()).toBe(`${music.title} - ${music.artist}`);
     });
 
     it('starts the song again at 0:00 with the restart button', () => {
@@ -294,7 +372,7 @@ describe('music player (the controller against a stub of the sound engine)', () 
         player();
         fireEvent.click(screen.getByRole('button', { name: text.play }));
         const [engine] = engines;
-        const ring = screen.getByRole('slider');
+        const ring = screen.getByRole('slider', { name: `${music.title} - ${music.artist}` });
         const before = [...engine.calls];
         tap(ring);
         tap(ring);
@@ -311,7 +389,7 @@ describe('music player (the controller against a stub of the sound engine)', () 
             fireEvent.click(screen.getByRole('button', { name: text.play }));
             const [engine] = engines;
             engine.at = 10;
-            const ring = screen.getByRole('slider');
+            const ring = screen.getByRole('slider', { name: `${music.title} - ${music.artist}` });
             fireEvent.pointerDown(ring, { pointerId: 1, button: 0 });
             expect(engine.calls).not.toContain('hold');
             act(() => vi.advanceTimersByTime(DISC.grabTime + 5));
@@ -328,11 +406,11 @@ describe('music player (the controller against a stub of the sound engine)', () 
         render(<LanguageProvider><Probe lang="pt" /></LanguageProvider>);
         cleanup();
         window.localStorage.clear();
-        const keys = ['play', 'pause', 'restart', 'openOnSpotify', 'nowPlaying'];
+        const keys = ['play', 'pause', 'restart', 'openOnSpotify', 'nowPlaying', 'volume', 'mute', 'unmute'];
         for (const key of keys) {
             expect(en()[key], key).toBeTruthy();
             expect(TEXT.pt[key], key).toBeTruthy();
-            expect(TEXT.pt[key]).not.toBe(TEXT.en[key]);
+            if (key !== 'volume') expect(TEXT.pt[key]).not.toBe(TEXT.en[key]); // "Volume" is the same word in both
         }
         for (const key of ['title', 'artist', 'album', 'spotifyUrl', 'file', 'src', 'credit', 'volume']) expect(music, key).toHaveProperty(key);
         expect(music.file).toBe('/assets/audio/may-birocratic.mp3');
@@ -367,7 +445,10 @@ describe('sound engines', () => {
         expect(audio.paused).toBe(false);
         engine.pause();
         expect(audio.paused).toBe(true);
-        for (const method of ['warm', 'play', 'pause', 'seek', 'hold', 'hand', 'release', 'position', 'duration', 'destroy']) expect(typeof engine[method], method).toBe('function');
+        engine.setVolume(0.5);
+        expect(audio.volume).toBeCloseTo(0.5);
+        expect(audio.loop).toBe(true);
+        for (const method of ['warm', 'play', 'pause', 'seek', 'hold', 'hand', 'release', 'position', 'travel', 'setVolume', 'duration', 'destroy']) expect(typeof engine[method], method).toBe('function');
         engine.destroy();
     });
 });
@@ -379,6 +460,17 @@ describe('disc maths', () => {
         expect(angleOf(0)).toBe(0);
         expect(angleOf(20)).toBe(360);
         expect(angleOf(162.5)).toBeCloseTo(2925);
+    });
+
+    it('has a globe that is smaller when paused than when playing, and the size of the badge file with no song', () => {
+        expect(DISC.globePlaying).toBe(0.92);
+        expect(DISC.globePaused).toBe(0.78);
+        expect(DISC.globeIdle).toBe(1);
+        // The globe is 65% of the badge and the text band starts at 74%: the playing globe stays inside it.
+        expect(0.65 * DISC.globePlaying).toBeLessThan(0.74);
+        // The button is the whole inner circle (72% of the badge) at every size of the picture.
+        expect(rule(css('site.css'), '.badge__globe')).toMatch(/inset:\s*14%/);
+        expect(rule(css('site.css'), '.badge__globe img')).toMatch(/inset:\s*-19\.444%;\s*width:\s*138\.889%/);
     });
 
     it('takes the short way across 180 degrees', () => {

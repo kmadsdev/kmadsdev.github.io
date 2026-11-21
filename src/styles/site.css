@@ -270,7 +270,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
 .hero-summary { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--c-text-muted); text-wrap: pretty; }
 .hero-links { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-3); }
 
-.hero-figure { position: relative; display: grid; place-items: center; }
+/* The badge and, when the page has a song, its one-line label: one group, centred as one.
+   The label is one small step under the badge, on the axis of the badge. */
+.hero-figure { position: relative; display: grid; justify-items: center; align-content: center; gap: var(--sp-3); }
 /* The badge fills what is free of the width and the height of the first screen. */
 .hero-badge { width: clamp(11rem, min(34vw, 52svh), 26rem); }
 .hero-scroll { display: inline-flex; align-items: center; gap: var(--sp-2); justify-self: start; }
@@ -286,12 +288,15 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: var(--c-red
 .badge__ring { position: absolute; inset: 0; border-radius: 50%; cursor: grab; touch-action: none; will-change: transform; }
 .badge__ring[data-held] { cursor: grabbing; }
 .badge__ring:focus-visible { border-radius: 50%; }
-/* The globe is 65% of the badge (325 of 500 units). Its picture keeps the size of the badge:
-   100 / 0.65 = 153.85% of the button, moved back by (153.85 - 100) / 2. Numbers of the picture, not of the scale. */
-.badge__globe { position: absolute; inset: 17.5%; z-index: 1; display: block; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; will-change: transform; }
+/* The button is the whole inner circle: 72% of the badge, up to the inner edge of the text band
+   (the letters start at 74%). It keeps its size: only the picture inside grows and shrinks (Badge.jsx,
+   DISC.globePlaying and DISC.globePaused), so a click in the empty space around the globe lines lands on the button.
+   The picture keeps the size of the badge: 100 / 0.72 = 138.89% of the button, moved back by
+   (138.89 - 100) / 2. Numbers of the picture, not of the scale. */
+.badge__globe { position: absolute; inset: 14%; z-index: 1; display: block; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; touch-action: manipulation; }
 div.badge__globe { cursor: default; }
 .badge__globe:focus-visible { border-radius: 50%; }
-.badge__globe img { inset: -26.923%; width: 153.846%; height: 153.846%; }
+.badge__globe img { inset: -19.444%; width: 138.889%; height: 138.889%; will-change: transform; }
 
 /* ---------- Outro: contact and the sunset ----------
    The sun keeps the proportions of the picture at every width. Its size comes
@@ -346,8 +351,7 @@ div.badge__globe { cursor: default; }
 }
 
 /* ---------- Footer: the horizon ----------
-   Three parts: the credit at the left, "Back to the top" in the centre, the source code at the right.
-   Its last line stays above the status line of the music: the page keeps that room (player.css, --player-h). */
+   Three parts: the credit at the left, "Back to the top" in the centre, the source code at the right. */
 .site-footer {
     position: relative;
     padding-block: var(--sp-6);
@@ -414,7 +418,9 @@ div.badge__globe { cursor: default; }
     .hero { gap: var(--sp-6); padding-block: var(--sp-4) var(--sp-6); }
     .hero-main { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
     .hero-text { order: 0; }
-    .hero-figure { justify-self: start; }
+    /* The badge stands at the left edge of the column. Its label is wider than a small badge,
+       so it starts at the same edge, not on the axis of the badge: there it would leave the screen. */
+    .hero-figure { justify-self: start; justify-items: start; }
     .hero-badge { width: clamp(8.5rem, min(46vw, 27svh), 15rem); }
     .hero-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
     .hero-links .button { width: 100%; padding-inline: var(--sp-3); }
