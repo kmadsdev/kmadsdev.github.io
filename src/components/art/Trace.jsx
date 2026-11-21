@@ -1,16 +1,20 @@
-// Two real requests through the gateway of Consignado Cloud, from facts.art.trace.
+// Two real requests through the gateway of Consignado Cloud, from art.trace.
 // A waterfall: the stages in order, one row each. A stage with a time in the
 // trace is a bar, and its length is its share of the total. A stage with no time
 // is a dashed slot with no number: its place in the order is real, its width is not.
 // The playhead crosses the warm call, then the cold call. Under the waterfall,
 // the two totals stand on one scale.
-import { facts } from '../../content/index.js';
+import { art } from '../../content/index.js';
 import { local } from '../../content/format.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import { Art, Halftone, Label, useArt, useStep } from './kit/index.js';
+import { Art, Label, useArt, useStep } from './kit/index.js';
 import { Fit, Lines, wrap } from './artAKit.jsx';
 
-const DATA = facts.art.trace;
+// A call in the data: `stages` is the list of stage ids, `ms` holds the stages that have a time.
+// Here each stage becomes { id, ms } (ms is undefined when the trace gave no time).
+const DATA = Object.fromEntries(
+    Object.entries(art.trace).map(([id, call]) => [id, { ...call, stages: call.stages.map((stage) => ({ id: stage, ms: call.ms[stage] })) }]),
+);
 const CALLS = ['warm', 'cold'].filter((id) => DATA[id]);
 const HOLD = 3; // steps that the finished call stays on screen
 const MIN = 0.028; // least width of a slot with no time, as a share of the track
@@ -56,7 +60,6 @@ function Scene({ text, layout, lang }) {
     const at = (share) => x0 + share * (x1 - x0);
     const done = now >= stages.length;
     const head = done ? x1 : at(stages[now].end);
-    const timed = stages.find((stage) => stage.ms != null);
 
     return (
         <>
@@ -67,11 +70,6 @@ function Scene({ text, layout, lang }) {
             </text>
             <Lines className="trace-note" x={layout.stacked ? layout.names : x0} y={layout.note} text={text[id].note} max={layout.noteMax} lead={13} />
 
-            {timed && !layout.stacked ? (
-                <Halftone fill="signal" fade="up" opacity={0.42}>
-                    <rect x={at(timed.start)} y={top} width={at(timed.end) - at(timed.start)} height={tall} />
-                </Halftone>
-            ) : null}
             {layout.stacked ? null : (
                 <>
                     <line className="art-line art-line--faint" x1={x0} y1={top - 4} x2={x0} y2={top + tall + 4} />
@@ -84,7 +82,7 @@ function Scene({ text, layout, lang }) {
                 const mid = layout.stacked ? rowTop + 18 : rowTop + rowH / 2;
                 const state = i < now ? 'done' : i === now ? 'now' : 'next';
                 const name = text.stages[stage.id];
-                const detail = stage.id === 'database' && call.statements ? `${name} · ${call.statements.total} ${text.statements}` : name;
+                const detail = stage.id === 'database' && call.statements ? `${name} · ${call.statements} ${text.statements}` : name;
                 const box = { x: at(stage.start) + 1, y: mid - layout.bar / 2, width: Math.max(3, at(stage.end) - at(stage.start) - 2), height: layout.bar, rx: 2.5 };
                 const y = layout.stacked ? rowTop + 10 : mid + 4;
                 return (

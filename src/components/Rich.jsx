@@ -5,16 +5,20 @@
 //
 // An anchor is a normal link on this page. A link to another site follows the
 // rules of ExternalLink.jsx (new tab, arrow, text for screen readers).
-import { isAnchor, isLink, parts } from '../content/rich.js';
+// A part with `strong: true` is bold (<strong>), also when it is a link.
+import { isAnchor, isLink, isStrong, parts } from '../content/rich.js';
 import ExternalLink from './ExternalLink.jsx';
+
+function Part({ part, linkClassName }) {
+    if (!isLink(part)) return typeof part === 'string' ? part : part.text;
+    if (isAnchor(part.to)) return <a className={linkClassName} href={part.to}>{part.text}</a>;
+    return <ExternalLink href={part.to} className={linkClassName}>{part.text}</ExternalLink>;
+}
 
 export default function Rich({ text, linkClassName = 'link link--inline' }) {
     return parts(text).map((part, i) => {
-        if (!isLink(part)) return <span key={i}>{part}</span>;
-        if (isAnchor(part.to)) {
-            return <a key={i} className={linkClassName} href={part.to}>{part.text}</a>;
-        }
-        return <ExternalLink key={i} href={part.to} className={linkClassName}>{part.text}</ExternalLink>;
+        const inner = <Part part={part} linkClassName={linkClassName} />;
+        return isStrong(part) ? <strong key={i}>{inner}</strong> : <span key={i}>{inner}</span>;
     });
 }
 

@@ -59,11 +59,32 @@ export function measure(text, type) {
     for (const ch of value) em += advance(ch);
     return em * type.size;
 }
-/** Break a text into lines that fit `width` units. A word that is too long stays whole. */
+/**
+ * Break a text into lines that fit `width` units. A word that is too long for one line
+ * (an address such as <application>.qa.kmads.dev) breaks after a dot or a slash; with no
+ * such place it stays whole.
+ */
 export function wrap(text, width, type) {
     const lines = [];
     let line = '';
-    for (const word of String(text).split(/\s+/)) {
+    const words = String(text).split(/\s+/).flatMap((word) => {
+        if (measure(word, type) <= width) return [word];
+        const pieces = word.split(/(?<=[./])/);
+        const out = [''];
+        for (const piece of pieces) {
+            const last = out[out.length - 1];
+            if (last && measure(last + piece, type) > width) out.push(piece);
+            else out[out.length - 1] = last + piece;
+        }
+        // The pieces of one word never join with a space: each one after the first starts a line.
+        return out.map((piece, i) => (i ? { piece } : piece));
+    });
+    for (const word of words) {
+        if (typeof word === 'object') {
+            if (line) lines.push(line);
+            line = word.piece;
+            continue;
+        }
         const next = line ? `${line} ${word}` : word;
         if (line && measure(next, type) > width) {
             lines.push(line);
@@ -114,7 +135,7 @@ export function elbow(all, r = 6) {
 /**
  * A packet that goes once along the path `d` and stays at its end. It starts
  * when it is mounted (give it a `key` that changes with the step), so it is in
- * time with the step. tone: 'signal' (violet to blue) or 'mint'. Not drawn with reduced motion.
+ * time with the step. tone: 'signal' (violet to blue). Not drawn with reduced motion.
  */
 export function Dot({ d, ms = 1000, tone = 'signal', r = 3.2 }) {
     const { motion } = useArt();

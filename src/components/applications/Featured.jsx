@@ -1,11 +1,11 @@
-// One featured application (facts.appOrder.featured).
-// First view: the main object on one side (the gallery, the flowchart or the
-// clip) and on the other side the status, name, tagline, short text, stack
-// and links. The rest opens in place ("Show the details"): architecture and
-// goals, for Ruph its case file (problem, decisions, result, numbers and the
-// steps in words), and the Figma originals.
+// One application of "In production" (order.apps.production).
+// First view: the main object on one side (the gallery, the flowchart or the clip) and on
+// the other side the name, the tagline, the paragraphs (as written: Consignado Cloud keeps
+// its three), the stack and the links. No status. The rest opens in place
+// ("Read the full story"): architecture and goals, for Ruph its case file (problem,
+// decisions, result and the steps in words), and the Figma originals.
 // `flagship` (Consignado Cloud): the head runs full width and the gallery is larger.
-import { facts } from '../../content/index.js';
+import { cases as caseData, figma, projects } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import FigmaRow from '../FigmaRow.jsx';
 import { FlowChart, FlowSteps } from '../Flow.jsx';
@@ -13,10 +13,10 @@ import { useFlowPlayer } from '../useFlowPlayer.js';
 import Clip from './Clip.jsx';
 import Disclosure from './Disclosure.jsx';
 import Gallery from './Gallery.jsx';
-import { AppLinks, Stack, Status } from './parts.jsx';
+import { AppLinks, Stack } from './parts.jsx';
 
-/** The Figma originals that name this anchor, in the order of facts.figmaOrder. */
-export const figmaFor = (anchor) => facts.figmaOrder.filter((id) => facts.figma[id]?.anchors.includes(anchor));
+/** The Figma originals that name this anchor, in the order of `figma`. */
+export const figmaFor = (anchor) => figma.filter((picture) => picture.anchors.includes(anchor)).map((picture) => picture.id);
 
 function List({ title, items, level = 5 }) {
     if (!items?.length) return null;
@@ -31,34 +31,34 @@ function List({ title, items, level = 5 }) {
     );
 }
 
-function Head({ item, data, labels }) {
+function Head({ item, data }) {
     return (
         <header className="app-feature__head">
-            <Status data={data} labels={labels} />
             <h4 id={`${item.anchor}-title`} className="wh-headline wh-headline--item app-feature__name">{data.name}</h4>
             <p className="app-feature__tagline">{item.tagline}</p>
         </header>
     );
 }
 
-function Details({ item, labels, figma, extra = null }) {
+function Details({ item, data, figmaIds, extra = null }) {
+    const { labels } = useLanguage().t.applications;
     return (
-        <Disclosure className="app-feature__details">
+        <Disclosure className="app-feature__details" name={data.name}>
             <div className="app-feature__lists">
                 <List title={labels.architecture} items={item.architecture} />
                 <List title={labels.goals} items={item.goals} />
             </div>
             {extra}
-            {figma.length ? <FigmaRow ids={figma} level={5} /> : null}
+            {figmaIds.length ? <FigmaRow ids={figmaIds} level={5} /> : null}
         </Disclosure>
     );
 }
 
-/** Ruph: the chart is the main object, its numbers and the steps in words open in place. */
+/** Ruph: the chart is the main object; its case file and the steps in words open in place. */
 function useCase(caseId) {
     const { cases } = useLanguage().t;
     const item = caseId ? cases.items.find((c) => c.id === caseId) : null;
-    const data = caseId ? facts.cases[caseId] : null;
+    const data = caseId ? caseData[caseId] : null;
     const player = useFlowPlayer(data?.flow ? data.flow.edges.length : 1);
     if (!item || !data?.flow) return null;
     return {
@@ -78,18 +78,20 @@ function useCase(caseId) {
                     </div>
                 </div>
                 <div className="app-case__side">
-                <dl className="app-case__stats">
-                    {item.stats.map((stat) => (
-                        <div key={stat.label}>
-                            <dt>{stat.label}</dt>
-                            <dd>{stat.value}</dd>
-                        </div>
-                    ))}
-                </dl>
-                <div className="app-block">
-                    <h5 className="wh-label app-block__title">{cases.labels.flow}</h5>
-                    <FlowSteps structure={data.flow} text={item.flow} player={player} stepLabel={cases.labels.step} />
-                </div>
+                    {item.stats.length ? (
+                        <dl className="app-case__stats">
+                            {item.stats.map((stat) => (
+                                <div key={stat.label}>
+                                    <dt>{stat.label}</dt>
+                                    <dd>{stat.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    ) : null}
+                    <div className="app-block">
+                        <h5 className="wh-label app-block__title">{cases.labels.flow}</h5>
+                        <FlowSteps structure={data.flow} text={item.flow} player={player} stepLabel={cases.labels.step} />
+                    </div>
                 </div>
             </div>
         ),
@@ -97,8 +99,7 @@ function useCase(caseId) {
 }
 
 export default function Featured({ item, labels, flagship = false, flip = false }) {
-    const data = facts.projects[item.id];
-    const figma = figmaFor(item.anchor);
+    const data = projects[item.id];
     const caseView = useCase(item.caseId);
 
     let main = null;
@@ -114,17 +115,19 @@ export default function Featured({ item, labels, flagship = false, flip = false 
             data-flip={flip ? 'true' : undefined}
             aria-labelledby={`${item.anchor}-title`}
         >
-            {flagship ? <Head item={item} data={data} labels={labels} /> : null}
+            {flagship ? <Head item={item} data={data} /> : null}
             <div className="app-feature__grid">
                 <div className="app-feature__main">{main}</div>
                 <div className="app-feature__text">
-                    {flagship ? null : <Head item={item} data={data} labels={labels} />}
-                    <p className="app-feature__summary">{item.text}</p>
+                    {flagship ? null : <Head item={item} data={data} />}
+                    <div className="app-feature__summary">
+                        {item.paragraphs.map((text) => <p key={text}>{text}</p>)}
+                    </div>
                     <Stack items={data.stack} labels={labels} />
                     <AppLinks data={data} labels={labels} primary={flagship} />
                 </div>
             </div>
-            <Details item={item} labels={labels} figma={figma} extra={caseView?.extra} />
+            <Details item={item} data={data} figmaIds={figmaFor(item.anchor)} extra={caseView?.extra} />
         </article>
     );
 }

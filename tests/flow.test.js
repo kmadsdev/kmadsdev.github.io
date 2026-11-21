@@ -1,12 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { facts } from '../src/content/facts.js';
 import { GRID, LAYOUTS, MAX_CHARS, NARROW, NARROW_GRID, buildLines, center, segment, size, splitLabel, wrapLabel } from '../src/components/flowGeometry.js';
-import { content } from '../src/content/index.js';
+import { cases, content } from '../src/content/index.js';
+
+// The case files that have a flowchart.
+const FLOWS = Object.keys(cases).filter((id) => cases[id].flow);
 
 describe('flowchart layouts', () => {
+    it('has a wide and a narrow layout for each flowchart, and Ruph has one actor, "Me"', () => {
+        expect(Object.keys(LAYOUTS).sort()).toEqual([...FLOWS].sort());
+        expect(Object.keys(NARROW).sort()).toEqual([...FLOWS].sort());
+        expect(Object.keys(LAYOUTS.ruph.cells)).not.toContain('agent');
+        expect(cases.ruph.flow.nodes).toContain('human');
+    });
+
     it('places every node of every case in its own cell', () => {
-        for (const id of facts.caseOrder) {
-            const { nodes } = facts.cases[id].flow;
+        for (const id of FLOWS) {
+            const { nodes } = cases[id].flow;
             const cells = LAYOUTS[id].cells;
             expect(Object.keys(cells).sort(), id).toEqual([...nodes].sort());
             const taken = Object.values(cells).map((cell) => cell.join(','));
@@ -15,8 +24,8 @@ describe('flowchart layouts', () => {
     });
 
     it('draws no step line through a third node', () => {
-        for (const id of facts.caseOrder) {
-            const { edges } = facts.cases[id].flow;
+        for (const id of FLOWS) {
+            const { edges } = cases[id].flow;
             const cells = LAYOUTS[id].cells;
             for (const line of buildLines(edges, cells)) {
                 for (const [other, cell] of Object.entries(cells)) {
@@ -57,8 +66,8 @@ const crossings = (segments, cells, grid, skip) => {
 
 describe('narrow (tall) flowchart layouts', () => {
     it('places every node of every case in its own cell, at most two side by side', () => {
-        for (const id of facts.caseOrder) {
-            const { nodes } = facts.cases[id].flow;
+        for (const id of FLOWS) {
+            const { nodes } = cases[id].flow;
             const cells = NARROW[id].cells;
             expect(Object.keys(cells).sort(), id).toEqual([...nodes].sort());
             const taken = Object.values(cells).map((cell) => cell.join(','));
@@ -68,12 +77,12 @@ describe('narrow (tall) flowchart layouts', () => {
     });
 
     it('fits a 320px phone at full size (the frame there is about 270px wide)', () => {
-        for (const id of facts.caseOrder) expect(size(NARROW[id].cells, NARROW_GRID).width, id).toBeLessThanOrEqual(270);
+        for (const id of FLOWS) expect(size(NARROW[id].cells, NARROW_GRID).width, id).toBeLessThanOrEqual(270);
     });
 
     it('draws no step line and no dashed link through a third node', () => {
-        for (const id of facts.caseOrder) {
-            const { edges } = facts.cases[id].flow;
+        for (const id of FLOWS) {
+            const { edges } = cases[id].flow;
             const cells = NARROW[id].cells;
             const steps = buildLines(edges, cells, NARROW_GRID);
             expect(crossings(steps, cells, NARROW_GRID, (line, other) => other === line.from || other === line.to), id).toEqual([]);
@@ -84,9 +93,9 @@ describe('narrow (tall) flowchart layouts', () => {
     });
 
     it('ends each line on the two node borders', () => {
-        for (const id of facts.caseOrder) {
+        for (const id of FLOWS) {
             const cells = NARROW[id].cells;
-            for (const line of buildLines(facts.cases[id].flow.edges, cells, NARROW_GRID)) {
+            for (const line of buildLines(cases[id].flow.edges, cells, NARROW_GRID)) {
                 const a = center(cells[line.from], NARROW_GRID);
                 const b = center(cells[line.to], NARROW_GRID);
                 const out = (x, y, c) => Math.abs(x - c.x) >= NARROW_GRID.nodeW / 2 || Math.abs(y - c.y) >= NARROW_GRID.nodeH / 2;

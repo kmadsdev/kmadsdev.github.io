@@ -1,13 +1,16 @@
-// The row "From my Figma": the approved original diagrams (facts.figma) as
+// The row "From my Figma": the approved original diagrams (`figma` in contents.global.js) as
 // thumbnails on their own light ground. Each opens large in a native <dialog>:
 // the close button has a name from content, Escape closes, a press on the
 // backdrop closes, and the focus goes back to the thumbnail.
 //
-// Props: `ids` (keys of facts.figma, in display order). An empty list renders nothing.
+// Props: `ids` (ids of `figma`, in display order). An empty list renders nothing.
 //        `level` (heading level of the title, default 4), `compact` (smaller thumbnails).
 import { useEffect, useRef, useState } from 'react';
-import { facts } from '../content/index.js';
+import { figma } from '../content/index.js';
+
+const BY_ID = Object.fromEntries(figma.map((picture) => [picture.id, picture]));
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
+import { holdScroll } from '../smooth.js';
 
 export default function FigmaRow({ ids = [], level = 4, compact = false }) {
     const { t } = useLanguage();
@@ -15,10 +18,13 @@ export default function FigmaRow({ ids = [], level = 4, compact = false }) {
     const opener = useRef(null);
     const [open, setOpen] = useState(null);
     // Open the dialog after its content is in the page, so the close button gets the focus.
+    // The page behind does not scroll while the dialog is open.
     useEffect(() => {
-        if (open && dialog.current && !dialog.current.open) dialog.current.showModal();
+        if (!open) return undefined;
+        if (dialog.current && !dialog.current.open) dialog.current.showModal();
+        return holdScroll();
     }, [open]);
-    const list = ids.filter((id) => facts.figma[id] && t.figma.items[id]);
+    const list = ids.filter((id) => BY_ID[id] && t.figma.items[id]);
     if (!list.length) return null;
 
     const Title = `h${level}`;
@@ -31,7 +37,7 @@ export default function FigmaRow({ ids = [], level = 4, compact = false }) {
         setOpen(null);
         opener.current?.focus();
     };
-    const current = open ? { ...facts.figma[open], ...t.figma.items[open] } : null;
+    const current = open ? { ...BY_ID[open], ...t.figma.items[open] } : null;
     const titleId = `figma-${list.join('-')}-title`;
 
     return (
@@ -42,7 +48,7 @@ export default function FigmaRow({ ids = [], level = 4, compact = false }) {
             </div>
             <ul className="figma-row__list">
                 {list.map((id) => {
-                    const data = facts.figma[id];
+                    const data = BY_ID[id];
                     const text = t.figma.items[id];
                     return (
                         <li key={id} className="figma-row__item" style={{ '--figma-ratio': `${data.width} / ${data.height}` }}>
@@ -63,6 +69,7 @@ export default function FigmaRow({ ids = [], level = 4, compact = false }) {
             <dialog
                 ref={dialog}
                 className="figma-dialog"
+                data-lenis-prevent
                 aria-labelledby={titleId}
                 onClose={closed}
                 onClick={(event) => {

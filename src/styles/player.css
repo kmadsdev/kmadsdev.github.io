@@ -1,0 +1,107 @@
+/* The music player: the status line under the badge, in the hero.
+   The badge (the globe and the disc) is in site.css, with the hero.
+   One line of small text, the label of the disc: no box, no bar, no border, no divider.
+   The parts are set apart by space only: one step between two groups, a smaller one inside a group.
+   It scrolls with the hero. It renders only when the page has a song (StatusLine.jsx). */
+.player-line {
+    --hit: calc(var(--sp-6) + var(--sp-1)); /* 28px: the box of a control for a mouse */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-4);
+    height: calc(var(--fs-xs) * var(--lh-xs)); /* one line of text, also when the boxes of the controls are larger */
+    /* One weight and one colour for the whole line: the text, the icons and the bar read as one thing. */
+    font: var(--fw-semibold) var(--fs-xs) / var(--lh-flat) var(--font-mono);
+    color: var(--c-text);
+    white-space: nowrap;
+}
+.player-line__group { display: flex; align-items: center; gap: var(--sp-2); }
+/* The cover and the song name: one link to the song. Its box is as high as a control box. */
+.player-line__source {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    height: var(--hit);
+    margin-block: calc((1em - var(--hit)) / 2);
+    border-radius: var(--r-sm);
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--dur-instant) linear;
+}
+.player-line__source:hover { color: var(--c-text-strong); }
+.player-line__source:focus-visible { box-shadow: none; outline: 2px solid var(--c-text-strong); outline-offset: 2px; }
+/* The album cover: a square with soft corners, as high as the line of text. The picture is light,
+   so a hairline holds its edge on the dark ground. The size is fixed here: no shift when it loads. */
+.player-line__source img { --size: calc(var(--fs-xs) * var(--lh-xs)); display: block; flex: none; width: var(--size); height: var(--size); border-radius: var(--r-sm); outline: 1px solid var(--c-line); outline-offset: -1px; }
+.player-line__control {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    /* The picture is as high as the text. The box around it is larger and takes no room in the line:
+       the negative margin gives back what the box adds, on each side. */
+    width: var(--hit);
+    height: var(--hit);
+    margin: calc((1em - var(--hit)) / 2);
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-sm);
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    transition: color var(--dur-instant) linear, transform var(--dur-instant) var(--ease-out);
+}
+.player-line__control:hover { color: var(--c-text-strong); }
+.player-line__control:active { transform: scale(0.92); }
+.player-line__control:focus-visible { box-shadow: inset 0 0 0 2px var(--c-text-strong); }
+.player-line__control svg { display: block; }
+
+/* The volume: a native range input with its own look. One bar with round ends; its inner part
+   is filled from the left up to the level. There is no thumb at any time: the fill is the level.
+   The fill has the colour of the text and the icons of the line (red stays the mark of the badge above it).
+   Its right end is straight: the bar cuts it round at 100%, and a round end is a blob at 5%.
+   The two colours of the track are solid: the "gradient" below is one hard edge at the level.
+   The input is as high as a control box, so a finger can take it; the line stays one line of text.
+   Sizes in pixels are the parts of the control, not steps of the page scale. */
+.player-line__volume {
+    --bar: 5px; /* the thickness of the bar: 1.5 times the first track of 3px, on a whole pixel */
+    -webkit-appearance: none;
+    appearance: none;
+    flex: none;
+    width: 4.5rem;
+    height: var(--hit);
+    margin: calc((1em - var(--hit)) / 2) 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    touch-action: pan-y; /* a finger sets the level sideways and still scrolls the page up and down */
+}
+.player-line__volume::-webkit-slider-runnable-track {
+    height: var(--bar);
+    border-radius: var(--r-full);
+    background: linear-gradient(to right, var(--c-text) var(--fill), var(--c-line-strong) var(--fill));
+}
+/* No thumb: it has no size and no paint. The browser still needs the part to set the level. */
+.player-line__volume::-webkit-slider-thumb { -webkit-appearance: none; width: 0; height: var(--bar); border: 0; background: none; box-shadow: none; }
+.player-line__volume::-moz-range-track { height: var(--bar); border-radius: var(--r-full); background: var(--c-line-strong); }
+.player-line__volume::-moz-range-progress { height: var(--bar); border-radius: var(--r-full) 0 0 var(--r-full); background: var(--c-text); }
+.player-line__volume::-moz-range-thumb { width: 0; height: 0; border: 0; background: none; }
+.player-line__volume:hover::-webkit-slider-runnable-track { background: linear-gradient(to right, var(--c-text-strong) var(--fill), var(--c-line-strong) var(--fill)); }
+.player-line__volume:hover::-moz-range-progress { background: var(--c-text-strong); }
+/* Focus: a ring around the bar itself, not around the tall box of the input. */
+.player-line__volume:focus-visible { box-shadow: none; outline: 0; }
+.player-line__volume:focus-visible::-webkit-slider-runnable-track { box-shadow: var(--focus-ring); }
+.player-line__volume:focus-visible::-moz-range-track { box-shadow: var(--focus-ring); }
+
+/* A finger needs 44px on the controls. The line stays one line of text: only the boxes grow. */
+@media (pointer: coarse) {
+    .player-line { --hit: var(--ctl-lg); }
+}
+/* A narrow phone: a shorter bar, so the line stays inside the column. */
+@media (max-width: 719.98px) {
+    .player-line { gap: var(--sp-3); }
+    .player-line__volume { width: 3.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .player-line__control, .player-line__source { transition: none; }
+}

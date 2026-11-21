@@ -1,14 +1,14 @@
-// The contract state machine of consignado-api, from facts.art.contractStates.
+// The contract state machine of consignado-api, from art.contractStates.
 // One contract moves through the states: to the end of a paid loan, then to a
 // rejection, then to a cancellation after approval. The transition in use is red,
 // the way the contract came keeps the signal colour, and the readout names the
 // transition. A final state has a double border. The dot is the start.
-import { facts } from '../../content/index.js';
+import { art } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
-import { Art, Halftone, Packet, Wire, useStep } from './kit/index.js';
+import { Art, Packet, Wire, useStep } from './kit/index.js';
 import { Box, Fit, Readout } from './artAKit.jsx';
 
-const DATA = facts.art.contractStates;
+const DATA = art.contractStates;
 const FINAL = new Set(DATA.terminal);
 const find = (from, target) => DATA.transitions.find((t) => t.from === from && t.target === target);
 // The lives of one contract, as lists of states. Each move is a transition of the data.
@@ -47,7 +47,6 @@ const WIDE = {
     },
     start: { dot: [9, 52], wire: 'M13 52H26' },
     readout: { x: 390, y: 160, max: 26 },
-    glow: 76,
 };
 const NARROW = {
     width: 300,
@@ -75,7 +74,6 @@ const NARROW = {
     },
     start: { dot: [70, 9], wire: 'M70 13V30' },
     readout: { x: 168, y: 292, max: 15 },
-    glow: 64,
 };
 
 function Scene({ text, layout }) {
@@ -87,14 +85,9 @@ function Scene({ text, layout }) {
     const move = before ? find(before, here) : null;
     const came = new Set(life.slice(0, step.at).map((state, i) => `${state}>${life[i + 1]}`));
     const seen = new Set(life.slice(0, step.at));
-    const spot = layout.at[here];
 
     return (
         <>
-            <Halftone fill="signal" fade="radial" opacity={0.45}>
-                <circle className="states-glow" r={layout.glow} style={{ transform: `translate(${spot.x + layout.w / 2}px, ${spot.y + layout.h / 2}px)` }} />
-            </Halftone>
-
             <circle cx={layout.start.dot[0]} cy={layout.start.dot[1]} r="3.5" fill="rgb(255 255 255 / 0.5)" />
             <Wire d={layout.start.wire} tone={move ? 'idle' : 'active'} arrow />
             {DATA.transitions.map(({ from, target }) => {
@@ -112,7 +105,6 @@ function Scene({ text, layout }) {
                     h={layout.h}
                     name={text.states[state]}
                     state={state === here ? 'active' : seen.has(state) ? 'seen' : 'idle'}
-                    pin="off"
                     final={FINAL.has(state)}
                 />
             ))}

@@ -1,6 +1,6 @@
 // Live flowchart of one case file.
 //
-// The chart (SVG) and the step list show the same data: facts.cases[id].flow
+// The chart (SVG) and the step list show the same data: cases[id].flow (contents.global.js)
 // gives the nodes and edges, the language file gives the labels and one
 // sentence per edge. One step is active at a time.
 //
@@ -11,7 +11,6 @@
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { LAYOUTS, MAX_CHARS, buildLines, center, layoutFor, segment, size, splitLabel, wrapLabel } from './flowGeometry.js';
 import Icon from './Icon.jsx';
-import { facts } from '../content/index.js';
 
 const two = (n) => String(n).padStart(2, '0');
 const LINE = 15; // px between two lines of one node name
@@ -46,7 +45,7 @@ function useNarrow(ref, wideWidth) {
     return narrow;
 }
 
-/** One node: a box, a pin, its name on one or two lines, and the detail under it. */
+/** One node: a box, its name on one or two lines, and the detail under it. No corner dot. */
 function Node({ id, cell, grid, label, active, max }) {
     const c = center(cell, grid);
     const { name, sub } = splitLabel(label);
@@ -58,7 +57,6 @@ function Node({ id, cell, grid, label, active, max }) {
     return (
         <g className="wh-flow__node" data-state={active ? 'active' : 'idle'} data-node={id}>
             <rect x={x} y={y} width={grid.nodeW} height={grid.nodeH} rx="8" />
-            <circle className="wh-flow__pin" cx={x + grid.nodeW - 10} cy={y + 10} r="2" />
             <text className="wh-flow__node-name" x={x + 12} y={first}>
                 {lines.map((line, i) => <tspan key={line} x={x + 12} dy={i ? LINE : 0}>{line}</tspan>)}
             </text>
@@ -68,14 +66,13 @@ function Node({ id, cell, grid, label, active, max }) {
 }
 
 /**
- * caseId     key of LAYOUTS and of facts.cases
- * structure  facts.cases[caseId].flow ({ nodes, edges })
+ * caseId     key of LAYOUTS and of `cases`
+ * structure  cases[caseId].flow ({ nodes, edges })
  * text       the language file's flow ({ title, nodes, steps })
  * player     useFlowPlayer(structure.edges.length)
  * labels     { prev, next, play, pause }
- * n          optional silk-screen number of the board label (D<n> · title)
  */
-export function FlowChart({ caseId, structure, text, player, labels, n }) {
+export function FlowChart({ caseId, structure, text, player, labels }) {
     const stageRef = useRef(null);
     const wide = size(LAYOUTS[caseId].cells);
     const narrow = useNarrow(stageRef, wide.width);
@@ -97,10 +94,7 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
             onBlur={player.release}
         >
             <div className="wh-flow__bar">
-                <figcaption className="wh-label wh-flow__title">
-                    {n ? <span aria-hidden="true">{facts.boardMarks.art}{n} · </span> : null}
-                    {text.title}
-                </figcaption>
+                <figcaption className="wh-label wh-flow__title">{text.title}</figcaption>
                 <div className="wh-flow__controls">
                     <span className="wh-flow__count" aria-hidden="true">{two(player.active + 1)} / {two(structure.edges.length)}</span>
                     <button type="button" className="wh-flow__button" onClick={player.prev} aria-label={labels.prev}><Icon name="prev" /></button>

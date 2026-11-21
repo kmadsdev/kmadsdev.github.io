@@ -1,4 +1,4 @@
-// Date text for both languages. Input is 'YYYY-MM' from facts.js.
+// Date text for both languages. Input is 'YYYY-MM' from contents.global.js.
 
 const MONTHS = {
     en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

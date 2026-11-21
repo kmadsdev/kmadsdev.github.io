@@ -1,43 +1,27 @@
-/* education: styles of this part only. Owner: its section agent.
-   Component: src/components/Education.jsx. Two tiles: the program, the certificates. */
+/* education: styles of this part only.
+   Component: src/components/Education.jsx ("Formation"). Two tiles: the program, the certificates.
+   Inside a tile the parts are 8px apart (bento.css); a new group starts after a hairline. */
 
-.edu .tile { gap: var(--wh-space-5); }
-.edu .tile .tile__body { align-content: start; gap: var(--wh-space-3); }
-.edu-meta {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.25rem 1rem;
-    margin-bottom: var(--wh-space-2);
-    font: var(--wh-weight-medium) 0.8125rem / 1.25rem var(--wh-font-mono);
-    font-variant-numeric: tabular-nums;
-    color: var(--c-text);
-}
-.edu-meta > :last-child { color: var(--c-text-muted); }
-.edu-title { font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.625rem); }
-.edu-place { font-weight: var(--wh-weight-medium); color: var(--c-text); }
-.edu-subjects { display: grid; gap: var(--wh-space-3); margin-top: var(--wh-space-4); padding-top: var(--wh-space-5); border-top: 1px solid var(--c-line); }
-.edu-subjects .tile__list li { font-family: var(--wh-font-sans); font-size: 0.9375rem; line-height: 1.4; }
-@media (min-width: 600px) {
-    .edu-subjects .tile__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--wh-space-6); }
-    .edu-subjects .tile__list li:nth-child(2) { border-top: 0; padding-top: 0; }
-}
-
-.edu-cert-list { display: grid; margin: var(--wh-space-3) 0 var(--wh-space-4); }
-.edu-cert {
-    display: grid;
-    gap: 0.25rem;
-    padding: var(--wh-space-4) 0;
-    border-top: 1px solid var(--c-line);
-}
-.edu-cert:last-child { border-bottom: 1px solid var(--c-line); }
-.edu-cert__name { font-weight: var(--wh-weight-semibold); font-size: 1.0625rem; line-height: 1.35; color: var(--c-text-strong); }
+/* The period and its length: facts, in mono. */
+.edu-meta,
 .edu-cert__meta {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 0.25rem 1rem;
-    font: 0.8125rem / 1.25rem var(--wh-font-mono);
+    gap: 0 var(--sp-4);
+    font: var(--fs-xs) / var(--lh-xs) var(--font-mono);
     font-variant-numeric: tabular-nums;
     color: var(--c-text-muted);
 }
+.edu-place { font-size: var(--fs-sm); line-height: var(--lh-sm); font-weight: var(--fw-medium); color: var(--c-text); }
+.edu-subjects { display: grid; gap: var(--sp-3); margin-top: var(--sp-2); padding-top: var(--gap-group); border-top: 1px solid var(--c-line); }
+.edu-subjects .tile__list li { font-family: var(--font-sans); font-size: var(--fs-sm); line-height: var(--lh-sm); }
+@media (min-width: 600px) {
+    .edu-subjects .tile__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-6); }
+    .edu-subjects .tile__list li:nth-child(2) { border-top: 0; padding-top: 0; }
+}
+
+.edu-cert-list { display: grid; margin-block: var(--sp-2); }
+.edu-cert { display: grid; gap: var(--sp-1); padding: var(--pad-row) 0; border-top: 1px solid var(--c-line); }
+.edu-cert:last-child { border-bottom: 1px solid var(--c-line); }
+.edu-cert__name { font-weight: var(--fw-medium); color: var(--c-text-strong); }

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { goTo } from '../../smooth.js';
 
 const hashId = () => decodeURIComponent(window.location.hash.slice(1));
 
@@ -21,9 +22,7 @@ export function useAnchorLanding(ids, onLand) {
     useEffect(() => {
         const known = new Set(key.split(','));
         const scroll = (id, behavior) => {
-            window.requestAnimationFrame(() => {
-                document.getElementById(id)?.scrollIntoView({ block: 'start', behavior });
-            });
+            window.requestAnimationFrame(() => goTo(document.getElementById(id), { instant: behavior === 'instant' }));
         };
         const go = (id, behavior) => {
             if (!known.has(id)) return;
