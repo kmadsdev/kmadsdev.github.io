@@ -42,6 +42,7 @@ import { duration, monthYear, period, ptNumber as br, years } from './format.js'
 
 const SITE = 'https://kmads.dev';
 const GITHUB = 'https://github.com/kmadsdev';
+const SOURCE_CODE = `${GITHUB}/kmadsdev.github.io`
 
 export const links = {
     // This site
@@ -49,10 +50,11 @@ export const links = {
     domain: 'kmads.dev',
     home: '/',
     // The address /projects opens this page at the section with this id.
+    cvPath: '/cv',
     projectsPath: '/projects',
     projectsSection: 'applications',
-    siteRepo: `${GITHUB}/kmadsdev.github.io`,
-    siteWorkflow: `${GITHUB}/kmadsdev.github.io/blob/main/.github/workflows/deploy.yml`,
+    siteRepo: `${SOURCE_CODE}`,
+    siteWorkflow: `${SOURCE_CODE}/blob/main/.github/workflows/deploy.yml`,
     ogImage: `${SITE}/og.png`,
     favicon: '/assets/favicon.png',
 
@@ -81,7 +83,7 @@ export const links = {
     doomLive: `${SITE}/doom`,
     agenticLive: `${SITE}/agentic`,
     customSquareLive: `${SITE}/custom-square`,
-    trocatineLive: `${SITE}/trocatine/`,
+    trocatineLive: `${SITE}/trocatine`,
 
     // Source repositories
     consignadoApiRepo: `${GITHUB}/consignado-api`,
@@ -264,7 +266,6 @@ export const facts = {
             teamSize: 7,
         },
         oracle: {
-            legacySince: '1990s',
             viewLines: '10k+',
             // His LinkedIn profile, 2026-11-18.
             tables: '200+',
@@ -886,9 +887,9 @@ const en = {
     meta: {
         htmlLang: 'en',
         ogLocale: 'en_US',
-        title: `${person.name} (${person.aliasUpper}) · Software Engineer · Architecture & Cloud`,
-        description: `Software Engineer at ${picpay.name}. Backend, architecture and cloud in Java, Go, Python and SQL: AWS at work, GCP and Azure in my own projects. Work experience, applications in production with their architecture, and public code.`,
-        noscript: 'This page needs JavaScript to show the experience and the applications.',
+        title: `Kaique Souza - Software Engineer`,
+        description: `Software Engineer, Backend, Architecture and Cloud in JavaScript, Python, Go, Java and SQL. Multicloud knowledge at AWS, GCP and Azure. Real practical technical experience since early 2018.`,
+        noscript: 'This page needs JavaScript to show the experience and the projects.',
     },
 
     // ─── en.nav ─────────────────────────────────────────────────────────────
@@ -916,7 +917,6 @@ const en = {
     // ─── en.hero ────────────────────────────────────────────────────────────
     // First screen: name, role, a short summary, the location and four links (addresses: PART 1).
     hero: {
-        status: `Software Engineer at ${picpay.name}`,
         name: person.name,
         alias: person.aliasUpper,
         role: 'Software Engineer',
@@ -925,10 +925,10 @@ const en = {
         location: [`${person.city}, ${person.state}, Brazil`, 'Remote', person.utc],
         localTime: 'Local time',
         links: [
-            { id: 'applications', label: 'Applications', href: links.projectsPath },
-            { id: 'github', label: 'GitHub', href: links.github },
-            { id: 'linkedin', label: 'LinkedIn', href: links.linkedin },
+            { id: 'applications', label: 'Curriculum', href: links.cvPath },
             { id: 'email', label: 'Email', href: `mailto:${links.email}` },
+            { id: 'linkedin', label: 'LinkedIn', href: links.linkedin },
+            { id: 'github', label: 'GitHub', href: links.github }
         ],
         scroll: 'Scroll',
     },
@@ -939,7 +939,7 @@ const en = {
     // of 160 characters or less. Every tile has the same 8 keys: the unused ones are null.
     intro: {
         label: 'Introduction',
-        title: 'I design, build and run backend systems, from the first diagram to the bill.',
+        title: 'I design, build and run backend systems, from the architecture to the first API call in prod.',
         lead: `${person.yearsEngineering} years of engineering experience and ${person.yearsInTech} years in tech, on systems that answer millions of requests at work and on platforms that I pay for myself.`,
         proofLabel: 'Proof',
         toolsLabel: 'Tools',
@@ -947,8 +947,8 @@ const en = {
 
         opening: {
             label: 'Who I am',
-            title: 'Who am I?',
-            photo: { alt: `${person.name}: a close selfie, with curly dark hair and a cream lamp shade behind him.` },
+            title: '👋 Hello, ',
+            photo: { alt: ` < Nice ass photo here, showcasing the person YOU should hire > ` },
             paragraphs: [
                 [`I am ${person.name}, and most people online call me ${person.alias}. As a software engineer in ${person.city}, I work on backend, architecture and cloud: the services and the data that a product runs on, and the infrastructure under them.`],
                 [
@@ -1979,7 +1979,7 @@ const en = {
                 anchor: 'case-oracle',
                 kicker: `${picpay.name} · HR data`,
                 title: 'Oracle HCM: a map for data that had none',
-                problem: `Hundreds of Oracle Cloud HCM databases, some from systems that run since the ${oracle.legacySince}, and no documents. People kept writing new queries on top of legacy views of ${oracle.viewLines} lines, with no index and no cache.`,
+                problem: `Hundreds of Oracle Cloud HCM databases, and no documentation. People kept writing new queries on top of legacy views of ${oracle.viewLines} lines, with no index and no cache.`,
                 decisions: [
                     'I read the data itself to find what each table and column means, and I wrote it down as an index.',
                     `I rewrote large queries across ${oracle.tables} tables and views. They went from thousands of lines to hundreds and ran ${oracle.speedupMin} to ${oracle.speedupMax} times faster.`,
@@ -1990,8 +1990,7 @@ const en = {
                 stats: [
                     { value: '100+', label: 'databases mapped' },
                     { value: `${oracle.speedupMin} to ${oracle.speedupMax}x`, label: 'faster queries' },
-                    { value: oracle.viewLines, label: 'lines in one legacy view' },
-                    { value: oracle.legacySince, label: 'oldest system, no documents' },
+                    { value: oracle.viewLines, label: 'lines in one legacy view' }
                 ],
                 flow: {
                     title: 'From unknown data to answers',
@@ -2504,7 +2503,6 @@ const en = {
 const mBr = Object.fromEntries(Object.entries(art.margin).map(([key, value]) => [key, typeof value === 'string' ? br(value) : value]));
 const refused = { income: br(art.margin.refused.income), marginLimit: br(art.margin.refused.marginLimit), status: art.margin.refused.status };
 const warmDb = art.trace.warm.stages.find((stage) => stage.id === 'database').ms;
-const decade = oracle.legacySince.replace('s', '');
 
 const pt = {
     // ─── pt.meta ────────────────────────────────────────────────────────────
@@ -3611,7 +3609,7 @@ const pt = {
                 anchor: 'case-oracle',
                 kicker: `${picpay.name} · dados de RH`,
                 title: 'Oracle HCM: um mapa para dados que não tinham nenhum',
-                problem: `Centenas de bancos de dados do Oracle Cloud HCM, alguns de sistemas que rodam desde os anos ${decade}, e nenhuma documentação. As pessoas continuavam escrevendo consultas novas em cima de views legadas de ${oracle.viewLines} linhas, sem índice e sem cache.`,
+                problem: `Centenas de bancos de dados do Oracle Cloud HCM, e nenhuma documentação. As pessoas continuavam escrevendo consultas novas em cima de views legadas de ${oracle.viewLines} linhas, sem índice e sem cache.`,
                 decisions: [
                     'Li os próprios dados para descobrir o que cada tabela e cada coluna significa, e registrei tudo em um índice.',
                     `Reescrevi consultas grandes em ${oracle.tables} tabelas e views. Elas foram de milhares de linhas para centenas e ficaram de ${oracle.speedupMin} a ${oracle.speedupMax} vezes mais rápidas.`,
@@ -3622,8 +3620,7 @@ const pt = {
                 stats: [
                     { value: '100+', label: 'bancos de dados mapeados' },
                     { value: `${oracle.speedupMin} a ${oracle.speedupMax}x`, label: 'consultas mais rápidas' },
-                    { value: oracle.viewLines, label: 'linhas em uma view legada' },
-                    { value: decade, label: 'sistema mais antigo, sem documentação' },
+                    { value: oracle.viewLines, label: 'linhas em uma view legada' }
                 ],
                 flow: {
                     title: 'De dados desconhecidos a respostas',

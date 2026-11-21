@@ -11,7 +11,7 @@
 *,
 *::before,
 *::after { box-sizing: border-box; }
-
+ 
 html {
     /* Wide screens get a larger base size: 16px up to 1670px, 20px at 2620px, 24px from 3570px.
        Pixels on purpose: this is the one place that sets the size of 1rem. */

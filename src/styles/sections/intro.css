@@ -21,8 +21,8 @@
     height: auto;
     aspect-ratio: 1;
     object-fit: cover;
-    border: 1px solid var(--c-line);
-    border-radius: var(--r-lg);
+    /*border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);*/
     background: var(--c-tile);
 }
 @media (min-width: 900px) {
