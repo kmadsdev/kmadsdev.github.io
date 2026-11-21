@@ -3,6 +3,29 @@ import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import { LANGS } from '../i18n/language.js';
 import { useActiveSection } from '../hooks.js';
 import { PROJECTS_PATH, PROJECTS_SECTION, openProjects } from '../routes.js';
+import { links } from '../content/index.js';
+import StatusLine from './player/StatusLine.jsx';
+import { usePlayer } from './player/PlayerProvider.jsx';
+
+/**
+ * True after the status line of the hero went up out of view, under the top bar.
+ * Then the top bar shows the same line, so the music controls are always on the screen.
+ */
+function useHeroLineAway() {
+    const [away, setAway] = useState(false);
+    useEffect(() => {
+        const line = document.querySelector('#top .player-line');
+        if (!line || typeof IntersectionObserver === 'undefined') return undefined;
+        const bar = document.querySelector('.site-header')?.offsetHeight ?? 0;
+        const observer = new IntersectionObserver(
+            ([entry]) => setAway(!entry.isIntersecting && entry.boundingClientRect.top < bar + 1),
+            { rootMargin: `-${bar}px 0px 0px 0px` },
+        );
+        observer.observe(line);
+        return () => observer.disconnect();
+    }, []);
+    return away;
+}
 
 export function LanguageToggle() {
     const { lang, setLang, t } = useLanguage();
@@ -26,7 +49,7 @@ export function LanguageToggle() {
 }
 
 /**
- * Top bar: section links, language.
+ * Top bar: section links, the music line (after the hero is out of view), "Hire me", language.
  * Below 1024px the links are in a panel that the menu button opens.
  * Escape closes the panel and gives the focus back to the button.
  */
@@ -36,6 +59,8 @@ export default function Header() {
     const active = useActiveSection(ids);
     const [open, setOpen] = useState(false);
     const buttonRef = useRef(null);
+    const player = usePlayer();
+    const lineAway = useHeroLineAway();
 
     useEffect(() => {
         if (!open) return undefined;
@@ -68,7 +93,12 @@ export default function Header() {
                     ))}
                 </ul>
             </nav>
+            <div className="site-player">{player.enabled && lineAway ? <StatusLine bar /> : null}</div>
             <div className="site-controls">
+                <a className="button button-primary site-hire" href={links.linkedin} target="_blank" rel="noopener noreferrer">
+                    {t.nav.hire}
+                    <span className="visually-hidden"> ({t.controls.external})</span>
+                </a>
                 <LanguageToggle />
                 <button
                     ref={buttonRef}

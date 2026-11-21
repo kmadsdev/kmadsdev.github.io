@@ -1,7 +1,9 @@
 // The music player of the page: one song and one sound engine (engine.js).
 //
-// - No sound starts by itself: only a click on the globe plays. The engine makes
-//   its sound output inside that click.
+// - The song starts by itself (`music.autoplay`). A browser gives no sound before the
+//   first action of the visitor, so the start is the first click, tap or key on the
+//   page. A pause by the visitor is kept for the visit: the song does not start again
+//   by itself after it. Not with "save data" and not on a 2g connection.
 // - The song is the last thing that the page loads. Nothing of it is asked for
 //   while the page loads. 2.5 s after the `load` event, at the next idle moment,
 //   the engine loads and decodes it, so the first play starts at once. Not with
@@ -41,6 +43,15 @@ const OFF = {
 const PlayerContext = createContext(OFF);
 
 const VOLUME_KEY = 'kmads.volume';
+const AUTO_KEY = 'kmads.autoplay';
+// Keys that are no action on the page: the song does not start with them.
+const QUIET_KEYS = new Set(['Tab', 'Escape', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'ContextMenu']);
+const remember = (key, value) => {
+    try { window.sessionStorage.setItem(key, value); } catch { /* no storage: it lives as long as the page */ }
+};
+const autoOff = () => {
+    try { return window.sessionStorage.getItem(AUTO_KEY) === 'off'; } catch { return false; }
+};
 function storedVolume() {
     try {
         const raw = window.sessionStorage.getItem(VOLUME_KEY);
@@ -54,12 +65,12 @@ function storedVolume() {
 /** The player of the page. Outside a PlayerProvider it is the player with no song. */
 export const usePlayer = () => useContext(PlayerContext);
 
-export function PlayerProvider({ children, src = music.src, engine: makeEngine = createEngine }) {
+export function PlayerProvider({ children, src = music.src, engine: makeEngine = createEngine, autoplay = Boolean(music.autoplay) }) {
     const enabled = Boolean(src);
     const [playing, setPlaying] = useState(false);
     // The loudness: the level of the data at first, then what the visitor chose in this visit (not kept after it).
     const [volume, setVolumeState] = useState(() => storedVolume() ?? music.volume);
-    const live = useRef({ playing: false, volume, last: volume || music.volume });
+    const live = useRef({ playing: false, volume, last: volume || music.volume, auto: false });
     const engineRef = useRef(null);
     const listeners = useRef(new Set());
 
@@ -101,7 +112,15 @@ export function PlayerProvider({ children, src = music.src, engine: makeEngine =
         setPlay(false);
         engineRef.current?.pause();
     }, [setPlay]);
-    const toggle = useCallback(() => (live.current.playing ? pause() : play()), [pause, play]);
+    /** The visitor's own play and pause. The choice is kept for the visit. */
+    const toggle = useCallback(() => {
+        // The same click that started the song by itself is not also a pause.
+        if (live.current.auto) return;
+        const next = !live.current.playing;
+        remember(AUTO_KEY, next ? 'on' : 'off');
+        if (next) play();
+        else pause();
+    }, [pause, play]);
 
     const seekTo = useCallback((time) => {
         const e = engine();
@@ -158,6 +177,28 @@ export function PlayerProvider({ children, src = music.src, engine: makeEngine =
         return () => listeners.current.delete(listener);
     }, []);
 
+    // The start by itself: the first action of the visitor on the page.
+    useEffect(() => {
+        if (!enabled || !autoplay || autoOff()) return undefined;
+        const link = navigator.connection;
+        if (link?.saveData || /(^|-)2g$/.test(link?.effectiveType ?? '')) return undefined;
+        const stop = () => {
+            window.removeEventListener('click', start, true);
+            window.removeEventListener('keydown', start, true);
+        };
+        function start(event) {
+            if (event.type === 'keydown' && QUIET_KEYS.has(event.key)) return;
+            stop();
+            if (live.current.playing || autoOff()) return;
+            live.current.auto = true;
+            window.setTimeout(() => { live.current.auto = false; }, 0);
+            play();
+        }
+        window.addEventListener('click', start, true);
+        window.addEventListener('keydown', start, true);
+        return stop;
+    }, [enabled, autoplay, play]);
+
     // Last to load: after the page is complete and the browser is idle, and only on a connection that can take it.
     useEffect(() => {
         if (!enabled) return undefined;
@@ -192,10 +233,14 @@ export function PlayerProvider({ children, src = music.src, engine: makeEngine =
             // The credit that the artist asks for: his name and the album, where the system shows the song.
             session.metadata = new window.MediaMetadata({ title: music.title, artist: music.artist, album: music.album });
         }
+        const stopByVisitor = () => {
+            remember(AUTO_KEY, 'off');
+            pause();
+        };
         const handlers = {
             play,
-            pause,
-            stop: pause,
+            pause: stopByVisitor,
+            stop: stopByVisitor,
             previoustrack: restart,
             seekbackward: (details) => seekBy(-(details?.seekOffset || 10)),
             seekforward: (details) => seekBy(details?.seekOffset || 10),

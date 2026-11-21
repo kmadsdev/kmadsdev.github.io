@@ -57,6 +57,7 @@ export const pt = {
         language: 'Idioma',
         languages: { en: 'Inglês', pt: 'Português' },
         codes: { en: 'EN', pt: 'PT' },
+        hire: 'Me contrate',
     },
 
     // ─── pt.hero ────────────────────────────────────────────────────────────
@@ -96,6 +97,22 @@ export const pt = {
             title: '👋 Olá,',
             // The owner's own joke. He asked to keep it (2026-11-20).
             photo: { alt: 'Baita foto aqui, você devia contratar esse cara.' },
+            // The card under the photo: "My latest work". The owner's text of 2026-11-21.
+            latest: {
+                label: 'Meu trabalho mais recente',
+                title: 'Consignado Cloud',
+                subtitle: 'Arquitetura de cloud e fluxogramas de SDLC a partir de uma cloud que roda em tempo real, no AKS e em Azure Functions',
+                diagramAlt: 'Um recorte do diagrama de requisição do Consignado Cloud, cada etapa com o tempo medido. O usuário, 342 ms. HTTPS até o edge da Cloudflare, 31 ms. O caminho /api/* até o gateway, 221 ms. Uma chamada de API até o load balancer interno, 7,7 s. Dois pods Spring Boot no cluster AKS, 17,4 s. JDBC até o PostgreSQL, 2,9 s.',
+                paragraph: [
+                    { text: 'Há pouco tempo, para aprender mais sobre Kubernetes e Azure', strong: true },
+                    ' e ajudar outras pessoas a aprender também, criei o ',
+                    { text: 'Consignado Cloud', to: projects.consignado.live },
+                    ', uma plataforma em que você vê uma ',
+                    { text: 'calculadora de crédito consignado em Spring Boot', strong: true },
+                    ' rodar de ponta a ponta em tempo real, da requisição no Azure Blob Storage e no edge da Cloudflare até a escolha do pod e a consulta ao banco de dados. O sistema roda no AKS ou em Azure Functions, com diagramas visuais, em tempo real, da infraestrutura de todos os serviços envolvidos na minha conta na Azure. ',
+                    { text: 'Código-fonte', to: projects['consignado-api'].repo },
+                ],
+            },
             paragraphs: [
                 [
                     { text: `Meu nome é ${person.name}`, strong: true },
@@ -123,13 +140,6 @@ export const pt = {
                     ', construo e opero meus próprios sistemas, porque quero aprender como a infraestrutura de uma plataforma funciona, até os mínimos detalhes. Criei o ',
                     { text: 'Ruph', to: projects.ruph.live },
                     ', que é a minha própria plataforma e roda na GCP. Ele faz o deploy dos meus apps, roda pipelines de CD e IaC, define regras de orçamento e de FinOps e provisiona recursos (compute, storage, auth, CI/CD e mais) em vários provedores (GCP, AWS, Azure, Vercel), em uma única interface visual.',
-                ],
-                [
-                    { text: 'Há pouco tempo, para aprender mais sobre Kubernetes e Azure', strong: true },
-                    ', criei o ',
-                    { text: 'Consignado Cloud', to: projects.consignado.live },
-                    ', que é uma calculadora de crédito consignado em Spring Boot. Ela roda no AKS ou em Azure Functions, com um diagrama visual, em tempo real, da infraestrutura da minha conta na Azure. ',
-                    { text: 'Fonte', to: projects['consignado-api'].repo },
                 ],
                 [
                     { text: 'Também sou apaixonado por engenharia de performance', strong: true },
@@ -993,20 +1003,26 @@ export const pt = {
                 result: 'O Ruph faz o deploy e o provisionamento dos meus próprios apps em QA e em produção. O GitHub Actions roda a suíte de testes e os testes de migração do PostgreSQL, e só faz o deploy depois que os health checks passam. É uma plataforma privada: eu sou o único operador.',
                 stats: [],
                 flow: {
-                    title: 'Planejar, aprovar, aplicar, registrar',
+                    title: 'Arquitetura do Ruph, a visão geral',
                     nodes: {
-                        human: 'Eu',
-                        api: 'API do Ruph (Hono)',
-                        ledger: 'Ledger (PostgreSQL)',
-                        providers: 'Provedores de cloud',
-                        ci: 'GitHub Actions',
+                        clients: 'Clientes (web, app, CLI)',
+                        edge: 'Edge (Cloudflare)',
+                        api: 'Ruph PROD (Cloud Run)',
+                        identity: 'Identidade (SSO, IAM, 2FA)',
+                        store: 'Banco de dados e cofre',
+                        providers: 'Provedores (conectores)',
+                        apps: 'Aplicações (meus apps)',
+                        qa: 'Ruph QA (Cloud Run)',
                     },
                     steps: [
-                        'Eu escrevo um plano no dashboard ou na CLI.',
-                        'Eu leio o plano e aprovo.',
-                        'A API grava o apply no ledger append-only.',
-                        'A API muda os recursos nos provedores de cloud.',
-                        'O GitHub Actions só publica uma versão nova depois que os testes e os health checks passam.',
+                        'O dashboard web, o app Android e a CLI chamam o mesmo edge.',
+                        'O edge roteia por host e adiciona um segredo de origem. Uma chamada direta à origem recebe 403.',
+                        'O control plane confere quem eu sou: SSO do Cloud Identity, papéis do IAM e um segundo fator.',
+                        'Ele lê os segredos e os tokens de acesso do Secret Manager.',
+                        'Ele guarda os registros no PostgreSQL do Cloud SQL.',
+                        'Conectores gerenciam os provedores. Os alertas saem por e-mail e por push no celular.',
+                        'Ele faz o deploy e acompanha as minhas aplicações públicas e internas.',
+                        'O endereço de QA vai para uma instância de QA separada. As chamadas e as chaves de provedor ali são falsas, e ela nunca se conecta a um provedor de produção.',
                     ],
                 },
             },
@@ -1339,9 +1355,9 @@ export const pt = {
                 alt: 'Diagrama de sete passos em linha. 1: o AKS agenda o pod no node. 2: o kubelet baixa a imagem do ACR. 3: o token da service account vira um token da Azure no Entra ID, por workload identity. 4: o CSI driver lê a senha do banco de dados no Key Vault. 5: o container do Spring Boot sobe com a senha. 6: o Flyway migra o Azure PostgreSQL com TLS e o readiness fica ativo. 7: o pod está pronto e o Service envia tráfego para ele.',
             },
             'ruph-ship': {
-                title: 'Como o Ruph faz deploy',
-                caption: 'Uma mudança no GitHub dispara os testes automáticos e um build. O build vai para QA e depois para PROD. O GitHub entra sem chave guardada (WIF), e o rollback é um clique.',
-                alt: 'Fluxograma com o título "How we ship". O GitHub dispara os testes automáticos, que levam a um build do app em um container. O build vai para QA, onde é conferido primeiro, e depois é promovido para PROD. Uma linha tracejada sai do build para a caixa "No stored keys: GitHub proves who it is (WIF)". Uma linha tracejada sai de PROD para "One-click rollback". Uma nota diz que nada chega a PROD sem passar pelos testes e por QA.',
+                title: 'Como o Ruph faz deploy: o pipeline de entrega',
+                caption: 'Uma feature sai dos testes locais para um pull request na branch qa. Quando os checks de CI passam, a imagem vai para o Artifact Registry, o banco de dados de QA migra, o Cloud Run faz o deploy de QA, e o edge confere. Depois dos testes de QA, um pull request para a main repete o caminho em produção. O resultado chega por e-mail e por push no celular.',
+                alt: 'Fluxograma com o título "GCP Continuous Delivery Pipeline", em duas linhas. Linha 1, QA: feature, código, testes locais, uma branch nova "feat/*" no GitHub, um pull request para a branch "qa" e os checks de CI do GitHub Actions. Se os checks falham, o fluxo volta para o pull request. Se passam, a imagem Docker vai para o Artifact Registry, um job migra o banco de dados de QA, o Cloud Run faz o deploy de QA, e o edge no Cloudflare Worker confere: o endereço de health responde 200 e uma chamada direta à origem responde 403. Depois começa a fase de testes de QA. Linha 2, produção: se os testes de QA passam, um pull request para a "main" roda os checks de CI de novo, depois Artifact Registry, a migração do banco de dados de produção, o deploy no Cloud Run e a conferência ao vivo no edge. No fim, os dados do build saem por e-mail do Resend para uma caixa do Google Workspace e pelo Firebase Cloud Messaging para o app mobile do Ruph. Uma legenda mostra três cores: compartilhado, quality assurance e produção.',
             },
         },
     },

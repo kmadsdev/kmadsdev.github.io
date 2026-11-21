@@ -165,7 +165,7 @@ describe('structure', () => {
     });
     it('opens with seven paragraphs, and each starts with a bold part', () => {
         for (const t of [en, pt]) {
-            expect(t.intro.opening.paragraphs).toHaveLength(7);
+            expect(t.intro.opening.paragraphs).toHaveLength(6);
             for (const paragraph of t.intro.opening.paragraphs) expect(paragraph[0].strong).toBe(true);
         }
     });
