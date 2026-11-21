@@ -356,6 +356,13 @@ describe('copy rules', () => {
     });
 });
 
+describe('titles that the owner renamed (2026-11-21)', () => {
+    it('calls the first drawing of the architecture chapter "One API on two hosts"', () => {
+        expect(en.intro.chapters[0].drawings[0].title).toBe('One API on two hosts');
+        expect(pt.intro.chapters[0].drawings[0].title).toBe('Uma API em dois hosts');
+    });
+});
+
 describe('facts that the owner agreed', () => {
     it('keeps the PicPay dates and the public contact address', () => {
         expect(global.picpay.roles.cards).toEqual({ start: '2025-12', end: null });

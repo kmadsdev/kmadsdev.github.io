@@ -164,7 +164,7 @@ export const en = {
                     {
                         id: 'request-path',
                         art: 'requestPath',
-                        title: 'One API, two hosts',
+                        title: 'One API on two hosts',
                         text: 'Browser, Cloudflare Worker and one Java gateway. Then the same jar on a serverless host and on two AKS pods, with one database.',
                     },
                 ],

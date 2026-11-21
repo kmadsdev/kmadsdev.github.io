@@ -9,10 +9,7 @@
 // With `href` the whole tile is one link and shows an arrow.
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import Icon from '../Icon.jsx';
-import { boardMarks } from '../../content/index.js';
 
-// Reference letters, as on a circuit board: boardMarks in contents.global.js.
-const REF = boardMarks;
 
 function size(value) {
     const [w, h] = String(value).split('x').map(Number);
@@ -24,7 +21,6 @@ export default function Tile({
     lg = '4x1',
     md,
     sm,
-    n,
     name,
     title,
     level = 3,
@@ -54,10 +50,7 @@ export default function Tile({
             {...rest}
         >
             {name ? (
-                <p className="tile__label">
-                    {n ? <span aria-hidden="true">{REF[kind] ?? 'U'}{n} · </span> : null}
-                    {name}
-                </p>
+                <p className="tile__label">{name}</p>
             ) : null}
             {figure ? <div className="tile__figure">{figure}</div> : null}
             <div className="tile__body">

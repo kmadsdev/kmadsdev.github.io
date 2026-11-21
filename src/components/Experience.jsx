@@ -3,16 +3,11 @@
 // (order.companyCases in contents.global.js). Every case starts closed. A link to a
 // case anchor (#case-bodyshop) opens that case and scrolls to it.
 import { useCallback, useState } from 'react';
-import { anchors, cases as caseData, order } from '../content/index.js';
+import { anchors, order } from '../content/index.js';
 import { useLanguage } from '../i18n/LanguageProvider.jsx';
 import { Chapter } from './bento/index.js';
 import CompanyEntry from './experience/CompanyEntry.jsx';
 import { useAnchorLanding } from './experience/useAnchorLanding.js';
-
-// Board numbers of the flowcharts (range 40 to 59), in reading order. Ruph shows in the applications.
-const NUMBERS = Object.fromEntries(
-    Object.values(order.companyCases).flat().filter((id) => caseData[id].flow).map((id, i) => [id, 40 + i]),
-);
 
 export default function Experience() {
     const { experience, cases } = useLanguage().t;
@@ -44,7 +39,6 @@ export default function Experience() {
                     caseIds={order.companyCases[item.id] ?? []}
                     isOpen={(id) => open.has(id)}
                     onToggle={toggle}
-                    numbers={NUMBERS}
                 />
             ))}
         </Chapter>

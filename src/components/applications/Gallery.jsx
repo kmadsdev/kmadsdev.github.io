@@ -7,8 +7,6 @@ import { useRef, useState } from 'react';
 import Icon from '../Icon.jsx';
 import Clip from './Clip.jsx';
 
-const two = (n) => String(n).padStart(2, '0');
-
 function Still({ media, text, onMissing }) {
     return (
         <div className="clip" style={{ '--clip-ratio': '1280 / 720' }}>
@@ -51,10 +49,7 @@ export default function Gallery({ name, media, text, labels }) {
                     <div className="clip" data-empty="true" style={{ '--clip-ratio': '1280 / 720' }}><div className="clip__frame" /></div>
                 )}
                 {current && text[current.id] ? (
-                    <figcaption className="gallery__caption" aria-live="polite">
-                        <span className="gallery__count" aria-hidden="true">{two(position + 1)} / {two(shown.length)}</span>
-                        <span>{text[current.id].caption}</span>
-                    </figcaption>
+                    <figcaption className="gallery__caption" aria-live="polite">{text[current.id].caption}</figcaption>
                 ) : null}
             </figure>
 

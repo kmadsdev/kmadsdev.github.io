@@ -35,7 +35,6 @@
 //   art            data of the drawings of the introduction
 //   figma          the pictures of the row "From my Figma"
 //   chapterTools   tool names of each chapter
-//   boardMarks     reference letters of the board labels
 
 const SITE = 'https://kmads.dev';
 const GITHUB = 'https://github.com/kmadsdev';
@@ -893,8 +892,3 @@ export const chapterTools = {
     ai: ['MCP servers', 'Skills', 'Claude Code', 'Codex', 'Vitest', 'Playwright'],
     endtoend: [],
 };
-
-// =============================================================================
-// BOARD MARKS · reference letters of the board labels ("D3 · Request path")
-// =============================================================================
-export const boardMarks = { claim: 'U', art: 'D', stat: 'TP', media: 'DS', list: 'RN', link: 'J' };

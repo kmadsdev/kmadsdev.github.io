@@ -11,7 +11,6 @@
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { LAYOUTS, MAX_CHARS, buildLines, center, layoutFor, segment, size, splitLabel, wrapLabel } from './flowGeometry.js';
 import Icon from './Icon.jsx';
-import { boardMarks } from '../content/index.js';
 
 const two = (n) => String(n).padStart(2, '0');
 const LINE = 15; // px between two lines of one node name
@@ -72,9 +71,8 @@ function Node({ id, cell, grid, label, active, max }) {
  * text       the language file's flow ({ title, nodes, steps })
  * player     useFlowPlayer(structure.edges.length)
  * labels     { prev, next, play, pause }
- * n          optional silk-screen number of the board label (D<n> · title)
  */
-export function FlowChart({ caseId, structure, text, player, labels, n }) {
+export function FlowChart({ caseId, structure, text, player, labels }) {
     const stageRef = useRef(null);
     const wide = size(LAYOUTS[caseId].cells);
     const narrow = useNarrow(stageRef, wide.width);
@@ -96,10 +94,7 @@ export function FlowChart({ caseId, structure, text, player, labels, n }) {
             onBlur={player.release}
         >
             <div className="wh-flow__bar">
-                <figcaption className="wh-label wh-flow__title">
-                    {n ? <span aria-hidden="true">{boardMarks.art}{n} · </span> : null}
-                    {text.title}
-                </figcaption>
+                <figcaption className="wh-label wh-flow__title">{text.title}</figcaption>
                 <div className="wh-flow__controls">
                     <span className="wh-flow__count" aria-hidden="true">{two(player.active + 1)} / {two(structure.edges.length)}</span>
                     <button type="button" className="wh-flow__button" onClick={player.prev} aria-label={labels.prev}><Icon name="prev" /></button>

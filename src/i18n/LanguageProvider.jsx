@@ -9,8 +9,6 @@ const LanguageContext = createContext(null);
 // English (`meta` in contents.global.js, written into index.html at build): they do not change here.
 const HTML_LANG = { en: 'en', pt: 'pt-BR' };
 
-const TEXT = content;
-
 export function LanguageProvider({ children }) {
     const [lang, setLangState] = useState(() =>
         resolveLanguage({
@@ -19,7 +17,7 @@ export function LanguageProvider({ children }) {
             browser: window.navigator.language,
         }),
     );
-    const t = TEXT[lang];
+    const t = content[lang];
 
     useEffect(() => {
         document.documentElement.lang = HTML_LANG[lang];

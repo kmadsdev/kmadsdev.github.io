@@ -10,7 +10,7 @@
 //             `flip` changes the sides.
 //   wide      a drawing that needs the full column (WIDE): under the block.
 import { useState } from 'react';
-import { boardMarks, chapterTools, figma as figmaPictures } from '../../content/index.js';
+import { chapterTools, figma as figmaPictures } from '../../content/index.js';
 import { useLanguage } from '../../i18n/LanguageProvider.jsx';
 import { Reveal, ToggleSign } from '../bento/index.js';
 import FigmaRow from '../FigmaRow.jsx';
@@ -100,18 +100,15 @@ function Story({ items }) {
     );
 }
 
-/** One drawing: its board mark (h4) and pause button, a plain frame, one line of text. */
-function Figure({ drawing, n, wide = false }) {
+/** One drawing: its title (h4) and pause button in one row, a plain frame, one line of text. */
+function Figure({ drawing, wide = false }) {
     const playback = usePlayback();
     const Drawing = DRAWINGS[drawing.art];
     return (
         <figure className="intro-figure" data-wide={wide ? 'true' : undefined}>
             <Playback value={playback}>
                 <div className="intro-figure__bar">
-                    <h4 className="tile__label intro-figure__title">
-                        <span aria-hidden="true">{boardMarks.art}{n} · </span>
-                        {drawing.title}
-                    </h4>
+                    <h4 className="tile__label intro-figure__title">{drawing.title}</h4>
                     <ArtToggle />
                 </div>
                 <div className="intro-figure__frame">{Drawing ? <Drawing /> : null}</div>
@@ -121,9 +118,8 @@ function Figure({ drawing, n, wide = false }) {
     );
 }
 
-export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
+export default function IntroChapter({ chapter, flip = false }) {
     const id = `intro-${chapter.id}`;
-    const number = (drawing) => numbers[`${chapter.id}/${drawing.id}`];
     const side = chapter.drawings.filter((drawing) => !WIDE.has(drawing.art));
     const wide = chapter.drawings.filter((drawing) => WIDE.has(drawing.art));
     const figma = figmaPictures.filter((picture) => picture.chapters.includes(chapter.id)).map((picture) => picture.id);
@@ -154,13 +150,13 @@ export default function IntroChapter({ chapter, flip = false, numbers = {} }) {
                     {metaAside ? null : meta}
                 </div>
                 <div className="intro-side">
-                    {side.map((drawing) => <Figure key={drawing.id} drawing={drawing} n={number(drawing)} />)}
+                    {side.map((drawing) => <Figure key={drawing.id} drawing={drawing} />)}
                     {metaAside ? meta : null}
                     <FigmaRow ids={figma} compact />
                 </div>
             </Reveal>
 
-            {wide.map((drawing) => <Figure key={drawing.id} drawing={drawing} n={number(drawing)} wide />)}
+            {wide.map((drawing) => <Figure key={drawing.id} drawing={drawing} wide />)}
         </article>
     );
 }

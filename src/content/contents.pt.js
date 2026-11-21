@@ -166,7 +166,7 @@ export const pt = {
                     {
                         id: 'request-path',
                         art: 'requestPath',
-                        title: 'Uma API, dois hosts',
+                        title: 'Uma API em dois hosts',
                         text: 'Navegador, Worker da Cloudflare e um gateway em Java. Depois o mesmo jar em um host serverless e em dois pods no AKS, com um banco de dados.',
                     },
                 ],

@@ -42,7 +42,7 @@ function Timeline({ item, labels }) {
     );
 }
 
-export default function CompanyEntry({ item, labels, cases, caseIds, isOpen, onToggle, numbers }) {
+export default function CompanyEntry({ item, labels, cases, caseIds, isOpen, onToggle }) {
     const entries = caseIds.map((id) => cases.items.find((c) => c.id === id)).filter(Boolean);
     return (
         <ChapterGroup id={item.anchor} title={item.company} lead={<Rich text={item.context} />}>
@@ -77,7 +77,6 @@ export default function CompanyEntry({ item, labels, cases, caseIds, isOpen, onT
                                 labels={cases.labels}
                                 open={isOpen(entry.id)}
                                 onToggle={onToggle}
-                                n={numbers[entry.id]}
                             />
                         ))}
                     </div>

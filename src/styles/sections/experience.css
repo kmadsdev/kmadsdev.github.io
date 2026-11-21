@@ -172,24 +172,23 @@
 @media (min-width: 900px) {
     .xp-case__story { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 }
-.xp-case__decisions { display: grid; gap: var(--sp-2); counter-reset: decision; }
+.xp-case__decisions { display: grid; gap: var(--sp-2); }
+/* The decisions are a list, not steps: a short rule before each, as in the impact lists. */
 .xp-case__decisions li {
     position: relative;
     max-width: var(--measure);
-    padding-left: var(--sp-8);
+    padding-left: var(--sp-6);
     color: var(--c-text);
     text-wrap: pretty;
-    counter-increment: decision;
 }
 .xp-case__decisions li::before {
-    content: counter(decision, decimal-leading-zero);
+    content: "";
     position: absolute;
     left: 0;
-    top: 0;
-    /* The number stands on the first line of its text: same line box. */
-    font: var(--fw-medium) var(--fs-xs) / calc(var(--fs-body) * var(--lh-body)) var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    color: var(--c-text-faint);
+    top: calc(var(--lh-body) * 0.5em); /* the middle of the first line */
+    width: var(--sp-3);
+    height: 1px;
+    background: var(--c-line-control);
 }
 .xp-case__result { color: var(--c-text-strong); }
 

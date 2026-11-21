@@ -111,8 +111,7 @@
 .gallery { display: grid; gap: var(--gap-group); }
 .gallery__main { display: grid; gap: var(--sp-3); margin: 0; }
 .gallery__main > .clip { border: 1px solid var(--c-line); border-radius: var(--r-lg); }
-.gallery__caption { display: flex; gap: var(--sp-3); max-width: var(--measure); font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); }
-.gallery__count { flex: none; font: var(--fw-medium) var(--fs-xs) / calc(var(--fs-sm) * var(--lh-sm)) var(--font-mono); color: var(--c-text-faint); font-variant-numeric: tabular-nums; }
+.gallery__caption { max-width: var(--measure); font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--c-text-muted); }
 .gallery__row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(5.5rem, 30%), 1fr)); /* six thumbnails in one row, three on a phone */

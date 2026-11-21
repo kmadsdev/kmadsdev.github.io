@@ -14,17 +14,8 @@ import { Chapter } from './bento/index.js';
 import IntroChapter from './intro/IntroChapter.jsx';
 import Opening from './intro/Opening.jsx';
 
-// Board numbers of the drawings: the intro range starts at 10 (DESIGN-KIT.md section 3).
-const FIRST_NUMBER = 10;
-
 export default function Intro() {
     const { intro } = useLanguage().t;
-
-    const numbers = {};
-    let next = FIRST_NUMBER;
-    for (const chapter of intro.chapters) {
-        for (const drawing of chapter.drawings) numbers[`${chapter.id}/${drawing.id}`] = String(next++);
-    }
 
     useEffect(() => {
         const reveal = () => {
@@ -44,7 +35,7 @@ export default function Intro() {
         <Chapter id="intro" className="intro" label={intro.label} title={intro.title} lead={intro.lead}>
             <Opening />
             {intro.chapters.map((chapter, i) => (
-                <IntroChapter key={chapter.id} chapter={chapter} flip={i % 2 === 1} numbers={numbers} />
+                <IntroChapter key={chapter.id} chapter={chapter} flip={i % 2 === 1} />
             ))}
         </Chapter>
     );

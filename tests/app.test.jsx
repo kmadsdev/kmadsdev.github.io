@@ -325,6 +325,19 @@ describe('status marks', () => {
         for (const now of container.querySelectorAll('.xp-role__now')) expect(now.children.length).toBe(0);
     });
 
+    it('shows no board mark, no numbered prefix and no gallery counter (owner, 2026-11-21)', () => {
+        for (const lang of LANGS) {
+            const { container } = open(`/?lang=${lang}`);
+            expect(container.textContent).not.toMatch(/\b(D|U|TP|DS|RN|J)\d{2}\b/);
+            for (const label of container.querySelectorAll('.tile__label, .wh-flow__title, .intro-figure__title')) {
+                expect(label.textContent.trim(), label.textContent).not.toMatch(/^\d|·/);
+            }
+            expect(container.querySelectorAll('.gallery__count').length).toBe(0);
+            expect(container.querySelectorAll('ol.xp-case__decisions').length).toBe(0);
+            cleanup();
+        }
+    });
+
     it('gives a private project no "Open live" button', () => {
         const { container } = open('/');
         const ruph = container.querySelector('#app-ruph');

@@ -8,12 +8,12 @@ import ExternalLink from '../ExternalLink.jsx';
 import { FlowChart, FlowSteps } from '../Flow.jsx';
 import { useFlowPlayer } from '../useFlowPlayer.js';
 
-function CaseFlow({ id, text, labels, n }) {
+function CaseFlow({ id, text, labels }) {
     const structure = cases[id].flow;
     const player = useFlowPlayer(structure.edges.length);
     return (
         <div className="xp-case__flow">
-            <FlowChart caseId={id} structure={structure} text={text} player={player} labels={labels} n={n} />
+            <FlowChart caseId={id} structure={structure} text={text} player={player} labels={labels} />
             <div className="xp-case__steps">
                 <h5 className="wh-label">{labels.flow}</h5>
                 <FlowSteps structure={structure} text={text} player={player} stepLabel={labels.step} />
@@ -34,7 +34,7 @@ function FlowMark() {
     );
 }
 
-export default function CaseFile({ item, labels, open, onToggle, n }) {
+export default function CaseFile({ item, labels, open, onToggle }) {
     const data = cases[item.id];
     const [first] = item.stats;
     const hasFlow = Boolean(item.flow && data.flow);
@@ -86,7 +86,7 @@ export default function CaseFile({ item, labels, open, onToggle, n }) {
                 </div>
 
                 {hasFlow ? (
-                    <CaseFlow id={item.id} text={item.flow} labels={labels} n={n} />
+                    <CaseFlow id={item.id} text={item.flow} labels={labels} />
                 ) : (
                     <p className="xp-case__words">{labels.wordsOnly}</p>
                 )}
@@ -94,9 +94,9 @@ export default function CaseFile({ item, labels, open, onToggle, n }) {
                 <div className="xp-case__story">
                     <div>
                         <h5 className="wh-label">{labels.decisions}</h5>
-                        <ol className="xp-case__decisions">
+                        <ul className="xp-case__decisions">
                             {item.decisions.map((text) => <li key={text}>{text}</li>)}
-                        </ol>
+                        </ul>
                     </div>
                     <div>
                         <h5 className="wh-label">{labels.result}</h5>
